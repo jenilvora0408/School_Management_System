@@ -1,4 +1,5 @@
 ﻿using Entities.DataModels;
+using Entities.DTOs.Common;
 using Entities.DTOs.Request;
 
 namespace BusinessAccessLayer.Interface
@@ -8,5 +9,7 @@ namespace BusinessAccessLayer.Interface
         Task<string> Login(LoginCredentialsDTO userCredential);
 
         Task SendOtp(string email);
+
+        Task<TokensDTO> VerifyOtp(LoginOtpDTO otpData, bool rememberMe);
     }
 }

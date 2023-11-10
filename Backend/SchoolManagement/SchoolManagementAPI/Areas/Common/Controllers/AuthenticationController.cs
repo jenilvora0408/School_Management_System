@@ -39,6 +39,14 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
             return ResponseHelper.SuccessResponse(await _authenticationService.Login(userCredential), MessageConstants.OTP_SENT);
         }
 
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp(LoginOtpDTO otpData)
+        {
+            bool remeberMe = Request.Cookies[SystemConstants.REMEMBER_ME_COOKIE_POLICY] is not null && Request.Cookies[SystemConstants.REMEMBER_ME_COOKIE_POLICY] == SystemConstants.TRUE_STRING;
+
+            return ResponseHelper.SuccessResponse(await _authenticationService.VerifyOtp(otpData, remeberMe), MessageConstants.LOGIN_SUCCESS);
+        }
+
         #endregion
     }
 }

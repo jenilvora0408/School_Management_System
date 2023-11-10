@@ -15,5 +15,7 @@ namespace DataAccessLayer.Interface
         Task<bool> AnyAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default);
 
         void UpdateRange(IEnumerable<T> entities);
+
+        Task<T> GetByIdAsync(long id, CancellationToken cancellationToken = default);
     }
 }

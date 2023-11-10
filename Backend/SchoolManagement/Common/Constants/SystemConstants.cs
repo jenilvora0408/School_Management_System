@@ -34,6 +34,8 @@
 
         public const string REMEMBER_ME_COOKIE_POLICY = "rememberMe";
 
+        public const string TRUE_STRING = "True";
+
         #endregion
 
 

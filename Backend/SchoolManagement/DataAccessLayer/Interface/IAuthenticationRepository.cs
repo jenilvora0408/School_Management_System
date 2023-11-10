@@ -11,5 +11,7 @@ namespace DataAccessLayer.Interface
         Task<UserRefreshTokens> GetUserRefreshTokens(string email, string refreshToken);
 
         Task DeleteUserRefreshToken(string email, string refreshToken);
+
+        Task<UserRefreshTokens> AddUserRefreshToken(UserRefreshTokens userRefreshTokens);
     }
 }

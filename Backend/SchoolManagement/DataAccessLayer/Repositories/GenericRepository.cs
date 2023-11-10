@@ -39,5 +39,10 @@ namespace DataAccessLayer.Repositories
         {
             _dbSet.UpdateRange(entities);
         }
+
+        public async Task<T> GetByIdAsync(long id, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.FindAsync(id);
+        }
     }
 }

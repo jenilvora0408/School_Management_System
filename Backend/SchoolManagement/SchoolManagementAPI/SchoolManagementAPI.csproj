@@ -27,12 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Principal\Controllers\" />
-    <Folder Include="Areas\Students\Controllers\" />
-    <Folder Include="Areas\Teacher\Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BusinessAccessLayer\BusinessAccessLayer.csproj" />
   </ItemGroup>
 

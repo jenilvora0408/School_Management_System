@@ -23,6 +23,8 @@
 
         public const string REQUEST_SUBMITTED = "Your request has been submitted successfully!";
 
+        public const string LOGIN_SUCCESS = "Logged in Sucessfully!";
+
         #endregion
 
 

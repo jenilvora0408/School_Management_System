@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "8abe32b3-f41d-4b23-938f-cf095d517b41": {
+      "ProjectGuid": "8abe32b3-f41d-4b23-938f-cf095d517b41",
+      "DisplayName": "SchoolManagementAPI",
+      "ColorIndex": 0
+    },
+    "8015d8a6-23a1-4ccf-a8de-4f6dcab3d1c5": {
+      "ProjectGuid": "8015d8a6-23a1-4ccf-a8de-4f6dcab3d1c5",
+      "DisplayName": "BusinessAccessLayer",
+      "ColorIndex": 1
+    },
+    "4212fea1-d9a7-459a-89ea-4d084a63e9d1": {
+      "ProjectGuid": "4212fea1-d9a7-459a-89ea-4d084a63e9d1",
+      "DisplayName": "DataAccessLayer",
+      "ColorIndex": 2
+    },
+    "fa014653-a2bf-464d-be78-5d471ae373ec": {
+      "ProjectGuid": "fa014653-a2bf-464d-be78-5d471ae373ec",
+      "DisplayName": "Common",
+      "ColorIndex": 3
+    },
+    "941cda53-ae54-4e86-9c21-f03bff3bfad3": {
+      "ProjectGuid": "941cda53-ae54-4e86-9c21-f03bff3bfad3",
+      "DisplayName": "Entities",
+      "ColorIndex": 4
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 5
+}

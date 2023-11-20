@@ -17,5 +17,7 @@ namespace DataAccessLayer.Interface
         void UpdateRange(IEnumerable<T> entities);
 
         Task<T> GetByIdAsync(long id, CancellationToken cancellationToken = default);
+
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate);
     }
 }

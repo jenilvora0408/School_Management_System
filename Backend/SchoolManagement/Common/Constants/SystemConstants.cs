@@ -8,6 +8,8 @@
 
         public const string CONNECTION_STRING_NAME = "DefaultConnection";
 
+        public static readonly int MAX_PAGE_SIZE_RESPONSE = 50;
+
         #endregion
 
 
@@ -65,7 +67,7 @@
 
         public const string WWWROOT_PATH = "/wwwroot";
 
-        public const string IMAGES_PATH = "/Images/";
+        public const string IMAGES_PATH = "/images/";
 
         public const string DEFAULT_AVATAR = "'/Images/profile.png'";
 

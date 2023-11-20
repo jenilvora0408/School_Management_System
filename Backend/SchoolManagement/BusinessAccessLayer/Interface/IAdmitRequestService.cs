@@ -6,5 +6,7 @@ namespace BusinessAccessLayer.Interface
     public interface IAdmitRequestService : IGenericService<AdmitRequest>
     {
         Task AdmitRequest(AdmitRequestDTO admitRequestDTO);
+
+        Task<List<AdmitRequest>> GetAdmitRequests();
     }
 }

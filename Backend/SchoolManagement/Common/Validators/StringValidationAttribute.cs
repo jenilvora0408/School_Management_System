@@ -9,7 +9,7 @@ namespace Common.Validators
         {
             if (value is string str)
             {
-                if (str.Contains(" ") || str.Contains(""))
+                if (str.Contains(" "))
                 {
                     throw new ModelValidationException("String cannot be empty or have white space");
                 };

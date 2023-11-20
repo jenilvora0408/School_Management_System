@@ -8,6 +8,7 @@ using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs.Request;
 using Microsoft.Extensions.Hosting;
+using System.Linq.Expressions;
 
 namespace BusinessAccessLayer.Services
 {
@@ -47,6 +48,15 @@ namespace BusinessAccessLayer.Services
             admitRequest.Avatar = fileData.Key;
 
             await AddAsync(admitRequest);
+        }
+
+
+        public async Task<List<AdmitRequest>> GetAdmitRequests()
+        {
+            Expression<Func<AdmitRequest, bool>> allRecordsPredicate = x => true;
+
+            List<AdmitRequest> admitRequests = await _unitOfWork.AdmitRequestRepository.GetAllAsync(allRecordsPredicate);
+            return admitRequests;
         }
 
         #endregion

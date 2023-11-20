@@ -44,5 +44,15 @@ namespace DataAccessLayer.Repositories
         {
             return await _dbSet.FindAsync(id);
         }
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate)
+        {
+            if (predicate == null)
+            {
+                return await _dbSet.ToListAsync();
+            }
+
+            return await _dbSet.Where(predicate).ToListAsync();
+        }
     }
 }

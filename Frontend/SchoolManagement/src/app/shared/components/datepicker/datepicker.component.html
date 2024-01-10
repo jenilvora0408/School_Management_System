@@ -1,0 +1,34 @@
+<div class="input--field">
+  <form class="row row-cols-sm-auto">
+    <label class="label--style">{{ label }}</label>
+    <div class="input-group" [formGroup]="parentForm">
+      <input
+        class="form-control date-input"
+        placeholder="dd-mm-yyyy"
+        name="dp"
+        [formControlName]="controlName"
+        [(ngModel)]="selectedDate"
+        ngbDatepicker
+        #d="ngbDatepicker"
+        [formControlName]="controlName"
+        [formControl]="formControl"
+      />
+
+      <button
+        class="btn btn-outline-primary calender-button bi bi-calendar3"
+        (click)="d.toggle()"
+        type="button"
+      ></button>
+    </div>
+  </form>
+</div>
+<div
+  *ngIf="
+    parentForm.get(controlName)?.invalid && parentForm.get(controlName)?.touched
+  "
+  class="text-danger"
+>
+  <div *ngIf="parentForm.get(controlName)?.hasError('required')">
+    {{ title }} is required.
+  </div>
+</div>

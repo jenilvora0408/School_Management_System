@@ -1,0 +1,46 @@
+/* Define styles for the custom checkbox */
+.custom-checkbox {
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  .custom-control-label {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    border: 2px solid #adadad;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 45%;
+      left: 55%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 9px;
+      border-right: 2px solid #007bff;
+      border-bottom: 2px solid #007bff;
+      transition: all 0.2s ease-in-out;
+      opacity: 0;
+      color: #007bff;
+    }
+  }
+
+  input[type="checkbox"]:checked + .custom-control-label {
+    &:after {
+      transform: translate(-50%, -50%) rotate(45deg);
+      opacity: 1;
+    }
+    border-color: #007bff;
+  }
+
+  //   input[type="checkbox"]:checked
+  //     + .custom-control-label
+  //     + .custom-checkbox-label-text {
+  //     font-weight: bold;
+  //   }
+}

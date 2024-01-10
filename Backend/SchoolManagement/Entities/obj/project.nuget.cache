@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hwzf7g45QjwUJ1cGKAdIIsXcjaYJBUT8ObsIVxz+elYDbeDtYYu6ISOoDigJP9xmoPh1+TpL77mfF4KnyWeCuQ==",
+  "dgSpecHash": "6zYDq7UnFWnCeu9NpYn+R3bcF/6as9vZxoogZtOLaQOCqTogFMFR+ooxOo0cU4jNJBUK9X3AEo8Cf1EbT9GJsg==",
   "success": true,
   "projectFilePath": "D:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Entities\\Entities.csproj",
   "expectedPackageFiles": [

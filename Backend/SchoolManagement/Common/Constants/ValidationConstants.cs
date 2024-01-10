@@ -19,5 +19,7 @@
         public const string INVALID_OTP = "OTP is Invalid!";
 
         public const string DEFAULT_MODELSTATE = "Model state is Invalid!";
+
+        public const string RECORD_NOT_FOUND = "Record not Found!";
     }
 }

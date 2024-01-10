@@ -175,8 +175,6 @@ namespace DataAccessLayer.Data
                 entity.Property(e => e.AdmitRequestId).IsRequired();
                 entity.Property(e => e.ApprovalStatus).IsRequired().HasDefaultValue(EntityStatusConstants.PENDING);
                 entity.Property(e => e.Comment).HasMaxLength(512);
-                entity.Property(e => e.ApprovedBy).IsRequired();
-                entity.Property(e => e.DeclinedBy).IsRequired();
 
                 entity.HasOne(u => u.ApprovedByUser)
                     .WithMany()

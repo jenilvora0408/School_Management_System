@@ -1,0 +1,184 @@
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th
+          scope="col"
+          class="table-header"
+          *ngFor="let item of columns"
+          [ngClass]="{
+            'text-center':
+              item.toLowerCase() === 'status' || item.toLowerCase() === 'action'
+          }"
+        >
+          {{ item | columnName }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data; index as i">
+        <td *ngFor="let column of columns">
+          <!-- Dropdown Action Column -->
+          <ng-container *ngIf="column === 'action'; else dropdownActionColumn">
+            <div class="dropdown-container">
+              <div ngbDropdown class="d-inline-block">
+                <button
+                  type="button"
+                  class="action-dropdown"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                >
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <div
+                  ngbDropdownMenu
+                  aria-labelledby="dropdownBasic1"
+                  class="action-dropdown-menu shadow"
+                >
+                  <button
+                    ngbDropdownItem
+                    *ngFor="let dropDown of dropDownList[i]"
+                    [disabled]="
+                      dropDown.isDisabled === undefined
+                        ? false
+                        : dropDown.isDisabled
+                    "
+                    [ngbTooltip]="
+                      dropDown.isDisabled ? 'This option is disabled' : ''
+                    "
+                    placement="end"
+                    (click)="dropDownClick(dropDown, item)"
+                  >
+                    {{ dropDown.text }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #dropdownActionColumn>
+            <!-- CRUD Column -->
+            <ng-container *ngIf="column == 'Action'; else crudColumn">
+              <div class="editdelete-container">
+                <button class="crud-btn" (click)="editData(item.id)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="crud-btn" (click)="deleteData(item)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </ng-container>
+            <ng-template #crudColumn>
+              <ng-container
+                *ngIf="
+                  column == 'dob' ||
+                    column == 'due Date' ||
+                    column == 'deadline';
+                  else dateColumn
+                "
+              >
+                <div class="d-flex align-items-center">
+                  <img
+                    src="/assets/images/ic-date.svg"
+                    alt="Calendar"
+                    height="20"
+                    width="20"
+                    style="margin-right: 5px"
+                  />
+                  {{ item[column] | date : "dd/MMM/yyyy" }}
+                </div>
+              </ng-container>
+              <ng-template #dateColumn>
+                <!-- Status Column -->
+                <ng-container *ngIf="column == 'status'; else statusColumn">
+                  <ng-container [ngSwitch]="item[column]">
+                    <div class="d-flex justify-content-center">
+                      <div
+                        class="status-column"
+                        *ngSwitchCase="1"
+                        style="background-color: #1ccce2"
+                      >
+                        New
+                      </div>
+                      <div
+                        class="status-column"
+                        *ngSwitchCase="2"
+                        style="background-color: #f3b74b"
+                      >
+                        On Going
+                      </div>
+                      <div
+                        class="status-column"
+                        *ngSwitchCase="3"
+                        style="background-color: #5ada86"
+                      >
+                        Done
+                      </div>
+                    </div>
+                    <ng-container *ngSwitchDefault>
+                      {{ item[column] }}
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-template #statusColumn class="lesser-padding-top">
+                  <!-- Patient Column -->
+                  <ng-container
+                    *ngIf="
+                      column === 'patient name' || column === 'patient';
+                      else otherColumn
+                    "
+                  >
+                    <a
+                      (click)="
+                        openPatientDetailDialog
+                          ? openPatientDialogBox(item.patientId)
+                          : null
+                      "
+                      class="text-decoration-none text-black cursor--pointer"
+                    >
+                    </a>
+                  </ng-container>
+                  <ng-template #otherColumn>
+                    <!-- Other Column -->
+                    <ng-container
+                      *ngIf="columnDictionary.hasOwnProperty(column); else misc"
+                    >
+                      <!-- <ng-container *ngIf="column === 'Phone'; else notListed">
+                        {{ item[columnDictionary[column]] | phoneNumber }}
+                      </ng-container> -->
+                      <ng-template #notListed>
+                        <ng-container
+                          *ngIf="
+                            column === 'Expected Result Date' &&
+                              item[columnDictionary[column]];
+                            else none
+                          "
+                        >
+                          {{
+                            item[columnDictionary[column]]
+                              | date : "dd/MMM/yyyy"
+                          }}
+                        </ng-container>
+                        <ng-template #none>{{
+                          item[columnDictionary[column]] ?? "N/A"
+                        }}</ng-template>
+                      </ng-template>
+                    </ng-container>
+
+                    <ng-template #misc>
+                      <!-- <ng-container *ngIf="column === 'notes'; else rawHtml">
+                        <div [innerHTML]="item[column]"></div>
+                      </ng-container>
+                      <ng-template #rawHtml>{{
+                        item[column] ?? "&nbsp;&nbsp;N/A" | decision
+                      }}</ng-template> -->
+                    </ng-template>
+                  </ng-template>
+                </ng-template>
+              </ng-template>
+            </ng-template>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

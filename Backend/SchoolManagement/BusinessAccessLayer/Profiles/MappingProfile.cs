@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entities.DataModels;
 using Entities.DTOs.Request;
+using Entities.DTOs.Response;
 
 namespace BusinessAccessLayer.Profiles
 {
@@ -9,6 +10,10 @@ namespace BusinessAccessLayer.Profiles
         public MappingProfile()
         { 
             CreateMap<AdmitRequest, AdmitRequestDTO>().ReverseMap();
+
+            CreateMap<AdmitRequestApproval, ApproveAdmitResponseDTO>().ReverseMap();
+
+            CreateMap<User, AdmitRequest>().ReverseMap();
         }
     }
 }

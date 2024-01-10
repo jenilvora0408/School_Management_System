@@ -126,16 +126,16 @@ namespace DataAccessLayer.Migrations
                         .HasDefaultValue((byte)3)
                         .HasColumnName("approval_status");
 
-                    b.Property<long>("ApprovedBy")
+                    b.Property<long?>("ApprovedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("approved_by");
 
                     b.Property<string>("Comment")
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)")
-                        .HasColumnName("column");
+                        .HasColumnName("comment");
 
-                    b.Property<long>("DeclinedBy")
+                    b.Property<long?>("DeclinedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("declined_by");
 
@@ -418,7 +418,7 @@ namespace DataAccessLayer.Migrations
                             Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital",
                             Avatar = "/images/Principal-photo.jpg",
                             BloodGroup = (byte)5,
-                            CreatedOn = new DateTime(2023, 11, 3, 10, 40, 41, 548, DateTimeKind.Local).AddTicks(3373),
+                            CreatedOn = new DateTime(2023, 11, 20, 12, 5, 55, 836, DateTimeKind.Local).AddTicks(2413),
                             DateOfBirth = new DateTime(1976, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "anurag@gmail.com",
                             FirstName = "Anurag",
@@ -430,7 +430,7 @@ namespace DataAccessLayer.Migrations
                             Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2",
                             PhoneNumber = "8957486525",
                             Role = (byte)1,
-                            UpdatedOn = new DateTime(2023, 11, 3, 5, 10, 41, 69, DateTimeKind.Utc).AddTicks(1125)
+                            UpdatedOn = new DateTime(2023, 11, 20, 6, 35, 55, 230, DateTimeKind.Utc).AddTicks(8767)
                         });
                 });
 
@@ -549,14 +549,12 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("Entities.DataModels.User", "ApprovedByUser")
                         .WithMany()
                         .HasForeignKey("ApprovedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Entities.DataModels.User", "DeclinedByUser")
                         .WithMany()
                         .HasForeignKey("DeclinedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("AdmitRequests");
 

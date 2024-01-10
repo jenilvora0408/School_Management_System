@@ -1,0 +1,30 @@
+<div
+  class="custom-control custom-checkbox d-flex align-items-center mb-1"
+  *ngFor="let checkbox of checkboxes; let i = index"
+>
+  <input
+    type="checkbox"
+    class="custom-control-input"
+    [name]="name"
+    [value]="checkbox.value"
+    [checked]="checkbox.checked"
+    (change)="onCheckboxChange(checkbox.viewValue)"
+    [id]="'checkbox' + i + checkbox.viewValue + name"
+  />
+  <label class="custom-control-label" [for]="'checkbox' + i + checkbox.viewValue + name"> </label>
+  <label [for]="'checkbox' + i + checkbox.viewValue + name" class="custom-checkbox-label-text">{{
+    checkbox.viewValue
+  }}</label>
+</div>
+<div class="text-danger">
+  <div
+    *ngIf="
+      selectedCheckboxArray.length === 0 &&
+      parentForm.get(controlName)?.touched &&
+      required
+    "
+    class="dropdown-error"
+  >
+    Please select atleast one option.
+  </div>
+</div>

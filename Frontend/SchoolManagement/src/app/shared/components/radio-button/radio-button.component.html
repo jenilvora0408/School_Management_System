@@ -1,0 +1,40 @@
+<div [formGroup]="parentForm">
+  <div
+    class="gap-2 custom-control custom-radio"
+    *ngFor="let radio of radios; let i = index"
+  >
+    <div class="radio-container">
+      <input
+        type="radio"
+        [name]="name"
+        [id]="radio.viewValue + radio.value + i"
+        class="mx-auto custom-control-input"
+        [value]="radio.value"
+        (change)="onRadioChange(radio)"
+        [formControl]="formControl"
+      />
+    </div>
+    <label
+      class="custom-control-label"
+      [for]="radio.viewValue + radio.value + i"
+    >
+      {{ radio.viewValue }}
+    </label>
+  </div>
+</div>
+<div
+  *ngIf="
+    parentForm.get(controlName)?.invalid && parentForm.get(controlName)?.touched
+  "
+  class="text-danger"
+>
+  <div
+    *ngIf="
+      parentForm.get(controlName)?.hasError('required') &&
+      parentForm.get(controlName)?.touched
+    "
+    class="dropdown-error"
+  >
+    Please select one option.
+  </div>
+</div>

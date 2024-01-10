@@ -35,7 +35,7 @@ namespace BusinessAccessLayer.Services
         {
             User user = await _unitOfWork.AuthenticationRepository.GetUserByEmail(admitRequestDTO.Email);
 
-            AdmitRequest admit = await GetFirstOrDefaultAsync(x => x.Email == admitRequestDTO.Email);
+            AdmitRequest? admit = await GetFirstOrDefaultAsync(x => x.Email == admitRequestDTO.Email);
 
             if (user != null || admit != null)
                 throw new ForbiddenException(ValidationConstants.EMAIL_ALREADY_EXIST);

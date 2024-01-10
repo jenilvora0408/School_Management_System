@@ -1,0 +1,12 @@
+<button
+  [type]="type"
+  [disabled]="disabled"
+  [title]="title"
+  [class]="className"
+  [ngStyle]="styles"
+  (click)="handleClick()"
+>
+  <i *ngIf="iconClass !== '' && leftIcon" [class]="iconClass"></i>
+  {{ label }}
+  <i *ngIf="iconClass !== '' && !leftIcon" [class]="iconClass"></i>
+</button>

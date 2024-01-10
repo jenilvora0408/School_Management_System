@@ -1,0 +1,18 @@
+<div ngbAccordion [closeOthers]="true">
+  <div
+    *ngFor="let panel of panels; let i = index"
+    ngbAccordionItem
+    [collapsed]="panel.name !== ''"
+  >
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton class="custom-accordion-button">
+        {{ panel.name }} <i class="bi bi-plus-circle"></i>
+      </button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody class="font-15 text--gray answer">
+        {{ panel.content }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.dropdown {
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-field {
+  width: 100%;
+}
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0px !important;
+}
+.dropdown label {
+  margin-bottom: 5px;
+}
+.dropdown select {
+  padding: 14px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.dropdown-error {
+  color: red;
+}
+.reg-form-label {
+  font-weight: bold;
+  font-size: 15px;
+  color: #575757;
+}
+.reg-form-label {
+  font-weight: bold;
+  font-size: 15px;
+  color: #575757;
+}
+.question-type {
+  max-width: 300px;
+  width: 300px;
+}
+.red-border {
+  border: 1px solid rgb(255, 55, 55) !important;
+}
+@media (max-width:700px){
+  .question-type{
+    width: 123px;
+  }
+  
+}

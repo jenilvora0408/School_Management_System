@@ -10,6 +10,10 @@
 
         public const string INVALID_TOKEN = "Invalid Token!";
 
+        public const string ERROR_WHILE_UPLOADING_FILE = "Error while uploading file!";
+
+        public const string ADMIT_REQUEST_DECLINED = "Admit Request declined suceessfully!";
+
         #endregion
 
 
@@ -25,12 +29,7 @@
 
         public const string LOGIN_SUCCESS = "Logged in Sucessfully!";
 
-        #endregion
-
-
-        #region Exception_Messages
-
-        public const string ERROR_WHILE_UPLOADING_FILE = "Error while uploading file!";
+        public const string ADMIT_REQUEST_APPROVED = "Admit Request approved suceessfully!";
 
         #endregion
     }

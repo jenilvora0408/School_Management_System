@@ -1,0 +1,50 @@
+.accordion-item {
+  border: none;
+  border-bottom: 1px solid #e3e1e1 !important;
+}
+.accordion-collapse {
+  border-top: 1px solid rgb(33, 173, 233);
+}
+button.custom-accordion-button {
+  background: none;
+  border: none;
+  box-shadow: none;
+  position: relative;
+  padding-right: 3rem;
+  font-size: 0.6em;
+  text-align: left;
+}
+.answer{
+  text-align: justify;
+}
+.accordion--container{
+  width: 100%;
+}
+.custom-accordion-button .bi {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+}
+.custom-accordion-button:not(.collapsed) .bi {
+  transform: translateY(-50%) rotate(45deg);
+}
+::ng-deep .accordion-button::after {
+  display: none;
+}
+.custom-accordion-button.collapsed .bi {
+  transform: translateY(-50%) rotate(0);
+}
+.accordion-button:not(.collapsed) {
+  color: #1fa7e2;
+}
+.panel-duration {
+  font-size: 18px;
+  font-weight: bold;
+  color: #5d5656;
+}
+.panel-duration-heading {
+  font-size: 18px;
+}

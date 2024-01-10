@@ -1,0 +1,11 @@
+<div class="linkbox-container">
+  <div class="label" *ngIf="type === 0"><p class="text-white-bold">Quick Links</p></div>
+  <div class="label" *ngIf="type === 1"><p class="text-white-bold">Other Links</p></div>
+  <ul class="link-list">
+    <li *ngFor="let link of links" class="link-item ">
+      <img class="link-icon" src="/assets/images/right-link-arrow.svg"/>
+      <a routerLink="{{link.route}}">{{ link.text }}</a>
+    </li>
+  </ul>
+</div>
+

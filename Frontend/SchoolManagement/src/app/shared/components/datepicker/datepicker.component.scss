@@ -1,0 +1,27 @@
+.ngb-dp-weekday {
+  color: #1fa7e2 !important;
+}
+.row {
+  margin-bottom: 0px;
+}
+.date-input {
+  border-right: none !important;
+}
+.calender-button {
+  border-left: none;
+  border-color: #ccc;
+  color: #1fa7e2;
+}
+.calender-button:hover,
+.calender-button:active {
+  border-color: #1fa7e2;
+  color: #fff;
+  background-color: #1fa7e2;
+  transition: border-color 0.3s, color 0s, background-color 0s !important;
+}
+.btn-link {
+  color: #1fa7e2;
+}
+.btn-link:hover {
+  color: #1fa7e2;
+}

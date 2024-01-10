@@ -40,7 +40,6 @@ namespace SchoolManagementAPI.ExtAuthorization
 
         public ClaimsPrincipal? GetClaimsWithValidationToken(JwtSetting jwtSetting, string jsonToken)
         {
-
             JwtSecurityTokenHandler tokenHandler = new();
 
             byte[] key = Encoding.ASCII.GetBytes(jwtSetting.Key);

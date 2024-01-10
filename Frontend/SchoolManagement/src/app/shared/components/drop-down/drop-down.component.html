@@ -1,0 +1,45 @@
+<div class="dropdown" [formGroup]="parentForm">
+  <label *ngIf="showLabel" class="label--style">{{ label }}</label>
+  <select
+    [class]="className"
+    [formControl]="formControl"
+    [formControlName]="controlName"
+    [(ngModel)]="selectValue"
+    (change)="onOptionSelected($event)"
+    [validateInput]="validateInput"
+    [errorTitle]="title"
+    validate
+    [ngClass]="
+      parentForm.get(controlName)?.invalid &&
+      parentForm.get(controlName)?.touched &&
+      showValidationMessage
+        ? 'red-border'
+        : ''
+    "
+  >
+    <option [value]="''" disabled selected>
+      Select {{ label ? label : "option" }}
+    </option>
+    <option *ngFor="let option of options" [value]="option.value">
+      {{ option.viewValue }}
+    </option>
+  </select>
+</div>
+<!-- <div
+  *ngIf="
+    parentForm.get(controlName)?.invalid &&
+    parentForm.get(controlName)?.touched &&
+    showValidationMessage
+  "
+  class="text-danger"
+>
+  <div
+    *ngIf="
+      parentForm.get(controlName)?.hasError('required') &&
+      parentForm.get(controlName)?.touched
+    "
+    class="dropdown-error"
+  >
+    Please select {{ label }}.
+  </div>
+</div> -->

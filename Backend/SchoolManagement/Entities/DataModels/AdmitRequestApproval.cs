@@ -17,10 +17,10 @@ namespace Entities.DataModels
         public string? Comment { get; set; }
 
         [Column("approved_by")]
-        public long ApprovedBy { get; set; }
+        public long? ApprovedBy { get; set; }
 
         [Column("declined_by")]
-        public long DeclinedBy { get; set; }
+        public long? DeclinedBy { get; set; }
 
 
         #region Foreign_keys
@@ -29,10 +29,10 @@ namespace Entities.DataModels
         public virtual AdmitRequest AdmitRequests { get; set; } = null!;
 
         [ForeignKey(nameof(ApprovedBy))]
-        public virtual User ApprovedByUser { get; set; } = null!;
+        public virtual User? ApprovedByUser { get; set; }
 
         [ForeignKey(nameof(DeclinedBy))]
-        public virtual User DeclinedByUser { get; set; } = null!;
+        public virtual User? DeclinedByUser { get; set; }
 
         #endregion
     }

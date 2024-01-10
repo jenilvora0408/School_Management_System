@@ -1,0 +1,53 @@
+<div>
+  <form
+    action=""
+    class="d-flex flex-column align-items-center justify-content-center"
+    [formGroup]="loginForm"
+    (submit)="onSubmit()"
+  >
+    <h1 class="text-center mb-1 auth-heading">Login To Your Account</h1>
+    <p class="text-center mb-5">
+      Don't have an Account?
+      <a class="text-decoration-none" href="#">Sign Up</a>
+    </p>
+    <div class="d-flex flex-column">
+      <app-input
+        class="authInput mb-4"
+        title="Email"
+        type="email"
+        className="input_field py-2 fs-6"
+        placeholder="Email Address"
+        [parentForm]="loginForm"
+        controlName="email"
+        [validationMsg]="emailValidationMsg"
+        icon="bi bi-envelope"
+      ></app-input>
+
+      <app-input
+        class="authInput"
+        title="Password"
+        type="{{ showPassword ? 'text' : 'password' }}"
+        className="input_field py-2 fs-6"
+        placeholder="Password"
+        [parentForm]="loginForm"
+        controlName="password"
+        [validationMsg]="passwordValidationMsg"
+        (iconClick)="togglePasswordVisibility()"
+        [icon]="showPassword ? 'bi-eye-fill' : 'bi-eye-slash-fill'"
+      ></app-input>
+
+      <p class="text-end mt-1">
+        <a routerLink="/forget-password" class="text-decoration-none" href=""
+          >Forgot Password?</a
+        >
+      </p>
+
+      <app-button
+        type="submit"
+        label="Login"
+        className="btn text-white my-3 px-4 submit-button w-100 fs-6"
+        title="Submit"
+      ></app-button>
+    </div>
+  </form>
+</div>

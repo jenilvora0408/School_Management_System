@@ -1,0 +1,13 @@
+<div class="pagination-container">
+<ngb-pagination
+  [collectionSize]="collectionSize"
+  [pageSize]="pageSize"
+  [pageSize]="pageSize"
+  [(page)]="page"
+  [maxSize]="5"
+  [rotate]="true"
+  [boundaryLinks]="true"
+  (pageChange)="onPageChange($event)"
+  aria-label="Default pagination"
+></ngb-pagination>
+</div>

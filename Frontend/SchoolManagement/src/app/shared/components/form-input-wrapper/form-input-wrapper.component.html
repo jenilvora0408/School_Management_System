@@ -1,0 +1,10 @@
+<div class="d-flex flex-column">
+  <label *ngIf="label !== ''"> {{ label }} </label>
+  <input
+    [type]="type"
+    [formControl]="formControl"
+    [class]="className"
+    [placeholder]="placeholder"
+    [id]="inputId"
+  />
+</div>

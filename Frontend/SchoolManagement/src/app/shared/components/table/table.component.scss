@@ -1,0 +1,82 @@
+.table-header {
+  border-bottom-width: 2px;
+  padding-top: 0 !important;
+}
+.dropdown-toggle::after {
+  content: none;
+}
+.dropdown-toggle {
+  border-radius: 50%;
+}
+.action-dropdown {
+  border: none !important;
+  background-color: white;
+  color: gray;
+  height: 30px;
+  width: 30px;
+}
+.action-dropdown:hover {
+  background-color: gainsboro;
+}
+.lesser-padding-top {
+  padding-top: 14px !important;
+}
+.btn-light {
+  background-color: white;
+  color: gray;
+}
+.action-dropdown-menu {
+  border: none;
+  border-radius: 0%;
+  left: 0;
+  z-index: 1000;
+  background-color: white;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+th,
+td {
+  padding: 15px 8px;
+  vertical-align: middle;
+}
+
+.crud-btn {
+  border: none;
+  background-color: white;
+  color: gray;
+}
+
+.crud-btn:hover {
+  color: rgb(76, 76, 76);
+}
+
+.status-column {
+  font-size: 16px;
+  color: white;
+  width: 100px;
+  padding: 2px 0;
+  border-radius: 50rem;
+  text-align: center;
+  justify-self: center;
+}
+// .status-column {
+//     border-radius: 33px;
+//     width: 80px;
+//     text-align: center;
+//     display: block;
+//     color: white;
+//     font-size: small;
+//     padding: 3px 0px;
+// }
+.text-center {
+  text-align: center;
+}
+.editdelete-container {
+  display: flex;
+  justify-content: space-around;
+}
+.dropdown-container {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <app-button
+    [iconClass]="'bi bi-x-lg'"
+    [className]="'btn text-white'"
+    [type]="'button'"
+    (btnClick)="close()"
+  >
+  </app-button>
+</div>
+<div class="modal-body">
+  <ng-container *ngTemplateOutlet="modalContent"></ng-container>
+</div>
+<div class="modal-footer py-0">
+  <app-button
+    *ngIf="modalBtnLabel1"
+    [label]="modalBtnLabel1"
+    [className]="'btn update-button'"
+    class="me-2"
+    [type]="'button'"
+    (btnClick)="onClickBtn1()"
+  ></app-button>
+  <app-button
+    *ngIf="modalBtnLabel2"
+    [label]="modalBtnLabel2"
+    [className]="'btn btn-primary'"
+    class="me-2"
+    [type]="'button'"
+    (btnClick)="onClickBtn2()"
+  ></app-button>
+  <app-button
+    *ngIf="modalBtnLabel3"
+    [label]="modalBtnLabel3"
+    [className]="'modal-blue-btn'"
+    class="me-2"
+    [type]="'button'"
+    (btnClick)="onClickBtn3()"
+  ></app-button>
+  <app-button
+    [label]="'Close'"
+    [className]="'back-button'"
+    [type]="'button'"
+    (btnClick)="close()"
+  ></app-button>
+</div>

@@ -2,6 +2,7 @@
 using Common.Constants;
 using Entities.DataModels;
 using Entities.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagementAPI.Helpers;
 
@@ -33,8 +34,7 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
             return ResponseHelper.SuccessResponse(null, MessageConstants.REQUEST_SUBMITTED);
         }
 
-        [PrincipalPolicy]
-        [TeachersPolicy]
+        [TeacherPrincipalPolicy]
         [HttpGet]
         [Route("getAdmitRequests")]
         public async Task<IActionResult> GetAdmitRequests()

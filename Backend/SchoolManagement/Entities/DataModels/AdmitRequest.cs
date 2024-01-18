@@ -1,6 +1,8 @@
-﻿using Entities.Abstract;
+﻿using Common.Enums;
+using Entities.Abstract;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace Entities.DataModels
 {
@@ -38,5 +40,18 @@ namespace Entities.DataModels
 
         [Column("blood_group")]
         public byte BloodGroup { get; set; }
+
+        [Column("admit_request_role")]
+        public UserRoleType AdmitRequestRole { get; set; }
+
+        #region Foreign_Keys
+
+        [ForeignKey(nameof(Gender))]
+        public virtual Gender Genders { get; set; } = null!;
+
+        [ForeignKey(nameof(BloodGroup))]
+        public virtual BloodGroup BloodGroups { get; set; } = null!;
+
+        #endregion
     }
 }

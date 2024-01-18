@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.Enums;
 using Common.Validators;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
@@ -25,13 +26,14 @@ namespace Entities.DTOs.Request
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        [Range(1, 3)]
-        public byte Gender { get; set; }
-            
+        public GenderType Gender { get; set; }
+        
         public IFormFile Avatar { get; set; } = null!;
 
         [Required]
-        [Range(1, 8)]
-        public byte BloodGroup { get; set; }
+        public BloodGroupTypes BloodGroup { get; set; }
+
+        [Required]
+        public UserRoleType AdmitRequestRole { get; set; }
     }
 }

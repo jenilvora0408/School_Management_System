@@ -62,6 +62,10 @@ namespace SchoolManagementAPI.ExtAuthorization
             {
                 if (loggedUser.Role == (int)UserRoleType.LAB_INSTRUCTOR) return true;
             }
+            else if(requirement.PolicyName == SystemConstants.TEACHER_PRINCIPAL_POLICY)
+            {
+                if (loggedUser.Role == (int)UserRoleType.TEACHER || loggedUser.Role == (int)UserRoleType.PRINCIPAL) return true;
+            }
             else if (requirement.PolicyName == SystemConstants.ALL_USER_POLICY)
             {
                 if (loggedUser.Role == (int)UserRoleType.PRINCIPAL || loggedUser.Role == (int)UserRoleType.TEACHER || loggedUser.Role == (int)UserRoleType.STUDENT || loggedUser.Role == (int)UserRoleType.LAB_INSTRUCTOR) return true;

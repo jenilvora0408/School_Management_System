@@ -1,7 +1,6 @@
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.deps.json
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.runtimeconfig.json
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.dll
-D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\bin\Debug\net6.0\ref\DataAccessLayer.dll
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.pdb
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\bin\Debug\net6.0\Common.dll
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\bin\Debug\net6.0\Entities.dll
@@ -17,3 +16,5 @@ D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\obj\Debug\net6.0\ref\DataAccessLayer.dll
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.pdb
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.genruntimeconfig.cache
+D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.sourcelink.json
+D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\DataAccessLayer\obj\Debug\net6.0\refint\DataAccessLayer.dll

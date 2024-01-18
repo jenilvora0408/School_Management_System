@@ -37,6 +37,10 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("address");
 
+                    b.Property<byte>("AdmitRequestRole")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("admit_request_role");
+
                     b.Property<string>("Avatar")
                         .IsRequired()
                         .HasMaxLength(512)
@@ -97,10 +101,14 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BloodGroup");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("Email")
                         .IsUnique();
+
+                    b.HasIndex("Gender");
 
                     b.HasIndex("UpdatedBy");
 
@@ -418,7 +426,7 @@ namespace DataAccessLayer.Migrations
                             Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital",
                             Avatar = "/images/Principal-photo.jpg",
                             BloodGroup = (byte)5,
-                            CreatedOn = new DateTime(2023, 11, 20, 12, 5, 55, 836, DateTimeKind.Local).AddTicks(2413),
+                            CreatedOn = new DateTime(2024, 1, 16, 11, 27, 9, 323, DateTimeKind.Local).AddTicks(9813),
                             DateOfBirth = new DateTime(1976, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "anurag@gmail.com",
                             FirstName = "Anurag",
@@ -430,7 +438,7 @@ namespace DataAccessLayer.Migrations
                             Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2",
                             PhoneNumber = "8957486525",
                             Role = (byte)1,
-                            UpdatedOn = new DateTime(2023, 11, 20, 6, 35, 55, 230, DateTimeKind.Utc).AddTicks(8767)
+                            UpdatedOn = new DateTime(2024, 1, 16, 5, 57, 8, 864, DateTimeKind.Utc).AddTicks(7015)
                         });
                 });
 
@@ -525,15 +533,31 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("Entities.DataModels.AdmitRequest", b =>
                 {
+                    b.HasOne("Entities.DataModels.BloodGroup", "BloodGroups")
+                        .WithMany()
+                        .HasForeignKey("BloodGroup")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Entities.DataModels.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Entities.DataModels.Gender", "Genders")
+                        .WithMany()
+                        .HasForeignKey("Gender")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entities.DataModels.User", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy");
 
+                    b.Navigation("BloodGroups");
+
                     b.Navigation("CreatedByUser");
+
+                    b.Navigation("Genders");
 
                     b.Navigation("UpdatedByUser");
                 });

@@ -1,7 +1,6 @@
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\bin\Debug\net6.0\Entities.deps.json
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\bin\Debug\net6.0\Entities.runtimeconfig.json
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\bin\Debug\net6.0\Entities.dll
-D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\bin\Debug\net6.0\ref\Entities.dll
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\bin\Debug\net6.0\Entities.pdb
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\bin\Debug\net6.0\Common.dll
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\bin\Debug\net6.0\Common.pdb
@@ -15,3 +14,5 @@ D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\obj\Debug\net6.0\ref\Entities.dll
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\obj\Debug\net6.0\Entities.pdb
 D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\obj\Debug\net6.0\Entities.genruntimeconfig.cache
+D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\obj\Debug\net6.0\Entities.sourcelink.json
+D:\My Projects\Angular + .NET Core Web API\School Management System\Code\Backend\SchoolManagement\Entities\obj\Debug\net6.0\refint\Entities.dll

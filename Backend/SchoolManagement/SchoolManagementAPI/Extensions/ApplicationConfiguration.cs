@@ -144,6 +144,10 @@ namespace SchoolManagementAPI.Extensions
                 {
                     policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.LAB_INSTRUCTOR_POLICY));
                 });
+                config.AddPolicy(SystemConstants.TEACHER_PRINCIPAL_POLICY, policy =>
+                {
+                    policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.TEACHER_PRINCIPAL_POLICY));
+                });
                 config.AddPolicy(SystemConstants.ALL_USER_POLICY, policy =>
                 {
                     policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.ALL_USER_POLICY));

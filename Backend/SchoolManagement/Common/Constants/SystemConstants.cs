@@ -53,6 +53,8 @@
 
         public const string ALL_USER_POLICY = "AllUser";
 
+        public const string TEACHER_PRINCIPAL_POLICY = "Teacher_Principal";
+
         #endregion Policy Attribute
 
 

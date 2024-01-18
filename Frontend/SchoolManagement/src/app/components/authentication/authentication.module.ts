@@ -7,11 +7,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { VerifyOtpComponent } from './verify-otp/verify-otp.component';
 
 const components = [
   LoginComponent,
   ForgetPasswordComponent,
   ResetPasswordComponent,
+  VerifyOtpComponent,
 ];
 
 @NgModule({

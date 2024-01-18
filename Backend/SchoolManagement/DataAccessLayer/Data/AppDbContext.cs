@@ -167,6 +167,7 @@ namespace DataAccessLayer.Data
                 entity.Property(e => e.Gender).IsRequired();
                 entity.Property(e => e.Avatar).IsRequired();
                 entity.Property(e => e.BloodGroup).IsRequired();
+                entity.Property(e => e.AdmitRequestRole).IsRequired();
             });
 
             modelBuilder.Entity<AdmitRequestApproval>(entity =>

@@ -42,4 +42,12 @@ namespace SchoolManagementAPI.Helpers
             Policy = SystemConstants.ALL_USER_POLICY;
         }
     }
+
+    public class TeacherPrincipalPolicyAttribute : AuthorizeAttribute
+    {
+        public TeacherPrincipalPolicyAttribute()
+        {
+            Policy = SystemConstants.TEACHER_PRINCIPAL_POLICY;
+        }
+    }
 }

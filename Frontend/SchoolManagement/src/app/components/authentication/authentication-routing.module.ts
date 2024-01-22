@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { VerifyOtpComponent } from './verify-otp/verify-otp.component';
+import { AdmitRequestComponent } from './admit-request/admit-request.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
       {
         path: 'verify-otp',
         component: VerifyOtpComponent,
+      },
+      {
+        path: 'admit-request',
+        component: AdmitRequestComponent,
       },
     ],
   },

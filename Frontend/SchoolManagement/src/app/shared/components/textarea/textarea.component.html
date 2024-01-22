@@ -1,5 +1,5 @@
 <div class="form-group input--field" [formGroup]="parentForm">
-  <label for="textarea" class="label--style">{{ label }}</label>
+  <label for="textarea" class="ms-1 label--style">{{ label }}</label>
   <textarea
     class="form-control"
     [placeholder]="placeholder"
@@ -23,14 +23,13 @@
     [ngStyle]="styles"
     [rows]="rows"
     [cols]="cols"
-    [validateInput]="validateInput"
-    [errorTitle]="title"
-    validate
   ></textarea>
 </div>
-<!-- <div
+<div
   *ngIf="
-    parentForm.get(controlName)?.invalid && parentForm.get(controlName)?.touched && showValidationMessage
+    parentForm.get(controlName)?.invalid &&
+    parentForm.get(controlName)?.touched &&
+    showValidationMessage
   "
   class="text-danger"
 >
@@ -44,4 +43,4 @@
     {{ parentForm.get(controlName)?.errors?.['minlength']?.requiredLength }}
     characters.
   </div>
-</div> -->
+</div>

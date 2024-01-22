@@ -1,11 +1,16 @@
 <div class="container-fluid">
   <div class="row auth-row">
-    <div class="col-md-6">
+    <div *ngIf="shouldRenderImage()" class="col-md-6">
       <div class="auth-left">
         <img class="school-logo" src="/assets/images/school-logo.png" alt="" />
       </div>
     </div>
-    <div class="col-md-6">
+    <div
+      [ngClass]="{
+        'col-md-6': shouldRenderImage(),
+        'col-md-12': !shouldRenderImage()
+      }"
+    >
       <div class="auth-right d-flex align-items-center justify-content-center">
         <router-outlet></router-outlet>
       </div>

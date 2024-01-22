@@ -1,0 +1,154 @@
+<div
+  class="admit-request-container g-0 d-flex justify-content-center overflow-hidden"
+>
+  <div class="col-6">
+    <div
+      class="admit-request-form d-flex flex-column gap-4 align-items-center justify-content-center"
+    >
+      <div class="heading text-center fs-2 auth-heading">Admit Request</div>
+      <form
+        action=""
+        class=""
+        [formGroup]="admitRequestForm"
+        (submit)="onSubmit()"
+      >
+        <div class="d-flex gap-5 align-items-center justify-content-center">
+          <div class="left-form d-flex flex-column gap-1">
+            <app-input
+              class="authInput mb-4"
+              label="First Name"
+              title="First Name"
+              type="text"
+              className="input_field py-2 fs-6"
+              placeholder="First Name"
+              [parentForm]="admitRequestForm"
+              controlName="firstName"
+              icon="bi bi-person"
+            ></app-input>
+
+            <app-input
+              class="authInput mb-4"
+              label="Email"
+              title="Email"
+              type="email"
+              className="input_field py-2 fs-6"
+              placeholder="Email Address"
+              [parentForm]="admitRequestForm"
+              controlName="email"
+              [validationMsg]="emailValidationMsg"
+              icon="bi bi-envelope"
+            ></app-input>
+
+            <app-input
+              labelClass="reg-form-label"
+              label="Date Of Birth"
+              type="date"
+              className="input_field py-2 fs-6"
+              placeholder="Date Of Birth"
+              title="Date Of Birth"
+              [parentForm]="admitRequestForm"
+              controlName="dateOfBirth"
+            >
+            </app-input>
+            <br />
+            <app-drop-down
+              [isInvalid]="true"
+              label="Blood Group"
+              className="input_field py-2 fs-6"
+              [parentForm]="admitRequestForm"
+              controlName="bloodGroupDropdown"
+              [options]="bloodGroupOptions"
+            ></app-drop-down>
+          </div>
+
+          <div class="right-form d-flex flex-column gap-1">
+            <app-input
+              class="authInput mb-4"
+              label="Last Name"
+              title="Last Name"
+              type="text"
+              className="input_field py-2 fs-6"
+              placeholder="Last Name"
+              [parentForm]="admitRequestForm"
+              controlName="lastName"
+              icon="bi bi-person"
+            ></app-input>
+
+            <app-input
+              class="authInput mb-4"
+              label="Phone Number"
+              title="Phone Number"
+              type="text"
+              className="input_field py-2 fs-6"
+              placeholder="Phone Number"
+              [parentForm]="admitRequestForm"
+              controlName="phoneNumber"
+              icon="bi bi-telephone"
+            ></app-input>
+
+            <app-drop-down
+              [isInvalid]="true"
+              label="Gender"
+              className="input_field py-2 fs-6"
+              [parentForm]="admitRequestForm"
+              controlName="genderDropdown"
+              [options]="genderOptions"
+            ></app-drop-down>
+
+            <br />
+
+            <app-drop-down
+              [isInvalid]="true"
+              label="Role"
+              className="input_field py-2 fs-6"
+              [parentForm]="admitRequestForm"
+              controlName="requestRoleDropdown"
+              [options]="requestRoleOptions"
+            ></app-drop-down>
+          </div>
+        </div>
+        <br />
+        <app-textarea
+          label="Address"
+          [placeholder]="'Enter Your Address...'"
+          [required]="true"
+          [pattern]="'[a-zA-Z0-9 ]*'"
+          [readonly]="false"
+          [maxlength]="1000"
+          [minlength]="5"
+          controlName="address"
+          [parentForm]="admitRequestForm"
+          [rows]="3"
+        ></app-textarea>
+        <br />
+        <app-input
+          title="Upload"
+          type="file"
+          label="Avatar"
+          className="upload py-2 fs-6"
+          placeholder="Choose a file to upload"
+          [parentForm]="admitRequestForm"
+          controlName="upload"
+          ngDefaultControl
+          (change)="onFileInputChange($event)"
+          [showValidationMessage]="false"
+          #fileInput
+        ></app-input>
+
+        <br />
+
+        <div class="d-flex justify-content-center">
+          <app-button
+            type="submit"
+            label="Send Request"
+            className="btn text-white my-3 px-4 submit-button w-100 fs-6"
+            title="Submit"
+          ></app-button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="theme-img col-6 d-flex align-items-center">
+    <img class="img-fluid" src="assets/images/admit2.png" alt="" />
+  </div>
+</div>

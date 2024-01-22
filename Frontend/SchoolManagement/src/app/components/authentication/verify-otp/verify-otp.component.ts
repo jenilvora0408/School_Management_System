@@ -12,11 +12,12 @@ export class VerifyOtpComponent {
   username: string = '';
 
   otpForm = new FormGroup({
-    email: new FormControl(
+    otp: new FormControl(
       '',
       Validators.compose([
         Validators.required,
-        Validators.pattern(ValidationPattern.email),
+        Validators.minLength(6),
+        Validators.maxLength(6),
       ])
     ),
   });

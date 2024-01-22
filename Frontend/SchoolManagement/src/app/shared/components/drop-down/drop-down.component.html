@@ -1,14 +1,12 @@
 <div class="dropdown" [formGroup]="parentForm">
-  <label *ngIf="showLabel" class="label--style">{{ label }}</label>
+  <label *ngIf="showLabel" class="ms-1 label--style">{{ label }}</label>
   <select
+    class="form-control"
     [class]="className"
     [formControl]="formControl"
     [formControlName]="controlName"
     [(ngModel)]="selectValue"
     (change)="onOptionSelected($event)"
-    [validateInput]="validateInput"
-    [errorTitle]="title"
-    validate
     [ngClass]="
       parentForm.get(controlName)?.invalid &&
       parentForm.get(controlName)?.touched &&
@@ -25,7 +23,7 @@
     </option>
   </select>
 </div>
-<!-- <div
+<div
   *ngIf="
     parentForm.get(controlName)?.invalid &&
     parentForm.get(controlName)?.touched &&
@@ -42,4 +40,4 @@
   >
     Please select {{ label }}.
   </div>
-</div> -->
+</div>

@@ -31,12 +31,12 @@ export class DropDownComponent implements OnInit, AfterViewChecked {
   @Input() showLabel: boolean = true;
   @Input() title!: string;
   @Input() validateInput: boolean = true;
-
   @Input() showValidationMessage: boolean = true;
   @Output() selectionChange = new EventEmitter<string | number>();
-
   formControl: FormControl = new FormControl('');
+
   constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
+
   ngOnInit(): void {
     const control = this.parentForm.get(this.controlName);
     if (control instanceof FormControl) {
@@ -46,6 +46,7 @@ export class DropDownComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
   }
+
   onOptionSelected(option: any) {
     this.selectValue = option.target.value;
     this.selectionChange.emit(this.selectValue);

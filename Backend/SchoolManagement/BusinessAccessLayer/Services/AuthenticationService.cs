@@ -53,7 +53,7 @@ namespace BusinessAccessLayer.Services
             {
                 ToEmail = user.Email,
                 Subject = EmailConstants.OTP_SUBJECT,
-                Body = "This is Otp for School Management. <br>" + user.OTP + " <br> it will valid for 10 minutes only.",
+                Body = "This is Otp for School Management. <br>" + user.OTP + " <br> it will be valid for 10 minutes only.",
             };
             await _mailService.SendMailAsync(mailDto);
         }

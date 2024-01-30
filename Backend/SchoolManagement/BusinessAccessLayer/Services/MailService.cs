@@ -23,7 +23,7 @@ namespace BusinessAccessLayer.Services
             email.Sender = MailboxAddress.Parse(_mailSetting.Mail);
             email.To.Add(MailboxAddress.Parse(mailData.ToEmail));
             email.Subject = !String.IsNullOrEmpty(mailData.Subject) ? mailData.Subject : EmailConstants.GENERIC_SUBJECT;
-
+            
             var builder = new BodyBuilder();
             if (mailData.Attachments != null && mailData.Attachments.Count!=0)
             {

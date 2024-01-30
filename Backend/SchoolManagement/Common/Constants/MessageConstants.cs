@@ -31,6 +31,10 @@
 
         public const string ADMIT_REQUEST_APPROVED = "Admit Request approved suceessfully!";
 
+        public const string PASSWORD_RESET = "Password reset successfully!";
+
+        public const string FORGET_PASSWORD_MAIL_SENT = "A mail for reset password has been sent successfully!";
+
         #endregion
     }
 }

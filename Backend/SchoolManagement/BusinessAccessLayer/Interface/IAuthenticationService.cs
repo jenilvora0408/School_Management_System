@@ -11,5 +11,9 @@ namespace BusinessAccessLayer.Interface
         Task SendOtp(string email);
 
         Task<TokensDTO> VerifyOtp(LoginOtpDTO otpData, bool rememberMe);
+
+        Task ForgotPassword(string email);
+
+        Task ResetPassword(string password, string token);
     }
 }

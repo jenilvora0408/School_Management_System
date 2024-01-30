@@ -67,7 +67,6 @@ export class AdmitRequestComponent {
 
     if (files && files.length > 0) {
       const allowedExtensions = ['jpg', 'jpeg', 'png', 'jfif'];
-
       const fileExtension = files[0].name.split('.').pop()?.toLowerCase();
 
       if (fileExtension && allowedExtensions.includes(fileExtension)) {

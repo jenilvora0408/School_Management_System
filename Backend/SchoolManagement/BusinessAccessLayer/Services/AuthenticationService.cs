@@ -3,9 +3,11 @@ using Common.Constants;
 using Common.Exceptions;
 using Common.Utils;
 using DataAccessLayer.Interface;
+using DataAccessLayer.Repositories;
 using Entities.DataModels;
 using Entities.DTOs.Common;
 using Entities.DTOs.Request;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessAccessLayer.Services
 {
@@ -84,6 +86,40 @@ namespace BusinessAccessLayer.Services
             }
             return token;
         }
+
+        public async Task ResetPassword(string password, string token)
+        {
+            if (String.IsNullOrEmpty(token)) throw new ModelValidationException(MessageConstants.INVALID_TOKEN);
+            DateTime dateTime = Convert.ToDateTime(DecodingMailToken(token).Split("&")[1]);
+            if (dateTime < DateTime.UtcNow) throw new ModelValidationException(MessageConstants.TOKEN_EXPIRED);
+
+            User user = await _unitOfWork.AuthenticationRepository.GetUserByEmail(DecodingMailToken(token).Split("&")[0]);
+            user.Password = PasswordUtil.HashPassword(password);
+            await _unitOfWork.AuthenticationRepository.UpdateAsync(user);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task ForgotPassword(string email)
+        {
+            if (await _unitOfWork.AuthenticationRepository.GetUserByEmail(email) != null)
+            {
+                //sent otp in mail
+                MailDTO mailDto = new()
+                {
+                    ToEmail = email,
+                    Subject = EmailConstants.RESET_PASSWORD_SUBJECT,
+                    Body = MailBodyUtil.SendResetPasswordLink("http://localhost:4200/reset-password?token=" + EncodingMailToken(email))
+                };
+                await _mailService.SendMailAsync(mailDto);
+            }
+        }
+
+        #region HelperMethod
+
+        public static string EncodingMailToken(string email) => System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(email + "&" + DateTime.UtcNow.AddMinutes(10)));
+        public static string DecodingMailToken(string token) => System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(token));
+
+        #endregion HelperMethod
 
         #endregion
     }

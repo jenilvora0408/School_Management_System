@@ -30,7 +30,7 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
             {
                 Expires = DateTime.UtcNow.AddDays(90),
                 Path = "/", // Set the cookie path
-                Domain = "localhost", // Set the cookie domain                                                                                    
+                Domain = "localhost", // Set the cookie domain  
                 Secure = true,
                 SameSite = Microsoft.Net.Http.Headers.SameSiteMode.None // Set whether the cookie requires a secure connection (https)
             };
@@ -45,6 +45,20 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
             bool remeberMe = Request.Cookies[SystemConstants.REMEMBER_ME_COOKIE_POLICY] is not null && Request.Cookies[SystemConstants.REMEMBER_ME_COOKIE_POLICY] == SystemConstants.TRUE_STRING;
 
             return ResponseHelper.SuccessResponse(await _authenticationService.VerifyOtp(otpData, remeberMe), MessageConstants.LOGIN_SUCCESS);
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            await _authenticationService.ForgotPassword(email);
+            return ResponseHelper.SuccessResponse(null, MessageConstants.FORGET_PASSWORD_MAIL_SENT);
+        }
+
+        [HttpPut("reset-password")]
+        public async Task<IActionResult> ResetPassword(string password, string token)
+        {
+            await _authenticationService.ResetPassword(password, token);
+            return ResponseHelper.SuccessResponse(null, MessageConstants.PASSWORD_RESET );
         }
 
         #endregion

@@ -10,6 +10,8 @@
 
         public static readonly int MAX_PAGE_SIZE_RESPONSE = 50;
 
+        public static readonly int PASSWORD_ITERATION = 10;
+
         #endregion
 
 

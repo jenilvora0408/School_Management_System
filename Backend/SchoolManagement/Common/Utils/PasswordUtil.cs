@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Common.Constants;
+using System.Security.Cryptography;
 
 namespace Common.Utils
 {
@@ -11,6 +12,17 @@ namespace Common.Utils
             bool isPasswordCorrect = BCrypt.Net.BCrypt.Verify(password, hashedPassword);
 
             return isPasswordCorrect;
+        }
+
+        public static string HashPassword(string password)
+        {
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, workFactor: SystemConstants.PASSWORD_ITERATION);
+
+            string passwordWithSalt = $"{hashedPassword}{salt}";
+
+            return passwordWithSalt;
         }
     }
 }

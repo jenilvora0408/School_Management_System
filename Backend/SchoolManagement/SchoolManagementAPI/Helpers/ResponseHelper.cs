@@ -15,7 +15,6 @@ namespace SchoolManagementAPI.Helpers
                 Data = data,
                 Success = true
             };
-
             return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
         }
 

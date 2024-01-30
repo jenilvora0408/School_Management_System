@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { StorageHelperConstant } from 'src/app/constants/storage-helper/storage-helper';
 import { ValidationMessageConstant } from 'src/app/constants/validation/validation-message';
 import { ValidationPattern } from 'src/app/constants/validation/validation-pattern';
+import { IVerifyOtpInterface } from 'src/app/models/auth/verify-otp.interface';
+import { StorageHelperService } from 'src/app/services/storage-helper.service';
+import { VerifyOtpService } from 'src/app/services/verify-otp.service';
 
 @Component({
   selector: 'app-verify-otp',
@@ -9,9 +15,9 @@ import { ValidationPattern } from 'src/app/constants/validation/validation-patte
   styleUrls: ['./verify-otp.component.scss'],
 })
 export class VerifyOtpComponent {
-  username: string = '';
+  userName = this.storageHelper.getFromSession(StorageHelperConstant.names);
 
-  otpForm = new FormGroup({
+  verifyOtpForm = new FormGroup({
     otp: new FormControl(
       '',
       Validators.compose([
@@ -22,7 +28,27 @@ export class VerifyOtpComponent {
     ),
   });
 
+  constructor(
+    private service: VerifyOtpService,
+    private router: Router,
+    private titleService: Title,
+    private storageHelper: StorageHelperService
+  ) {}
+
+  ngOnInit() {
+    this.router.events.subscribe(() => {
+      // this.titleService.setTitle(TabTitleConstant.verifyOtp);
+    });
+  }
+
   onSubmit() {
-    console.log('Login form submitted');
+    this.verifyOtpForm.markAllAsTouched();
+    if (this.verifyOtpForm.valid) {
+      this.service.verifyOtp(0, <IVerifyOtpInterface>this.verifyOtpForm.value);
+    }
+  }
+
+  resendOtp() {
+    this.service.resendOtp();
   }
 }

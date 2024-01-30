@@ -87,6 +87,7 @@ namespace SchoolManagementAPI.ExtAuthorization
         {
             JwtSetting jwtSetting = new();
             configuration.GetSection("Jwt").Bind(jwtSetting);
+            
             return jwtSetting;
         }
 

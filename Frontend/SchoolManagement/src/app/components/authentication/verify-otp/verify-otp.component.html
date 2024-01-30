@@ -2,7 +2,7 @@
   <form
     action=""
     class="d-flex flex-column align-items-center justify-content-center"
-    [formGroup]="otpForm"
+    [formGroup]="verifyOtpForm"
     (submit)="onSubmit()"
   >
     <h1 class="text-center mb-1 auth-heading">Hello Jenil Vora,</h1>
@@ -14,7 +14,7 @@
         type="text"
         className="input_field py-2 fs-6"
         placeholder="Please enter your OTP here"
-        [parentForm]="otpForm"
+        [parentForm]="verifyOtpForm"
         controlName="otp"
         icon="bi bi-shield-check"
       ></app-input>

@@ -28,7 +28,6 @@ namespace BusinessAccessLayer.Services
 
         #endregion
 
-
         #region Methods
 
         public async Task AdmitRequest(AdmitRequestDTO admitRequestDTO)

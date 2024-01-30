@@ -30,7 +30,7 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
             {
                 Expires = DateTime.UtcNow.AddDays(90),
                 Path = "/", // Set the cookie path
-                Domain = "localhost", // Set the cookie domain
+                Domain = "localhost", // Set the cookie domain                                                                                    
                 Secure = true,
                 SameSite = Microsoft.Net.Http.Headers.SameSiteMode.None // Set whether the cookie requires a secure connection (https)
             };

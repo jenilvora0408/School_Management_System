@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { maxDateValidator } from 'src/app/common/max-date-validator';
 import { minDateValidator } from 'src/app/common/min-date-validator';
 import { DATE_CONST } from 'src/app/constants/shared/date-constants';
-import { MessageConstant } from 'src/app/constants/validation/message-constants';
 import { ValidationMessageConstant } from 'src/app/constants/validation/validation-message';
 import { ValidationPattern } from 'src/app/constants/validation/validation-pattern';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
@@ -62,25 +61,13 @@ export class AdmitRequestComponent {
     upload: new FormControl('', [Validators.required]),
   });
 
-  // onFileInputChange(event: any): void {
-  //   this.newFileUploaded = true;
-  //   const files = event.target.files;
-  //   if (files && files.length > 0 && files[0].type === 'application/jpg') {
-  //     this.selectedFile = files[0];
-  //     this.admitRequestForm.get('fileName')?.setValue(this.selectedFile.name);
-  //   } else {
-  //     event.target.value = null;
-  //     this.selectedFile = null;
-  //     // this.admitRequestForm.error(MessageConstant.pdfOnly);
-  //   }
-  // }
-
   onFileInputChange(event: any): void {
     this.newFileUploaded = true;
     const files = event.target.files;
 
     if (files && files.length > 0) {
       const allowedExtensions = ['jpg', 'jpeg', 'png', 'jfif'];
+
       const fileExtension = files[0].name.split('.').pop()?.toLowerCase();
 
       if (fileExtension && allowedExtensions.includes(fileExtension)) {

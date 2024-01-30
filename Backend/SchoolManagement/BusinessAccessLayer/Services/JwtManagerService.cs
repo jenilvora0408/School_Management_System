@@ -94,6 +94,7 @@ namespace BusinessAccessLayer.Services
             }
             return principal;
         }
+
         public LoggedUser GetLoggedUser()
         {
             string authToken = _httpContext.HttpContext.Request.Headers.Authorization.FirstOrDefault() ?? throw new UnauthorizedException(MessageConstants.UNAUTHORIZE);

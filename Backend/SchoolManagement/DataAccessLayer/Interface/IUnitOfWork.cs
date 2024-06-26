@@ -9,5 +9,11 @@
         public IAuthenticationRepository AuthenticationRepository { get; }
 
         public IAdmitRequestApprovalRepository AdmitRequestApprovalRepository { get; }
+
+        public IGenderRepository GenderRepository { get; }
+
+        public IBloodGroupRepository BloodGroupRepository { get; }
+
+        public IUserRoleRepository UserRoleRepository { get; }
     }
 }

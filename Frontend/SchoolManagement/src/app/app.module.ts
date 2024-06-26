@@ -5,10 +5,8 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from 'src/app-routing.module';
-import { LoginComponent } from './components/authentication/login/login.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { AuthenticationModule } from './components/authentication/authentication.module';
-import { AuthenticationRoutingModule } from './components/authentication/authentication-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ApiCallConstant } from './constants/api-call/apis';
@@ -16,9 +14,9 @@ import { StorageHelperConstant } from './constants/storage-helper/storage-helper
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { ToastrModule } from 'ngx-toastr';
-import { PrincipalDashboardComponent } from './components/principal/principal-dashboard/principal-dashboard.component';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { PrincipalModule } from './components/principal/principal.module';
+import { ApiInterceptor } from './interceptors/api-response.interceptor';
 
 const components = [AuthenticationComponent, PrincipalComponent];
 
@@ -51,6 +49,7 @@ const components = [AuthenticationComponent, PrincipalComponent];
       useClass: AuthInterceptor,
       multi: true,
     },
+    ApiInterceptor,
   ],
   bootstrap: [AppComponent],
 })

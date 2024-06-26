@@ -14,7 +14,7 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
     {
         #region Constructor
 
-        private IAdmitRequestService _admitRequestService; 
+        private IAdmitRequestService _admitRequestService;
         public AdmitRequestController(IAdmitRequestService admitRequestService)
         {
             _admitRequestService = admitRequestService;
@@ -25,14 +25,31 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
 
         #region Methods
 
-        [HttpPost]
-        [Route("admitRequest")]
-        public async Task<IActionResult> AdmitRequest([FromForm] AdmitRequestDTO admitRequestDTO)
-        {
-            await _admitRequestService.AdmitRequest(admitRequestDTO);
+        // [HttpPost]
+        // [Route("sendAdmitRequest")]
+        // public async Task<IActionResult> AdmitRequest(AdmitRequestDTO admitRequestDTO)
+        // {
+        //     await _admitRequestService.AdmitRequest(admitRequestDTO);
 
-            return ResponseHelper.SuccessResponse(null, MessageConstants.REQUEST_SUBMITTED);
+        //     return ResponseHelper.SuccessResponse(null, MessageConstants.REQUEST_SUBMITTED);
+        // }
+
+        [HttpPost]
+        [Route("sendAdmitRequest")]
+        public async Task<IActionResult> AdmitRequest([FromBody] AdmitRequestDTO admitRequestDTO)
+        {
+            try
+            {
+                await _admitRequestService.AdmitRequest(admitRequestDTO);
+                return ResponseHelper.SuccessResponse(null, MessageConstants.REQUEST_SUBMITTED);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+            }
         }
+
 
         [TeacherPrincipalPolicy]
         [HttpGet]

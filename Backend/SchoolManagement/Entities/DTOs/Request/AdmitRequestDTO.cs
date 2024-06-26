@@ -27,8 +27,8 @@ namespace Entities.DTOs.Request
 
         [Required]
         public GenderType Gender { get; set; }
-        
-        public IFormFile Avatar { get; set; } = null!;
+
+        public string Avatar { get; set; } = null!;
 
         [Required]
         public BloodGroupTypes BloodGroup { get; set; }

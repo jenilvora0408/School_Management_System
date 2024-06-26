@@ -198,15 +198,14 @@ namespace DataAccessLayer.Data
 
             modelBuilder.Entity<Gender>().HasData(
                  new Gender { Id = 1, Title = "Male" },
-                 new Gender { Id = 2, Title = "Female" },
-                 new Gender { Id = 3, Title = "Other" }
+                 new Gender { Id = 2, Title = "Female" }
             );
 
             modelBuilder.Entity<UserRole>().HasData(
                  new UserRole { Id = 1, Title = "Principal" },
                  new UserRole { Id = 2, Title = "Teacher" },
                  new UserRole { Id = 3, Title = "Student" },
-                 new UserRole { Id = 4, Title = "LabInstructor" }
+                 new UserRole { Id = 4, Title = "Lab Instructor" }
             );
 
             modelBuilder.Entity<BloodGroup>().HasData(

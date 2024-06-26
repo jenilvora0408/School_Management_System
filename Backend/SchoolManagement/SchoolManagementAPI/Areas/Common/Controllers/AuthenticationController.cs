@@ -30,7 +30,7 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
             {
                 Expires = DateTime.UtcNow.AddDays(90),
                 Path = "/", // Set the cookie path
-                Domain = "localhost", // Set the cookie domain  
+                Domain = "localhost", // Set the cookie domain
                 Secure = true,
                 SameSite = Microsoft.Net.Http.Headers.SameSiteMode.None // Set whether the cookie requires a secure connection (https)
             };
@@ -48,7 +48,7 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
         {
             await _authenticationService.ForgotPassword(email);
             return ResponseHelper.SuccessResponse(null, MessageConstants.FORGET_PASSWORD_MAIL_SENT);
@@ -58,7 +58,7 @@ namespace SchoolManagementAPI.Areas.Common.Controllers
         public async Task<IActionResult> ResetPassword(string password, string token)
         {
             await _authenticationService.ResetPassword(password, token);
-            return ResponseHelper.SuccessResponse(null, MessageConstants.PASSWORD_RESET );
+            return ResponseHelper.SuccessResponse(null, MessageConstants.PASSWORD_RESET);
         }
 
         #endregion

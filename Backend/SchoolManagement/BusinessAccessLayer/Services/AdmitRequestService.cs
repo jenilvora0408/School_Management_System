@@ -7,6 +7,7 @@ using Common.Helpers;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs.Request;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System.Linq.Expressions;
 
@@ -30,6 +31,7 @@ namespace BusinessAccessLayer.Services
 
         #region Methods
 
+
         public async Task AdmitRequest(AdmitRequestDTO admitRequestDTO)
         {
             User user = await _unitOfWork.AuthenticationRepository.GetUserByEmail(admitRequestDTO.Email);
@@ -43,8 +45,8 @@ namespace BusinessAccessLayer.Services
             _mapper.Map(admitRequestDTO, admitRequest);
 
             //Upload an Image
-            KeyValuePair<string, string> fileData = await new FileHelper(_env).UploadFileToDestination(admitRequestDTO.Avatar);
-            admitRequest.Avatar = fileData.Key;
+            // KeyValuePair<string, string> fileData = await new FileHelper(_env).UploadFileToDestination(admitRequestDTO.Avatar);
+            // admitRequest.Avatar = fileData.Key;
 
             await AddAsync(admitRequest);
         }

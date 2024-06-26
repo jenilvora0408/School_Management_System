@@ -39,6 +39,7 @@ namespace SchoolManagementAPI.Extensions
             services.AddScoped<IAdmitRequestApprovalService, AdmitRequestApprovalService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IJwtManagerService, JwtManagerService>();
+            services.AddScoped<ICommonService, CommonService>();
         }
 
         public static void ConfigureCors(this IServiceCollection services)
@@ -49,14 +50,8 @@ namespace SchoolManagementAPI.Extensions
                     builder => builder.WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials());
-            });
-            services.AddSignalR(options =>
-            {
-                options.EnableDetailedErrors = true; // Enable detailed errors for debugging
-            }).AddJsonProtocol(options =>
-            {
-                options.PayloadSerializerOptions.PropertyNamingPolicy = null; // Customize JSON serialization if needed
+                    .AllowCredentials()
+                );
             });
         }
 

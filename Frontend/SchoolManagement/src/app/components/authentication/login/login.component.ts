@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
       this.loginService.login(<ILoginInterface>this.loginForm.value);
+      console.log('Login successful!');
     }
   }
 }

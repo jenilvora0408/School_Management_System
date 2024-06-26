@@ -4,11 +4,18 @@
   background-color: #dcdddf;
 }
 .theme-img {
-  height: 100vh;
+  height: 100%;
 }
 .theme-img img {
-  height: 100vh;
+  height: 100%;
 }
-.admit-request-form {
-  height: 100vh;
+.form-container .personal-info {
+  padding: 5%;
+}
+app-input,
+ngx-intl-tel-input,
+app-drop-down,
+.input-group,
+.gender-list {
+  width: 22vw !important;
 }

@@ -1,5 +1,5 @@
 export class ApiCallConstant {
-  public static readonly BASE_URL = 'https://localhost:44389/api/';
+  public static readonly BASE_URL = 'https://localhost:7271/api/';
 
   //Area name
   public static readonly AREA_DOCTOR = this.BASE_URL + 'doctors';
@@ -21,12 +21,18 @@ export class ApiCallConstant {
   public static readonly REFRESH_TOKEN_URL =
     this.AREA_AUTHENTICATION + '/refresh-jwttoken';
 
+  //get gender data
+  public static readonly GET_COMMON_ENTITY_DATA =
+    this.BASE_URL + 'common/getcommonentitylist';
+  public static readonly SUBMIT_USER_DATA =
+    this.BASE_URL + 'admitrequest/sendadmitrequest';
+
   // Header
   public static readonly GET_AVATAR = this.BASE_URL + 'header/getavatar';
   public static readonly GET_FAQ = this.BASE_URL + 'header/faq';
 
   //Profile
-  public static readonly GET_GENDER_DATA = this.BASE_URL + 'profile/getGenders';
+
   public static readonly GET_PROFILE_DETAILS =
     this.BASE_URL + 'profile/getprofiledetails';
   public static readonly UPDATE_PROFILE_DETAILS =

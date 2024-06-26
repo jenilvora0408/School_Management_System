@@ -23,6 +23,8 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.11.3",
+    "ngx-bootstrap": "^12.0.0",
+    "ngx-intl-tel-input": "^3.2.0",
     "ngx-toastr": "^18.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

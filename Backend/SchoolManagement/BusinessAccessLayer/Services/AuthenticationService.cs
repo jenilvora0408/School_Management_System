@@ -3,11 +3,9 @@ using Common.Constants;
 using Common.Exceptions;
 using Common.Utils;
 using DataAccessLayer.Interface;
-using DataAccessLayer.Repositories;
 using Entities.DataModels;
 using Entities.DTOs.Common;
 using Entities.DTOs.Request;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessAccessLayer.Services
 {
@@ -19,7 +17,7 @@ namespace BusinessAccessLayer.Services
         public readonly IUnitOfWork _unitOfWork;
         public readonly IJwtManagerService _jwtManagerService;
 
-        public AuthenticationService(IMailService mailService, IUnitOfWork unitOfWork, IJwtManagerService jwtManagerService) 
+        public AuthenticationService(IMailService mailService, IUnitOfWork unitOfWork, IJwtManagerService jwtManagerService)
         {
             _mailService = mailService;
             _unitOfWork = unitOfWork;

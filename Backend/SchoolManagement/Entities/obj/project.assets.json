@@ -11049,25 +11049,22 @@
   },
   "packageFolders": {
     "C:\\Users\\tatva\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Entities\\Entities.csproj",
+      "projectUniqueName": "d:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Entities\\Entities.csproj",
       "projectName": "Entities",
-      "projectPath": "D:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Entities\\Entities.csproj",
+      "projectPath": "d:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Entities\\Entities.csproj",
       "packagesPath": "C:\\Users\\tatva\\.nuget\\packages\\",
-      "outputPath": "D:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Entities\\obj\\",
+      "outputPath": "d:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Entities\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\tatva\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11081,8 +11078,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Common\\Common.csproj": {
-              "projectPath": "D:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Common\\Common.csproj"
+            "d:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Common\\Common.csproj": {
+              "projectPath": "d:\\My Projects\\Angular + .NET Core Web API\\School Management System\\Code\\Backend\\SchoolManagement\\Common\\Common.csproj"
             }
           }
         }
@@ -11153,6 +11150,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.25, 6.0.25]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.25, 6.0.25]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.25, 6.0.25]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"

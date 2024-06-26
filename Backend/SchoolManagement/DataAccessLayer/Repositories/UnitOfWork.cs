@@ -10,6 +10,9 @@ namespace DataAccessLayer.Repositories
         private IAuthenticationRepository _authenticationRepository;
         private IAdmitRequestRepository _admitRequestRepository;
         private IAdmitRequestApprovalRepository _admitRequestApprovalRepository;
+        private IGenderRepository _genderRepository;
+        private IBloodGroupRepository _bloodGroupRepository;
+        private IUserRoleRepository _userRoleRepository;
 
         #endregion
 
@@ -56,6 +59,30 @@ namespace DataAccessLayer.Repositories
             get
             {
                 return _admitRequestApprovalRepository ??= new AdmitRequestApprovalRepository(_dbContext);
+            }
+        }
+
+        public IGenderRepository GenderRepository
+        {
+            get
+            {
+                return _genderRepository ??= new GenderRepository(_dbContext);
+            }
+        }
+
+        public IBloodGroupRepository BloodGroupRepository
+        {
+            get
+            {
+                return _bloodGroupRepository ??= new BloodGroupRepository(_dbContext);
+            }
+        }
+
+        public IUserRoleRepository UserRoleRepository
+        {
+            get
+            {
+                return _userRoleRepository ??= new UserRoleRepository(_dbContext);
             }
         }
 

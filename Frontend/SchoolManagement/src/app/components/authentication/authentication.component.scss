@@ -8,5 +8,39 @@
 }
 .auth-row,
 .auth-right {
-  height: 100vh !important;
+  height: 100vh;
+}
+@media only screen and (max-width: 1300px) {
+  .auth-left {
+    margin-left: 7vw;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .auth-left {
+    margin-left: 3vw;
+    margin-top: 180px;
+  }
+  .school-logo {
+    height: 55vh;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .auth-left {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+  .school-logo {
+    height: 40vh;
+  }
+  :not(.admit-request-route) {
+    .auth-right {
+      height: 50vh;
+    }
+  }
+}
+@media only screen and (max-width: 500px) {
+  .school-logo {
+    width: 70vw;
+  }
 }

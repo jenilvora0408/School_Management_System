@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-<ProjectReference Include="..\HelloDoc_Entities\HelloDoc_Entities.csproj" />
+    <ItemGroup>
+<ProjectReference Include="..\Entities\Entities.csproj" />
 </ItemGroup>
 
 <ItemGroup>

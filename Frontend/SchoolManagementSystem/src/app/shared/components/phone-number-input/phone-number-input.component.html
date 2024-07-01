@@ -1,0 +1,24 @@
+<div class="d-flex flex-column" [formGroup]="parentForm">
+  @if(label){
+  <label class="label--style {{ labelClass }}">{{ label }}</label>
+  }
+  <input
+    appControlErrors
+    appPhoneMask
+    [customErrors]="this.customErrors"
+    #input
+    type="text"
+    [class]="className"
+    [formControlName]="controlName"
+    [placeholder]="placeholder"
+    [value]="value"
+    [required]="required"
+    [pattern]="pattern"
+    [readonly]="readonly"
+    [ngClass]="ngClass"
+    [name]="name"
+    [ngStyle]="styles"
+    [errorTitle]="errorTitle"
+    [maxLength]="11"
+  />
+</div>

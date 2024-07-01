@@ -49,7 +49,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseRouting();
 

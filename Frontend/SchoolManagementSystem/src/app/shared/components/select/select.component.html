@@ -1,0 +1,22 @@
+<div class="d-flex flex-column" [formGroup]="parentForm">
+  @if(label){
+  <label class="label--style  {{ labelClass }}">{{ label }}</label>
+  }
+  <div class="position-relative">
+    <ng-content></ng-content>
+    <select
+      appControlErrors
+      [value]="value"
+      [formControlName]="controlName"
+      [class]="className"
+      [errorTitle]="errorTitle"
+      [attr.data-testid]="testId"
+    >
+      @if(placeholder){
+      <option value="">{{ placeholder }}</option>
+      } @for(option of options; track option){
+      <option [value]="option.value">{{ option.viewValue }}</option>
+      }
+    </select>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div
+  class="d-flex flex-column"
+  [formGroup]="parentForm"
+  appControlErrorContainer
+>
+  @if(label){
+  <label class="label--style {{ labelClass }}">{{ label }}</label>
+  }
+  <textarea
+    appControlErrors
+    [name]="name"
+    [formControlName]="controlName"
+    [cols]="column"
+    [rows]="row"
+    [errorTitle]="errorTitle"
+    [class]="className"
+    [placeholder]="placeholder"
+    [value]="value"
+    [attr.data-testid]="testId"
+  ></textarea>
+</div>

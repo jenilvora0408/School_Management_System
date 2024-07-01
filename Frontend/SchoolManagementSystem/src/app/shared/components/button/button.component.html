@@ -1,0 +1,15 @@
+<button
+  [type]="type"
+  [disabled]="disabled"
+  [title]="title"
+  [class]="className"
+  (click)="handleClick()"
+>
+  @if(iconClass !== '' && leftIcon){
+  <i [class]="iconClass"></i>
+  }
+  {{ label }}
+  @if(iconClass !== '' && !leftIcon){
+  <i [class]="iconClass"></i>
+  }
+</button>

@@ -9,7 +9,7 @@ public class ResponseHelper
 {
     public static IActionResult CreatedResponse<T>(T? data, string message)
     {
-        ApiResponse<T> result = new()
+        ApiResponse result = new()
         {
             StatusCode = (int)HttpStatusCode.Created,
             Message = message,
@@ -21,7 +21,7 @@ public class ResponseHelper
 
     public static IActionResult SuccessResponse<T>(T? data, string message = SystemConstants.SUCCESS)
     {
-        ApiResponse<T> result = new()
+        ApiResponse result = new()
         {
             StatusCode = (int)HttpStatusCode.OK,
             Message = message,

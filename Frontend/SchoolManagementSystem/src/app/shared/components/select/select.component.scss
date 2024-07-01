@@ -1,0 +1,60 @@
+.app-select {
+  border-radius: 10px;
+  color: #6c4e87;
+  padding: 12px 15px 12px 15px;
+  border: 1px solid #dee2e6;
+  font-size: 13px;
+  width: 100%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../../../../assets/images/ic-arrow-down-dark.svg");
+  background-repeat: no-repeat;
+  background-position-x: 96.4%;
+  background-position-y: 19px;
+}
+.app-select:focus {
+  border: 2px solid #6c4e87;
+  outline: 0;
+}
+.app-select option {
+  padding: 12px 15px 12px 15px;
+  height: 500px;
+}
+.app-select option:hover {
+  background-color: #f0edf3;
+}
+option {
+  padding: 10px;
+}
+.shadow-select {
+  border-radius: 33px;
+  padding: 18px 30px 18px 20px;
+  border: none;
+  width: 200px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../../../../assets/images/ic-arrow-down-dark.svg");
+  background-repeat: no-repeat;
+  background-position-x: 92.4%;
+  background-position-y: 28px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+.shadow-select:focus {
+  outline: 0;
+}
+@media screen and (max-width: 425px) {
+  .shadow-select {
+    padding: 10px 30px 10px 20px;
+    font-size: 13px;
+  }
+}

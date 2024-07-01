@@ -1,8 +1,16 @@
 namespace Entities.DTOs;
 
-public class ApiResponse<T> : BaseResponse
+public class ApiResponse
 {
-    public T? Data { get; set; }
+    public string Message { get; set; } = string.Empty;
+
+    public bool Success { get; set; }
+
+    public object? Errors { get; set; }
+
+    public object? Data { get; set; }
+
+    public int StatusCode { get; set; }
 }
 
 

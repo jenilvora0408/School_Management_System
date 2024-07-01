@@ -1,0 +1,26 @@
+<div class="d-flex flex-column" [formGroup]="parentForm">
+  @if(label){
+  <label class="label--style {{ labelClass }}">{{ label }}</label>
+  }
+  <input
+    #input
+    appControlErrors
+    appAlphabetOnly
+    [type]="type"
+    [class]="className"
+    [formControlName]="controlName"
+    [placeholder]="placeholder"
+    [value]="value"
+    [required]="required"
+    [pattern]="pattern"
+    [readonly]="readonly"
+    [ngClass]="ngClass"
+    [maxlength]="maxlength"
+    [minlength]="minlength"
+    [name]="name"
+    [ngStyle]="styles"
+    [errorTitle]="errorTitle"
+    (keyup)="onKeyUp(input.value)"
+    [attr.data-testid]="testId"
+  />
+</div>

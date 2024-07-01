@@ -1,0 +1,66 @@
+.admit-request-container {
+  height: 100vh;
+  width: 100vw;
+  background-color: #dcdddf;
+}
+.theme-img {
+  height: 100%;
+}
+.theme-img img {
+  height: 100%;
+}
+.form-container .personal-info {
+  padding: 5%;
+}
+app-input,
+ngx-intl-tel-input,
+app-drop-down,
+.input-group,
+.gender-list,
+app-phone-number-input,
+app-select {
+  width: 22vw !important;
+}
+@media only screen and (max-width: 992px) {
+  .form-container,
+  form {
+    width: 100%;
+  }
+  app-input,
+  ngx-intl-tel-input,
+  app-drop-down,
+  .input-group,
+  .gender-list,
+  app-phone-number-input,
+  app-select {
+    width: 44vw !important;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .form-container,
+  form {
+    overflow-y: scroll;
+  }
+  .names,
+  .contact-info,
+  .birth-info,
+  .org-info,
+  .student-info {
+    flex-direction: column;
+  }
+  app-input,
+  ngx-intl-tel-input,
+  app-drop-down,
+  .input-group,
+  .gender-list,
+  app-phone-number-input,
+  app-select {
+    width: 90vw !important;
+  }
+}
+@media only screen and (min-width: 500px) {
+  .form-container {
+    display: flex;
+    align-items: center;
+  }
+}

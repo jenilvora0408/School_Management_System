@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/scss/bootstrap";
+@import "../node_modules//ngx-toastr//toastr.css";
+
+form.ng-submitted input.ng-invalid,
+input.ng-touched.ng-invalid,
+form.ng-submitted textarea.ng-invalid,
+textarea.ng-touched.ng-invalid,
+form.ng-submitted select.ng-invalid,
+select.ng-touched.ng-invalid {
+  border: 1px solid red;
+}

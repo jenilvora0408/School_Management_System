@@ -1,64 +1,34 @@
-$base-color: #583676;
+$purple: #6c4e87;
+$purple-hover: #61467a;
+$purple-active: #563e6c;
+$white: #fff;
+$white-hover: #f0edf3;
+$white-active: #e2dce7;
 
-.register-btn {
-  color: black;
-  padding: 9px 0px;
+.text-btn {
+  color: $purple;
+  padding: 9px 15px;
   width: 100%;
   border-radius: 70px;
-  border: 1px solid white;
-  background-color: white;
-  font-size: 14px;
-  font-weight: bold;
+  border: none;
+  color: $white;
+  font-size: 15px;
+  background-color: $purple;
 }
-.register-btn:active {
-  background-color: #e8e8e8;
-  border: 1px solid black;
+.text-btn:active {
+  background-color: $purple-active;
 }
-.register-btn:hover {
-  border: 1px solid black;
-}
-.register-business-btn {
-  background-color: #f4e8ff;
-}
-.register-business-btn:active {
-  background-color: #e9d2ff !important;
-}
-.find-table-btn {
-  padding: 0.8rem 2rem;
-  font-size: 12px;
-}
-.business-hours-cancel-btn {
-  width: 100px !important;
-  border: 1px solid $base-color;
-  color: $base-color;
-}
-.business-hours-submit-btn {
-  width: 120px;
-  background-color: $base-color;
-  color: white;
-}
-.completed-business-form-btn {
-  color: $base-color;
-  border: 1px solid $base-color;
-  border-radius: 25px;
-  padding: 5px 8px;
-}
-.find-table-btn {
-  padding: 1rem 3rem;
+@media screen and (max-width: 768px) {
+  .text-btn {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    font-size: 14px !important;
+  }
 }
 @media screen and (max-width: 576px) {
-  .register-business-btn {
-    padding: 0.5rem !important;
-  }
-  .find-table-btn {
-    padding: 10px 30px 10px 20px;
-  }
-}
-.cancel-btn-padding {
-  padding: 0.5rem 3rem;
-}
-@media (max-width: 425px) {
-  .cancel-btn-padding {
-    padding: 0.5rem 1.5rem;
+  .text-btn {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    font-size: 13px !important;
   }
 }

@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row auth-row">
+    @if(shouldRenderImage()){
+    <div class="col-md-6">
+      <div class="auth-left">
+        <img class="school-logo" src="/assets/images/school-logo.png" alt="" />
+      </div>
+    </div>
+    }
+
+    <div
+      [ngClass]="{
+        'col-md-6': shouldRenderImage(),
+        'col-md-12': !shouldRenderImage()
+      }"
+    >
+      <div
+        class="d-flex align-items-center justify-content-center"
+        [ngClass]="{
+          'auth-right': shouldRenderImage(),
+          '': !shouldRenderImage()
+        }"
+      >
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

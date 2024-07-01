@@ -1,0 +1,175 @@
+<div
+  class="admit-request-container g-0 d-flex justify-content-center overflow-hidden"
+>
+  <div class="col-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+    <div class="form-container h-100">
+      <form
+        action=""
+        class="d-flex"
+        [formGroup]="admitRequestForm"
+        (submit)="onSubmit()"
+      >
+        <div class="personal-info d-flex flex-column gap-3">
+          <!-- <div class="d-flex gap-3"> -->
+          <h3 class="text-center">Admit Request</h3>
+          <!-- </div> -->
+
+          <div class="names d-flex gap-3">
+            <app-input
+              [label]="'First Name'"
+              title="First Name"
+              type="name"
+              className="inputField py-2 fs-6 form-control"
+              placeholder="John"
+              [parentForm]="admitRequestForm"
+              controlName="firstName"
+              errorTitle="First Name"
+            ></app-input>
+            <app-input
+              [label]="'Last Name'"
+              title="Last Name"
+              type="name"
+              className="inputField py-2 fs-6 form-control"
+              placeholder="Donohue"
+              [parentForm]="admitRequestForm"
+              controlName="lastName"
+              errorTitle="Last Name"
+            ></app-input>
+          </div>
+          <div class="contact-info d-flex gap-3">
+            <div class="d-flex flex-column">
+              <app-phone-number-input
+                label="Phone Number"
+                errorTitle="Phone Number"
+                placeholder="Enter Phone Number"
+                [parentForm]="admitRequestForm"
+                controlName="phoneNumber"
+                type="text"
+                className="app-input form-control"
+              />
+            </div>
+            <app-input
+              [label]="'Email'"
+              title="Email"
+              type="email"
+              className="inputField py-2 fs-6"
+              placeholder="john.donohue@gmail.com"
+              [parentForm]="admitRequestForm"
+              controlName="email"
+              errorTitle="Email"
+            ></app-input>
+          </div>
+          <div class="geographic-info">
+            <div class="geographic-info">
+              <app-textarea
+                label="Address"
+                controlName="address"
+                [parentForm]="admitRequestForm"
+                className="app-textarea form-control"
+                (click)="openAddressModal()"
+                [value]="combinedAddressValue"
+                errorTitle="Address"
+                placeholder=""
+              />
+            </div>
+          </div>
+          <div class="birth-info d-flex gap-3">
+            <div class="dob">
+              <label for="dob">Date of Birth</label>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  name="dp"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                  (click)="d.toggle()"
+                />
+              </div>
+            </div>
+            <div class="gender-list">
+              <app-select
+                [options]="genderOptions"
+                controlName="gender"
+                [parentForm]="admitRequestForm"
+                placeholder="Select a Type"
+                className="py-2 form-control"
+                label="Gender"
+                errorTitle="Gender"
+              />
+            </div>
+          </div>
+          <div class="org-info d-flex gap-3">
+            <app-select
+              [options]="bloodGroupOptions"
+              controlName="bloodGroup"
+              [parentForm]="admitRequestForm"
+              placeholder="Select a Type"
+              className="py-2 form-control"
+              label="Blood Group"
+              errorTitle="Blood Group"
+            />
+
+            <app-select
+              [options]="requestRoleOptions"
+              controlName="admitRequestRole"
+              [parentForm]="admitRequestForm"
+              placeholder="Select a Type"
+              className="py-2 form-control"
+              label="Request a Role"
+              errorTitle="Request Role"
+            />
+          </div>
+          <div class="student-info d-flex gap-3">
+            <app-select
+              [options]="classOptions"
+              controlName="class"
+              [parentForm]="admitRequestForm"
+              placeholder="Select a Type"
+              className="py-2 form-control"
+              label="Class"
+              errorTitle="Class"
+            />
+
+            <app-select
+              [options]="mediumOptions"
+              controlName="medium"
+              [parentForm]="admitRequestForm"
+              placeholder="Select a Type"
+              className="py-2 form-control"
+              label="Medium"
+              errorTitle="Medium"
+            />
+          </div>
+
+          <div class="avatar-container">
+            <label for="avatar">Upload Photo</label>
+            <input
+              type="file"
+              (change)="handlePictureFileChange($event)"
+              #photoInput
+              id="photoInput"
+              accept="image/*"
+              class="form-control"
+              formControlName="avatar"
+            />
+          </div>
+
+          <div class="text-center">
+            <app-button
+              label="Submit Request"
+              className="text-btn w-100 mt-2"
+              (btnClick)="(onSubmit)"
+              type="button"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div
+    class="theme-img col-0 col-md-0 col-lg-6 col-xl-6 col-xxl-6 d-flex align-items-center"
+  >
+    <img class="img-fluid" src="assets/images/admit2.png" alt="" />
+  </div>
+</div>

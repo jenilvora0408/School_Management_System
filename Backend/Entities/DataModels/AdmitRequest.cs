@@ -25,6 +25,10 @@ public class AdmitRequest : AuditableEntity<long>
 
     public byte AdmitRequestRoleId { get; set; }
 
+    public int? ClassId { get; set; }
+
+    public byte? MediumId { get; set; }
+
     #region Foreign_Keys
 
     [ForeignKey(nameof(GenderId))]
@@ -35,6 +39,12 @@ public class AdmitRequest : AuditableEntity<long>
 
     [ForeignKey(nameof(AdmitRequestRoleId))]
     public virtual UserRole AdmitRequestRoles { get; set; } = null!;
+
+    [ForeignKey(nameof(ClassId))]
+    public virtual Class? Classes { get; set; }
+
+    [ForeignKey(nameof(MediumId))]
+    public virtual Medium? Mediums { get; set; }
 
     #endregion
 }

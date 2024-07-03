@@ -7,7 +7,7 @@ $white-active: #e2dce7;
 
 .text-btn {
   color: $purple;
-  padding: 9px 15px;
+  padding: 9px 20px;
   width: 100%;
   border-radius: 70px;
   border: none;
@@ -17,18 +17,4 @@ $white-active: #e2dce7;
 }
 .text-btn:active {
   background-color: $purple-active;
-}
-@media screen and (max-width: 768px) {
-  .text-btn {
-    padding-top: 7px !important;
-    padding-bottom: 7px !important;
-    font-size: 14px !important;
-  }
-}
-@media screen and (max-width: 576px) {
-  .text-btn {
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-    font-size: 13px !important;
-  }
 }

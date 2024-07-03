@@ -91,7 +91,15 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<AdmitRequest> AdmitRequests { get; set; }
 
-    public virtual DbSet<AdmitRequestApproval> AdmitRequestsApproval { get; set; }
+    public virtual DbSet<AdmitRequestApproval> AdmitRequestsApprovals { get; set; }
+
+    public virtual DbSet<Class> Classes { get; set; }
+
+    public virtual DbSet<Medium> Mediums { get; set; }
+
+    public virtual DbSet<Student> Students { get; set; }
+
+    public virtual DbSet<Subject> Subjects { get; set; }
 
     #endregion
 
@@ -201,6 +209,80 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<Class>(entity =>
+        {
+            entity.ToTable("Classes");
+            entity.Property(e => e.ClassName).IsRequired().HasMaxLength(12);
+
+            entity.HasOne(u => u.ClassTeachers)
+                .WithMany()
+                .HasForeignKey(u => u.ClassTeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Medium>(entity =>
+        {
+            entity.ToTable("Mediums");
+            entity.Property(e => e.Title).IsRequired().HasMaxLength(10);
+        });
+
+        modelBuilder.Entity<Student>(entity =>
+        {
+            entity.ToTable("Students");
+            entity.Property(e => e.StudentName).IsRequired().HasMaxLength(18);
+
+            entity.HasOne(u => u.Classes)
+                .WithMany()
+                .HasForeignKey(u => u.ClassId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.Mediums)
+                .WithMany()
+                .HasForeignKey(u => u.MediumId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Subject>(entity =>
+        {
+            entity.ToTable("Subjects");
+            entity.Property(e => e.SubjectName).IsRequired().HasMaxLength(20);
+
+            entity.HasOne(u => u.SubjectTeacher)
+                .WithMany()
+                .HasForeignKey(u => u.SubjectTeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
         #region Seeders
 
         modelBuilder.Entity<Gender>().HasData(
@@ -230,9 +312,28 @@ public class AppDbContext : DbContext
                 new User { Id = 1, FirstName = "Anurag", LastName = "Patwardhan", Email = "anurag@gmail.com", Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2", Headline = "Principal since 2010", PhoneNumber = "8957486525", Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital", DateOfBirth = null, RoleId = 1, GenderId = 1, Avatar = "/images/Principal-photo.jpg", BloodGroupId = 5, CreatedOn = DateTime.UtcNow }
             );
 
+        modelBuilder.Entity<Medium>().HasData(
+            new Medium { Id = 1, Title = "English" },
+            new Medium { Id = 2, Title = "Hindi" },
+            new Medium { Id = 3, Title = "Gujarati" }
+        );
+
+        modelBuilder.Entity<Subject>().HasData(
+            new Subject { Id = 1, SubjectName = "Physics", SubjectTeacherId = null },
+            new Subject { Id = 2, SubjectName = "Chemistry", SubjectTeacherId = null },
+            new Subject { Id = 3, SubjectName = "Biology", SubjectTeacherId = null },
+            new Subject { Id = 4, SubjectName = "Maths", SubjectTeacherId = null },
+            new Subject { Id = 5, SubjectName = "Physics Practical", SubjectTeacherId = null },
+            new Subject { Id = 6, SubjectName = "Chemistry Practical", SubjectTeacherId = null }
+        );
+
+        modelBuilder.Entity<Class>().HasData(
+            new Class { Id = 1, ClassName = "Class-11", ClassStrength = 60, ClassTeacherId = null },
+            new Class { Id = 2, ClassName = "Class-12", ClassStrength = 120, ClassTeacherId = null }
+        );
+
         #endregion
     }
 
     #endregion
 }
-

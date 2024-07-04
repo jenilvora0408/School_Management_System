@@ -52,7 +52,7 @@ public class ExceptionMiddleware
 
         ApiResponse errorResponse = new()
         {
-            Message = error.InnerException?.Message ?? error.Message,
+            Errors = error.InnerException?.Message ?? error.Message,
             StatusCode = error switch
             {
                 CustomException ce => ce.StatusCode,

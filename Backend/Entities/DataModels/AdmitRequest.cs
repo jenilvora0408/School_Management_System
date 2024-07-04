@@ -15,11 +15,11 @@ public class AdmitRequest : AuditableEntity<long>
 
     public string Address { get; set; } = null!;
 
-    public DateTime DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 
     public byte GenderId { get; set; }
 
-    public string Avatar { get; set; } = null!;
+    public string? Avatar { get; set; }
 
     public byte BloodGroupId { get; set; }
 

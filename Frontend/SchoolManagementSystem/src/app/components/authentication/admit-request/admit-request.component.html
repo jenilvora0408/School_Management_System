@@ -8,11 +8,10 @@
         class="d-flex"
         [formGroup]="admitRequestForm"
         (submit)="onSubmit()"
+        appFormSubmit
       >
         <div class="personal-info d-flex flex-column gap-3">
-          <!-- <div class="d-flex gap-3"> -->
           <h3 class="text-center">Admit Request</h3>
-          <!-- </div> -->
 
           <div class="names d-flex gap-3">
             <app-input
@@ -66,7 +65,6 @@
                 controlName="address"
                 [parentForm]="admitRequestForm"
                 className="app-textarea form-control"
-                (click)="openAddressModal()"
                 [value]="combinedAddressValue"
                 errorTitle="Address"
                 placeholder=""
@@ -80,17 +78,25 @@
                 <input
                   class="form-control"
                   placeholder="yyyy-mm-dd"
+                  controlName="dateOfBirth"
                   name="dp"
                   ngbDatepicker
                   #d="ngbDatepicker"
                   (click)="d.toggle()"
+                  (dateSelect)="onDateSelect($event)"
+                  [minDate]="{ year: 1996, month: 1, day: 1 }"
+                  [maxDate]="{
+                    year: currentYear,
+                    month: currentMonth,
+                    day: currentDay
+                  }"
                 />
               </div>
             </div>
             <div class="gender-list">
               <app-select
                 [options]="genderOptions"
-                controlName="gender"
+                controlName="genderId"
                 [parentForm]="admitRequestForm"
                 placeholder="Select a Type"
                 className="py-2 form-control"
@@ -102,7 +108,7 @@
           <div class="org-info d-flex gap-3">
             <app-select
               [options]="bloodGroupOptions"
-              controlName="bloodGroup"
+              controlName="bloodGroupId"
               [parentForm]="admitRequestForm"
               placeholder="Select a Type"
               className="py-2 form-control"
@@ -112,18 +118,20 @@
 
             <app-select
               [options]="requestRoleOptions"
-              controlName="admitRequestRole"
+              controlName="admitRequestRoleId"
               [parentForm]="admitRequestForm"
               placeholder="Select a Type"
               className="py-2 form-control"
               label="Request a Role"
               errorTitle="Request Role"
+              (change)="toggleStudentInfo($event)"
             />
           </div>
+          @if(showStudentInfo){
           <div class="student-info d-flex gap-3">
             <app-select
               [options]="classOptions"
-              controlName="class"
+              controlName="classId"
               [parentForm]="admitRequestForm"
               placeholder="Select a Type"
               className="py-2 form-control"
@@ -133,7 +141,7 @@
 
             <app-select
               [options]="mediumOptions"
-              controlName="medium"
+              controlName="mediumId"
               [parentForm]="admitRequestForm"
               placeholder="Select a Type"
               className="py-2 form-control"
@@ -141,6 +149,7 @@
               errorTitle="Medium"
             />
           </div>
+          }
 
           <div class="avatar-container">
             <label for="avatar">Upload Photo</label>
@@ -159,8 +168,7 @@
             <app-button
               label="Submit Request"
               className="text-btn w-100 mt-2"
-              (btnClick)="(onSubmit)"
-              type="button"
+              type="submit"
             />
           </div>
         </div>

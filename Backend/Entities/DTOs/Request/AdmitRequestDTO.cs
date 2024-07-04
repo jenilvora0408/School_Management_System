@@ -23,16 +23,19 @@ public class AdmitRequestDTO : IMapFrom
 
     public string Address { get; set; } = null!;
 
-    [Required]
-    public DateTime DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 
     [Required]
     public byte GenderId { get; set; }
 
-    public string Avatar { get; set; } = null!;
+    public string? Avatar { get; set; }
 
     [Required]
     public byte BloodGroupId { get; set; }
+
+    public int? ClassId { get; set; }
+
+    public byte? MediumId { get; set; }
 
     [Required]
     public byte AdmitRequestRoleId { get; set; }

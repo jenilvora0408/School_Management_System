@@ -16,4 +16,9 @@ public interface IUnitOfWork
 
     public IUserRoleRepository UserRoleRepository { get; }
 
+    public IClassRepository ClassRepository { get; }
+
+    public IStudentRepository StudentRepository { get; }
+
+    public IMediumRepository MediumRepository { get; }
 }

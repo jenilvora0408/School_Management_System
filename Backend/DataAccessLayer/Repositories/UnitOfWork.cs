@@ -13,6 +13,10 @@ public class UnitOfWork : IUnitOfWork
     private IGenderRepository _genderRepository;
     private IBloodGroupRepository _bloodGroupRepository;
     private IUserRoleRepository _userRoleRepository;
+    private IClassRepository _classRepository;
+    private IStudentRepository _studentRepository;
+    private ISubjectRepository _subjectRepository;
+    private IMediumRepository _mediumRepository;
 
     #endregion
 
@@ -82,6 +86,38 @@ public class UnitOfWork : IUnitOfWork
         get
         {
             return _userRoleRepository ??= new UserRoleRepository(_dbContext);
+        }
+    }
+
+    public IClassRepository ClassRepository
+    {
+        get
+        {
+            return _classRepository ??= new ClassRepository(_dbContext);
+        }
+    }
+
+    public IStudentRepository StudentRepository
+    {
+        get
+        {
+            return _studentRepository ??= new StudentRepository(_dbContext);
+        }
+    }
+
+    public ISubjectRepository SubjectRepository
+    {
+        get
+        {
+            return _subjectRepository ??= new SubjectRepository(_dbContext);
+        }
+    }
+
+    public IMediumRepository MediumRepository
+    {
+        get
+        {
+            return _mediumRepository ??= new MediumRepository(_dbContext);
         }
     }
 

@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 import { DropdownItem } from '../../../shared/models/drop-down-item';
-import {
-  NgbDateStruct,
-  NgbDatepicker,
-  NgbDatepickerModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   FormGroup,
   FormControl,
@@ -20,6 +16,10 @@ import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { TextareaComponent } from '../../../shared/components/textarea/textarea.component';
 import { PhoneNumberInputComponent } from '../../../shared/components/phone-number-input/phone-number-input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { CommonService } from '../../../shared/services/common.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-admit-request',
@@ -49,6 +49,7 @@ export class AdmitRequestComponent {
   mediumOptions: DropdownItem[] = [];
   combinedAddressValue: string = '';
   model!: NgbDateStruct;
+  showStudentInfo: boolean = false;
 
   admitRequestForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -68,24 +69,78 @@ export class AdmitRequestComponent {
       ])
     ),
     address: new FormControl('', Validators.required),
-    birthDate: new FormControl('', Validators.required),
-    gender: new FormControl('', Validators.required),
-    bloodGroup: new FormControl('', Validators.required),
-    admitRequestRole: new FormControl('', Validators.required),
-    class: new FormControl('', Validators.required),
-    medium: new FormControl('', Validators.required),
+    dateOfBirth: new FormControl(),
+    genderId: new FormControl('', Validators.required),
+    bloodGroupId: new FormControl('', Validators.required),
+    admitRequestRoleId: new FormControl('', Validators.required),
+    classId: new FormControl(''),
+    mediumId: new FormControl(''),
     avatar: new FormControl(),
   });
 
   emailValidationMsg: string = ValidationMessageConstant.email;
+  currentDay: number = new Date().getDay();
+  currentMonth: number = new Date().getMonth();
+  currentYear: number = new Date().getFullYear();
 
-  constructor() {}
+  constructor(
+    private commonService: CommonService,
+    private authService: AuthenticationService,
+    private notificationsService: NotificationService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.commonService.getCommonEntityList().subscribe(
+      (response: any) => {
+        this.genderOptions = response.data.listOfGenders.map((item: any) => ({
+          value: item.id,
+          viewValue: item.title,
+        }));
 
-  onSubmit() {}
+        this.bloodGroupOptions = response.data.listOfBloodGroups.map(
+          (item: any) => ({
+            value: item.id,
+            viewValue: item.title,
+          })
+        );
 
-  openAddressModal() {}
+        this.classOptions = response.data.listOfClasses.map((item: any) => ({
+          value: item.id,
+          viewValue: item.title,
+        }));
+
+        this.mediumOptions = response.data.listOfMediums.map((item: any) => ({
+          value: item.id,
+          viewValue: item.title,
+        }));
+      },
+      (error) => {
+        console.error('Error occurred list of genders', error);
+      }
+    );
+  }
+
+  onSubmit() {
+    this.admitRequestForm.markAllAsTouched();
+    if (
+      this.admitRequestForm.value.classId == '' ||
+      this.admitRequestForm.value.mediumId == '' ||
+      this.admitRequestForm.value.admitRequestRoleId == '2'
+    ) {
+      this.admitRequestForm.value.classId = null;
+      this.admitRequestForm.value.mediumId = null;
+    }
+    if (!this.admitRequestForm.valid) return;
+    this.authService.createAdmitRequest(this.admitRequestForm.value).subscribe({
+      next: (res: any) => {
+        if (res.success) this.notificationsService.success(res.message);
+        else this.notificationsService.error(res.errors);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+  }
 
   handlePictureFileChange(event: any) {
     const file = event.target.files?.[0];
@@ -96,5 +151,22 @@ export class AdmitRequestComponent {
       this.admitRequestForm.value.avatar = reader.result;
       console.log(this.admitRequestForm.value);
     };
+  }
+
+  onDateSelect(date: any) {
+    const jsDate = this.convertNgbDateToDate(date);
+    this.admitRequestForm.patchValue({ dateOfBirth: jsDate });
+  }
+
+  convertNgbDateToDate(ngbDate: NgbDateStruct): Date {
+    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+  }
+
+  toggleStudentInfo(roleId: any) {
+    if (roleId.target.value === '3') {
+      this.showStudentInfo = true;
+    } else {
+      this.showStudentInfo = false;
+    }
   }
 }

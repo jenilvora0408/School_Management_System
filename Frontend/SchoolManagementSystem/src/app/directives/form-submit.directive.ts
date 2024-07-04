@@ -13,6 +13,7 @@ export class FormSubmitDirective {
   constructor(private host: ElementRef<HTMLFormElement>) {}
 
   get element(): HTMLFormElement {
+    
     return this.host.nativeElement;
   }
 }

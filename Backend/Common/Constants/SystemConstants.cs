@@ -9,4 +9,6 @@ public static class SystemConstants
     public static readonly string CORS_POLICY = "SchoolManagementCors";
 
     public static readonly string CORS_ALLOWED_ORIGIN = "http://localhost:4200";
+
+    public static readonly int PASSWORD_ITERATION = 10;
 }

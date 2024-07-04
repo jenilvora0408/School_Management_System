@@ -3,9 +3,12 @@ using AutoMapper;
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
+using Common.Utils;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
+using Entities.DTOs.Common;
+using static Common.Constants.MessageConstants;
 
 namespace BusinessAccessLayer.Services;
 
@@ -51,6 +54,38 @@ public class UserService : BaseService<User>, IUserService
         AdmitRequest createRequest = _mapper.Map<AdmitRequest>(admitRequestDTO);
         await _unitOfWork.AdmitRequestRepository.AddAsync(createRequest, cancellationToken);
         await _unitOfWork.SaveAsync();
+    }
+
+    public async Task<string> Login(LoginCredentialsDTO userCredential)
+    {
+        User? user = await _commonService.GetUserByEmail(userCredential.Email);
+        if (user == null || !PasswordUtil.VerifyPassword(userCredential.Password, user.Password)) throw new ModelValidationException(ValidationConstants.INVALID_LOGIN_CREDENTIAL);
+
+        await SendOtp(user.Email);
+        return user.FirstName;
+    }
+
+    public async Task SendOtp(string email)
+    {
+        User? user = await _commonService.GetUserByEmail(email);
+        if (user != null)
+        {
+            //generate a random number of six digit
+            Random generator = new Random();
+            user.OTP = generator.Next(100000, 999999).ToString();
+            user.ExpiryTime = DateTime.UtcNow.AddMinutes(10);
+            await UpdateAsync(user);
+            await _unitOfWork.SaveAsync();
+
+            //sent otp in mail
+            MailDTO mailDto = new()
+            {
+                ToEmail = user.Email,
+                Subject = EmailConstants.OTP_SUBJECT,
+                Body = "This Otp is for School Management. <br>" + user.OTP + " <br> It will be valid for 10 minutes only.",
+            };
+            await _mailService.SendMailAsync(mailDto);
+        }
     }
 
     #endregion Http_Methods

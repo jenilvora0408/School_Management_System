@@ -1,5 +1,6 @@
 using API.Helpers;
 using BusinessAccessLayer.Interface;
+using Common.Constants;
 using Common.Exceptions;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -28,5 +29,11 @@ public class UserController : ControllerBase
 
         await _userService.CreateAdmitRequest(request, cancellationToken);
         return ResponseHelper.SuccessResponse<object>(null, message: "Admit request created successfully!");
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginCredentialsDTO userCredential)
+    {
+        return ResponseHelper.SuccessResponse(await _userService.Login(userCredential), MessageConstants.SuccessMessage.OTP_SENT);
     }
 }

@@ -13,6 +13,11 @@ public static class MessageConstants
         public const string STRING_VALIDATION = "String cannot be empty or have white space";
     }
 
+    public static class SuccessMessage
+    {
+        public const string OTP_SENT = "OTP has been sent to your registered email.";
+    }
+
     #endregion Error_Messages
 
     #region Validation_Messages
@@ -32,7 +37,22 @@ public static class MessageConstants
         public const string ACCESS_BLOCKED = "Your access to this portal has been blocked!";
 
         public const string ADMIT_REQUEST_ALREADY_EXISTS = "A request from this email is already present. Please wait while we update you further!";
+
+        public const string INVALID_LOGIN_CREDENTIAL = "Invalid username or password.";
     }
 
     #endregion Validation_Messages
+
+    #region Email_Constants
+
+    public static class EmailConstants
+    {
+        public const string GENERIC_SUBJECT = "School || noreply email";
+
+        public const string OTP_SUBJECT = "School || Verification OTP || No Reply";
+
+        public const string RESET_PASSWORD_SUBJECT = "School || ResetPassword || No Reply";
+    }
+
+    #endregion Email_Constants
 }

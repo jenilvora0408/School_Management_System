@@ -17,6 +17,8 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit(): void {}
 
   shouldRenderImage(): boolean {
+    console.log(this.router.url !== '/admit-request');
+
     return this.router.url !== '/admit-request';
   }
 }

@@ -12,4 +12,6 @@ export class ApiCallConstant {
   //User Controller name
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';
+
+  public static readonly LOGIN_URL = this.USER_CONTROLLER + 'login';
 }

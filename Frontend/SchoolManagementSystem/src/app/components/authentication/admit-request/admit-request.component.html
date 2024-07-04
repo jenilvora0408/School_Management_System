@@ -82,7 +82,7 @@
                   name="dp"
                   ngbDatepicker
                   #d="ngbDatepicker"
-                  (click)="d.toggle()"
+                  (keyup)="d.toggle()"
                   (dateSelect)="onDateSelect($event)"
                   [minDate]="{ year: 1996, month: 1, day: 1 }"
                   [maxDate]="{

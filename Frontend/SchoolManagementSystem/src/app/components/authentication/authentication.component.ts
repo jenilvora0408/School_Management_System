@@ -15,10 +15,4 @@ export class AuthenticationComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {}
-
-  shouldRenderImage(): boolean {
-    console.log(this.router.url !== '/admit-request');
-
-    return this.router.url !== '/admit-request';
-  }
 }

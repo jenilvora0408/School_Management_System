@@ -8,6 +8,7 @@ using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
 using Entities.DTOs.Common;
+using Microsoft.AspNetCore.Hosting;
 using static Common.Constants.MessageConstants;
 
 namespace BusinessAccessLayer.Services;
@@ -20,13 +21,17 @@ public class UserService : BaseService<User>, IUserService
     public readonly IUnitOfWork _unitOfWork;
     private readonly ICommonService _commonService;
     private readonly IMapper _mapper;
+    private readonly IHostingEnvironment _environment;
+    private readonly IJwtManagerService _jwtManagerService;
 
-    public UserService(IUnitOfWork unitOfWork, IMapper mapper, IMailService mailService, ICommonService commonService) : base(unitOfWork.UserRepository, unitOfWork)
+    public UserService(IUnitOfWork unitOfWork, IMapper mapper, IMailService mailService, ICommonService commonService, IHostingEnvironment environment, IJwtManagerService jwtManagerService) : base(unitOfWork.UserRepository, unitOfWork)
     {
         _mailService = mailService;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _commonService = commonService;
+        _environment = environment;
+        _jwtManagerService = jwtManagerService;
     }
 
     #endregion Constructor
@@ -82,10 +87,27 @@ public class UserService : BaseService<User>, IUserService
             {
                 ToEmail = user.Email,
                 Subject = EmailConstants.OTP_SUBJECT,
-                Body = "This Otp is for School Management. <br>" + user.OTP + " <br> It will be valid for 10 minutes only.",
+                Body = MailBodyUtil.SendOtpForAuthenticationBody(user.OTP, user.FirstName + " " + user.LastName, _environment.WebRootPath)
             };
             await _mailService.SendMailAsync(mailDto);
         }
+    }
+
+    public async Task<TokensDTO> VerifyOtp(LoginOtpDTO otpData)
+    {
+        User? user = await _commonService.GetUserByEmail(otpData.Email) ?? throw new ModelValidationException(ValidationConstants.DEFAULT_MODELSTATE);
+
+        if (user.OTP != otpData.Otp || user.ExpiryTime < DateTime.UtcNow) throw new ModelValidationException(ValidationConstants.INVALID_OTP);
+
+        user.OTP = null;
+        user.ExpiryTime = null;
+
+        await _unitOfWork.UserRepository.UpdateAsync(user);
+        await _unitOfWork.SaveAsync();
+
+        TokensDTO token = _jwtManagerService.GenerateToken(user) ?? throw new ModelValidationException(ValidationConstants.INVALID_OTP);
+
+        return token;
     }
 
     #endregion Http_Methods

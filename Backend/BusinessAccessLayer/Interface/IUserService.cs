@@ -8,4 +8,6 @@ public interface IUserService : IBaseService<User>
     Task CreateAdmitRequest(AdmitRequestDTO admitRequestDTO, CancellationToken cancellationToken);
 
     Task<string> Login(LoginCredentialsDTO userCredential);
+
+    Task<TokensDTO> VerifyOtp(LoginOtpDTO otpData);
 }

@@ -11,11 +11,17 @@ public static class MessageConstants
         public const string INTERNAL_SERVER = "An error occurred while processing the request";
 
         public const string STRING_VALIDATION = "String cannot be empty or have white space";
+
+        public const string INVALID_TOKEN = "Invalid Token!";
+
+        public const string UNAUTHORIZE = "Unauthorize access!";
     }
 
     public static class SuccessMessage
     {
         public const string OTP_SENT = "OTP has been sent to your registered email.";
+
+        public const string LOGIN_SUCCESS = "Logged in Sucessfully!";
     }
 
     #endregion Error_Messages
@@ -39,6 +45,10 @@ public static class MessageConstants
         public const string ADMIT_REQUEST_ALREADY_EXISTS = "A request from this email is already present. Please wait while we update you further!";
 
         public const string INVALID_LOGIN_CREDENTIAL = "Invalid username or password.";
+
+        public const string DEFAULT_MODELSTATE = "Model state is Invalid!";
+
+        public const string INVALID_OTP = "OTP is Invalid!";
     }
 
     #endregion Validation_Messages

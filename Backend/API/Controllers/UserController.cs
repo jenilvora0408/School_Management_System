@@ -36,4 +36,10 @@ public class UserController : ControllerBase
     {
         return ResponseHelper.SuccessResponse(await _userService.Login(userCredential), MessageConstants.SuccessMessage.OTP_SENT);
     }
+
+    [HttpPost("verify-otp")]
+    public async Task<IActionResult> VerifyOtp(LoginOtpDTO otpData)
+    {
+        return ResponseHelper.SuccessResponse(await _userService.VerifyOtp(otpData), MessageConstants.SuccessMessage.LOGIN_SUCCESS);
+    }
 }

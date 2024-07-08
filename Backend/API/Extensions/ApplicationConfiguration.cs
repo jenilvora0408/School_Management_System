@@ -69,6 +69,7 @@ public static class ApplicationConfiguration
         services.AddScoped<IMailService, MailService>();
         services.AddScoped<ICommonService, CommonService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IJwtManagerService, JwtManagerService>();
 
         services.AddHttpContextAccessor();
     }

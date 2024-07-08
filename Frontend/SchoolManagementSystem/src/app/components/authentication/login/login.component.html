@@ -18,6 +18,7 @@
             class="d-flex flex-column align-items-center justify-content-center"
             [formGroup]="loginForm"
             (submit)="onSubmit()"
+            appFormSubmit
           >
             <h1 class="text-center mb-1 auth-heading">Login To Your Account</h1>
             <p class="text-center mb-5">
@@ -38,7 +39,7 @@
                 placeholder="Email Address"
                 [parentForm]="loginForm"
                 controlName="email"
-                icon="bi bi-envelope"
+                errorTitle="Email"
               ></app-input>
 
               <app-input
@@ -49,6 +50,7 @@
                 placeholder="Password"
                 [parentForm]="loginForm"
                 controlName="password"
+                errorTitle="Password"
               ></app-input>
 
               <p class="text-end mt-1">

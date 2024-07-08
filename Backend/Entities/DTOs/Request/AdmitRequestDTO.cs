@@ -1,13 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using AutoMapper;
 using Common.Validators;
 using Entities.DataModels;
-using Entities.Mappings;
 using static Common.Constants.MessageConstants;
 
 namespace Entities.DTOs;
 
-public class AdmitRequestDTO : IMapFrom
+public class AdmitRequestDTO
 {
     [StringValidation(ErrorMessage = ValidationConstants.INVALID_FIRST_NAME)]
     public string FirstName { get; set; } = null!;
@@ -40,8 +38,23 @@ public class AdmitRequestDTO : IMapFrom
     [Required]
     public byte AdmitRequestRoleId { get; set; }
 
-    public void Mapping(Profile profile)
+
+    public AdmitRequest ReturnAdmitRequest(AdmitRequestDTO admitRequestDTO)
     {
-        profile.CreateMap<AdmitRequest, AdmitRequestDTO>().ReverseMap();
+        return new AdmitRequest
+        {
+            FirstName = admitRequestDTO.FirstName,
+            LastName = admitRequestDTO.LastName,
+            Email = admitRequestDTO.Email,
+            Address = admitRequestDTO.Address,
+            PhoneNumber = admitRequestDTO.PhoneNumber,
+            GenderId = admitRequestDTO.GenderId,
+            Avatar = admitRequestDTO.Avatar,
+            DateOfBirth = admitRequestDTO.DateOfBirth,
+            BloodGroupId = admitRequestDTO.BloodGroupId,
+            ClassId = admitRequestDTO.ClassId,
+            MediumId = admitRequestDTO.MediumId,
+            AdmitRequestRoleId = admitRequestDTO.AdmitRequestRoleId
+        };
     }
 }

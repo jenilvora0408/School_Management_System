@@ -1,5 +1,4 @@
 using System.Net;
-using AutoMapper;
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
@@ -20,15 +19,13 @@ public class UserService : BaseService<User>, IUserService
     private readonly IMailService _mailService;
     public readonly IUnitOfWork _unitOfWork;
     private readonly ICommonService _commonService;
-    private readonly IMapper _mapper;
     private readonly IHostingEnvironment _environment;
     private readonly IJwtManagerService _jwtManagerService;
 
-    public UserService(IUnitOfWork unitOfWork, IMapper mapper, IMailService mailService, ICommonService commonService, IHostingEnvironment environment, IJwtManagerService jwtManagerService) : base(unitOfWork.UserRepository, unitOfWork)
+    public UserService(IUnitOfWork unitOfWork, IMailService mailService, ICommonService commonService, IHostingEnvironment environment, IJwtManagerService jwtManagerService) : base(unitOfWork.UserRepository, unitOfWork)
     {
         _mailService = mailService;
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _commonService = commonService;
         _environment = environment;
         _jwtManagerService = jwtManagerService;
@@ -56,7 +53,7 @@ public class UserService : BaseService<User>, IUserService
             throw new CustomException((int)HttpStatusCode.Forbidden, MessageConstants.ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
         }
 
-        AdmitRequest createRequest = _mapper.Map<AdmitRequest>(admitRequestDTO);
+        AdmitRequest createRequest = admitRequestDTO.ReturnAdmitRequest(admitRequestDTO);
         await _unitOfWork.AdmitRequestRepository.AddAsync(createRequest, cancellationToken);
         await _unitOfWork.SaveAsync();
     }

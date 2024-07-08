@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <div class="row auth-row">
+    <div class="col-md-6">
+      <div class="auth-left">
+        <img
+          class="school-logo"
+          src="../../../assets/images/school-logo.png"
+          alt=""
+        />
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="d-flex align-items-center justify-content-center auth-right">
+        <div>
+          <form
+            action=""
+            class="d-flex flex-column align-items-center justify-content-center"
+            [formGroup]="verifyOtpForm"
+            (submit)="onSubmit()"
+            appFormSubmit
+          >
+            <h1 class="text-center mb-1 auth-heading">Hello Jenil Vora,</h1>
+            <p class="text-center mb-5">Check your Email Address for the OTP</p>
+            <div class="d-flex flex-column">
+              <app-input
+                class="authInput mb-4"
+                title="OTP"
+                type="text"
+                className="inputField py-2 fs-6 form-control"
+                placeholder="Please enter your OTP here"
+                [parentForm]="verifyOtpForm"
+                controlName="otp"
+                errorTitle="OTP"
+              ></app-input>
+
+              <app-button
+                type="submit"
+                label="Verify OTP"
+                className="btn text-white my-3 px-4 text-btn w-100 fs-6"
+                title="Submit"
+              ></app-button>
+
+              <p class="text-center">
+                Haven't received yet?
+                <a
+                  routerLink="/forget-password"
+                  class="text-decoration-none"
+                  href=""
+                  >Resend OTP</a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

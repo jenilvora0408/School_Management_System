@@ -42,19 +42,19 @@ public class JwtManagerService : IJwtManagerService
     public TokensDTO GenerateJwtToken(User user)
     {
         //set key and credential
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
         //add claim
-        var claims = new[]
-        {
+        Claim[]? claims =
+        [
                 new Claim(SystemConstants.USER_ID_CLAIM,user.Id.ToString()),
                 new Claim(ClaimTypes.Role,user.RoleId.ToString()),
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Name,user.FirstName+" "+user.LastName),
-            };
+        ];
         //make token
-        var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+        JwtSecurityToken? token = new(_configuration["Jwt:Issuer"],
             _configuration["Jwt:Audience"],
             claims,
             expires: DateTime.UtcNow.AddMinutes(60),
@@ -64,8 +64,8 @@ public class JwtManagerService : IJwtManagerService
 
     public ClaimsPrincipal GetPrincipalFormExpiredToken(string token)
     {
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
-        var tokenValidatorParameters = new TokenValidationParameters
+        byte[]? key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+        TokenValidationParameters? tokenValidatorParameters = new()
         {
             ValidateIssuer = false,
             ValidateAudience = false,
@@ -74,8 +74,8 @@ public class JwtManagerService : IJwtManagerService
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ClockSkew = TimeSpan.Zero,
         };
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var principal = tokenHandler.ValidateToken(token, tokenValidatorParameters, out SecurityToken securityToken);
+        JwtSecurityTokenHandler? tokenHandler = new();
+        ClaimsPrincipal? principal = tokenHandler.ValidateToken(token, tokenValidatorParameters, out SecurityToken securityToken);
 
         JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
         if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
@@ -88,7 +88,7 @@ public class JwtManagerService : IJwtManagerService
     public LoggedUser GetLoggedUser()
     {
         string authToken = _httpContext.HttpContext.Request.Headers.Authorization.FirstOrDefault() ?? throw new CustomException(StatusCodes.Status401Unauthorized, MessageConstants.ErrorMessage.UNAUTHORIZE);
-        var jsonToken = authToken.ToString().Replace(SystemConstants.BEARER, string.Empty);
+        string? jsonToken = authToken.ToString().Replace(SystemConstants.BEARER, string.Empty);
 
         ClaimsPrincipal? claims = GetPrincipalFormExpiredToken(jsonToken);
 

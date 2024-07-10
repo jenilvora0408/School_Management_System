@@ -8,10 +8,9 @@ import { StorageHelperConstant } from '../constants/storage-helper/storage-helpe
 import { ILoginInterface } from '../models/auth/login.interface';
 import { StorageHelperService } from '../shared/services/storage-helper.service';
 import { Router } from '@angular/router';
-import { IVerifyOtpInterface } from '../models/auth/verify-otp.interface';
-import { UserRole } from '../constants/shared/system-constants';
 import { IResponse } from '../shared/models/IResponse';
 import { IAdmitRequestInterface } from '../models/auth/admit-request.interface';
+import { IForgetPasswordInterface } from '../models/auth/forget-password.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +20,7 @@ export class AuthenticationService {
   loginApi = ApiCallConstant.LOGIN_URL;
   verifyOtpApi = ApiCallConstant.VERIFY_OTP_URL;
   sendOtpApi = ApiCallConstant.SEND_OTP;
+  forgetPasswordApi = ApiCallConstant.FORGET_PASSWORD;
   constructor(
     private http: HttpClient,
     private storageHelper: StorageHelperService,
@@ -59,6 +59,10 @@ export class AuthenticationService {
   sendOtp(email: string): Observable<IResponse<null>> {
     const body = { email };
     return this.http.post<IResponse<null>>(`${this.sendOtpApi}`, body);
+  }
+
+  forgetPassword(email: IForgetPasswordInterface): Observable<IResponse<null>> {
+    return this.http.post<IResponse<null>>(`${this.forgetPasswordApi}`, email);
   }
 
   //#endregion HTTP_Methods

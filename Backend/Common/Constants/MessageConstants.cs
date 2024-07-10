@@ -15,6 +15,8 @@ public static class MessageConstants
         public const string INVALID_TOKEN = "Invalid Token!";
 
         public const string UNAUTHORIZE = "Unauthorize access!";
+
+        public const string USER_NOT_FOUND = "User not found!";
     }
 
     public static class SuccessMessage

@@ -56,6 +56,8 @@ public class ExceptionMiddleware
             StatusCode = error switch
             {
                 CustomException ce => ce.StatusCode,
+                InvalidModelStateException imse => imse.StatusCode,
+                ModelValidationException => StatusCodes.Status403Forbidden,
                 ModelStateException mse => mse.StatusCode,
                 _ => StatusCodes.Status500InternalServerError,
             }

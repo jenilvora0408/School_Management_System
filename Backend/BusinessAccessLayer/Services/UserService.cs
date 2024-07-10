@@ -72,19 +72,14 @@ public class UserService : BaseService<User>, IUserService
         User? user = await _commonService.GetUserByEmail(email);
         if (user != null)
         {
-            //generate a random number of six digit
-            Random generator = new Random();
-            user.OTP = generator.Next(100000, 999999).ToString();
-            user.ExpiryTime = DateTime.UtcNow.AddMinutes(10);
-            await UpdateAsync(user);
-            await _unitOfWork.SaveAsync();
+            string otp = await GenerateOtp(user);
 
             //sent otp in mail
             MailDTO mailDto = new()
             {
                 ToEmail = user.Email,
                 Subject = EmailConstants.OTP_SUBJECT,
-                Body = MailBodyUtil.SendOtpForAuthenticationBody(user.OTP, user.FirstName + " " + user.LastName, _environment.WebRootPath)
+                Body = MailBodyUtil.SendOtpForAuthenticationBody(otp, user.FirstName + " " + user.LastName, _environment.WebRootPath)
             };
             await _mailService.SendMailAsync(mailDto);
         }
@@ -99,6 +94,9 @@ public class UserService : BaseService<User>, IUserService
         user.OTP = null;
         user.ExpiryTime = null;
 
+        if (otpData.IsEligibleForResetPassword == true)
+            user.IsEligibleForResetPassword = true;
+
         await _unitOfWork.UserRepository.UpdateAsync(user);
         await _unitOfWork.SaveAsync();
 
@@ -107,5 +105,39 @@ public class UserService : BaseService<User>, IUserService
         return token;
     }
 
+    public async Task ForgetPassword(string email)
+    {
+        User? user = await _commonService.GetUserByEmail(email) ?? throw new ModelValidationException(ErrorMessage.USER_NOT_FOUND);
+
+        string otp = await GenerateOtp(user);
+
+        MailDTO mailDto = new()
+        {
+            ToEmail = user.Email,
+            Subject = EmailConstants.OTP_SUBJECT,
+            Body = MailBodyUtil.SendOtpForResetPasswordBody(otp, user.FirstName + " " + user.LastName, _environment.WebRootPath)
+        };
+        await _mailService.SendMailAsync(mailDto);
+
+        user.HasForgottenPassword = true;
+        await UpdateAsync(user);
+        await _unitOfWork.SaveAsync();
+    }
+
     #endregion Http_Methods
+
+    #region Helper_Methods
+
+    public async Task<string> GenerateOtp(User user)
+    {
+        Random generator = new Random();
+        user.OTP = generator.Next(100000, 999999).ToString();
+        user.ExpiryTime = DateTime.UtcNow.AddMinutes(10);
+        await UpdateAsync(user);
+        await _unitOfWork.SaveAsync();
+
+        return user.OTP;
+    }
+
+    #endregion Helper_Methods
 }

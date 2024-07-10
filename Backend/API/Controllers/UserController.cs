@@ -24,9 +24,7 @@ public class UserController : ControllerBase
     [HttpPost("create-admit-request")]
     public async Task<IActionResult> CreateAdmitRequest(AdmitRequestDTO request, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid)
-            throw new ModelStateException(ModelState);
-
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.CreateAdmitRequest(request, cancellationToken);
         return ResponseHelper.SuccessResponse<object>(null, message: "Admit request created successfully!");
     }
@@ -34,19 +32,30 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginCredentialsDTO userCredential)
     {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         return ResponseHelper.SuccessResponse(await _userService.Login(userCredential), MessageConstants.SuccessMessage.OTP_SENT);
     }
 
     [HttpPost("verify-otp")]
     public async Task<IActionResult> VerifyOtp(LoginOtpDTO otpData)
     {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         return ResponseHelper.SuccessResponse(await _userService.VerifyOtp(otpData), MessageConstants.SuccessMessage.LOGIN_SUCCESS);
     }
 
     [HttpPost("send-otp")]
     public async Task<IActionResult> SendOtp(EmailRequestDTO emailRequestDTO)
     {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.SendOtp(emailRequestDTO.Email);
+        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
+    }
+
+    [HttpPost("forget-password")]
+    public async Task<IActionResult> ForgetPassword(EmailRequestDTO emailRequestDTO)
+    {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
+        await _userService.ForgetPassword(emailRequestDTO.Email);
         return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
     }
 }

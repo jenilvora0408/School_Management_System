@@ -12,4 +12,6 @@ public interface IUserService : IBaseService<User>
     Task<TokensDTO> VerifyOtp(LoginOtpDTO otpData);
 
     Task SendOtp(string email);
+
+    Task ForgetPassword(string email);
 }

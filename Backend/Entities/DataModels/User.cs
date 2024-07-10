@@ -55,6 +55,10 @@ public class User : AuditableEntity<long>
 
     public bool IsUserDeleted { get; set; }
 
+    public bool? HasForgottenPassword { get; set; }
+
+    public bool? IsEligibleForResetPassword { get; set; }
+
 
     #region Foreign_Keys
 

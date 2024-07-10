@@ -16,4 +16,6 @@ export class ApiCallConstant {
   public static readonly LOGIN_URL = this.USER_CONTROLLER + 'login';
   public static readonly VERIFY_OTP_URL = this.USER_CONTROLLER + 'verify-otp';
   public static readonly SEND_OTP = this.USER_CONTROLLER + 'send-otp';
+  public static readonly FORGET_PASSWORD =
+    this.USER_CONTROLLER + 'forget-password';
 }

@@ -13,7 +13,7 @@ public class AdmitRequestDTO
     [StringValidation(ErrorMessage = ValidationConstants.INVALID_LAST_NAME)]
     public string LastName { get; set; } = null!;
 
-    [StringValidation(ErrorMessage = ValidationConstants.INVALID_EMAIL)]
+    [EmailAddress]
     public string Email { get; set; } = null!;
 
     [MinLength(10)]

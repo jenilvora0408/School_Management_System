@@ -17,9 +17,15 @@ import { TextareaComponent } from '../../../shared/components/textarea/textarea.
 import { PhoneNumberInputComponent } from '../../../shared/components/phone-number-input/phone-number-input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { CommonService } from '../../../shared/services/common.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IResponse } from '../../../shared/models/IResponse';
+import { IAdmitRequestInterface } from '../../../models/auth/admit-request.interface';
+import {
+  CommonItemResponse,
+  CommonListResponse,
+} from '../../../shared/models/common-item-response';
 
 @Component({
   selector: 'app-admit-request',
@@ -91,28 +97,34 @@ export class AdmitRequestComponent {
 
   ngOnInit(): void {
     this.commonService.getCommonEntityList().subscribe(
-      (response: any) => {
-        this.genderOptions = response.data.listOfGenders.map((item: any) => ({
-          value: item.id,
-          viewValue: item.title,
-        }));
-
-        this.bloodGroupOptions = response.data.listOfBloodGroups.map(
-          (item: any) => ({
+      (response: CommonListResponse) => {
+        this.genderOptions = response.data.listOfGenders.map(
+          (item: CommonItemResponse) => ({
             value: item.id,
             viewValue: item.title,
           })
         );
 
-        this.classOptions = response.data.listOfClasses.map((item: any) => ({
-          value: item.id,
-          viewValue: item.title,
-        }));
+        this.bloodGroupOptions = response.data.listOfBloodGroups.map(
+          (item: CommonItemResponse) => ({
+            value: item.id,
+            viewValue: item.title,
+          })
+        );
 
-        this.mediumOptions = response.data.listOfMediums.map((item: any) => ({
-          value: item.id,
-          viewValue: item.title,
-        }));
+        this.classOptions = response.data.listOfClasses.map(
+          (item: CommonItemResponse) => ({
+            value: item.id,
+            viewValue: item.title,
+          })
+        );
+
+        this.mediumOptions = response.data.listOfMediums.map(
+          (item: CommonItemResponse) => ({
+            value: item.id,
+            viewValue: item.title,
+          })
+        );
       },
       (error) => {
         console.error('Error occurred list of genders', error);
@@ -131,15 +143,17 @@ export class AdmitRequestComponent {
       this.admitRequestForm.value.mediumId = null;
     }
     if (!this.admitRequestForm.valid) return;
-    this.authService.createAdmitRequest(this.admitRequestForm.value).subscribe({
-      next: (res: any) => {
-        if (res.success) this.notificationsService.success(res.message);
-        else this.notificationsService.error(res.errors);
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-    });
+    this.authService
+      .createAdmitRequest(this.admitRequestForm.value as IAdmitRequestInterface)
+      .subscribe({
+        next: (res: IResponse<null>) => {
+          if (res.success) this.notificationsService.success(res.message);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.notificationsService.error(error.error.errors);
+          console.log(error);
+        },
+      });
   }
 
   handlePictureFileChange(event: any) {

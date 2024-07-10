@@ -42,4 +42,11 @@ public class UserController : ControllerBase
     {
         return ResponseHelper.SuccessResponse(await _userService.VerifyOtp(otpData), MessageConstants.SuccessMessage.LOGIN_SUCCESS);
     }
+
+    [HttpPost("send-otp")]
+    public async Task<IActionResult> SendOtp(EmailRequestDTO emailRequestDTO)
+    {
+        await _userService.SendOtp(emailRequestDTO.Email);
+        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
+    }
 }

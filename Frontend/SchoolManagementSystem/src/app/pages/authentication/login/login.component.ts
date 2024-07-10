@@ -11,9 +11,11 @@ import { AuthenticationService } from '../../../services/authentication.service'
 import { ILoginInterface } from '../../../models/auth/login.interface';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { IResponse } from '../../../shared/models/IResponse';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +37,8 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   loginForm = new FormGroup({
@@ -57,10 +60,21 @@ export class LoginComponent {
 
   onSubmit() {
     this.loginForm.markAllAsTouched();
-    if (this.loginForm.valid) {
-      this.authService.login(<ILoginInterface>this.loginForm.value);
-      console.log('Login successful!');
-      this.notificationService.success('Login successful!');
-    }
+    if (this.loginForm.valid)
+      this.authService.login(<ILoginInterface>this.loginForm.value).subscribe({
+        next: (response: IResponse<string>) => {
+          console.log('login: ', response);
+
+          if (response.success) {
+            this.notificationService.success(response.message);
+            this.router.navigate(['/verify-otp'], {
+              queryParams: { email: this.loginForm.value.email },
+            });
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.notificationService.error(error.error.messages);
+        },
+      });
   }
 }

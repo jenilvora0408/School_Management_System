@@ -14,4 +14,6 @@ export class ApiCallConstant {
     this.USER_CONTROLLER + 'create-admit-request';
 
   public static readonly LOGIN_URL = this.USER_CONTROLLER + 'login';
+  public static readonly VERIFY_OTP_URL = this.USER_CONTROLLER + 'verify-otp';
+  public static readonly SEND_OTP = this.USER_CONTROLLER + 'send-otp';
 }

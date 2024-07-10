@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { AuthenticationComponent } from './components/authentication/authentication.component';
-import { AdmitRequestComponent } from './components/authentication/admit-request/admit-request.component';
-import { LoginComponent } from './components/authentication/login/login.component';
-import { VerifyOtpComponent } from './components/authentication/verify-otp/verify-otp.component';
+import { AdmitRequestComponent } from './pages/authentication/admit-request/admit-request.component';
+import { LoginComponent } from './pages/authentication/login/login.component';
+import { VerifyOtpComponent } from './pages/authentication/verify-otp/verify-otp.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },

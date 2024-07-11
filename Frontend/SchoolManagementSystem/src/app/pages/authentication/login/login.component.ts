@@ -68,7 +68,10 @@ export class LoginComponent {
           if (response.success) {
             this.notificationService.success(response.message);
             this.router.navigate(['/verify-otp'], {
-              queryParams: { email: this.loginForm.value.email },
+              queryParams: {
+                email: this.loginForm.value.email,
+                from: 'login',
+              },
             });
           }
         },

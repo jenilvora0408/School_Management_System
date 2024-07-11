@@ -8,6 +8,7 @@ using Entities.DataModels;
 using Entities.DTOs;
 using Entities.DTOs.Common;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using static Common.Constants.MessageConstants;
 
 namespace BusinessAccessLayer.Services;
@@ -94,9 +95,6 @@ public class UserService : BaseService<User>, IUserService
         user.OTP = null;
         user.ExpiryTime = null;
 
-        if (otpData.IsEligibleForResetPassword == true)
-            user.IsEligibleForResetPassword = true;
-
         await _unitOfWork.UserRepository.UpdateAsync(user);
         await _unitOfWork.SaveAsync();
 
@@ -118,8 +116,14 @@ public class UserService : BaseService<User>, IUserService
             Body = MailBodyUtil.SendOtpForResetPasswordBody(otp, user.FirstName + " " + user.LastName, _environment.WebRootPath)
         };
         await _mailService.SendMailAsync(mailDto);
+    }
 
-        user.HasForgottenPassword = true;
+    public async Task ResetPassword(LoginCredentialsDTO loginCredentialsDTO)
+    {
+        User? user = await _commonService.GetUserByEmail(loginCredentialsDTO.Email) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
+
+        user.Password = PasswordUtil.HashPassword(loginCredentialsDTO.Password);
+
         await UpdateAsync(user);
         await _unitOfWork.SaveAsync();
     }

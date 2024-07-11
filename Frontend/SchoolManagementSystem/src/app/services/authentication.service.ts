@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { IResponse } from '../shared/models/IResponse';
 import { IAdmitRequestInterface } from '../models/auth/admit-request.interface';
 import { IForgetPasswordInterface } from '../models/auth/forget-password.interface';
+import { IResetPasswordInterface } from '../models/auth/reset-password.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,7 @@ export class AuthenticationService {
   verifyOtpApi = ApiCallConstant.VERIFY_OTP_URL;
   sendOtpApi = ApiCallConstant.SEND_OTP;
   forgetPasswordApi = ApiCallConstant.FORGET_PASSWORD;
+  resetPasswordApi = ApiCallConstant.RESET_PASSWORD;
   constructor(
     private http: HttpClient,
     private storageHelper: StorageHelperService,
@@ -63,6 +65,15 @@ export class AuthenticationService {
 
   forgetPassword(email: IForgetPasswordInterface): Observable<IResponse<null>> {
     return this.http.post<IResponse<null>>(`${this.forgetPasswordApi}`, email);
+  }
+
+  resetPassword(
+    resetCredentials: IResetPasswordInterface
+  ): Observable<IResponse<null>> {
+    return this.http.put<IResponse<null>>(
+      `${this.resetPasswordApi}`,
+      resetCredentials
+    );
   }
 
   //#endregion HTTP_Methods

@@ -14,4 +14,6 @@ public interface IUserService : IBaseService<User>
     Task SendOtp(string email);
 
     Task ForgetPassword(string email);
+
+    Task ResetPassword(LoginCredentialsDTO loginCredentialsDTO);
 }

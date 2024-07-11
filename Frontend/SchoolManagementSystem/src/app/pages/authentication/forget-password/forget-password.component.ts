@@ -14,11 +14,18 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { IForgetPasswordInterface } from '../../../models/auth/forget-password.interface';
 import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormSubmitDirective } from '../../../directives/form-submit.directive';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forget-password',
   standalone: true,
-  imports: [InputComponent, ButtonComponent, ReactiveFormsModule],
+  imports: [
+    InputComponent,
+    ButtonComponent,
+    ReactiveFormsModule,
+    FormSubmitDirective,
+  ],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.scss',
 })
@@ -37,7 +44,8 @@ export class ForgetPasswordComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   onSubmit() {
@@ -51,9 +59,12 @@ export class ForgetPasswordComponent {
 
             if (response.success) {
               this.notificationService.success(response.message);
-              // this.router.navigate(['/verify-otp'], {
-              //   queryParams: { email: this.loginForm.value.email },
-              // });
+              this.router.navigate(['/verify-otp'], {
+                queryParams: {
+                  email: this.forgetPasswordForm.value.email,
+                  from: 'forgot-password',
+                },
+              });
             }
           },
           error: (error: HttpErrorResponse) => {

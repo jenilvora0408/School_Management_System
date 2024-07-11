@@ -24,6 +24,8 @@ public static class MessageConstants
         public const string OTP_SENT = "OTP has been sent to your registered email.";
 
         public const string LOGIN_SUCCESS = "Logged in Sucessfully!";
+
+        public const string PASSWORD_RESETTED = "Password resetted successfully!";
     }
 
     #endregion Error_Messages

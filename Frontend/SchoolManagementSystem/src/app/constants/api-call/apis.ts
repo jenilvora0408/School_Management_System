@@ -18,4 +18,6 @@ export class ApiCallConstant {
   public static readonly SEND_OTP = this.USER_CONTROLLER + 'send-otp';
   public static readonly FORGET_PASSWORD =
     this.USER_CONTROLLER + 'forget-password';
+  public static readonly RESET_PASSWORD =
+    this.USER_CONTROLLER + 'reset-password';
 }

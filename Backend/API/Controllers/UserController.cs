@@ -58,4 +58,12 @@ public class UserController : ControllerBase
         await _userService.ForgetPassword(emailRequestDTO.Email);
         return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
     }
+
+    [HttpPut("reset-password")]
+    public async Task<IActionResult> ResetPassword(LoginCredentialsDTO loginCredentialsDTO)
+    {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
+        await _userService.ResetPassword(loginCredentialsDTO);
+        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.PASSWORD_RESETTED);
+    }
 }

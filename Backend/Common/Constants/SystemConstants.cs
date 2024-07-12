@@ -21,4 +21,23 @@ public static class SystemConstants
     public const string BEARER = "Bearer ";
 
     public const string ZERO_STRING = "0";
+
+    public const int DEFAULT_PAGE_SIZE = 10;
+
+    public const string ASCENDING = "ascending";
+
+    public const string DESCENDING = "descending";
+
+    public const string DEFAULT_SORTCOLUMN = "Id";
+
+    #region ModelStateConstant
+
+    public static class ModelStateConstant
+    {
+        public const string SORTORDER_REGEX = $"^({ASCENDING}|{DESCENDING})$";
+
+        public const string VALIDATE_SORTORDER = "Sort Order must be ascending or descending!";
+    }
+
+    #endregion ModelStateConstant
 }

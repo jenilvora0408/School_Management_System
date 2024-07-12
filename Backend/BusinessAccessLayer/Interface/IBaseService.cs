@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using Entities.DTOs;
+using Entities.DTOs.Common;
 
 namespace BusinessAccessLayer.Interface;
 
@@ -19,4 +21,6 @@ public interface IBaseService<T> where T : class
     Task<T?> GetByIdAsync(long id, CancellationToken cancellationToken = default);
 
     Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate, CancellationToken cancellationToken = default);
+
+    Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestDTO<T> pageListRequest, Expression<Func<T, bool>>? predicate = null);
 }

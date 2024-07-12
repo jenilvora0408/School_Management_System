@@ -1,6 +1,8 @@
 using System.Linq.Expressions;
 using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
+using Entities.DTOs;
+using Entities.DTOs.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Repositories;
@@ -55,5 +57,47 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbSet.Where(predicate).ToListAsync();
     }
 
+    public async Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestDTO<T> pageListRequest, Expression<Func<T, bool>>? predicate = null)
+    {
+        IQueryable<T> query = _dbSet.AsQueryable();
+
+        if (pageListRequest.IncludeExpressions != null)
+        {
+            query = pageListRequest.IncludeExpressions.Aggregate(query, (current, include) =>
+            {
+                return current.Include(include);
+            });
+        }
+
+        if (pageListRequest.ThenIncludeExpressions != null)
+        {
+            query = pageListRequest.ThenIncludeExpressions.Aggregate(query, (current, thenInclude) =>
+            {
+                return current.Include(thenInclude);
+            });
+        }
+
+        if (pageListRequest.Selects != null)
+            query = query.Select(pageListRequest.Selects);
+
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+
+        if (pageListRequest.OrderByDescending != null)
+        {
+            query = query.OrderByDescending(pageListRequest.OrderByDescending);
+        }
+
+        int totalRecords = await query.CountAsync();
+
+        List<T>? records = await query
+        .Skip((pageListRequest.PageIndex - 1) * pageListRequest.PageSize)
+        .Take(pageListRequest.PageSize)
+        .ToListAsync();
+
+        return new PageListResponseDTO<T>(pageListRequest.PageIndex, pageListRequest.PageSize, totalRecords, records);
+    }
     #endregion Methods
 }

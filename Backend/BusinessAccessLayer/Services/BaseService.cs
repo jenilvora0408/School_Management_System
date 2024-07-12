@@ -1,6 +1,8 @@
 using System.Linq.Expressions;
 using BusinessAccessLayer.Interface;
 using DataAccessLayer.Interface;
+using Entities.DTOs;
+using Entities.DTOs.Common;
 
 namespace BusinessAccessLayer.Services;
 
@@ -53,6 +55,10 @@ public class BaseService<T> : IBaseService<T> where T : class
 
     public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate, CancellationToken cancellationToken = default)
         => await _repository.GetAllAsync(predicate, cancellationToken);
+
+    public async Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestDTO<T> pageListRequest, Expression<Func<T, bool>>? predicate = null)
+       => await _repository.GetAllAsync(pageListRequest, predicate);
+
 
     #endregion
 }

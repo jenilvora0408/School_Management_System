@@ -9,11 +9,12 @@ import {
 } from '@angular/forms';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { IVerifyOtpInterface } from '../../../models/auth/verify-otp.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IResponse } from '../../../shared/models/IResponse';
+import { SystemConstants } from '../../../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-verify-otp',
@@ -41,8 +42,14 @@ export class VerifyOtpComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.email = params['email'];
-      this.locationUrl = params['from'];
+      this.email = CryptoJS.AES.decrypt(
+        params['email'],
+        SystemConstants.EncryptionKey
+      ).toString(CryptoJS.enc.Utf8);
+      this.locationUrl = CryptoJS.AES.decrypt(
+        params['from'],
+        SystemConstants.EncryptionKey
+      ).toString(CryptoJS.enc.Utf8);
     });
   }
 
@@ -59,6 +66,8 @@ export class VerifyOtpComponent {
 
   onSubmit(): void {
     this.verifyOtpForm.markAllAsTouched();
+    console.log('Hii', this.verifyOtpForm.value, this.email);
+
     if (this.verifyOtpForm.valid && this.email) {
       const otpValue = this.verifyOtpForm.get('otp')?.value;
       this.authService.verifyOtp(this.email, otpValue).subscribe({
@@ -76,13 +85,16 @@ export class VerifyOtpComponent {
             );
             this.router.navigate(['/reset-password'], {
               queryParams: {
-                email: this.email,
+                email: CryptoJS.AES.encrypt(
+                  this.email,
+                  SystemConstants.EncryptionKey
+                ),
               },
             });
           }
         },
         error: (error: HttpErrorResponse) => {
-          this.notificationsService.error(error.error.messages);
+          this.notificationsService.error(error.error.errors);
         },
       });
     }

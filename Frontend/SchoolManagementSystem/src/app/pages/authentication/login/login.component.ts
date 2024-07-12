@@ -16,6 +16,8 @@ import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SystemConstants } from '../../../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -69,14 +71,20 @@ export class LoginComponent {
             this.notificationService.success(response.message);
             this.router.navigate(['/verify-otp'], {
               queryParams: {
-                email: this.loginForm.value.email,
-                from: 'login',
+                email: CryptoJS.AES.encrypt(
+                  this.loginForm.value.email ?? '',
+                  SystemConstants.EncryptionKey
+                ),
+                from: CryptoJS.AES.encrypt(
+                  'login',
+                  SystemConstants.EncryptionKey
+                ),
               },
             });
           }
         },
         error: (error: HttpErrorResponse) => {
-          this.notificationService.error(error.error.messages);
+          this.notificationService.error(error.error.errors);
         },
       });
   }

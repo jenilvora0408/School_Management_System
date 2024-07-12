@@ -16,6 +16,8 @@ import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { Router } from '@angular/router';
+import { SystemConstants } from '../../../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-forget-password',
@@ -61,14 +63,20 @@ export class ForgetPasswordComponent {
               this.notificationService.success(response.message);
               this.router.navigate(['/verify-otp'], {
                 queryParams: {
-                  email: this.forgetPasswordForm.value.email,
-                  from: 'forgot-password',
+                  email: CryptoJS.AES.encrypt(
+                    this.forgetPasswordForm.value.email ?? '',
+                    SystemConstants.EncryptionKey
+                  ),
+                  from: CryptoJS.AES.encrypt(
+                    'forgot-password',
+                    SystemConstants.EncryptionKey
+                  ),
                 },
               });
             }
           },
           error: (error: HttpErrorResponse) => {
-            this.notificationService.error(error.error.messages);
+            this.notificationService.error(error.error.errors);
           },
         });
   }

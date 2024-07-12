@@ -16,6 +16,8 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { IResetPasswordInterface } from '../../../models/auth/reset-password.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IResponse } from '../../../shared/models/IResponse';
+import { SystemConstants } from '../../../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-reset-password',
@@ -56,7 +58,10 @@ export class ResetPasswordComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.email = params['email'];
+      this.email = CryptoJS.AES.decrypt(
+        params['email'],
+        SystemConstants.EncryptionKey
+      ).toString(CryptoJS.enc.Utf8);
     });
   }
 
@@ -76,7 +81,7 @@ export class ResetPasswordComponent {
             }
           },
           error: (error: HttpErrorResponse) => {
-            this.notificationService.error(error.error.messages);
+            this.notificationService.error(error.error.errors);
           },
         });
   }

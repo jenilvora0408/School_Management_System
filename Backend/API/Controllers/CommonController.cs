@@ -1,6 +1,6 @@
 using API.Helpers;
 using BusinessAccessLayer.Interface;
-using Entities.DTOs.Common;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -24,5 +24,11 @@ public class CommonController : ControllerBase
     {
         CommonEntityListResponseDTO response = await _commonService.GetEntityList();
         return ResponseHelper.SuccessResponse(response);
+    }
+
+    [HttpPost("admit-request-list")]
+    public async Task<IActionResult> GetAdmitRequestList(PageListRequestDTO pageListRequest)
+    {
+        return ResponseHelper.SuccessResponse(await _commonService.GetAdmitRequestsList(pageListRequest));
     }
 }

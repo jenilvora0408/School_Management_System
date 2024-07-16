@@ -24,6 +24,8 @@ public static class SystemConstants
 
     public const int DEFAULT_PAGE_SIZE = 10;
 
+    public const int INITIAL_PAGE_SIZE = 1;
+
     public const string ASCENDING = "ascending";
 
     public const string DESCENDING = "descending";

@@ -1,4 +1,4 @@
-namespace Entities.DTOs.Common;
+namespace Entities.DTOs;
 
 public record GenericEntityResponseDTO
 {

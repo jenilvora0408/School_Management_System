@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using BusinessAccessLayer.Interface;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
-using Entities.DTOs.Common;
+using Entities.DTOs;
 
 namespace BusinessAccessLayer.Services;
 
@@ -87,6 +87,43 @@ public class CommonService : ICommonService
         }
 
         return commonEntityListResponse;
+    }
+
+    public async Task<PageListResponseDTO<AdmitRequestListResponseDTO>> GetAdmitRequestsList(PageListRequestDTO admitRequestList)
+    {
+        PageListRequestEntity<AdmitRequest> pageListRequestEntity = new()
+        {
+            PageIndex = admitRequestList.PageIndex,
+            PageSize = admitRequestList.PageSize,
+            SortColumn = !string.IsNullOrEmpty(admitRequestList.SortColumn) ? admitRequestList.SortColumn : null!,
+            SortOrder = admitRequestList.SortOrder,
+            Predicate = !string.IsNullOrEmpty(admitRequestList.SearchQuery)
+                ? (Expression<Func<AdmitRequest, bool>>)(admitRequest =>
+                    admitRequest.FirstName.Trim().ToLower().Contains(admitRequestList.SearchQuery.Trim().ToLower()) ||
+                    admitRequest.LastName.Trim().ToLower().Contains(admitRequestList.SearchQuery.Trim().ToLower()))
+                : null,
+            Selects = responseInfo => new AdmitRequest()
+            {
+                Id = responseInfo.Id,
+                FirstName = responseInfo.FirstName,
+                LastName = responseInfo.LastName,
+                ClassId = responseInfo.ClassId,
+                AdmitRequestRoleId = responseInfo.AdmitRequestRoleId,
+                Email = responseInfo.Email
+            }
+        };
+
+        PageListResponseDTO<AdmitRequest> pageListResponse = await _unitOfWork.AdmitRequestRepository.GetAllAsync(pageListRequestEntity);
+
+        List<AdmitRequestListResponseDTO> admitRequestListResponseDTOs = pageListResponse.Records.Select(admitRequest => new AdmitRequestListResponseDTO
+        {
+            Name = $"{admitRequest.FirstName} {admitRequest.LastName}",
+            Email = admitRequest.Email,
+            ClassId = admitRequest.ClassId ?? 0,
+            AdmitRequestRoleId = admitRequest.AdmitRequestRoleId
+        }).ToList();
+
+        return new PageListResponseDTO<AdmitRequestListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, admitRequestListResponseDTOs);
     }
 
 

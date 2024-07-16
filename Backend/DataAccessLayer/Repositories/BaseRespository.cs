@@ -1,8 +1,9 @@
 using System.Linq.Expressions;
+using Common.Constants;
 using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
 using Entities.DTOs;
-using Entities.DTOs.Common;
+using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Repositories;
@@ -57,7 +58,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbSet.Where(predicate).ToListAsync();
     }
 
-    public async Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestDTO<T> pageListRequest, Expression<Func<T, bool>>? predicate = null)
+    public async Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestEntity<T> pageListRequest)
     {
         IQueryable<T> query = _dbSet.AsQueryable();
 
@@ -80,14 +81,23 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         if (pageListRequest.Selects != null)
             query = query.Select(pageListRequest.Selects);
 
-        if (predicate != null)
+        if (pageListRequest.Predicate != null)
         {
-            query = query.Where(predicate);
+            query = query.Where(pageListRequest.Predicate);
         }
 
-        if (pageListRequest.OrderByDescending != null)
+        if (!string.IsNullOrEmpty(pageListRequest.SortColumn))
         {
-            query = query.OrderByDescending(pageListRequest.OrderByDescending);
+            string sortExpression = pageListRequest.SortColumn.Trim();
+
+            string sortOrder = pageListRequest.SortOrder.Trim().ToLower();
+
+            if (string.IsNullOrEmpty(sortOrder) || !sortOrder.Equals(SystemConstants.ASCENDING))
+                sortOrder = SystemConstants.DESCENDING;
+
+            string dynamicSortExpression = $"{sortExpression} {sortOrder}";
+
+            query = query.OrderBy(dynamicSortExpression);
         }
 
         int totalRecords = await query.CountAsync();

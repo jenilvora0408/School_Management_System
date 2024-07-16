@@ -25,7 +25,7 @@
     "bootstrap-icons": "^1.11.3",
     "crypto-js": "^4.2.0",
     "ngx-toastr": "^19.0.0",
-    "primeng": "^17.18.2",
+    "primeng": "^17.18.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

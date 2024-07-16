@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Work+Sans:wght@400;500&display=swap");
+
+$heading: rgb(0, 10, 45);
+$para: #777;
+$para-tint: #e4e4e4;
+$white: #fff;
+$black: #212529;
+$helper: #8490ff;
+$helper-tint: #f3f4ff;
+$bg: rgb(249, 249, 255);
+$icon-bg: rgba(144, 172, 209, 0.2);
+$overlay: #3e64ff;
+$gradient: linear-gradient(0deg, rgb(132 144 255) 0%, rgb(98, 189, 252) 100%);
+$gradientSupport: -webkit-linear-gradient(
+  0deg,
+  rgb(132 144 255) 0%,
+  rgb(98, 189, 255) 100%
+);
+$shadow: 0px 0px 20px 0px rgb(132 144 255/20%);
+$shadowSupport: 0px 20px 20px 0px rgb(132 144 255/30%);
+
+* {
+  font-family: "Work Sans", sans-serif;
+}
+.teacher-navbar {
+  display: flex;
+  align-items: center;
+  background-color: $bg;
+  height: 60px;
+}
+.teacher-logo img {
+  height: 100px;
+}
+.profile-pic img {
+  height: 35px;
+}

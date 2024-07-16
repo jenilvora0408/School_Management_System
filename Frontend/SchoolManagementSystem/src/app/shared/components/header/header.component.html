@@ -1,0 +1,39 @@
+<div class="row teacher-header">
+  <div class="col teacher-navbar justify-content-between">
+    <div class="left">
+      <div class="teacher-logo px-3 d-flex align-items-center">
+        <button class="btn btn-sm btn-outline-secondary" (click)="open()">
+          <i class="bi bi-list"></i>
+        </button>
+        <img
+          src="../../../../assets/images/Black_Illustrated_School_Logo-removebg-preview.png"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="right me-5 d-flex align-items-center gap-3">
+      <div class="profile-pic">
+        <img src="../../../../assets/images/avatar.png" alt="" />
+      </div>
+      <div class="header-dropdown">
+        <div class="row">
+          <div class="col">
+            <div ngbDropdown class="d-inline-block">
+              <span
+                type="button"
+                class=""
+                id="dropdownBasic1"
+                ngbDropdownToggle
+              >
+                Neha Manani
+              </span>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button ngbDropdownItem>Logout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

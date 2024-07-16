@@ -99,5 +99,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
         return new PageListResponseDTO<T>(pageListRequest.PageIndex, pageListRequest.PageSize, totalRecords, records);
     }
+
     #endregion Methods
 }

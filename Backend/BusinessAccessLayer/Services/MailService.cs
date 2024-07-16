@@ -25,10 +25,12 @@ public class MailService : IMailService
 
     public async Task SendMailAsync(MailDTO mailData, CancellationToken cancellationToken = default)
     {
-        MimeMessage email = new();
-        email.Sender = MailboxAddress.Parse(_mailSetting.Mail);
+        MimeMessage email = new()
+        {
+            Sender = MailboxAddress.Parse(_mailSetting.Mail)
+        };
         email.To.Add(MailboxAddress.Parse(mailData.ToEmail));
-        email.Subject = !String.IsNullOrEmpty(mailData.Subject) ? mailData.Subject : EmailConstants.GENERIC_SUBJECT;
+        email.Subject = !string.IsNullOrEmpty(mailData.Subject) ? mailData.Subject : EmailConstants.GENERIC_SUBJECT;
 
         BodyBuilder? builder = new BodyBuilder();
         if (mailData.Attachments != null && mailData.Attachments.Count != 0)

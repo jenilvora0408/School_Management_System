@@ -97,6 +97,7 @@ public class CommonService : ICommonService
             PageSize = admitRequestList.PageSize,
             SortColumn = !string.IsNullOrEmpty(admitRequestList.SortColumn) ? admitRequestList.SortColumn : null!,
             SortOrder = admitRequestList.SortOrder,
+            IncludeExpressions = [x => x.Classes!, x => x.AdmitRequestRoles],
             Predicate = !string.IsNullOrEmpty(admitRequestList.SearchQuery)
                 ? (Expression<Func<AdmitRequest, bool>>)(admitRequest =>
                     admitRequest.FirstName.Trim().ToLower().Contains(admitRequestList.SearchQuery.Trim().ToLower()) ||
@@ -107,9 +108,9 @@ public class CommonService : ICommonService
                 Id = responseInfo.Id,
                 FirstName = responseInfo.FirstName,
                 LastName = responseInfo.LastName,
-                ClassId = responseInfo.ClassId,
-                AdmitRequestRoleId = responseInfo.AdmitRequestRoleId,
-                Email = responseInfo.Email
+                Email = responseInfo.Email,
+                Classes = responseInfo.Classes,
+                AdmitRequestRoles = responseInfo.AdmitRequestRoles
             }
         };
 
@@ -119,14 +120,12 @@ public class CommonService : ICommonService
         {
             Name = $"{admitRequest.FirstName} {admitRequest.LastName}",
             Email = admitRequest.Email,
-            ClassId = admitRequest.ClassId ?? 0,
-            AdmitRequestRoleId = admitRequest.AdmitRequestRoleId
+            ClassName = admitRequest.Classes != null ? admitRequest.Classes.ClassName : null,
+            RequestedRole = admitRequest.AdmitRequestRoles.Title
         }).ToList();
 
         return new PageListResponseDTO<AdmitRequestListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, admitRequestListResponseDTOs);
     }
 
-
     #endregion Http_Methods
 }
-

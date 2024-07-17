@@ -9,7 +9,7 @@ $helper: #8490ff;
 $helper-tint: #f3f4ff;
 $bg: rgb(249, 249, 255);
 $icon-bg: rgba(144, 172, 209, 0.2);
-$overlay: #3e64ff;
+$overlay: #0f37d7;
 $gradient: linear-gradient(0deg, rgb(132 144 255) 0%, rgb(98, 189, 252) 100%);
 $gradientSupport: -webkit-linear-gradient(
   0deg,
@@ -22,6 +22,10 @@ $shadowSupport: 0px 20px 20px 0px rgb(132 144 255/30%);
 * {
   font-family: "Work Sans", sans-serif;
 }
+.teacher-dashboard-container {
+  background-color: $helper-tint;
+  height: 100vh;
+}
 .teacher-navbar {
   display: flex;
   align-items: center;
@@ -33,4 +37,14 @@ $shadowSupport: 0px 20px 20px 0px rgb(132 144 255/30%);
 }
 .profile-pic img {
   height: 35px;
+}
+.dashboard-heading {
+  color: $heading;
+}
+thead tr th {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+tr td img {
+  height: 20px;
 }

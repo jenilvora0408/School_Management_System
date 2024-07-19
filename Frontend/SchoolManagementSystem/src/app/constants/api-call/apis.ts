@@ -5,14 +5,15 @@ export class ApiCallConstant {
   public static readonly COMMON_CONTROLLER = this.BASE_URL + 'common/';
   public static readonly USER_CONTROLLER = this.BASE_URL + 'user/';
 
-  //Common Controller name
+  //Common Controller Methods
   public static readonly GET_COMMON_ENTITY_DATA =
     this.COMMON_CONTROLLER + 'common-entity-list';
+  public static readonly GET_ADMIT_REQUEST_LIST =
+    this.COMMON_CONTROLLER + 'admit-request-list';
 
-  //User Controller name
+  //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';
-
   public static readonly LOGIN_URL = this.USER_CONTROLLER + 'login';
   public static readonly VERIFY_OTP_URL = this.USER_CONTROLLER + 'verify-otp';
   public static readonly SEND_OTP = this.USER_CONTROLLER + 'send-otp';

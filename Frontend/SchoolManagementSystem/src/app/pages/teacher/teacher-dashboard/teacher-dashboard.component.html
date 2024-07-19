@@ -6,21 +6,44 @@
       type="text"
       class="form-control mb-4 w-25 bg-light p-2"
       placeholder="Search..."
-      (keyup)="search()"
+      #searchInput
+      (keyup)="onKeyup(searchInput.value)"
     />
     <table class="table table-striped table-hover border border-1">
       <thead>
         <tr class="table-primary">
           <th scope="col">Serial</th>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
+          <th scope="col" (click)="onSort('FirstName')">
+            Name
+            <i
+              class="bi"
+              [ngClass]="{
+                'bi-arrow-up':
+                  sortColumn === 'FirstName' && sortOrder === 'ascending',
+                'bi-arrow-down':
+                  sortColumn === 'FirstName' && sortOrder === 'descending'
+              }"
+            ></i>
+          </th>
+          <th scope="col" (click)="onSort('email')">
+            Email
+            <i
+              class="bi"
+              [ngClass]="{
+                'bi-arrow-up':
+                  sortColumn === 'email' && sortOrder === 'ascending',
+                'bi-arrow-down':
+                  sortColumn === 'email' && sortOrder === 'descending'
+              }"
+            ></i>
+          </th>
           <th scope="col">Class</th>
           <th scope="col">Requested Role</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        @for (item of requestData; track i; let i = $index){
+        @for (item of responseData; track i; let i = $index){
         <tr class="border border-2">
           <th scope="row">{{ i + 1 }}</th>
           <td>{{ item.name }}</td>
@@ -53,7 +76,7 @@
         [collectionSize]="collectionSize"
         [(page)]="page"
         [pageSize]="pageSize"
-        (pageChange)="refreshDataSource()"
+        (pageChange)="getAdmitRequestData()"
       >
       </ngb-pagination>
 
@@ -61,7 +84,7 @@
         class="form-select"
         style="width: auto"
         [(ngModel)]="pageSize"
-        (ngModelChange)="refreshDataSource()"
+        (ngModelChange)="getAdmitRequestData()"
       >
         <option [ngValue]="3">3 items per page</option>
         <option [ngValue]="5">5 items per page</option>

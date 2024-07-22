@@ -1,12 +1,12 @@
 using System.Net;
 using BusinessAccessLayer.Interface;
-using Common.Constants;
 using Common.Exceptions;
 using Common.Utils;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
 using Entities.DTOs.Common;
+using Entities.ExtensionMethods.MappingProfiles;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using static Common.Constants.MessageConstants;
@@ -40,21 +40,21 @@ public class UserService : BaseService<User>, IUserService
     {
         User? user = await _commonService.GetUserByEmail(admitRequestDTO.Email);
         if (user != null)
-            throw new CustomException((int)HttpStatusCode.Forbidden, MessageConstants.ValidationConstants.ACCESS_ALREADY_PROVIDED);
+            throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ACCESS_ALREADY_PROVIDED);
 
         AdmitRequest? admitRequest = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(request => request.Email == admitRequestDTO.Email);
 
         if (admitRequest != null)
         {
-            AdmitRequestApproval? admitRequestApproval = await _unitOfWork.AdmitRequestApprovalRepository.GetFirstOrDefaultAsync(approval => approval.AdmitRequestId == admitRequest.Id && approval.ApprovalStatus == 5);
+            AdmitRequest? admitRequestApproval = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(approval => approval.Id == admitRequest.Id && approval.ApprovalStatus == 5);
 
             if (admitRequestApproval != null)
-                throw new CustomException((int)HttpStatusCode.Forbidden, MessageConstants.ValidationConstants.ACCESS_BLOCKED);
+                throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ACCESS_BLOCKED);
 
-            throw new CustomException((int)HttpStatusCode.Forbidden, MessageConstants.ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
+            throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
         }
 
-        AdmitRequest createRequest = admitRequestDTO.ReturnAdmitRequest(admitRequestDTO);
+        AdmitRequest createRequest = AdmitRequestMappingProfile.ToAdmitRequest(admitRequestDTO);
         await _unitOfWork.AdmitRequestRepository.AddAsync(createRequest, cancellationToken);
         await _unitOfWork.SaveAsync();
     }
@@ -92,8 +92,7 @@ public class UserService : BaseService<User>, IUserService
 
         if (user.OTP != otpData.Otp || user.ExpiryTime < DateTime.UtcNow) throw new ModelValidationException(ValidationConstants.INVALID_OTP);
 
-        user.OTP = null;
-        user.ExpiryTime = null;
+        user.ToVerifyOtp();
 
         await _unitOfWork.UserRepository.UpdateAsync(user);
         await _unitOfWork.SaveAsync();
@@ -122,7 +121,8 @@ public class UserService : BaseService<User>, IUserService
     {
         User? user = await _commonService.GetUserByEmail(loginCredentialsDTO.Email) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
 
-        user.Password = PasswordUtil.HashPassword(loginCredentialsDTO.Password);
+        string password = PasswordUtil.HashPassword(loginCredentialsDTO.Password);
+        user.ToSetPassword(password);
 
         await UpdateAsync(user);
         await _unitOfWork.SaveAsync();
@@ -135,13 +135,17 @@ public class UserService : BaseService<User>, IUserService
     public async Task<string> GenerateOtp(User user)
     {
         Random generator = new Random();
-        user.OTP = generator.Next(100000, 999999).ToString();
-        user.ExpiryTime = DateTime.UtcNow.AddMinutes(10);
+        string otp = generator.Next(100000, 999999).ToString();
+        DateTime expiryTime = DateTime.UtcNow.AddMinutes(10);
+
+        user.ToGenerateOtp(otp, expiryTime);
+
         await UpdateAsync(user);
         await _unitOfWork.SaveAsync();
 
-        return user.OTP;
+        return otp;
     }
+
 
     #endregion Helper_Methods
 }

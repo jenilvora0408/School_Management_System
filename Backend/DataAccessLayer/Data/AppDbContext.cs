@@ -91,8 +91,6 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<AdmitRequest> AdmitRequests { get; set; }
 
-    public virtual DbSet<AdmitRequestApproval> AdmitRequestsApprovals { get; set; }
-
     public virtual DbSet<Class> Classes { get; set; }
 
     public virtual DbSet<Medium> Mediums { get; set; }
@@ -164,6 +162,8 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Email).IsRequired().HasMaxLength(32);
             entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
             entity.Property(e => e.Address).IsRequired().HasMaxLength(1000);
+            entity.Property(e => e.ApprovalStatus).HasDefaultValue(1);
+            entity.Property(e => e.Comment).HasMaxLength(200);
 
             entity.HasOne(u => u.Genders)
                 .WithMany()
@@ -188,24 +188,6 @@ public class AppDbContext : DbContext
             entity.HasOne(u => u.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(u => u.UpdatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        modelBuilder.Entity<AdmitRequestApproval>(entity =>
-        {
-            entity.ToTable("AdmitRequestApprovals");
-            entity.Property(e => e.AdmitRequestId).IsRequired();
-            entity.Property(e => e.ApprovalStatus).IsRequired().HasDefaultValue(StatusType.PENDING);
-            entity.Property(e => e.Comment).HasMaxLength(512);
-
-            entity.HasOne(u => u.ApprovedByUser)
-                .WithMany()
-                .HasForeignKey(u => u.ApprovedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            entity.HasOne(u => u.DeclinedByUser)
-                .WithMany()
-                .HasForeignKey(u => u.DeclinedBy)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

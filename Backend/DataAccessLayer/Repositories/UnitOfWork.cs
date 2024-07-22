@@ -9,7 +9,6 @@ public class UnitOfWork : IUnitOfWork
 
     private IUserRepository _userRepository;
     private IAdmitRequestRepository _admitRequestRepository;
-    private IAdmitRequestApprovalRepository _admitRequestApprovalRepository;
     private IGenderRepository _genderRepository;
     private IBloodGroupRepository _bloodGroupRepository;
     private IUserRoleRepository _userRoleRepository;
@@ -54,14 +53,6 @@ public class UnitOfWork : IUnitOfWork
         get
         {
             return _userRepository ??= new UserRepository(_dbContext);
-        }
-    }
-
-    public IAdmitRequestApprovalRepository AdmitRequestApprovalRepository
-    {
-        get
-        {
-            return _admitRequestApprovalRepository ??= new AdmitRequestApprovalRepository(_dbContext);
         }
     }
 

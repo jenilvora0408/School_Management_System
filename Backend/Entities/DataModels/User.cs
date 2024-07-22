@@ -1,7 +1,5 @@
 ﻿using Entities.Abstract;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Common.Enums.SystemEnum;
 
 namespace Entities.DataModels;
 
@@ -54,10 +52,6 @@ public class User : AuditableEntity<long>
     public bool IsUserActive { get; set; }
 
     public bool IsUserDeleted { get; set; }
-
-    public bool? HasForgottenPassword { get; set; }
-
-    public bool? IsEligibleForResetPassword { get; set; }
 
 
     #region Foreign_Keys

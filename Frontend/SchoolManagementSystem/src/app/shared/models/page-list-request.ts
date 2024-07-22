@@ -4,4 +4,5 @@ export interface IPageListRequest {
   sortOrder: string;
   sortColumn: string;
   searchQuery: string;
+  filter: Number;
 }

@@ -1,10 +1,15 @@
 ﻿using Entities.Abstract;
+using Entities.DTOs;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.DataModels;
 
 public class AdmitRequest : AuditableEntity<long>
 {
+    public AdmitRequest()
+    {
+
+    }
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
@@ -29,6 +34,14 @@ public class AdmitRequest : AuditableEntity<long>
 
     public byte? MediumId { get; set; }
 
+    public int ApprovalStatus { get; set; }
+
+    public string? Comment { get; set; }
+
+    public long? ApprovedBy { get; set; }
+
+    public long? DeclinedBy { get; set; }
+
     #region Foreign_Keys
 
     [ForeignKey(nameof(GenderId))]
@@ -45,6 +58,16 @@ public class AdmitRequest : AuditableEntity<long>
 
     [ForeignKey(nameof(MediumId))]
     public virtual Medium? Mediums { get; set; }
+
+    [ForeignKey(nameof(ApprovedBy))]
+    public virtual User? ApprovedByUser { get; set; }
+
+    [ForeignKey(nameof(DeclinedBy))]
+    public virtual User? DeclinedByUser { get; set; }
+
+    #endregion
+
+    #region  Constructor
 
     #endregion
 }

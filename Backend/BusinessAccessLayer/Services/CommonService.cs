@@ -3,6 +3,7 @@ using BusinessAccessLayer.Interface;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
+using Entities.ExtensionMethods.MappingProfiles;
 
 namespace BusinessAccessLayer.Services;
 
@@ -34,57 +35,25 @@ public class CommonService : ICommonService
         Expression<Func<Gender, bool>> allGenderRecordsPredicate = x => true;
         List<Gender> gendersList = await _unitOfWork.GenderRepository.GetAllAsync(allGenderRecordsPredicate);
 
-        commonEntityListResponse.ListOfGenders = new List<GenericEntityResponseDTO>();
-        foreach (Gender gender in gendersList)
-        {
-            ((List<GenericEntityResponseDTO>)commonEntityListResponse.ListOfGenders).Add(new GenericEntityResponseDTO
-            {
-                Id = gender.Id,
-                Title = gender.Title
-            });
-        }
+        commonEntityListResponse.ListOfGenders = GenderMappingProfile.ToGenericEntityResponseDTOs(gendersList);
 
         //Get List of Blood Groups
         Expression<Func<BloodGroup, bool>> allBloodGroupRecordsPredicate = x => true;
         List<BloodGroup> bloodGroupList = await _unitOfWork.BloodGroupRepository.GetAllAsync(allBloodGroupRecordsPredicate);
 
-        commonEntityListResponse.ListOfBloodGroups = new List<GenericEntityResponseDTO>();
-        foreach (BloodGroup bloodGroup in bloodGroupList)
-        {
-            ((List<GenericEntityResponseDTO>)commonEntityListResponse.ListOfBloodGroups).Add(new GenericEntityResponseDTO
-            {
-                Id = bloodGroup.Id,
-                Title = bloodGroup.Title
-            });
-        }
+        commonEntityListResponse.ListOfBloodGroups = BloodGroupMappingProfile.ToGenericEntityResponseDTOs(bloodGroupList);
 
         //Get List of Classes
         Expression<Func<Class, bool>> allClassesRecordsPredicate = x => true;
         List<Class> classesList = await _unitOfWork.ClassRepository.GetAllAsync(allClassesRecordsPredicate);
 
-        commonEntityListResponse.ListOfClasses = new List<GenericEntityResponseDTO>();
-        foreach (Class classes in classesList)
-        {
-            ((List<GenericEntityResponseDTO>)commonEntityListResponse.ListOfClasses).Add(new GenericEntityResponseDTO
-            {
-                Id = (byte)classes.Id,
-                Title = classes.ClassName
-            });
-        }
+        commonEntityListResponse.ListOfClasses = ClassMappingProfile.ToGenericEntityResponseDTOs(classesList);
 
         //Get List of Mediums
         Expression<Func<Medium, bool>> allMediumRecordsPredicate = x => true;
         List<Medium> mediumsList = await _unitOfWork.MediumRepository.GetAllAsync(allMediumRecordsPredicate);
 
-        commonEntityListResponse.ListOfMediums = new List<GenericEntityResponseDTO>();
-        foreach (Medium medium in mediumsList)
-        {
-            ((List<GenericEntityResponseDTO>)commonEntityListResponse.ListOfMediums).Add(new GenericEntityResponseDTO
-            {
-                Id = medium.Id,
-                Title = medium.Title
-            });
-        }
+        commonEntityListResponse.ListOfMediums = MediumMappingProfile.ToGenericEntityResponseDTOs(mediumsList);
 
         return commonEntityListResponse;
     }
@@ -97,20 +66,17 @@ public class CommonService : ICommonService
             PageSize = admitRequestList.PageSize,
             SortColumn = !string.IsNullOrEmpty(admitRequestList.SortColumn) ? admitRequestList.SortColumn : null!,
             SortOrder = admitRequestList.SortOrder,
-            IncludeExpressions = [x => x.Classes!, x => x.AdmitRequestRoles],
-            Predicate = !string.IsNullOrEmpty(admitRequestList.SearchQuery)
-                ? (Expression<Func<AdmitRequest, bool>>)(admitRequest =>
-                    admitRequest.FirstName.Trim().ToLower().Contains(admitRequestList.SearchQuery.Trim().ToLower()) ||
-                    admitRequest.LastName.Trim().ToLower().Contains(admitRequestList.SearchQuery.Trim().ToLower()))
-                : null,
+            Predicate = admitRequest => admitRequest.ApprovalStatus == admitRequestList.Filter && (admitRequest.FirstName.Trim().ToLower().Contains(admitRequestList.SearchQuery.Trim().ToLower()) || admitRequest.LastName.Trim().ToLower().Contains(admitRequestList.SearchQuery.Trim().ToLower())),
             Selects = responseInfo => new AdmitRequest()
             {
                 Id = responseInfo.Id,
                 FirstName = responseInfo.FirstName,
                 LastName = responseInfo.LastName,
                 Email = responseInfo.Email,
+                PhoneNumber = responseInfo.PhoneNumber,
                 Classes = responseInfo.Classes,
-                AdmitRequestRoles = responseInfo.AdmitRequestRoles
+                AdmitRequestRoles = responseInfo.AdmitRequestRoles,
+                ApprovalStatus = responseInfo.ApprovalStatus
             }
         };
 
@@ -120,6 +86,7 @@ public class CommonService : ICommonService
         {
             Name = $"{admitRequest.FirstName} {admitRequest.LastName}",
             Email = admitRequest.Email,
+            PhoneNumber = admitRequest.PhoneNumber,
             ClassName = admitRequest.Classes != null ? admitRequest.Classes.ClassName : null,
             RequestedRole = admitRequest.AdmitRequestRoles.Title
         }).ToList();

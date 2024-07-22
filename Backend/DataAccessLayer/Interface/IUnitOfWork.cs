@@ -8,8 +8,6 @@ public interface IUnitOfWork
 
     public IUserRepository UserRepository { get; }
 
-    public IAdmitRequestApprovalRepository AdmitRequestApprovalRepository { get; }
-
     public IGenderRepository GenderRepository { get; }
 
     public IBloodGroupRepository BloodGroupRepository { get; }

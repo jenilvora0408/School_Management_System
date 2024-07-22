@@ -42,10 +42,11 @@ export class TeacherDashboardComponent {
   searchQuery: string = '';
   sortColumn: string = 'FirstName';
   sortOrder: string = 'ascending';
+  filter: number = 1;
   constructor(private teacherService: TeacherService) {}
 
   ngOnInit(): void {
-    this.searchSubject.pipe(debounceTime(3000)).subscribe((searchTerm) => {
+    this.searchSubject.pipe(debounceTime(1000)).subscribe((searchTerm) => {
       this.search(searchTerm);
     });
     this.getAdmitRequestData();
@@ -83,6 +84,7 @@ export class TeacherDashboardComponent {
       sortOrder: this.sortOrder,
       sortColumn: this.sortColumn,
       searchQuery: this.searchQuery,
+      filter: this.filter,
     };
 
     this.teacherService
@@ -100,5 +102,15 @@ export class TeacherDashboardComponent {
           console.log(error);
         },
       });
+  }
+
+  getFormattedPhoneNumber(phoneNumber: string): string {
+    return phoneNumber.replace(/\s+/g, '');
+  }
+
+  onFilter(filterStatus: number): void {
+    console.log(filterStatus);
+    this.filter = filterStatus;
+    this.getAdmitRequestData();
   }
 }

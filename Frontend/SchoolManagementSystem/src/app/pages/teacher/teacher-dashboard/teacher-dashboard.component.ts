@@ -16,6 +16,9 @@ import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IPageListResponse } from '../../../shared/models/page-list-response';
 import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
+import { SystemConstants } from '../../../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
@@ -43,7 +46,8 @@ export class TeacherDashboardComponent {
   sortColumn: string = 'FirstName';
   sortOrder: string = 'ascending';
   filter: number = 1;
-  constructor(private teacherService: TeacherService) {}
+  approvalStatus!: string;
+  constructor(private teacherService: TeacherService, private router: Router) {}
 
   ngOnInit(): void {
     this.searchSubject.pipe(debounceTime(1000)).subscribe((searchTerm) => {
@@ -104,6 +108,21 @@ export class TeacherDashboardComponent {
       });
   }
 
+  getApprovalStatusText(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Pending';
+      case 2:
+        return 'Approved';
+      case 3:
+        return 'Declined';
+      case 5:
+        return 'Blocked';
+      default:
+        return 'Unknown';
+    }
+  }
+
   getFormattedPhoneNumber(phoneNumber: string): string {
     return phoneNumber.replace(/\s+/g, '');
   }
@@ -112,5 +131,14 @@ export class TeacherDashboardComponent {
     console.log(filterStatus);
     this.filter = filterStatus;
     this.getAdmitRequestData();
+  }
+
+  viewRequest(id: number): void {
+    console.log(id);
+    this.router.navigate(['/view-admit-request'], {
+      queryParams: {
+        id: CryptoJS.AES.encrypt(id.toString(), SystemConstants.EncryptionKey),
+      },
+    });
   }
 }

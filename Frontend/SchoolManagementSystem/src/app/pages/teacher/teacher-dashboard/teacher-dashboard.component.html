@@ -27,7 +27,6 @@
         </div>
       </div>
     </div>
-
     <table class="table table-striped table-hover border border-1">
       <thead>
         <tr class="table-primary">
@@ -58,6 +57,7 @@
           <th scope="col">Phone Number</th>
           <th scope="col">Class</th>
           <th scope="col">Requested Role</th>
+          <th scope="col">Status</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -75,6 +75,7 @@
           </td>
           <td>{{ item.className }}</td>
           <td>{{ item.requestedRole }}</td>
+          <td>{{ getApprovalStatusText(item.approvalStatus) }}</td>
           <td>
             <div ngbDropdown class="d-inline-block">
               <span
@@ -86,6 +87,9 @@
                 Actions
               </span>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button ngbDropdownItem (click)="viewRequest(item.id)">
+                  View Request
+                </button>
                 <button ngbDropdownItem>Approve Request</button>
                 <button ngbDropdownItem>Decline Request</button>
                 <button ngbDropdownItem>Block Request</button>

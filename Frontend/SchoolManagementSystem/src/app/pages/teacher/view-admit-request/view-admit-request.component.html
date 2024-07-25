@@ -1,0 +1,131 @@
+<div class="view-admit-request-container container-fluid">
+  <div class="header row">
+    <div class="col-12">
+      <app-header></app-header>
+    </div>
+  </div>
+  <div class="row request-info m-4">
+    <div class="top-request-container d-flex">
+      <div class="top-left-request-container col-3">
+        <img class="ms-5" src="../../../../assets/images/avatar.jpg" alt="" />
+      </div>
+      <div class="top-right-request-container col-9">
+        <div class="row d-flex justify-content-space-between">
+          <div class="personal-info col-6">
+            <h3>Personal Information</h3>
+            <div>
+              <div class="name">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  class="form-control w-75"
+                  value="{{ requestData.name }}"
+                  disabled
+                />
+              </div>
+              <div class="email mt-3">
+                <label for="email">Email</label>
+                <input
+                  type="text"
+                  class="form-control w-75"
+                  value="{{ requestData.email }}"
+                  disabled
+                />
+              </div>
+              <div class="phone-number mt-3">
+                <label for="phoneNumber">Contact Number</label>
+                <input
+                  type="tel"
+                  class="form-control w-75"
+                  value="{{ requestData.phoneNumber }}"
+                  disabled
+                />
+              </div>
+              <div class="address mt-3">
+                <label for="address">Address</label>
+                <textarea
+                  name="address"
+                  class="form-control w-75"
+                  value="{{ requestData.address }}"
+                  disabled
+                ></textarea>
+              </div>
+              <div class="gender mt-3">
+                <label for="gender">Gender</label>
+                <input
+                  type="text"
+                  class="form-control w-75"
+                  value="{{ requestData.genderTitle }}"
+                  disabled
+                />
+              </div>
+              <div class="blood-group mt-3">
+                <label for="blood-group">Blood Group</label>
+                <input
+                  type="text"
+                  class="form-control w-75"
+                  value="{{ requestData.bloodGroupTitle }}"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+          <div class="requested-info col-6">
+            <h3>Requested Information</h3>
+            <div class="requested-role">
+              <label for="role">Requested Role</label>
+              <input
+                type="text"
+                class="form-control w-75"
+                disabled
+                value="{{ requestData.requestedRoleTitle }}"
+              />
+            </div>
+            @if(requestData.className.length > 1){
+            <div class="class mt-3">
+              <label for="class">Class</label>
+              <input
+                type="text"
+                class="form-control w-75"
+                disabled
+                value="{{ requestData.className }}"
+              />
+            </div>
+            } @if(requestData.mediumTitle.length > 1){
+            <div class="medium mt-3">
+              <label for="medium">Medium</label>
+              <input
+                type="text"
+                class="form-control w-75"
+                disabled
+                value="{{ requestData.mediumTitle }}"
+              />
+            </div>
+            }
+            <div class="approval-status mt-3">
+              <label for="approval-status">Approval Status</label>
+              <input
+                type="text"
+                class="form-control w-75"
+                disabled
+                value="{{ getApprovalStatusText(requestData.approvalStatus) }}"
+              />
+            </div>
+            @if(requestData.comment != null){
+            <div class="comment mt-3">
+              <label for="comment">Comment</label>
+              <input
+                type="text"
+                class="form-control w-75"
+                disabled
+                value="{{ requestData.comment }}"
+              />
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="bottom-request-container"></div>
+    </div>
+  </div>
+</div>

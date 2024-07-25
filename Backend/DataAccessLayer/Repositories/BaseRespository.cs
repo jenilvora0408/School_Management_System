@@ -110,5 +110,33 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return new PageListResponseDTO<T>(pageListRequest.PageIndex, pageListRequest.PageSize, totalRecords, records);
     }
 
+    public async Task<T?> GetAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>>[]? includes = null, string[]? thenIncludes = null, Expression<Func<T, T>>? selects = null, CancellationToken cancellationToken = default)
+    {
+        IQueryable<T> query = _dbSet.AsQueryable();
+
+        if (includes != null)
+        {
+            query = includes.Aggregate(query, (current, include) =>
+            {
+                return current.Include(include);
+            });
+        }
+
+        if (thenIncludes != null)
+        {
+            query = thenIncludes.Aggregate(query, (current, thenInclude) =>
+            {
+                return current.Include(thenInclude);
+            });
+        }
+
+        query = query.Where(expression);
+
+        if (selects != null)
+            query = query.Select(selects);
+
+        return await query.FirstOrDefaultAsync(cancellationToken);
+    }
+
     #endregion Methods
 }

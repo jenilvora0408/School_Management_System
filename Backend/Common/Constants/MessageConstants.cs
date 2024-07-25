@@ -17,6 +17,8 @@ public static class MessageConstants
         public const string UNAUTHORIZE = "Unauthorize access!";
 
         public const string USER_NOT_FOUND = "User not found!";
+
+        public const string ADMIT_REQUEST_NOT_FOUND = "Admit Request not Found!";
     }
 
     public static class SuccessMessage

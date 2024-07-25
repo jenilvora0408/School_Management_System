@@ -22,6 +22,30 @@ public static class AdmitRequestMappingProfile
         ApprovalStatus = 1,
     };
 
+    public static ViewAdmitRequestDTO ToGetAdmitRequest(this AdmitRequest admitRequest)
+    {
+        return new ViewAdmitRequestDTO
+        {
+            Id = admitRequest.Id,
+            Name = admitRequest.FirstName + " " + admitRequest.LastName,
+            Email = admitRequest.Email,
+            Address = admitRequest.Address,
+            PhoneNumber = admitRequest.PhoneNumber,
+            DateOfBirth = admitRequest.DateOfBirth,
+            GenderTitle = admitRequest.Genders.Title,
+            Avatar = admitRequest.Avatar,
+            BloodGroupTitle = admitRequest.BloodGroups.Title,
+            RequestedRoleTitle = admitRequest.AdmitRequestRoles.Title,
+            ClassName = admitRequest.Classes?.ClassName ?? string.Empty,
+            MediumTitle = admitRequest.Mediums?.Title ?? string.Empty,
+            ApprovalStatus = admitRequest.ApprovalStatus,
+            Comment = admitRequest.Comment,
+            ApprovedByName = admitRequest.ApprovedByUser?.FirstName + ' ' + admitRequest.ApprovedByUser?.LastName ?? string.Empty,
+            DeclinedByName = admitRequest.DeclinedByUser?.FirstName + ' ' + admitRequest.DeclinedByUser?.LastName ?? string.Empty,
+            BlockedByName = admitRequest.BlockedByUser?.FirstName + ' ' + admitRequest.BlockedByUser?.LastName ?? string.Empty,
+        };
+    }
+
     public static AdmitRequestListResponseDTO ToAdmitRequestListResponseDTO(this AdmitRequest admitRequest)
     {
         return new AdmitRequestListResponseDTO

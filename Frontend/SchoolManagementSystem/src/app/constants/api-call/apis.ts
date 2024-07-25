@@ -4,6 +4,7 @@ export class ApiCallConstant {
   //Controller name
   public static readonly COMMON_CONTROLLER = this.BASE_URL + 'common/';
   public static readonly USER_CONTROLLER = this.BASE_URL + 'user/';
+  public static readonly TEACHER_CONTROLLER = this.BASE_URL + 'teacher/';
 
   //Common Controller Methods
   public static readonly GET_COMMON_ENTITY_DATA =
@@ -21,4 +22,8 @@ export class ApiCallConstant {
     this.USER_CONTROLLER + 'forget-password';
   public static readonly RESET_PASSWORD =
     this.USER_CONTROLLER + 'reset-password';
+
+  //Teacher Controller Methods
+  public static readonly VIEW_ADMIT_REQUEST =
+    this.TEACHER_CONTROLLER + 'get-admit-request';
 }

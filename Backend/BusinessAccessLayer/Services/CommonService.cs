@@ -84,11 +84,13 @@ public class CommonService : ICommonService
 
         List<AdmitRequestListResponseDTO> admitRequestListResponseDTOs = pageListResponse.Records.Select(admitRequest => new AdmitRequestListResponseDTO
         {
+            Id = admitRequest.Id,
             Name = $"{admitRequest.FirstName} {admitRequest.LastName}",
             Email = admitRequest.Email,
             PhoneNumber = admitRequest.PhoneNumber,
             ClassName = admitRequest.Classes != null ? admitRequest.Classes.ClassName : null,
-            RequestedRole = admitRequest.AdmitRequestRoles.Title
+            RequestedRole = admitRequest.AdmitRequestRoles.Title,
+            ApprovalStatus = admitRequest.ApprovalStatus
         }).ToList();
 
         return new PageListResponseDTO<AdmitRequestListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, admitRequestListResponseDTOs);

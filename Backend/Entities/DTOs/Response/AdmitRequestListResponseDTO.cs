@@ -2,6 +2,7 @@ namespace Entities.DTOs;
 
 public record AdmitRequestListResponseDTO
 {
+    public long Id { get; init; }
 
     public string Name { get; init; } = null!;
 
@@ -12,4 +13,6 @@ public record AdmitRequestListResponseDTO
     public string? ClassName { get; init; }
 
     public string RequestedRole { get; init; } = null!;
+
+    public int ApprovalStatus { get; init; }
 }

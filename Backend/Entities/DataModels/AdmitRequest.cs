@@ -1,5 +1,4 @@
 ﻿using Entities.Abstract;
-using Entities.DTOs;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.DataModels;
@@ -42,6 +41,8 @@ public class AdmitRequest : AuditableEntity<long>
 
     public long? DeclinedBy { get; set; }
 
+    public long? BlockedBy { get; set; }
+
     #region Foreign_Keys
 
     [ForeignKey(nameof(GenderId))]
@@ -64,6 +65,9 @@ public class AdmitRequest : AuditableEntity<long>
 
     [ForeignKey(nameof(DeclinedBy))]
     public virtual User? DeclinedByUser { get; set; }
+
+    [ForeignKey(nameof(BlockedBy))]
+    public virtual User? BlockedByUser { get; set; }
 
     #endregion
 

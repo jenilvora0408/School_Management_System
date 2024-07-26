@@ -75,7 +75,7 @@
           </td>
           <td>{{ item.className }}</td>
           <td>{{ item.requestedRole }}</td>
-          <td>{{ getApprovalStatusText(item.approvalStatus) }}</td>
+          <td>{{ item.approvalStatus | approvalStatus }}</td>
           <td>
             <div ngbDropdown class="d-inline-block">
               <span
@@ -90,9 +90,6 @@
                 <button ngbDropdownItem (click)="viewRequest(item.id)">
                   View Request
                 </button>
-                <button ngbDropdownItem>Approve Request</button>
-                <button ngbDropdownItem>Decline Request</button>
-                <button ngbDropdownItem>Block Request</button>
               </div>
             </div>
           </td>

@@ -5,7 +5,8 @@ import { VerifyOtpComponent } from './pages/authentication/verify-otp/verify-otp
 import { ForgetPasswordComponent } from './pages/authentication/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './pages/authentication/reset-password/reset-password.component';
 import { TeacherDashboardComponent } from './pages/teacher/teacher-dashboard/teacher-dashboard.component';
-import { ViewAdmitRequestComponent } from './pages/teacher/view-admit-request/view-admit-request.component';
+import { TeacherLeaveRequestComponent } from './pages/teacher/teacher-leave-request/teacher-leave-request.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -13,6 +14,14 @@ export const routes: Routes = [
   { path: 'verify-otp', component: VerifyOtpComponent },
   { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'teacher-dashboard', component: TeacherDashboardComponent },
-  { path: 'view-admit-request', component: ViewAdmitRequestComponent },
+  {
+    path: 'teacher-dashboard',
+    component: TeacherDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'teacher-leave-request',
+    component: TeacherLeaveRequestComponent,
+    canActivate: [AuthGuard],
+  },
 ];

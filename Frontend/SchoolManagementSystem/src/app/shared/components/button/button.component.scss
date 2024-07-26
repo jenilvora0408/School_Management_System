@@ -1,9 +1,16 @@
 $purple: #6c4e87;
+$green: green;
+$green-active: rgba(0, 128, 0, 0.85);
+$red: rgb(214, 34, 34);
+$red-active: rgb(235, 18, 18);
+$gray: rgb(116, 116, 116);
+$gray-active: rgb(88, 88, 88);
 $purple-hover: #61467a;
 $purple-active: #563e6c;
 $white: #fff;
 $white-hover: #f0edf3;
 $white-active: #e2dce7;
+$black: #111;
 
 .text-btn {
   color: $purple;
@@ -17,4 +24,52 @@ $white-active: #e2dce7;
 }
 .text-btn:active {
   background-color: $purple-active;
+}
+.approve-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: $green;
+  border: 1px solid $green;
+  padding: 9px 20px;
+  width: 100%;
+  border-radius: 70px;
+  font-size: 15px;
+}
+.approve-btn:hover {
+  color: $white;
+  background-color: $green;
+}
+.approve-btn:active {
+  background-color: $green-active;
+}
+.decline-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: $red;
+  border: 1px solid $red;
+  padding: 9px 20px;
+  width: 100%;
+  border-radius: 70px;
+  font-size: 15px;
+}
+.decline-btn:hover {
+  color: $white;
+  background-color: $red;
+}
+.decline-btn:active {
+  background-color: $red-active;
+}
+.blocked-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: $gray;
+  border: 1px solid $gray;
+  padding: 9px 20px;
+  width: 100%;
+  border-radius: 70px;
+  font-size: 15px;
+}
+.blocked-btn:hover {
+  color: $white;
+  background-color: $gray;
 }

@@ -1,1 +1,160 @@
-<p>teacher-leave-request works!</p>
+<div class="leave-request-container container-fluid">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="content-container p-3">
+    <h3 class="mt-2">Leave Request</h3>
+    <form
+      action=""
+      appFormSubmit
+      class="row"
+      [formGroup]="leaveRequestForm"
+      (submit)="onSubmit()"
+    >
+      <div class="first-half-form col-6">
+        <app-input
+          label="Name"
+          type="text"
+          className="inputField py-2 fs-6 form-control border border-1 mb-3"
+          [parentForm]="leaveRequestForm"
+          [value]="'Jenil Vora'"
+          controlName="name"
+          [readonly]="true"
+        ></app-input>
+        <app-textarea
+          label="Reason For Leave"
+          controlName="reasonForLeave"
+          [parentForm]="leaveRequestForm"
+          className="app-textarea form-control mb-3"
+          errorTitle="Address"
+          placeholder=""
+        />
+        <app-select
+          [options]="leaveTypeOptions"
+          controlName="leaveType"
+          [parentForm]="leaveRequestForm"
+          placeholder="Select a Type"
+          className="py-2 form-control mb-3"
+          label="Select type of Leave"
+          errorTitle="Leave Type"
+        />
+        <app-input
+          label="Phone Number"
+          type="text"
+          className="inputField py-2 fs-6 form-control border border-1 mb-3"
+          [parentForm]="leaveRequestForm"
+          [value]="'9328378729'"
+          controlName="contactNumber"
+          [readonly]="true"
+        ></app-input>
+        <app-select
+          [options]="availabiilityOnPhoneOptions"
+          controlName="availabilityOnPhone"
+          [parentForm]="leaveRequestForm"
+          placeholder="Select a Type"
+          className="py-2 form-control mb-3"
+          label="Availability on Phone"
+          errorTitle="Availability on Phone"
+        />
+        <app-input
+          label="Alternate Phone Number"
+          type="text"
+          className="inputField py-2 fs-6 form-control border border-1 mb-3"
+          [parentForm]="leaveRequestForm"
+          [value]="'9987643105'"
+          controlName="alternateContactNumber"
+          [readonly]="true"
+        ></app-input>
+      </div>
+      <div class="second-half-form col-6">
+        <app-input
+          label="Send Request To"
+          type="text"
+          className="inputField py-2 fs-6 form-control border border-1 mb-4"
+          [parentForm]="leaveRequestForm"
+          [value]="'Anurag Patwardhan'"
+          controlName="approvalFromUser"
+          [readonly]="true"
+        ></app-input>
+        <div>
+          <div class="mb-3">
+            <label for="leave-duration">Select Leave Period</label>
+            <div class="dp-hidden position-absolute">
+              <div class="input-group">
+                <input
+                  name="datepicker"
+                  class="form-control"
+                  ngbDatepicker
+                  #datepicker="ngbDatepicker"
+                  [autoClose]="'outside'"
+                  (dateSelect)="onDateSelection($event)"
+                  [displayMonths]="2"
+                  [dayTemplate]="t"
+                  outsideDays="hidden"
+                  [startDate]="fromDate!"
+                  tabindex="-1"
+                />
+                <ng-template #t let-date let-focused="focused">
+                  <span
+                    class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null"
+                  >
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+            <div class="input-group">
+              <input
+                #dpFromDate
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="dpFromDate"
+                [value]="formatter.format(fromDate)"
+                (input)="fromDate = validateInput(fromDate, dpFromDate.value)"
+              />
+              <button
+                class="btn btn-outline-secondary bi bi-calendar3"
+                (click)="datepicker.toggle()"
+                type="button"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <app-input
+          label="Leave Duration"
+          type="text"
+          className="inputField py-2 fs-6 form-control border border-1 mb-3"
+          [parentForm]="leaveRequestForm"
+          [value]="'3'"
+          controlName="leaveDuration"
+          [readonly]="true"
+        ></app-input>
+
+        <app-input
+          label="Requested Date"
+          type="text"
+          className="inputField py-2 fs-6 form-control border border-1 mb-3"
+          [parentForm]="leaveRequestForm"
+          [value]="'10-02-2024'"
+          controlName="leaveStartDate"
+          [readonly]="true"
+        ></app-input>
+
+        <app-input
+          label="Return Date"
+          type="text"
+          className="inputField py-2 fs-6 form-control border border-1 mb-3"
+          [parentForm]="leaveRequestForm"
+          [value]="'13-02-2024'"
+          controlName="leaveEndDate"
+          [readonly]="true"
+        ></app-input>
+      </div>
+    </form>
+  </div>
+</div>

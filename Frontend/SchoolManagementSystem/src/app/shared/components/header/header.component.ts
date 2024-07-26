@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgbDropdownModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { AuthenticationService } from '../../../services/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,14 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 export class HeaderComponent {
   private offCanvasService = inject(NgbOffcanvas);
 
-  constructor() {}
+  constructor(private authService: AuthenticationService) {}
 
   open() {
     const offcanvasRef = this.offCanvasService.open(SidebarComponent);
     offcanvasRef.componentInstance.name = 'Sidenav';
+  }
+
+  onLogout() {
+    this.authService.logOut();
   }
 }

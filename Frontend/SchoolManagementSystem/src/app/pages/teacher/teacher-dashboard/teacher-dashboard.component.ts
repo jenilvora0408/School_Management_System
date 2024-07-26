@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import {
   NgbDropdownModule,
   NgbHighlight,
+  NgbModal,
   NgbPaginationModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
@@ -17,8 +18,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IPageListResponse } from '../../../shared/models/page-list-response';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
-import { SystemConstants } from '../../../constants/shared/system-constants';
+import {
+  StatusConstants,
+  SystemConstants,
+} from '../../../constants/shared/system-constants';
 import * as CryptoJS from 'crypto-js';
+import { RoutingPathConstant } from '../../../constants/routing/routing-path';
+import { ValidationPattern } from '../../../constants/validation/validation-pattern';
+import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
+import { ViewAdmitRequestComponent } from '../../../NgbModals/Teacher/view-admit-request/view-admit-request.component';
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
@@ -32,6 +40,7 @@ import * as CryptoJS from 'crypto-js';
     ReactiveFormsModule,
     FormsModule,
     NgClass,
+    ApprovalStatusPipe,
   ],
   templateUrl: './teacher-dashboard.component.html',
   styleUrl: './teacher-dashboard.component.scss',
@@ -47,7 +56,12 @@ export class TeacherDashboardComponent {
   sortOrder: string = 'ascending';
   filter: number = 1;
   approvalStatus!: string;
-  constructor(private teacherService: TeacherService, private router: Router) {}
+  constructor(
+    private teacherService: TeacherService,
+    private router: Router,
+    private modalService: NgbModal,
+    private injector: Injector
+  ) {}
 
   ngOnInit(): void {
     this.searchSubject.pipe(debounceTime(1000)).subscribe((searchTerm) => {
@@ -70,10 +84,12 @@ export class TeacherDashboardComponent {
 
     if (this.sortColumn === column) {
       this.sortOrder =
-        this.sortOrder === 'ascending' ? 'descending' : 'ascending';
+        this.sortOrder === SystemConstants.Ascending
+          ? SystemConstants.Descending
+          : SystemConstants.Ascending;
     } else {
       this.sortColumn = column;
-      this.sortOrder = 'ascending';
+      this.sortOrder = SystemConstants.Ascending;
     }
     console.log('SORT: ', this.sortColumn, this.sortOrder);
     this.getAdmitRequestData();
@@ -108,23 +124,8 @@ export class TeacherDashboardComponent {
       });
   }
 
-  getApprovalStatusText(status: number): string {
-    switch (status) {
-      case 1:
-        return 'Pending';
-      case 2:
-        return 'Approved';
-      case 3:
-        return 'Declined';
-      case 5:
-        return 'Blocked';
-      default:
-        return 'Unknown';
-    }
-  }
-
   getFormattedPhoneNumber(phoneNumber: string): string {
-    return phoneNumber.replace(/\s+/g, '');
+    return phoneNumber.replace(ValidationPattern.formatPhoneNumber, '');
   }
 
   onFilter(filterStatus: number): void {
@@ -135,10 +136,24 @@ export class TeacherDashboardComponent {
 
   viewRequest(id: number): void {
     console.log(id);
-    this.router.navigate(['/view-admit-request'], {
-      queryParams: {
-        id: CryptoJS.AES.encrypt(id.toString(), SystemConstants.EncryptionKey),
-      },
+    // this.router.navigate([RoutingPathConstant.viewAdmitRequestUrl], {
+    //   queryParams: {
+    //     id: CryptoJS.AES.encrypt(id.toString(), SystemConstants.EncryptionKey),
+    //   },
+    // });
+    this.modalService.open(ViewAdmitRequestComponent, {
+      centered: true,
+      size: 'xl',
+      backdrop: 'static',
+      // Pass email to VerifyOtpModalComponent
+      injector: Injector.create({
+        providers: [
+          {
+            provide: 'id',
+            useValue: id,
+          },
+        ],
+      }),
     });
   }
 }

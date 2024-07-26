@@ -34,6 +34,19 @@ export class InputComponent {
   @Input({ required: false }) testId = '';
   @Output() onKeyup: EventEmitter<string> = new EventEmitter<string>();
 
+  ngOnInit() {
+    if (this.parentForm && this.controlName) {
+      const control = this.parentForm.get(this.controlName);
+      if (control) {
+        control.setValue(this.value);
+      } else {
+        console.error(
+          `Control with name '${this.controlName}' not found in parent form`
+        );
+      }
+    }
+  }
+
   onKeyUp(inputValue: string) {
     this.onKeyup.emit(inputValue);
   }

@@ -13,8 +13,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IResponse } from '../../../shared/models/IResponse';
-import { SystemConstants } from '../../../constants/shared/system-constants';
+import {
+  SystemConstants,
+  UserRole,
+} from '../../../constants/shared/system-constants';
 import * as CryptoJS from 'crypto-js';
+import { RoutingPathConstant } from '../../../constants/routing/routing-path';
+import { NotificationMessageConstant } from '../../../constants/notification/notification-message';
 
 @Component({
   selector: 'app-verify-otp',
@@ -75,15 +80,27 @@ export class VerifyOtpComponent {
           if (this.locationUrl == 'login') {
             console.log('verify-otp response: ', response);
             this.authService.decodeToken(response.data.accessToken);
-            this.notificationsService.success('Logged in successfully!');
-            this.router.navigate(['/principal-dashboard']);
+            this.notificationsService.success(
+              NotificationMessageConstant.loginSuccessful
+            );
+            if (this.authService.getUserType() == UserRole.principalRoleId) {
+              this.router.navigate([RoutingPathConstant.principalDashboardUrl]);
+            } else if (
+              this.authService.getUserType() == UserRole.teacherRoleId
+            ) {
+              this.router.navigate([RoutingPathConstant.teacherDashboardUrl]);
+            } else if (
+              this.authService.getUserType() == UserRole.studentRoleId
+            ) {
+              this.router.navigate([RoutingPathConstant.studentDashboardUrl]);
+            }
             const userId = this.authService.getUserId() || '';
             console.log('UserId: ' + userId);
           } else {
             this.notificationsService.success(
-              'OTP has been verified successfully!'
+              NotificationMessageConstant.otpVerifiedSuccessfully
             );
-            this.router.navigate(['/reset-password'], {
+            this.router.navigate([RoutingPathConstant.resetPasswordUrl], {
               queryParams: {
                 email: CryptoJS.AES.encrypt(
                   this.email,

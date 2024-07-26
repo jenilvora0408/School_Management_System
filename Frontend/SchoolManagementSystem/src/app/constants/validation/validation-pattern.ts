@@ -7,4 +7,5 @@ export class ValidationPattern {
   public static names = /^[a-zA-Z]+$/;
   public static link = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/;
   public static number = /[0-9]/;
+  public static formatPhoneNumber = /\s+/g;
 }

@@ -1,0 +1,114 @@
+<div class="modal-header">
+  <h4 class="modal-title">View Admit Request</h4>
+  <button
+    type="button"
+    class="btn-close me-2"
+    aria-label="Close"
+    (click)="close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div class="view-admit-request-container">
+    <div
+      class="top-container w-100 d-flex flex-column justify-content-center align-items-center"
+    >
+      <img class="avatar" src="{{ requestData.avatar }}" alt="" />
+      <h5 class="mt-2">{{ requestData.name }}</h5>
+    </div>
+    <div class="bottom-container d-flex flex-column">
+      <div
+        class="d-flex justify-content-center align-items-center gap-4 p-5 pt-3 pb-3"
+      >
+        <div class="left-block col-6">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            value="{{ requestData.email }} "
+            disabled
+          />
+          <label for="gender">Gender</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            value="{{ requestData.genderTitle }} "
+            disabled
+          />
+          <label for="role">Requested Role</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            value="{{ requestData.requestedRoleTitle }} "
+            disabled
+          />
+          @if(requestData.requestedRoleTitle == 'Student'){
+          <label for="class">Class</label>
+          <input
+            type="text"
+            class="form-control"
+            value="{{ requestData.className }} "
+            disabled
+          />
+          }
+        </div>
+        <div class="right-block col-6">
+          <label for="conatct-number">Contact Number</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            value="{{ requestData.phoneNumber }} "
+            disabled
+          />
+          <label for="blood-group">Blood Group</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            value="{{ requestData.bloodGroupTitle }} "
+            disabled
+          />
+          <label for="approval-status">Approval Status</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            value="{{ requestData.approvalStatus | approvalStatus }} "
+            disabled
+          />
+          @if(requestData.requestedRoleTitle == 'Student'){
+          <label for="medium">Medium</label>
+          <input
+            type="text"
+            class="form-control"
+            value="{{ requestData.mediumTitle }} "
+            disabled
+          />
+          }
+        </div>
+      </div>
+      <div class="col-12 address-container">
+        <label for="address">Address</label>
+        <textarea name="address" class="form-control" disabled>{{
+          requestData.address
+        }}</textarea>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer d-flex justify-content-center">
+  <app-button
+    type="button"
+    label="Approve Request"
+    className="btn approve-btn"
+  ></app-button>
+
+  <app-button
+    type="button"
+    label="Decline Request"
+    className="btn decline-btn"
+  ></app-button>
+
+  <app-button
+    type="button"
+    label="Block Request"
+    className="btn blocked-btn"
+  ></app-button>
+</div>

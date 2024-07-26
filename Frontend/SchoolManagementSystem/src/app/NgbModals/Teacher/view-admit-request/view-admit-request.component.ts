@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
+import { InputComponent } from '../../../shared/components/input/input.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { TeacherService } from '../../../services/teacher.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IViewAdmitRequestInterface } from '../../../models/teacher/view-admit-request';
-import { IResponse } from '../../../shared/models/IResponse';
 import { ActivatedRoute } from '@angular/router';
 import { SystemConstants } from '../../../constants/shared/system-constants';
-import * as CryptoJS from 'crypto-js';
+import { IViewAdmitRequestInterface } from '../../../models/teacher/view-admit-request';
+import { TeacherService } from '../../../services/teacher.service';
+import { IResponse } from '../../../shared/models/IResponse';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-view-admit-request',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent, ApprovalStatusPipe, ButtonComponent],
   templateUrl: './view-admit-request.component.html',
   styleUrl: './view-admit-request.component.scss',
 })
@@ -20,18 +24,13 @@ export class ViewAdmitRequestComponent {
   requestData!: IViewAdmitRequestInterface;
   constructor(
     private teacherService: TeacherService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private injector: Injector,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.admitRequestId = parseInt(
-        CryptoJS.AES.decrypt(
-          params['id'],
-          SystemConstants.EncryptionKey
-        ).toString(CryptoJS.enc.Utf8)
-      );
-    });
+    this.admitRequestId = this.injector.get('id');
 
     this.teacherService.getAdmitRequest(this.admitRequestId).subscribe({
       next: (response: IResponse<IViewAdmitRequestInterface>) => {
@@ -44,18 +43,7 @@ export class ViewAdmitRequestComponent {
     });
   }
 
-  getApprovalStatusText(status: number): string {
-    switch (status) {
-      case 1:
-        return 'Pending';
-      case 2:
-        return 'Approved';
-      case 3:
-        return 'Declined';
-      case 5:
-        return 'Blocked';
-      default:
-        return 'Unknown';
-    }
+  close() {
+    this.modalService.dismissAll();
   }
 }

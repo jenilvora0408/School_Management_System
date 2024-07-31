@@ -27,6 +27,12 @@ public class CommonService : ICommonService
         return user;
     }
 
+    public async Task<User?> GetUserById(long id)
+    {
+        User? user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(user => user.Id == id);
+        return user;
+    }
+
     public async Task<CommonEntityListResponseDTO> GetEntityList()
     {
         CommonEntityListResponseDTO commonEntityListResponse = new();

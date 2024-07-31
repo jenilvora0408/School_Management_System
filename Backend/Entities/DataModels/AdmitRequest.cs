@@ -43,6 +43,8 @@ public class AdmitRequest : AuditableEntity<long>
 
     public long? BlockedBy { get; set; }
 
+    public string? ReasonForBlock { get; set; }
+
     #region Foreign_Keys
 
     [ForeignKey(nameof(GenderId))]

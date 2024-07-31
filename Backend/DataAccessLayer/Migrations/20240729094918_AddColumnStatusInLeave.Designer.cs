@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240729094918_AddColumnStatusInLeave")]
+    partial class AddColumnStatusInLeave
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,10 +102,6 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
-
-                    b.Property<string>("ReasonForBlock")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
 
                     b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint");
@@ -242,16 +241,16 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             ClassName = "Class-11",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         },
                         new
                         {
                             Id = 2,
                             ClassName = "Class-12",
                             ClassStrength = 120,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         });
                 });
 
@@ -483,44 +482,44 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
                             SubjectName = "Physics",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
                             SubjectName = "Chemistry",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
                             SubjectName = "Biology",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
                             SubjectName = "Maths",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
                             SubjectName = "Physics Practical",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334),
                             SubjectName = "Chemistry Practical",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         });
                 });
 
@@ -668,7 +667,7 @@ namespace DataAccessLayer.Migrations
                             Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital",
                             Avatar = "/images/Principal-photo.jpg",
                             BloodGroupId = (byte)5,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 11, 383, DateTimeKind.Utc).AddTicks(3387),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 49, 17, 497, DateTimeKind.Utc).AddTicks(1329),
                             Email = "anurag@gmail.com",
                             FirstName = "Anurag",
                             GenderId = (byte)1,
@@ -679,7 +678,7 @@ namespace DataAccessLayer.Migrations
                             Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2",
                             PhoneNumber = "8957486525",
                             RoleId = (byte)1,
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 49, 16, 926, DateTimeKind.Utc).AddTicks(4334)
                         });
                 });
 

@@ -164,6 +164,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Address).IsRequired().HasMaxLength(1000);
             entity.Property(e => e.ApprovalStatus).HasDefaultValue(1);
             entity.Property(e => e.Comment).HasMaxLength(200);
+            entity.Property(e => e.ReasonForBlock).HasMaxLength(500);
 
             entity.HasOne(u => u.Genders)
                 .WithMany()
@@ -252,6 +253,38 @@ public class AppDbContext : DbContext
             entity.HasOne(u => u.SubjectTeacher)
                 .WithMany()
                 .HasForeignKey(u => u.SubjectTeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(u => u.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Leave>(entity =>
+        {
+            entity.ToTable("Leaves");
+            entity.Property(e => e.ReasonForLeave).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.LeaveStartType).IsRequired().HasMaxLength(10);
+            entity.Property(e => e.LeaveEndType).IsRequired().HasMaxLength(10);
+            entity.Property(e => e.LeaveDuration).IsRequired().HasMaxLength(10);
+            entity.Property(e => e.LeaveType).IsRequired().HasMaxLength(10);
+            entity.Property(e => e.AlternatePhoneNumber).IsRequired().HasMaxLength(15);
+            entity.Property(e => e.ApprovalStatus).HasDefaultValue(1);
+
+            entity.HasOne(u => u.Users)
+                .WithMany()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(u => u.ApprovalFromUsers)
+                .WithMany()
+                .HasForeignKey(u => u.ApprovalFromUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(u => u.CreatedByUser)

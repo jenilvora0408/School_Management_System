@@ -7,6 +7,7 @@ import { ResetPasswordComponent } from './pages/authentication/reset-password/re
 import { TeacherDashboardComponent } from './pages/teacher/teacher-dashboard/teacher-dashboard.component';
 import { TeacherLeaveRequestComponent } from './pages/teacher/teacher-leave-request/teacher-leave-request.component';
 import { AuthGuard } from './guards/auth.guard';
+import { LeaveDashboardComponent } from './pages/teacher/leave-dashboard/leave-dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -23,5 +24,9 @@ export const routes: Routes = [
     path: 'teacher-leave-request',
     component: TeacherLeaveRequestComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'leave-dashboard',
+    component: LeaveDashboardComponent,
   },
 ];

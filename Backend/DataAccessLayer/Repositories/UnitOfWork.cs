@@ -16,6 +16,7 @@ public class UnitOfWork : IUnitOfWork
     private IStudentRepository _studentRepository;
     private ISubjectRepository _subjectRepository;
     private IMediumRepository _mediumRepository;
+    private ILeaveRepository _leaveRepository;
 
     #endregion
 
@@ -109,6 +110,14 @@ public class UnitOfWork : IUnitOfWork
         get
         {
             return _mediumRepository ??= new MediumRepository(_dbContext);
+        }
+    }
+
+    public ILeaveRepository LeaveRepository
+    {
+        get
+        {
+            return _leaveRepository ??= new LeaveRepository(_dbContext);
         }
     }
 

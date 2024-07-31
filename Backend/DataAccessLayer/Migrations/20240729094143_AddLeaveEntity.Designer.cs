@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240729094143_AddLeaveEntity")]
+    partial class AddLeaveEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,10 +102,6 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
-
-                    b.Property<string>("ReasonForBlock")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
 
                     b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint");
@@ -242,16 +241,16 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             ClassName = "Class-11",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         },
                         new
                         {
                             Id = 2,
                             ClassName = "Class-12",
                             ClassStrength = 120,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         });
                 });
 
@@ -297,11 +296,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<long>("ApprovalFromUserId")
                         .HasColumnType("bigint");
-
-                    b.Property<byte>("ApprovalStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasDefaultValue((byte)1);
 
                     b.Property<bool?>("AvailabilityOnPhone")
                         .HasColumnType("boolean");
@@ -483,44 +477,44 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
                             SubjectName = "Physics",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
                             SubjectName = "Chemistry",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
                             SubjectName = "Biology",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
                             SubjectName = "Maths",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
                             SubjectName = "Physics Practical",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170),
                             SubjectName = "Chemistry Practical",
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         });
                 });
 
@@ -668,7 +662,7 @@ namespace DataAccessLayer.Migrations
                             Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital",
                             Avatar = "/images/Principal-photo.jpg",
                             BloodGroupId = (byte)5,
-                            CreatedOn = new DateTime(2024, 7, 31, 8, 30, 11, 383, DateTimeKind.Utc).AddTicks(3387),
+                            CreatedOn = new DateTime(2024, 7, 29, 9, 41, 42, 22, DateTimeKind.Utc).AddTicks(4256),
                             Email = "anurag@gmail.com",
                             FirstName = "Anurag",
                             GenderId = (byte)1,
@@ -679,7 +673,7 @@ namespace DataAccessLayer.Migrations
                             Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2",
                             PhoneNumber = "8957486525",
                             RoleId = (byte)1,
-                            UpdatedOn = new DateTime(2024, 7, 31, 8, 30, 10, 849, DateTimeKind.Utc).AddTicks(6009)
+                            UpdatedOn = new DateTime(2024, 7, 29, 9, 41, 41, 369, DateTimeKind.Utc).AddTicks(2170)
                         });
                 });
 

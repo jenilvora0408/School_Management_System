@@ -62,4 +62,14 @@ public static class AdmitRequestMappingProfile
     {
         return admitRequests.Select(admitRequest => admitRequest.ToAdmitRequestListResponseDTO()).ToList();
     }
+
+    public static void ToApproveAdmitRequest(this AdmitRequestApprovalDTO admitRequestDTO, AdmitRequest admitRequest)
+    {
+        admitRequest.Id = admitRequestDTO.AdmitRequestId;
+        admitRequest.ApprovalStatus = admitRequestDTO.ApprovalStatus;
+        admitRequest.Comment = admitRequestDTO.Comment;
+        admitRequest.ApprovedBy = admitRequestDTO.ApprovedBy == 0 ? null : admitRequestDTO.ApprovedBy;
+        admitRequest.DeclinedBy = admitRequestDTO.DeclinedBy == 0 ? null : admitRequestDTO.DeclinedBy;
+        admitRequest.BlockedBy = admitRequestDTO.BlockedBy == 0 ? null : admitRequestDTO.BlockedBy;
+    }
 }

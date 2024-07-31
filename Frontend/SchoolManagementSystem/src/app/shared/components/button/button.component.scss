@@ -25,6 +25,9 @@ $black: #111;
 .text-btn:active {
   background-color: $purple-active;
 }
+.leave-btn {
+  border-radius: 10px !important;
+}
 .approve-btn {
   font-weight: 500;
   letter-spacing: 1px;

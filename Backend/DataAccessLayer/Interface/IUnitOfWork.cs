@@ -19,4 +19,6 @@ public interface IUnitOfWork
     public IStudentRepository StudentRepository { get; }
 
     public IMediumRepository MediumRepository { get; }
+
+    public ILeaveRepository LeaveRepository { get; }
 }

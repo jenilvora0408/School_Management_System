@@ -1,0 +1,182 @@
+<div class="leave-dashboard-container container-fluid">
+  <app-header></app-header>
+  <div class="leave-dashboard-header row m-2 mt-3">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <h3>Leave Dashboard</h3>
+
+      <app-button
+        type="button"
+        label="Add Leave"
+        className="btn text-btn leave-btn"
+        [iconClass]="'bi bi-plus'"
+      ></app-button>
+    </div>
+  </div>
+  <div
+    class="leave-tabs-container d-flex justify-content-center align-items-center gap-3 px-4 py-4"
+  >
+    <div
+      class="all-requests py-2 pb-3 d-flex align-items-center justify-content-center gap-4"
+    >
+      <div class="icon"><i class="bi bi-person fs-2"></i></div>
+      <div
+        class="content d-flex flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-4">6</span>
+        <span class="fs-4">Requests</span>
+      </div>
+    </div>
+    <div
+      class="all-requests py-2 pb-3 d-flex align-items-center justify-content-center gap-4"
+    >
+      <div class="icon"><i class="bi bi-check-circle fs-2"></i></div>
+      <div
+        class="content d-flex flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-4">6</span>
+        <span class="fs-4">Approved</span>
+      </div>
+    </div>
+    <div
+      class="all-requests py-2 pb-3 d-flex align-items-center justify-content-center gap-4"
+    >
+      <div class="icon"><i class="bi bi-hourglass-bottom fs-2"></i></div>
+      <div
+        class="content d-flex flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-4">6</span>
+        <span class="fs-4">Pending</span>
+      </div>
+    </div>
+    <div
+      class="all-requests py-2 pb-3 d-flex align-items-center justify-content-center gap-4"
+    >
+      <div class="icon"><i class="bi bi-x-circle fs-2"></i></div>
+      <div
+        class="content d-flex flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-4">6</span>
+        <span class="fs-4">Declined</span>
+      </div>
+    </div>
+    <div
+      class="all-requests py-2 pb-3 d-flex align-items-center justify-content-center gap-4"
+    >
+      <div class="icon"><i class="bi bi-person-arms-up fs-2"></i></div>
+      <div
+        class="content d-flex flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-4">6</span>
+        <span class="fs-4">Leaves Remaining</span>
+      </div>
+    </div>
+    <div
+      class="all-requests py-2 pb-3 d-flex align-items-center justify-content-center gap-4"
+    >
+      <div class="icon"><i class="bi bi-heart-pulse fs-2"></i></div>
+      <div
+        class="content d-flex flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-4">6</span>
+        <span class="fs-4">Sick Leaves</span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row justify-content-between align-items-center justify-content-center px-5 my-3 mt-5"
+  >
+    <div class="col-6">
+      <h3>Leave Requests <span class="fs-6">(Requests)</span></h3>
+    </div>
+    <div class="col-4">
+      <div class="col-2"></div>
+      <div class="d-flex">
+        <input
+          type="text"
+          class="form-control bg-light"
+          placeholder="Search..."
+          #searchInput
+          (keyup)="onKeyup(searchInput.value)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container row px-5">
+    <div class="col-12">
+      <table class="table table-striped table-hover border border-1">
+        <thead>
+          <tr class="table-light">
+            <th scope="col" (click)="onSort('FirstName')">
+              Name
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-arrow-up':
+                    sortColumn === 'FirstName' && sortOrder === 'ascending',
+                  'bi-arrow-down':
+                    sortColumn === 'FirstName' && sortOrder === 'descending'
+                }"
+              ></i>
+            </th>
+            <th scope="col" (click)="onSort('email')">
+              Email
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-arrow-up':
+                    sortColumn === 'email' && sortOrder === 'ascending',
+                  'bi-arrow-down':
+                    sortColumn === 'email' && sortOrder === 'descending'
+                }"
+              ></i>
+            </th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Class</th>
+            <th scope="col">Requested Role</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- @for (item of responseData; track i; let i = $index){
+          <tr class="border border-2">
+            <td>{{ item.name }}</td>
+            <td>{{ item.email }}</td>
+            <td>
+              <a [href]="'tel:' + getFormattedPhoneNumber(item.phoneNumber)">
+                <button
+                  class="btn btn-outline-secondary bg-light text-dark w-75"
+                >
+                  {{ item.phoneNumber }}
+                </button></a
+              >
+            </td>
+            <td>{{ item.className }}</td>
+            <td>{{ item.requestedRole }}</td>
+            <td>{{ item.approvalStatus | approvalStatus }}</td>
+            <td>
+              <div ngbDropdown class="d-inline-block">
+                <span
+                  type="button"
+                  class="btn btn-outline-secondary bg-light text-dark"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                >
+                  Actions
+                </span>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button ngbDropdownItem (click)="viewRequest(item.id)">
+                    View Request
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          } -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

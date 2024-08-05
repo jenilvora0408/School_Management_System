@@ -25,6 +25,7 @@ builder.Services.ConnectDatabase(builder.Configuration);
 builder.Services.RegisterRepository();
 builder.Services.RegisterServices();
 builder.Services.ConfigureCors();
+builder.Services.ConfigAuthentication(builder.Configuration);
 builder.Services.SetRequestBodySize();
 builder.Services.RegisterAutoMapper();
 builder.Services.RegisterMail(builder.Configuration);

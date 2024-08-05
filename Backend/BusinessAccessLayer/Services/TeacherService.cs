@@ -4,6 +4,7 @@ using Common.Exceptions;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
+using Entities.DTOs.Response;
 using Entities.ExtensionMethods.MappingProfiles;
 using Microsoft.AspNetCore.Http;
 
@@ -96,7 +97,31 @@ public class TeacherService : ITeacherService
 
         await _unitOfWork.AdmitRequestRepository.UpdateAsync(admitRequest);
         await _unitOfWork.SaveAsync();
+
+        if (admitRequestApprovalDTO.ApprovedBy != 0 || admitRequestApprovalDTO.ApprovedBy != null)
+        {
+            GenerateCredentialsDTO generateCredentialsDTO = new()
+            {
+                UserName = admitRequest.Email,
+                Password = GeneratePassword()
+            };
+        }
     }
 
     #endregion HTTP_Methods
+
+    #region Helper_Methods
+
+    public string GeneratePassword()
+    {
+        int length = SystemConstants.PASSWORD_LENGTH;
+        string chars = SystemConstants.PASSWORD_CHAR;
+        Random random = new();
+        string password = new(Enumerable.Repeat(chars, length)
+          .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        return password;
+    }
+
+    #endregion Helper_Methods
 }

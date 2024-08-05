@@ -12,7 +12,11 @@
     <div
       class="top-container w-100 d-flex flex-column justify-content-center align-items-center"
     >
+      @if(requestData.avatar != null){
       <img class="avatar" src="{{ requestData.avatar }}" alt="" />
+      } @else {
+      <img class="avatar" src="../../../../assets/images/avatar.jpg" alt="" />
+      }
       <h5 class="mt-2">{{ requestData.name }}</h5>
     </div>
     <div class="bottom-container d-flex flex-column">
@@ -98,17 +102,20 @@
     type="button"
     label="Approve Request"
     className="btn approve-btn"
+    (btnClick)="openApproveModal()"
   ></app-button>
 
   <app-button
     type="button"
     label="Decline Request"
     className="btn decline-btn"
+    (btnClick)="openDeclineModal()"
   ></app-button>
 
   <app-button
     type="button"
     label="Block Request"
     className="btn blocked-btn"
+    (btnClick)="openBlockModal()"
   ></app-button>
 </div>

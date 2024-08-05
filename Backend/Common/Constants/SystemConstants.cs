@@ -32,6 +32,28 @@ public static class SystemConstants
 
     public const string DEFAULT_SORTCOLUMN = "Id";
 
+    public const string PASSWORD_CHAR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+
+    public const int PASSWORD_LENGTH = 8;
+
+    public const string LOGGED_USER = "LoggedUser";
+
+    #region Policy Attribute
+
+    public const string PRINCIPAL_POLICY = "Principal";
+
+    public const string TEACHER_POLICY = "Teacher";
+
+    public const string STUDENT_POLICY = "Student";
+
+    public const string LAB_INSTRUCTOR_POLICY = "LabInstructor";
+
+    public const string ALL_USER_POLICY = "AllUser";
+
+    public const string TEACHER_PRINCIPAL_POLICY = "Teacher_Principal";
+
+    #endregion Policy Attribute
+
     #region ModelStateConstant
 
     public static class ModelStateConstant

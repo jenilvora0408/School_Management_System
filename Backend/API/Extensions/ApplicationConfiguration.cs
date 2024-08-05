@@ -1,4 +1,6 @@
 using System.Reflection;
+using System.Text;
+using API.ExtAuthorization;
 using AutoMapper;
 using AutoMapper.Internal;
 using AutoMapper.Mappers;
@@ -10,7 +12,11 @@ using DataAccessLayer.Interface;
 using DataAccessLayer.Repositories;
 using Entities.DTOs;
 using Entities.Mappings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace API.Extensions;
 
@@ -110,5 +116,81 @@ public static class ApplicationConfiguration
     {
         services.Configure<MailSettingsDTO>(config.GetSection("MailSettings"));
         services.AddScoped<IMailService, MailService>();
+    }
+
+    public static void ConfigAuthentication(this IServiceCollection services, IConfiguration config)
+    {
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Description = "Bearer Authentication with JWT Token",
+                Type = SecuritySchemeType.Http
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme {
+                        Reference = new OpenApiReference {
+                            Id = "Bearer",
+                            Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                    new List < string > ()
+                    }
+            });
+        });
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = config["Jwt:Issuer"],
+                ValidAudience = config["Jwt:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+            };
+        });
+
+        services.AddScoped<ExtAuthorizeFilter>();
+
+
+        // Register the ExtAuthorizeHandler before adding policies
+        services.AddScoped<IAuthorizationHandler, ExtAuthorizeHandler>();
+
+        services.AddAuthorization(config =>
+        {
+            config.AddPolicy(SystemConstants.PRINCIPAL_POLICY, policy =>
+            {
+                policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.PRINCIPAL_POLICY));
+            });
+            config.AddPolicy(SystemConstants.TEACHER_POLICY, policy =>
+            {
+                policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.TEACHER_POLICY));
+            });
+            config.AddPolicy(SystemConstants.STUDENT_POLICY, policy =>
+            {
+                policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.STUDENT_POLICY));
+            });
+            config.AddPolicy(SystemConstants.LAB_INSTRUCTOR_POLICY, policy =>
+            {
+                policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.LAB_INSTRUCTOR_POLICY));
+            });
+            config.AddPolicy(SystemConstants.TEACHER_PRINCIPAL_POLICY, policy =>
+            {
+                policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.TEACHER_PRINCIPAL_POLICY));
+            });
+            config.AddPolicy(SystemConstants.ALL_USER_POLICY, policy =>
+            {
+                policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.ALL_USER_POLICY));
+            });
+        });
     }
 }

@@ -26,4 +26,7 @@ export class ApiCallConstant {
   //Teacher Controller Methods
   public static readonly VIEW_ADMIT_REQUEST =
     this.TEACHER_CONTROLLER + 'get-admit-request';
+
+  public static readonly ADMIT_REQUEST_APPROVAL =
+    this.TEACHER_CONTROLLER + 'admit-request-approval';
 }

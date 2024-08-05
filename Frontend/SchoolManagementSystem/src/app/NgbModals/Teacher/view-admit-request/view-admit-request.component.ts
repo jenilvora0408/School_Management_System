@@ -11,6 +11,9 @@ import { IViewAdmitRequestInterface } from '../../../models/teacher/view-admit-r
 import { TeacherService } from '../../../services/teacher.service';
 import { IResponse } from '../../../shared/models/IResponse';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApproveAdmitRequestComponent } from '../approve-admit-request/approve-admit-request.component';
+import { DeclineAdmitRequestComponent } from '../decline-admit-request/decline-admit-request.component';
+import { BlockAdmitRequestComponent } from '../block-admit-request/block-admit-request.component';
 
 @Component({
   selector: 'app-view-admit-request',
@@ -45,5 +48,34 @@ export class ViewAdmitRequestComponent {
 
   close() {
     this.modalService.dismissAll();
+  }
+
+  openApproveModal(): void {
+    console.log('openApproveModal', this.requestData.id);
+
+    const modalRef = this.modalService.open(ApproveAdmitRequestComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.id = this.requestData.id;
+  }
+
+  openDeclineModal(): void {
+    const modalRef = this.modalService.open(DeclineAdmitRequestComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.id = this.requestData.id;
+  }
+
+  openBlockModal(): void {
+    const modalRef = this.modalService.open(BlockAdmitRequestComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.id = this.requestData.id;
   }
 }

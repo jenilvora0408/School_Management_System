@@ -71,5 +71,6 @@ public static class AdmitRequestMappingProfile
         admitRequest.ApprovedBy = admitRequestDTO.ApprovedBy == 0 ? null : admitRequestDTO.ApprovedBy;
         admitRequest.DeclinedBy = admitRequestDTO.DeclinedBy == 0 ? null : admitRequestDTO.DeclinedBy;
         admitRequest.BlockedBy = admitRequestDTO.BlockedBy == 0 ? null : admitRequestDTO.BlockedBy;
+        admitRequest.ReasonForBlock = admitRequestDTO.ReasonForBlock;
     }
 }

@@ -136,16 +136,10 @@ export class TeacherDashboardComponent {
 
   viewRequest(id: number): void {
     console.log(id);
-    // this.router.navigate([RoutingPathConstant.viewAdmitRequestUrl], {
-    //   queryParams: {
-    //     id: CryptoJS.AES.encrypt(id.toString(), SystemConstants.EncryptionKey),
-    //   },
-    // });
     this.modalService.open(ViewAdmitRequestComponent, {
       centered: true,
       size: 'xl',
       backdrop: 'static',
-      // Pass email to VerifyOtpModalComponent
       injector: Injector.create({
         providers: [
           {

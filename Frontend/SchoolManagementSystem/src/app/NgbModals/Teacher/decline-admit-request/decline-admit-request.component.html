@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title">Decline Admit Request</h4>
+</div>
+<div class="modal-body">
+  <form
+    action=""
+    class="d-flex flex-column align-items-center justify-content-center px-3"
+    [formGroup]="declineAdmitRequestForm"
+    (submit)="onSubmit()"
+    appFormSubmit
+  >
+    <app-textarea
+      class="login-input w-100"
+      [label]="'Comment'"
+      className="inputField py-2 fs-6 form-control w-100"
+      placeholder="Any comments before blocking this Admit Request"
+      [parentForm]="declineAdmitRequestForm"
+      controlName="comment"
+    ></app-textarea>
+
+    <div class="buttons d-flex justify-content-end w-100 mt-3 gap-3">
+      <app-button
+        type="submit"
+        label="Submit"
+        className="btn text-btn"
+      ></app-button>
+
+      <app-button
+        type="button"
+        label="Cancel"
+        className="btn close-btn"
+        (btnClick)="close()"
+      ></app-button>
+    </div>
+  </form>
+</div>

@@ -28,5 +28,6 @@ export const routes: Routes = [
   {
     path: 'leave-dashboard',
     component: LeaveDashboardComponent,
+    canActivate: [AuthGuard],
   },
 ];

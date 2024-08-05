@@ -6,6 +6,8 @@ public static class MessageConstants
 
     public static class ErrorMessage
     {
+        public const string TOKEN_EXPIRED = "Your session has been expired!";
+
         public const string INVALID_MODELSTATE = "Invalid Entry";
 
         public const string INTERNAL_SERVER = "An error occurred while processing the request";
@@ -14,7 +16,7 @@ public static class MessageConstants
 
         public const string INVALID_TOKEN = "Invalid Token!";
 
-        public const string UNAUTHORIZE = "Unauthorize access!";
+        public const string UNAUTHORIZE = "Access Unauthorized!";
 
         public const string USER_NOT_FOUND = "User not found!";
 

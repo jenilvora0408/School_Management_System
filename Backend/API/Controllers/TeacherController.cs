@@ -2,11 +2,13 @@ using API.Helpers;
 using BusinessAccessLayer.Interface;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using static API.Helpers.JwtAuthPolicies;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[TeachersPolicy]
 public class TeacherController : ControllerBase
 {
     #region Constructor
@@ -40,7 +42,7 @@ public class TeacherController : ControllerBase
         return ResponseHelper.SuccessResponse(await _teacherService.GetAllLeaveRequest(leaveRequestsListDTO));
     }
 
-    [HttpPut("admit-request-approval")]
+    [HttpPost("admit-request-approval")]
     public async Task<IActionResult> AdmitRequestApproval(AdmitRequestApprovalDTO admitRequestApprovalDTO)
     {
         await _teacherService.AdmitRequestApproval(admitRequestApprovalDTO);

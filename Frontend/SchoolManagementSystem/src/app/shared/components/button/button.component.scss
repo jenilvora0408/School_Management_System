@@ -13,6 +13,8 @@ $white-active: #e2dce7;
 $black: #111;
 
 .text-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
   color: $purple;
   padding: 9px 20px;
   width: 100%;
@@ -75,4 +77,21 @@ $black: #111;
 .blocked-btn:hover {
   color: $white;
   background-color: $gray;
+}
+.close-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: $gray;
+  border: 1px solid $gray;
+  padding: 9px 20px;
+  width: 100%;
+  border-radius: 70px;
+  font-size: 15px;
+}
+.close-btn:hover {
+  color: $white;
+  background-color: $gray;
+}
+.close-btn:active {
+  background-color: $gray-active;
 }

@@ -13,4 +13,6 @@ public class AdmitRequestApprovalDTO
     public long? DeclinedBy { get; set; }
 
     public long? BlockedBy { get; set; }
+
+    public string? ReasonForBlock { get; set; }
 }

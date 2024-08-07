@@ -12,6 +12,8 @@ import { IResponse } from '../shared/models/IResponse';
 import { IAdmitRequestInterface } from '../models/auth/admit-request.interface';
 import { IForgetPasswordInterface } from '../models/auth/forget-password.interface';
 import { IResetPasswordInterface } from '../models/auth/reset-password.interface';
+import { SystemConstants } from '../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +25,9 @@ export class AuthenticationService {
   sendOtpApi = ApiCallConstant.SEND_OTP;
   forgetPasswordApi = ApiCallConstant.FORGET_PASSWORD;
   resetPasswordApi = ApiCallConstant.RESET_PASSWORD;
+
+  token: string = '';
+
   constructor(
     private http: HttpClient,
     private storageHelper: StorageHelperService,
@@ -55,7 +60,12 @@ export class AuthenticationService {
     otp: string | null | undefined
   ): Observable<IResponse<string>> {
     const body = { email, otp };
-    return this.http.post<IResponse<string>>(`${this.verifyOtpApi}`, body);
+    return this.http.post<IResponse<string>>(`${this.verifyOtpApi}`, body, {
+      withCredentials: true,
+      headers: {
+        credentials: 'include',
+      },
+    });
   }
 
   sendOtp(email: string): Observable<IResponse<null>> {
@@ -78,24 +88,18 @@ export class AuthenticationService {
 
   //#endregion HTTP_Methods
 
-  //#region  Token_Methods
+  //#region Token_Methods
 
-  decodeToken(token: string) {
-    const decodedToken = this.jwtService.decodeToken(token);
-    const userRole =
-      decodedToken[
-        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-      ];
-    const userId = decodedToken['UserId'];
-    const userName =
-      decodedToken[
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-      ];
+  setToken(token: string) {
+    const encryptedToken = CryptoJS.AES.encrypt(
+      token,
+      SystemConstants.EncryptionKey
+    ).toString();
 
-    this.storageHelper.setAsLocal(StorageHelperConstant.authToken, token);
-    this.storageHelper.setAsLocal(StorageHelperConstant.userRole, userRole);
-    this.storageHelper.setAsLocal(StorageHelperConstant.userId, userId);
-    this.storageHelper.setAsLocal(StorageHelperConstant.userName, userName);
+    this.storageHelper.setAsLocal(
+      StorageHelperConstant.authToken,
+      encryptedToken
+    );
   }
 
   isJwtTokenExpire() {
@@ -111,31 +115,46 @@ export class AuthenticationService {
   }
 
   getJwtToken() {
-    return this.storageHelper.getFromLocal(StorageHelperConstant.authToken);
-  }
+    const encryptedToken = this.storageHelper.getFromLocal(
+      StorageHelperConstant.authToken
+    );
 
-  getRefreshToken() {
-    return this.storageHelper.getFromLocal(StorageHelperConstant.refreshToken);
+    const decryptedToken = CryptoJS.AES.decrypt(
+      encryptedToken,
+      SystemConstants.EncryptionKey
+    ).toString(CryptoJS.enc.Utf8);
+
+    return decryptedToken;
   }
 
   getUserType() {
-    return this.storageHelper.getFromLocal(StorageHelperConstant.userRole);
+    const token = this.getJwtToken();
+    const userRole =
+      this.jwtService.decodeToken(token)?.[
+        'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+      ];
+
+    return userRole;
   }
 
   getUserId() {
-    return this.storageHelper.getFromLocal(StorageHelperConstant.userId);
+    const token = this.getJwtToken();
+    const userId = this.jwtService.decodeToken(token)?.['UserId'];
+    return userId;
   }
 
   getUserName() {
-    return this.storageHelper.getFromLocal(StorageHelperConstant.userName);
+    const token = this.getJwtToken();
+    const userName =
+      this.jwtService.decodeToken(token)?.[
+        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+      ];
+
+    return userName;
   }
 
   logOut(): void {
     this.storageHelper.removeFromLocal(StorageHelperConstant.authToken);
-    this.storageHelper.removeFromLocal(StorageHelperConstant.refreshToken);
-    this.storageHelper.removeFromLocal(StorageHelperConstant.userRole);
-    this.storageHelper.removeFromLocal(StorageHelperConstant.userId);
-    this.storageHelper.removeFromLocal(StorageHelperConstant.userName);
     this.router.navigate([RoutingPathConstant.loginUrl]);
   }
 

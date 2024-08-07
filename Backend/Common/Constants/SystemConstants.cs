@@ -16,6 +16,8 @@ public static class SystemConstants
 
     public const string OTP_MAIL_TEMPLATE_FILE = "OtpMailTemplate.html";
 
+    public const string GENERATE_CREDENTIALS = "GenerateCredentialsMailTemplate.html";
+
     public const string USER_ID_CLAIM = "UserId";
 
     public const string BEARER = "Bearer ";
@@ -37,6 +39,8 @@ public static class SystemConstants
     public const int PASSWORD_LENGTH = 8;
 
     public const string LOGGED_USER = "LoggedUser";
+
+    public const string DEFAULT_AVATAR_ROUTE = "../../../../assets/images/avatar.jpg";
 
     #region Policy Attribute
 

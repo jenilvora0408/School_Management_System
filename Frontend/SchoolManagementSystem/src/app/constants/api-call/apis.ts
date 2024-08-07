@@ -29,4 +29,7 @@ export class ApiCallConstant {
 
   public static readonly ADMIT_REQUEST_APPROVAL =
     this.TEACHER_CONTROLLER + 'admit-request-approval';
+
+  public static readonly GET_LEAVE_REQUEST_LIST =
+    this.TEACHER_CONTROLLER + 'leave-request-list';
 }

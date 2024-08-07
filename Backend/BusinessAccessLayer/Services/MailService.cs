@@ -32,7 +32,7 @@ public class MailService : IMailService
         email.To.Add(MailboxAddress.Parse(mailData.ToEmail));
         email.Subject = !string.IsNullOrEmpty(mailData.Subject) ? mailData.Subject : EmailConstants.GENERIC_SUBJECT;
 
-        BodyBuilder? builder = new BodyBuilder();
+        BodyBuilder? builder = new();
         if (mailData.Attachments != null && mailData.Attachments.Count != 0)
         {
             byte[] fileBytes;
@@ -52,7 +52,7 @@ public class MailService : IMailService
         builder.HtmlBody = mailData.Body;
         email.Body = builder.ToMessageBody();
 
-        using SmtpClient? smtp = new SmtpClient();
+        using SmtpClient? smtp = new();
         smtp.Connect(_mailSetting.Host, _mailSetting.Port, SecureSocketOptions.StartTls, cancellationToken);
         smtp.Authenticate(_mailSetting.Mail, _mailSetting.Password, cancellationToken);
         await smtp.SendAsync(email, cancellationToken);

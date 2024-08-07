@@ -69,6 +69,8 @@ public static class MessageConstants
 
         public const string OTP_SUBJECT = "School || Verification OTP || No Reply";
 
+        public const string GENERATE_LOGIN_CREDENTIALS_SUBJECT = "School || Generate Login Credentials || No Reply";
+
         public const string RESET_PASSWORD_SUBJECT = "School || ResetPassword || No Reply";
     }
 

@@ -27,6 +27,7 @@ import { RoutingPathConstant } from '../../../constants/routing/routing-path';
 import { ValidationPattern } from '../../../constants/validation/validation-pattern';
 import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
 import { ViewAdmitRequestComponent } from '../../../NgbModals/Teacher/view-admit-request/view-admit-request.component';
+import { AuthenticationService } from '../../../services/authentication.service';
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
@@ -58,16 +59,14 @@ export class TeacherDashboardComponent {
   approvalStatus!: string;
   constructor(
     private teacherService: TeacherService,
-    private router: Router,
-    private modalService: NgbModal,
-    private injector: Injector
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
+    this.getAdmitRequestData();
     this.searchSubject.pipe(debounceTime(1000)).subscribe((searchTerm) => {
       this.search(searchTerm);
     });
-    this.getAdmitRequestData();
   }
 
   onKeyup(searchTerm: string) {

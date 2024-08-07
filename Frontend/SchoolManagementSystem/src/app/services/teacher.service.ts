@@ -7,12 +7,15 @@ import { IResponse } from '../shared/models/IResponse';
 import { IPageListResponse } from '../shared/models/page-list-response';
 import { IAdmitRequestListInterface } from '../models/teacher/admit-request-list';
 import { IViewAdmitRequestInterface } from '../models/teacher/view-admit-request';
+import { ILeaveRequestListInterface } from '../models/teacher/leave-request-list';
+import { IUserPageListRequest } from '../shared/models/user-page-list-request';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeacherService {
   getAdmitRequestListApi = ApiCallConstant.GET_ADMIT_REQUEST_LIST;
+  getLeaveRequestListApi = ApiCallConstant.GET_LEAVE_REQUEST_LIST;
   viewAdmitRequestListApi = ApiCallConstant.VIEW_ADMIT_REQUEST;
   admitRequestApprovalApi = ApiCallConstant.ADMIT_REQUEST_APPROVAL;
   private shouldRenderListSubject = new BehaviorSubject<boolean>(false);
@@ -26,6 +29,14 @@ export class TeacherService {
     return this.http.post<
       IResponse<IPageListResponse<IAdmitRequestListInterface[]>>
     >(this.getAdmitRequestListApi, listCredentials);
+  }
+
+  getLeaveRequestList(
+    listCredentials: IUserPageListRequest
+  ): Observable<IResponse<IPageListResponse<ILeaveRequestListInterface[]>>> {
+    return this.http.post<
+      IResponse<IPageListResponse<ILeaveRequestListInterface[]>>
+    >(this.getLeaveRequestListApi, listCredentials);
   }
 
   getAdmitRequest(

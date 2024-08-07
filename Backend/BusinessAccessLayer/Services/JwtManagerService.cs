@@ -57,7 +57,7 @@ public class JwtManagerService : IJwtManagerService
         JwtSecurityToken? token = new(_configuration["Jwt:Issuer"],
             _configuration["Jwt:Audience"],
             claims,
-            expires: DateTime.UtcNow.AddMinutes(60),
+            expires: DateTime.UtcNow.AddMinutes(600),
             signingCredentials: credentials);
         return new TokensDTO { AccessToken = new JwtSecurityTokenHandler().WriteToken(token) };
     }

@@ -79,7 +79,7 @@ export class VerifyOtpComponent {
         next: (response: any) => {
           if (this.locationUrl == 'login') {
             console.log('verify-otp response: ', response);
-            this.authService.decodeToken(response.data.accessToken);
+            this.authService.setToken(response.data.accessToken);
             this.notificationsService.success(
               NotificationMessageConstant.loginSuccessful
             );

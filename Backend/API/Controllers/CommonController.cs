@@ -2,11 +2,13 @@ using API.Helpers;
 using BusinessAccessLayer.Interface;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using static API.Helpers.JwtAuthPolicies;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+
 public class CommonController : ControllerBase
 {
     #region Constructor
@@ -27,6 +29,7 @@ public class CommonController : ControllerBase
     }
 
     [HttpPost("admit-request-list")]
+    [TeachersPolicy]
     public async Task<IActionResult> GetAdmitRequestList(PageListRequestDTO pageListRequest)
     {
         return ResponseHelper.SuccessResponse(await _commonService.GetAdmitRequestsList(pageListRequest));

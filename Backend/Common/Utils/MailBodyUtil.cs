@@ -26,6 +26,17 @@ public class MailBodyUtil
         return CreateMessage(body);
     }
 
+    public static string SendCredentialsForLogin(string username, string email, string password, string mailTemplateLink)
+    {
+        string filePath = Path.Combine(mailTemplateLink, SystemConstants.MAIL_TEMPLATES, SystemConstants.GENERATE_CREDENTIALS);
+
+        string body = File.ReadAllText(filePath);
+        body = body.Replace("{email}", email);
+        body = body.Replace("{userName}", username);
+        body = body.Replace("{password}", password);
+        return CreateMessage(body);
+    }
+
     private static string CreateMessage(string body)
     {
         return body;

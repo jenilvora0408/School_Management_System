@@ -95,3 +95,17 @@ $black: #111;
 .close-btn:active {
   background-color: $gray-active;
 }
+.outline-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 9px 20px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid $purple;
+  font-size: 15px;
+  color: $purple;
+}
+.outline-btn:hover {
+  background-color: $purple;
+  color: $white;
+}

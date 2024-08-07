@@ -1,12 +1,16 @@
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
+using Common.Utils;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
+using Entities.DTOs.Common;
 using Entities.DTOs.Response;
 using Entities.ExtensionMethods.MappingProfiles;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using static Common.Constants.MessageConstants;
 
 namespace BusinessAccessLayer.Services;
 
@@ -15,11 +19,15 @@ public class TeacherService : ITeacherService
     #region Constructor
 
     public readonly IUnitOfWork _unitOfWork;
+    private readonly IMailService _mailService;
     private readonly ICommonService _commonService;
-    public TeacherService(IUnitOfWork unitOfWork, ICommonService commonService)
+    private readonly IHostingEnvironment _environment;
+    public TeacherService(IUnitOfWork unitOfWork, ICommonService commonService, IHostingEnvironment environment, IMailService mailService)
     {
         _unitOfWork = unitOfWork;
         _commonService = commonService;
+        _environment = environment;
+        _mailService = mailService;
     }
 
     #endregion Constructor
@@ -91,7 +99,7 @@ public class TeacherService : ITeacherService
 
     public async Task AdmitRequestApproval(AdmitRequestApprovalDTO admitRequestApprovalDTO)
     {
-        AdmitRequest? admitRequest = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(a => a.Id == admitRequestApprovalDTO.AdmitRequestId) ?? throw new CustomException(StatusCodes.Status404NotFound, MessageConstants.ErrorMessage.ADMIT_REQUEST_NOT_FOUND);
+        AdmitRequest? admitRequest = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(a => a.Id == admitRequestApprovalDTO.AdmitRequestId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.ADMIT_REQUEST_NOT_FOUND);
 
         AdmitRequestMappingProfile.ToApproveAdmitRequest(admitRequestApprovalDTO, admitRequest);
 
@@ -105,6 +113,23 @@ public class TeacherService : ITeacherService
                 UserName = admitRequest.Email,
                 Password = GeneratePassword()
             };
+
+            string password = PasswordUtil.HashPassword(generateCredentialsDTO.Password);
+
+            User user = new();
+            user = UserMappingProfile.ToSaveAdmitRequestUser(admitRequest, password);
+
+            await _unitOfWork.UserRepository.AddAsync(user);
+            await _unitOfWork.SaveAsync();
+
+            MailDTO mailDto = new()
+            {
+                ToEmail = admitRequest.Email,
+                Subject = EmailConstants.GENERATE_LOGIN_CREDENTIALS_SUBJECT,
+                Body = MailBodyUtil.SendCredentialsForLogin(admitRequest.FirstName + " " + admitRequest.LastName, generateCredentialsDTO.UserName, generateCredentialsDTO.Password, _environment.WebRootPath)
+            };
+
+            await _mailService.SendMailAsync(mailDto);
         }
     }
 

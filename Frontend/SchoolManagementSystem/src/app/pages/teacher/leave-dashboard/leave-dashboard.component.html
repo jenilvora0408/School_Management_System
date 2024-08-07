@@ -109,7 +109,7 @@
         <thead>
           <tr class="table-light">
             <th scope="col" (click)="onSort('FirstName')">
-              Name
+              Leave Type
               <i
                 class="bi"
                 [ngClass]="{
@@ -121,7 +121,7 @@
               ></i>
             </th>
             <th scope="col" (click)="onSort('email')">
-              Email
+              Leave Duration
               <i
                 class="bi"
                 [ngClass]="{
@@ -132,49 +132,33 @@
                 }"
               ></i>
             </th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Class</th>
-            <th scope="col">Requested Role</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
             <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <!-- @for (item of responseData; track i; let i = $index){
+          @for (item of responseData; track i; let i = $index){
           <tr class="border border-2">
-            <td>{{ item.name }}</td>
-            <td>{{ item.email }}</td>
+            <td>{{ item.leaveType }}</td>
+            <td>{{ item.leaveDuration }}</td>
             <td>
-              <a [href]="'tel:' + getFormattedPhoneNumber(item.phoneNumber)">
-                <button
-                  class="btn btn-outline-secondary bg-light text-dark w-75"
-                >
-                  {{ item.phoneNumber }}
-                </button></a
-              >
+              {{ item.startDate }}
             </td>
-            <td>{{ item.className }}</td>
-            <td>{{ item.requestedRole }}</td>
+            <td>{{ item.endDate }}</td>
             <td>{{ item.approvalStatus | approvalStatus }}</td>
             <td>
-              <div ngbDropdown class="d-inline-block">
-                <span
+              <div>
+                <app-button
                   type="button"
-                  class="btn btn-outline-secondary bg-light text-dark"
-                  id="dropdownBasic1"
-                  ngbDropdownToggle
-                >
-                  Actions
-                </span>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button ngbDropdownItem (click)="viewRequest(item.id)">
-                    View Request
-                  </button>
-                </div>
+                  label="View Request"
+                  className="btn outline-btn"
+                ></app-button>
               </div>
             </td>
           </tr>
-          } -->
+          }
         </tbody>
       </table>
     </div>

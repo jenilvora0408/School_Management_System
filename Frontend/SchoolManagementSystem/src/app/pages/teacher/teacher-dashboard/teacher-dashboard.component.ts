@@ -64,7 +64,7 @@ export class TeacherDashboardComponent {
 
   ngOnInit(): void {
     this.getAdmitRequestData();
-    this.searchSubject.pipe(debounceTime(1000)).subscribe((searchTerm) => {
+    this.searchSubject.pipe(debounceTime(500)).subscribe((searchTerm) => {
       this.search(searchTerm);
     });
   }

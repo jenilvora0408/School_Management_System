@@ -9,6 +9,7 @@
         label="Add Leave"
         className="btn text-btn leave-btn"
         [iconClass]="'bi bi-plus'"
+        (btnClick)="createLeaveRequest()"
       ></app-button>
     </div>
   </div>
@@ -141,13 +142,19 @@
         <tbody>
           @for (item of responseData; track i; let i = $index){
           <tr class="border border-2">
-            <td>{{ item.leaveType }}</td>
+            <td>{{ item.leaveType | capitalize }}</td>
             <td>{{ item.leaveDuration }}</td>
             <td>
-              {{ item.startDate }}
+              {{ item.startDate | dateFormat }}
             </td>
-            <td>{{ item.endDate }}</td>
-            <td>{{ item.approvalStatus | approvalStatus }}</td>
+            <td>{{ item.endDate | dateFormat }}</td>
+            <td>
+              @if(item.approvalStatus == 1){
+              <span class="pending-status p-1 px-3">{{
+                item.approvalStatus | approvalStatus
+              }}</span>
+              }
+            </td>
             <td>
               <div>
                 <app-button
@@ -161,6 +168,27 @@
           }
         </tbody>
       </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="collectionSize"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          (pageChange)="getLeaveRequestData()"
+        >
+        </ngb-pagination>
+
+        <select
+          class="form-select"
+          style="width: auto"
+          [(ngModel)]="pageSize"
+          (ngModelChange)="getLeaveRequestData()"
+        >
+          <option [ngValue]="3">3 items per page</option>
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="8">8 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,138 @@
+<div class="create-leave-container">
+  <div
+    class="heading px-3 pt-3 pb-2 d-flex justify-content-between align-items-center"
+  >
+    <h4>Create Leave Request</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="close()"
+    ></button>
+  </div>
+  <hr class="m-0" />
+  <div class="form-container px-4 py-2">
+    <form
+      action=""
+      class="d-flex flex-column align-items-center justify-content-center"
+      [formGroup]="createLeaveRequestForm"
+      (submit)="onSubmit()"
+      appFormSubmit
+    >
+      <div
+        class="disabled-inputs w-100 d-flex flex-column gap-3 align-items-start"
+      >
+        <div class="name w-100 mt-2">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" disabled value="Jenil Vora" />
+        </div>
+        <div class="approvalFrom w-100">
+          <label for="approvalFrom">Required Approval From</label>
+          <input
+            type="text"
+            class="form-control"
+            disabled
+            value="Anurag Patwardhan"
+          />
+        </div>
+        <div class="reasonForLeave w-100">
+          <app-input
+            class=""
+            title="Reason For Leave"
+            label="Reason For Leave"
+            type="text"
+            className="form-control"
+            placeholder="Ex. - I have a fever"
+            [parentForm]="createLeaveRequestForm"
+            controlName="reasonForLeave"
+            errorTitle="Reason For Leave"
+          ></app-input>
+        </div>
+        <div class="selectLeaveDuration w-100">
+          <label for="selectLeaveDuration">Select Leave Duration</label>
+          <div class="col-12">
+            <div class="dp-hidden position-absolute">
+              <div class="input-group">
+                <input
+                  name="datepicker"
+                  class="form-control"
+                  ngbDatepicker
+                  #datepicker="ngbDatepicker"
+                  [autoClose]="'outside'"
+                  (dateSelect)="onDateSelection($event)"
+                  [displayMonths]="2"
+                  [dayTemplate]="t"
+                  outsideDays="hidden"
+                  [startDate]="fromDate!"
+                  tabindex="-1"
+                />
+                <ng-template #t let-date let-focused="focused">
+                  <span
+                    class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null"
+                  >
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+            <div class="input-group">
+              <input
+                #dpFromDate
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="dpFromDate"
+                [value]="formatter.format(fromDate)"
+                (input)="fromDate = validateInput(fromDate, dpFromDate.value)"
+              />
+              <button
+                class="btn btn-outline-secondary bi bi-calendar3"
+                (click)="datepicker.toggle()"
+                type="button"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="leaveType w-100">
+          <app-select
+            [options]="leaveTypeOptions"
+            controlName="leaveType"
+            [parentForm]="createLeaveRequestForm"
+            placeholder="Select a Type"
+            className="py-2 form-control"
+            label="Select type of Leave"
+            errorTitle="Type of Leave"
+          />
+        </div>
+        <div class="contactNumber w-100">
+          <app-phone-number-input
+            label="Phone Number"
+            errorTitle="Phone Number"
+            placeholder="Enter Phone Number"
+            [parentForm]="createLeaveRequestForm"
+            controlName="phoneNumber"
+            type="text"
+            className="app-input form-control"
+          />
+        </div>
+      </div>
+      <div class="buttons d-flex justify-content-end w-100 mb-3 gap-3 mt-4">
+        <app-button
+          type="submit"
+          label="Submit"
+          className="btn text-btn"
+        ></app-button>
+        <app-button
+          type="button"
+          label="Cancel"
+          className="btn close-btn"
+          (btnClick)="close()"
+        ></app-button>
+      </div>
+    </form>
+  </div>
+</div>

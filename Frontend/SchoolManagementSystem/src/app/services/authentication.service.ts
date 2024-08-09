@@ -26,8 +26,6 @@ export class AuthenticationService {
   forgetPasswordApi = ApiCallConstant.FORGET_PASSWORD;
   resetPasswordApi = ApiCallConstant.RESET_PASSWORD;
 
-  token: string = '';
-
   constructor(
     private http: HttpClient,
     private storageHelper: StorageHelperService,

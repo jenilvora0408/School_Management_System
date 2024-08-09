@@ -1,6 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import {
   FormControl,
   FormGroup,
@@ -8,62 +6,37 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { InputComponent } from '../../../shared/components/input/input.component';
-import { TextareaComponent } from '../../../shared/components/textarea/textarea.component';
 import {
   NgbCalendar,
   NgbDate,
   NgbDateParserFormatter,
   NgbDatepickerModule,
+  NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
-import { JsonPipe } from '@angular/common';
-import { SelectComponent } from '../../../shared/components/select/select.component';
 import { DropdownItem } from '../../../shared/models/drop-down-item';
+import { SelectComponent } from '../../../shared/components/select/select.component';
+import { PhoneNumberInputComponent } from '../../../shared/components/phone-number-input/phone-number-input.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
-  selector: 'app-teacher-leave-request',
+  selector: 'app-create-leave-request',
   standalone: true,
   imports: [
-    HeaderComponent,
-    FormSubmitDirective,
     ReactiveFormsModule,
+    FormSubmitDirective,
     InputComponent,
-    TextareaComponent,
-    SelectComponent,
     NgbDatepickerModule,
     FormsModule,
-    JsonPipe,
+    SelectComponent,
+    PhoneNumberInputComponent,
+    ButtonComponent,
   ],
-  templateUrl: './teacher-leave-request.component.html',
-  styleUrl: './teacher-leave-request.component.scss',
+  templateUrl: './create-leave-request.component.html',
+  styleUrl: './create-leave-request.component.scss',
 })
-export class TeacherLeaveRequestComponent {
-  leaveRequestForm = new FormGroup({
-    name: new FormControl(''),
-    approvalFromUser: new FormControl(''),
-    reasonForLeave: new FormControl('', Validators.required),
-    leaveStartDate: new FormControl('', Validators.required),
-    leaveEndDate: new FormControl('', Validators.required),
-    leaveStartType: new FormControl('', Validators.required),
-    leaveEndType: new FormControl('', Validators.required),
-    leaveDuration: new FormControl('', Validators.required),
-    leaveType: new FormControl('', Validators.required),
-    contactNumber: new FormControl('', Validators.required),
-    availabilityOnPhone: new FormControl('', Validators.required),
-    alternateContactNumber: new FormControl('', Validators.required),
-  });
-
-  leaveTypeOptions: DropdownItem[] = [
-    { value: '1', viewValue: 'Sick Leave' },
-    { value: '2', viewValue: 'Casual Leave' },
-    { value: '3', viewValue: 'Adhoc Leave' },
-  ];
-
-  availabiilityOnPhoneOptions: DropdownItem[] = [
-    { value: '1', viewValue: 'Yes' },
-    { value: '2', viewValue: 'No' },
-  ];
-
+export class CreateLeaveRequestComponent {
   calendar = inject(NgbCalendar);
   formatter = inject(NgbDateParserFormatter);
 
@@ -75,11 +48,23 @@ export class TeacherLeaveRequestComponent {
     10
   );
 
-  constructor() {}
+  leaveTypeOptions: DropdownItem[] = [
+    { value: '1', viewValue: 'Sick Leave' },
+    { value: '2', viewValue: 'Casual Leave' },
+    { value: '3', viewValue: 'Adhoc Leave' },
+  ];
+
+  createLeaveRequestForm = new FormGroup({
+    reasonForLeave: new FormControl('', Validators.required),
+    // leaveStartDate: new FormControl('', Validators.required),
+    // leaveEndDate: new FormControl('', Validators.required),
+    leaveType: new FormControl('', Validators.required),
+    phoneNumber: new FormControl('', Validators.required),
+  });
+
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
-
-  onSubmit(): void {}
 
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
@@ -126,5 +111,15 @@ export class TeacherLeaveRequestComponent {
     return parsed && this.calendar.isValid(NgbDate.from(parsed))
       ? NgbDate.from(parsed)
       : currentValue;
+  }
+
+  onSubmit() {}
+
+  close() {
+    this.modalService.dismissAll();
+  }
+
+  selectTest(selectedValues: string) {
+    console.log(selectedValues);
   }
 }

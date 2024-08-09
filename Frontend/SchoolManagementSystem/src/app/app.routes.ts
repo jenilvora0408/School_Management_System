@@ -5,7 +5,6 @@ import { VerifyOtpComponent } from './pages/authentication/verify-otp/verify-otp
 import { ForgetPasswordComponent } from './pages/authentication/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './pages/authentication/reset-password/reset-password.component';
 import { TeacherDashboardComponent } from './pages/teacher/teacher-dashboard/teacher-dashboard.component';
-import { TeacherLeaveRequestComponent } from './pages/teacher/teacher-leave-request/teacher-leave-request.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LeaveDashboardComponent } from './pages/teacher/leave-dashboard/leave-dashboard.component';
 
@@ -18,11 +17,6 @@ export const routes: Routes = [
   {
     path: 'teacher-dashboard',
     component: TeacherDashboardComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'teacher-leave-request',
-    component: TeacherLeaveRequestComponent,
     canActivate: [AuthGuard],
   },
   {

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { debounceTime, Subject } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { SystemConstants } from '../../../constants/shared/system-constants';
 import { ILeaveRequestListInterface } from '../../../models/teacher/leave-request-list';
@@ -17,6 +16,8 @@ import { DateFormatPipe } from '../../../pipes/date-format.pipe';
 import { NgbModal, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CreateLeaveRequestComponent } from '../../../NgbModals/Teacher/create-leave-request/create-leave-request.component';
+import { ValidationPattern } from '../../../constants/validation/validation-pattern';
+import { ILeavesCountInterface } from '../../../models/teacher/leaves-count';
 
 @Component({
   selector: 'app-leave-dashboard',
@@ -36,7 +37,6 @@ import { CreateLeaveRequestComponent } from '../../../NgbModals/Teacher/create-l
   ],
 })
 export class LeaveDashboardComponent {
-  private searchSubject = new Subject<string>();
   page = 1;
   pageSize = 10;
   collectionSize!: number;
@@ -47,6 +47,15 @@ export class LeaveDashboardComponent {
   filter: number = 1;
   approvalStatus!: string;
 
+  leavesCountResponse: ILeavesCountInterface = {
+    totalRequestsCount: 0,
+    approvedRequestsCount: 0,
+    pendingRequestsCount: 0,
+    declinedRequestCount: 0,
+    sickLeavesCount: 0,
+    leavesRemainingCount: 0,
+  };
+
   constructor(
     private teacherService: TeacherService,
     private authService: AuthenticationService,
@@ -54,19 +63,16 @@ export class LeaveDashboardComponent {
   ) {}
 
   ngOnInit(): void {
+    this.getLeavesCount();
     this.getLeaveRequestData();
-    this.searchSubject.pipe(debounceTime(500)).subscribe((searchTerm) => {
-      this.search(searchTerm);
-    });
   }
 
-  onKeyup(searchTerm: string) {
-    this.searchSubject.next(searchTerm);
-  }
-
-  search(searchTerm: string) {
-    this.searchQuery = searchTerm;
-    this.getLeaveRequestData();
+  getFormattedPhoneNumber(phoneNumber?: string): string {
+    if (phoneNumber != null || phoneNumber != ' ') {
+      return phoneNumber!.replace(ValidationPattern.formatPhoneNumber, '');
+    } else {
+      return '';
+    }
   }
 
   onFilter(filterStatus: number): void {
@@ -89,6 +95,18 @@ export class LeaveDashboardComponent {
     }
     console.log('SORT: ', this.sortColumn, this.sortOrder);
     this.getLeaveRequestData();
+  }
+
+  getLeavesCount() {
+    this.teacherService.getLeavesCount(this.authService.getUserId()).subscribe({
+      next: (response: IResponse<ILeavesCountInterface>) => {
+        this.leavesCountResponse = response.data;
+        console.log('getLeavesCount  ', this.leavesCountResponse);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+      },
+    });
   }
 
   getLeaveRequestData() {
@@ -122,11 +140,14 @@ export class LeaveDashboardComponent {
   }
 
   createLeaveRequest(): void {
-    console.log('hii');
-    this.modalService.open(CreateLeaveRequestComponent, {
+    const modalRef = this.modalService.open(CreateLeaveRequestComponent, {
       centered: true,
       size: 'md',
       backdrop: 'static',
+    });
+
+    modalRef.componentInstance.leaveRequestCreated.subscribe(() => {
+      this.getLeaveRequestData();
     });
   }
 }

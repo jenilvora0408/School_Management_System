@@ -20,3 +20,9 @@ export class StatusConstants {
   public static declined = 'Declined';
   public static blocked = 'Blocked';
 }
+
+export class LeaveTypeConstants {
+  public static sickLeave = 'Sick Leave';
+  public static casualLeave = 'Casual Leave';
+  public static adhocLeave = 'Adhoc Leave';
+}

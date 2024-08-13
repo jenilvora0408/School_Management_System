@@ -1,5 +1,10 @@
 @import "bootstrap/scss/bootstrap";
 @import "../node_modules//ngx-toastr//toastr.css";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Work+Sans:wght@400;500&display=swap");
+
+* {
+  font-family: "Work Sans", sans-serif !important;
+}
 
 form.ng-submitted input.ng-invalid,
 input.ng-touched.ng-invalid,

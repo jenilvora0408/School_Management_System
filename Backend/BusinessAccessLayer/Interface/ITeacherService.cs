@@ -11,4 +11,6 @@ public interface ITeacherService
     Task<PageListResponseDTO<LeaveRequestsListResponseDTO>> GetAllLeaveRequest(LeaveRequestsListDTO leaveRequestsListDTO);
 
     Task AdmitRequestApproval(AdmitRequestApprovalDTO admitRequestApprovalDTO);
+
+    Task<LeavesCountDTO> GetLeavesCount(long userId);
 }

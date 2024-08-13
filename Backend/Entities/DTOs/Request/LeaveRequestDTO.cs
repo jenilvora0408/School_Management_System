@@ -16,18 +16,10 @@ public class LeaveRequestDTO
     public DateTime EndDate { get; set; }
 
     [Required]
-    public string LeaveStartType { get; set; } = null!;
-
-    [Required]
-    public string LeaveEndType { get; set; } = null!;
-
-    [Required]
     public string LeaveDuration { get; set; } = null!;
 
     [Required]
     public string LeaveType { get; set; } = null!;
-
-    public bool? AvailabilityOnPhone { get; set; }
 
     public string? AlternatePhoneNumber { get; set; }
 }

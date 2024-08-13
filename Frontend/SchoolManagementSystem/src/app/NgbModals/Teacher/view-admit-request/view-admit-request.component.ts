@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, EventEmitter, Injector, Output } from '@angular/core';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
@@ -25,6 +25,10 @@ import { BlockAdmitRequestComponent } from '../block-admit-request/block-admit-r
 export class ViewAdmitRequestComponent {
   admitRequestId: number = 1;
   requestData!: IViewAdmitRequestInterface;
+  @Output() admitRequestApproved = new EventEmitter<void>();
+  @Output() admitRequestBlocked = new EventEmitter<void>();
+  @Output() admitRequestDeclined = new EventEmitter<void>();
+
   constructor(
     private teacherService: TeacherService,
     private route: ActivatedRoute,
@@ -59,6 +63,10 @@ export class ViewAdmitRequestComponent {
       backdrop: 'static',
     });
     modalRef.componentInstance.id = this.requestData.id;
+
+    modalRef.componentInstance.approveAdmitRequest.subscribe(() => {
+      this.admitRequestApproved.emit();
+    });
   }
 
   openDeclineModal(): void {
@@ -68,6 +76,10 @@ export class ViewAdmitRequestComponent {
       backdrop: 'static',
     });
     modalRef.componentInstance.id = this.requestData.id;
+
+    modalRef.componentInstance.declineAdmitRequest.subscribe(() => {
+      this.admitRequestDeclined.emit();
+    });
   }
 
   openBlockModal(): void {
@@ -77,5 +89,9 @@ export class ViewAdmitRequestComponent {
       backdrop: 'static',
     });
     modalRef.componentInstance.id = this.requestData.id;
+
+    modalRef.componentInstance.blockAdmitRequest.subscribe(() => {
+      this.admitRequestBlocked.emit();
+    });
   }
 }

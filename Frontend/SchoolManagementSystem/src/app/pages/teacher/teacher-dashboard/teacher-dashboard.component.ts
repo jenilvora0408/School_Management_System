@@ -28,6 +28,7 @@ import { ValidationPattern } from '../../../constants/validation/validation-patt
 import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
 import { ViewAdmitRequestComponent } from '../../../NgbModals/Teacher/view-admit-request/view-admit-request.component';
 import { AuthenticationService } from '../../../services/authentication.service';
+import { ILeavesCountInterface } from '../../../models/teacher/leaves-count';
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
@@ -57,6 +58,7 @@ export class TeacherDashboardComponent {
   sortOrder: string = 'ascending';
   filter: number = 1;
   approvalStatus!: string;
+
   constructor(
     private teacherService: TeacherService,
     private modalService: NgbModal
@@ -135,7 +137,7 @@ export class TeacherDashboardComponent {
 
   viewRequest(id: number): void {
     console.log(id);
-    this.modalService.open(ViewAdmitRequestComponent, {
+    const modalRef = this.modalService.open(ViewAdmitRequestComponent, {
       centered: true,
       size: 'xl',
       backdrop: 'static',
@@ -147,6 +149,18 @@ export class TeacherDashboardComponent {
           },
         ],
       }),
+    });
+
+    modalRef.componentInstance.admitRequestApproved.subscribe(() => {
+      this.getAdmitRequestData();
+    });
+
+    modalRef.componentInstance.admitRequestDeclined.subscribe(() => {
+      this.getAdmitRequestData();
+    });
+
+    modalRef.componentInstance.admitRequestBlocked.subscribe(() => {
+      this.getAdmitRequestData();
     });
   }
 }

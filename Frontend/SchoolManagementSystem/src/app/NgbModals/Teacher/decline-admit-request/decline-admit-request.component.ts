@@ -1,4 +1,10 @@
-import { Component, Injector, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Injector,
+  Input,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -24,6 +30,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 })
 export class DeclineAdmitRequestComponent {
   @Input() id: number = 0;
+  @Output() declineAdmitRequest = new EventEmitter<void>();
 
   declineAdmitRequestForm = new FormGroup({
     comment: new FormControl(''),
@@ -53,7 +60,7 @@ export class DeclineAdmitRequestComponent {
     this.teacherService.admitRequestApproval(payload).subscribe({
       next: (response: IResponse<null>) => {
         console.log('admitRequestApproval: ', response);
-
+        this.declineAdmitRequest.emit();
         if (response.success) {
           this.modalService.dismissAll();
           this.notificationService.success(response.message);

@@ -32,4 +32,10 @@ export class ApiCallConstant {
 
   public static readonly GET_LEAVE_REQUEST_LIST =
     this.TEACHER_CONTROLLER + 'leave-request-list';
+
+  public static readonly CREATE_LEAVE_REQUEST =
+    this.TEACHER_CONTROLLER + 'create-leave-request';
+
+  public static readonly GET_LEAVES_COUNT =
+    this.TEACHER_CONTROLLER + 'get-leaves-count';
 }

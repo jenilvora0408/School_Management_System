@@ -30,6 +30,8 @@ public static class MessageConstants
         public const string LOGIN_SUCCESS = "Logged in Sucessfully!";
 
         public const string PASSWORD_RESETTED = "Password resetted successfully!";
+
+        public const string LEAVE_REQUEST_CREATED = "Leave Request was created successfully!";
     }
 
     #endregion Error_Messages

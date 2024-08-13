@@ -23,7 +23,7 @@
       <div
         class="content d-flex flex-column justify-content-center align-items-center"
       >
-        <span class="fs-4">6</span>
+        <span class="fs-4">{{ leavesCountResponse.totalRequestsCount }}</span>
         <span class="fs-4">Requests</span>
       </div>
     </div>
@@ -34,7 +34,9 @@
       <div
         class="content d-flex flex-column justify-content-center align-items-center"
       >
-        <span class="fs-4">6</span>
+        <span class="fs-4">{{
+          leavesCountResponse.approvedRequestsCount
+        }}</span>
         <span class="fs-4">Approved</span>
       </div>
     </div>
@@ -45,7 +47,9 @@
       <div
         class="content d-flex flex-column justify-content-center align-items-center"
       >
-        <span class="fs-4">6</span>
+        <span class="fs-4">
+          {{ leavesCountResponse.pendingRequestsCount }}
+        </span>
         <span class="fs-4">Pending</span>
       </div>
     </div>
@@ -56,7 +60,9 @@
       <div
         class="content d-flex flex-column justify-content-center align-items-center"
       >
-        <span class="fs-4">6</span>
+        <span class="fs-4">
+          {{ leavesCountResponse.declinedRequestCount }}
+        </span>
         <span class="fs-4">Declined</span>
       </div>
     </div>
@@ -67,7 +73,9 @@
       <div
         class="content d-flex flex-column justify-content-center align-items-center"
       >
-        <span class="fs-4">6</span>
+        <span class="fs-4">
+          {{ leavesCountResponse.leavesRemainingCount }}
+        </span>
         <span class="fs-4">Leaves Remaining</span>
       </div>
     </div>
@@ -78,7 +86,7 @@
       <div
         class="content d-flex flex-column justify-content-center align-items-center"
       >
-        <span class="fs-4">6</span>
+        <span class="fs-4"> {{ leavesCountResponse.sickLeavesCount }} </span>
         <span class="fs-4">Sick Leaves</span>
       </div>
     </div>
@@ -89,18 +97,6 @@
   >
     <div class="col-6">
       <h3>Leave Requests <span class="fs-6">(Requests)</span></h3>
-    </div>
-    <div class="col-4">
-      <div class="col-2"></div>
-      <div class="d-flex">
-        <input
-          type="text"
-          class="form-control bg-light"
-          placeholder="Search..."
-          #searchInput
-          (keyup)="onKeyup(searchInput.value)"
-        />
-      </div>
     </div>
   </div>
 
@@ -136,7 +132,7 @@
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
             <th scope="col">Status</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Alternate Contact</th>
           </tr>
         </thead>
         <tbody>
@@ -156,13 +152,18 @@
               }
             </td>
             <td>
-              <div>
-                <app-button
-                  type="button"
-                  label="View Request"
-                  className="btn outline-btn"
-                ></app-button>
-              </div>
+              <a
+                [href]="
+                  'tel:' + getFormattedPhoneNumber(item.alternatePhoneNumber)
+                "
+              >
+                <button
+                  class="btn btn-outline-secondary bg-white text-dark w-50"
+                >
+                  <i class="bi bi-telephone-outbound me-2"></i>
+                  {{ item.alternatePhoneNumber }}
+                </button></a
+              >
             </td>
           </tr>
           }

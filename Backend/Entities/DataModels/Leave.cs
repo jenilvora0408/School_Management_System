@@ -17,15 +17,9 @@ namespace Entities.DataModels
 
         public DateTime EndDate { get; set; }
 
-        public string LeaveStartType { get; set; } = null!;
-
-        public string LeaveEndType { get; set; } = null!;
-
         public string LeaveDuration { get; set; } = null!;
 
         public string LeaveType { get; set; } = null!;
-
-        public bool? AvailabilityOnPhone { get; set; }
 
         public string? AlternatePhoneNumber { get; set; }
 

@@ -45,9 +45,26 @@ public class TeacherService : ITeacherService
 
     public async Task CreateLeaveRequest(LeaveRequestDTO leaveRequestDTO)
     {
-        User? user = await _commonService.GetUserById(leaveRequestDTO.LeaveRequestorId) ?? throw new CustomException(StatusCodes.Status404NotFound, MessageConstants.ErrorMessage.USER_NOT_FOUND);
+        User? user = await _commonService.GetUserById(leaveRequestDTO.LeaveRequestorId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
 
-        Leave leave = LeaveMappingProfile.ToCreateTeacherLeaveRequest(leaveRequestDTO);
+        byte approvalFromUserId = user.RoleId;
+
+        if (user.RoleId == 2)
+        {
+            User? principalUser = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(user => user.RoleId == Convert.ToByte(1)) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
+
+            approvalFromUserId = principalUser.RoleId;
+        }
+
+        else if (user.RoleId == 2)
+        {
+            User? teacherUser = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(user => user.RoleId == Convert.ToByte(2)) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
+
+            approvalFromUserId = teacherUser.RoleId;
+        }
+
+
+        Leave leave = LeaveMappingProfile.ToCreateTeacherLeaveRequest(leaveRequestDTO, approvalFromUserId);
 
         await _unitOfWork.LeaveRepository.AddAsync(leave);
 
@@ -62,7 +79,7 @@ public class TeacherService : ITeacherService
             PageSize = leaveRequestsListDTO.PageSize,
             SortColumn = !string.IsNullOrEmpty(leaveRequestsListDTO.SortColumn) ? leaveRequestsListDTO.SortColumn : null!,
             SortOrder = leaveRequestsListDTO.SortOrder,
-            Predicate = leave => leave.UserId == leaveRequestsListDTO.UserId && leave.ApprovalStatus == leaveRequestsListDTO.Filter && (leave.Users.FirstName.Trim().ToLower().Contains(leaveRequestsListDTO.SearchQuery.Trim().ToLower()) || leave.Users.LastName.Trim().ToLower().Contains(leaveRequestsListDTO.SearchQuery.Trim().ToLower()) || leave.ReasonForLeave.Trim().ToLower().Contains(leaveRequestsListDTO.SearchQuery.Trim().ToLower())),
+            Predicate = leave => leave.UserId == leaveRequestsListDTO.UserId && leave.ApprovalStatus == leaveRequestsListDTO.Filter,
             Selects = responseInfo => new Leave()
             {
                 Id = responseInfo.Id,
@@ -71,11 +88,10 @@ public class TeacherService : ITeacherService
                 ReasonForLeave = responseInfo.ReasonForLeave,
                 StartDate = responseInfo.StartDate,
                 EndDate = responseInfo.EndDate,
-                LeaveStartType = responseInfo.LeaveStartType,
-                LeaveEndType = responseInfo.LeaveEndType,
                 LeaveDuration = responseInfo.LeaveDuration,
                 LeaveType = responseInfo.LeaveType,
-                Users = responseInfo.Users
+                Users = responseInfo.Users,
+                AlternatePhoneNumber = responseInfo.AlternatePhoneNumber
             }
         };
 
@@ -87,11 +103,10 @@ public class TeacherService : ITeacherService
             ReasonForLeave = leaves.ReasonForLeave,
             StartDate = leaves.StartDate,
             EndDate = leaves.EndDate,
-            LeaveStartType = leaves.LeaveStartType,
-            LeaveEndType = leaves.LeaveEndType,
             LeaveDuration = leaves.LeaveDuration,
             LeaveType = leaves.LeaveType,
-            ApprovalStatus = leaves.ApprovalStatus
+            ApprovalStatus = leaves.ApprovalStatus,
+            AlternatePhoneNumber = leaves.AlternatePhoneNumber
         }).ToList();
 
         return new PageListResponseDTO<LeaveRequestsListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
@@ -131,6 +146,23 @@ public class TeacherService : ITeacherService
 
             await _mailService.SendMailAsync(mailDto);
         }
+    }
+
+    public async Task<LeavesCountDTO> GetLeavesCount(long userId)
+    {
+        IList<Leave> allLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId);
+
+        IList<Leave> pendingLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.ApprovalStatus == Convert.ToByte(1));
+
+        IList<Leave> approvedLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.ApprovalStatus == Convert.ToByte(2));
+
+        IList<Leave> declinedLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.ApprovalStatus == Convert.ToByte(3));
+
+        IList<Leave> sickLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.LeaveType == SystemConstants.SICK_LEAVE);
+
+        LeavesCountDTO leavesCountDTO = LeaveMappingProfile.ToGetLeavesCount(allLeaves.Count(), pendingLeaves.Count(), approvedLeaves.Count(), declinedLeaves.Count(), 0, sickLeaves.Count());
+
+        return leavesCountDTO;
     }
 
     #endregion HTTP_Methods

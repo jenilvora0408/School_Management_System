@@ -1,5 +1,6 @@
 using API.Helpers;
 using BusinessAccessLayer.Interface;
+using Common.Constants;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using static API.Helpers.JwtAuthPolicies;
@@ -33,7 +34,7 @@ public class TeacherController : ControllerBase
     public async Task<IActionResult> CreateLeaveRequest(LeaveRequestDTO leaveRequestDTO)
     {
         await _teacherService.CreateLeaveRequest(leaveRequestDTO);
-        return ResponseHelper.SuccessResponse<object>(null);
+        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.LEAVE_REQUEST_CREATED);
     }
 
     [HttpPost("leave-request-list")]
@@ -47,6 +48,13 @@ public class TeacherController : ControllerBase
     {
         await _teacherService.AdmitRequestApproval(admitRequestApprovalDTO);
         return ResponseHelper.SuccessResponse<object>(null);
+    }
+
+    [HttpGet("get-leaves-count/{userId}")]
+    public async Task<IActionResult> GetLeavesCount(long userId)
+    {
+        LeavesCountDTO response = await _teacherService.GetLeavesCount(userId);
+        return ResponseHelper.SuccessResponse(response);
     }
 
     #endregion HTTP_Methods

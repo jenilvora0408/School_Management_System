@@ -4,7 +4,6 @@ using Entities.DataModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using static Common.Enums.SystemEnum;
 
 namespace DataAccessLayer.Data;
 
@@ -25,14 +24,14 @@ public class AppDbContext : DbContext
     {
         IEnumerable<EntityEntry> entries = ChangeTracker
                 .Entries()
-                .Where(e => (IsAuditableEntity(e.Entity.GetType())) &&
+                .Where(e => IsAuditableEntity(e.Entity.GetType()) &&
                     (e.State == EntityState.Added || e.State == EntityState.Modified));
 
         foreach (EntityEntry entityEntry in entries)
         {
             if (IsAuditableEntity(entityEntry.Entity.GetType()))
             {
-                dynamic? baseEntity = (dynamic)entityEntry.Entity;
+                dynamic? baseEntity = entityEntry.Entity;
 
                 long userId = GetUserId();
 
@@ -270,10 +269,8 @@ public class AppDbContext : DbContext
         {
             entity.ToTable("Leaves");
             entity.Property(e => e.ReasonForLeave).IsRequired().HasMaxLength(500);
-            entity.Property(e => e.LeaveStartType).IsRequired().HasMaxLength(10);
-            entity.Property(e => e.LeaveEndType).IsRequired().HasMaxLength(10);
             entity.Property(e => e.LeaveDuration).IsRequired().HasMaxLength(10);
-            entity.Property(e => e.LeaveType).IsRequired().HasMaxLength(10);
+            entity.Property(e => e.LeaveType).IsRequired().HasMaxLength(20);
             entity.Property(e => e.AlternatePhoneNumber).IsRequired().HasMaxLength(15);
             entity.Property(e => e.ApprovalStatus).HasDefaultValue(1);
 

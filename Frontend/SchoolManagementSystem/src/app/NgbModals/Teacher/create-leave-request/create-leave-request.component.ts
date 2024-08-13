@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -19,6 +19,13 @@ import { DropdownItem } from '../../../shared/models/drop-down-item';
 import { SelectComponent } from '../../../shared/components/select/select.component';
 import { PhoneNumberInputComponent } from '../../../shared/components/phone-number-input/phone-number-input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { ICreateLeaveRequestInterface } from '../../../models/teacher/create-leave-request';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { TeacherService } from '../../../services/teacher.service';
+import { IResponse } from '../../../shared/models/IResponse';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { LeaveTypePipe } from '../../../pipes/leave-type.pipe';
 
 @Component({
   selector: 'app-create-leave-request',
@@ -35,6 +42,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
   ],
   templateUrl: './create-leave-request.component.html',
   styleUrl: './create-leave-request.component.scss',
+  providers: [LeaveTypePipe],
 })
 export class CreateLeaveRequestComponent {
   calendar = inject(NgbCalendar);
@@ -45,8 +53,10 @@ export class CreateLeaveRequestComponent {
   toDate: NgbDate | null = this.calendar.getNext(
     this.calendar.getToday(),
     'd',
-    10
+    2
   );
+
+  @Output() leaveRequestCreated = new EventEmitter<void>();
 
   leaveTypeOptions: DropdownItem[] = [
     { value: '1', viewValue: 'Sick Leave' },
@@ -56,13 +66,17 @@ export class CreateLeaveRequestComponent {
 
   createLeaveRequestForm = new FormGroup({
     reasonForLeave: new FormControl('', Validators.required),
-    // leaveStartDate: new FormControl('', Validators.required),
-    // leaveEndDate: new FormControl('', Validators.required),
     leaveType: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.required),
+    alternatePhoneNumber: new FormControl('', Validators.required),
   });
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private authService: AuthenticationService,
+    private teacherService: TeacherService,
+    private notificationService: NotificationService,
+    private leaveTypePipe: LeaveTypePipe
+  ) {}
 
   ngOnInit(): void {}
 
@@ -113,13 +127,57 @@ export class CreateLeaveRequestComponent {
       : currentValue;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    console.log(this.createLeaveRequestForm.value);
+
+    const startDate = new Date(
+      this.fromDate!.year,
+      this.fromDate!.month - 1,
+      this.fromDate!.day
+    );
+
+    const endDate = new Date(
+      this.toDate!.year,
+      this.toDate!.month - 1,
+      this.toDate!.day
+    );
+
+    const timeDifference = endDate.getTime() - startDate.getTime();
+    const leaveDuration = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+    const payload: ICreateLeaveRequestInterface = {
+      leaveType:
+        this.leaveTypePipe.transform(
+          this.createLeaveRequestForm.value.leaveType
+        ) ?? '',
+      reasonForLeave: this.createLeaveRequestForm.value.reasonForLeave ?? '',
+      alternatePhoneNumber:
+        this.createLeaveRequestForm.value.alternatePhoneNumber ?? '',
+      startDate: startDate,
+      endDate: endDate,
+      leaveDuration: leaveDuration.toString() + ' days',
+      leaveRequestorId: this.authService.getUserId(),
+    };
+
+    console.log(payload);
+
+    this.teacherService
+      .createLeaveRequest(payload as ICreateLeaveRequestInterface)
+      .subscribe({
+        next: (response: IResponse<null>) => {
+          console.log('request list: ', response);
+          this.modalService.dismissAll();
+          this.leaveRequestCreated.emit();
+          if (response.success)
+            this.notificationService.success(response.message);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error);
+        },
+      });
+  }
 
   close() {
     this.modalService.dismissAll();
-  }
-
-  selectTest(selectedValues: string) {
-    console.log(selectedValues);
   }
 }

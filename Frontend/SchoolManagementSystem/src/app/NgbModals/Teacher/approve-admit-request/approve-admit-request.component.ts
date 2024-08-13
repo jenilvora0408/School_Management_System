@@ -1,4 +1,10 @@
-import { Component, Injector, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Injector,
+  Input,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { TextareaComponent } from '../../../shared/components/textarea/textarea.component';
@@ -24,6 +30,8 @@ import { NotificationService } from '../../../shared/services/notification.servi
 })
 export class ApproveAdmitRequestComponent {
   @Input() id: number = 0;
+
+  @Output() approveAdmitRequest = new EventEmitter<void>();
 
   approveAdmitRequestForm = new FormGroup({
     comment: new FormControl(''),
@@ -57,7 +65,7 @@ export class ApproveAdmitRequestComponent {
     this.teacherService.admitRequestApproval(payload).subscribe({
       next: (response: IResponse<null>) => {
         console.log('admitRequestApproval: ', response);
-
+        this.approveAdmitRequest.emit();
         if (response.success) {
           this.modalService.dismissAll();
           this.notificationService.success(response.message);

@@ -1,4 +1,10 @@
-import { Component, Injector, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Injector,
+  Input,
+  Output,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -29,6 +35,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 })
 export class BlockAdmitRequestComponent {
   @Input() id: number = 0;
+  @Output() blockAdmitRequest = new EventEmitter<void>();
 
   blockAdmitRequestForm = new FormGroup({
     comment: new FormControl(''),
@@ -61,7 +68,7 @@ export class BlockAdmitRequestComponent {
     this.teacherService.admitRequestApproval(payload).subscribe({
       next: (response: IResponse<null>) => {
         console.log('admitRequestApproval: ', response);
-
+        this.blockAdmitRequest.emit();
         if (response.success) {
           this.modalService.dismissAll();
           this.notificationService.success(response.message);

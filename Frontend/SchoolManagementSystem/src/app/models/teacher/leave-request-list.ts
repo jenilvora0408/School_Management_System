@@ -3,9 +3,8 @@ export interface ILeaveRequestListInterface {
   reasonForLeave: string;
   startDate: Date;
   endDate: Date;
-  leaveStartType: string;
-  leaveEndType: string;
   leaveDuration: number;
   leaveType: string;
   approvalStatus: number;
+  alternatePhoneNumber: string;
 }

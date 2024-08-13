@@ -9,6 +9,8 @@ import { IAdmitRequestListInterface } from '../models/teacher/admit-request-list
 import { IViewAdmitRequestInterface } from '../models/teacher/view-admit-request';
 import { ILeaveRequestListInterface } from '../models/teacher/leave-request-list';
 import { IUserPageListRequest } from '../shared/models/user-page-list-request';
+import { ICreateLeaveRequestInterface } from '../models/teacher/create-leave-request';
+import { ILeavesCountInterface } from '../models/teacher/leaves-count';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +20,8 @@ export class TeacherService {
   getLeaveRequestListApi = ApiCallConstant.GET_LEAVE_REQUEST_LIST;
   viewAdmitRequestListApi = ApiCallConstant.VIEW_ADMIT_REQUEST;
   admitRequestApprovalApi = ApiCallConstant.ADMIT_REQUEST_APPROVAL;
-  private shouldRenderListSubject = new BehaviorSubject<boolean>(false);
-  shouldRenderListSubject$ = this.shouldRenderListSubject.asObservable();
+  createLeaveRequestApi = ApiCallConstant.CREATE_LEAVE_REQUEST;
+  getLeavesCountApi = ApiCallConstant.GET_LEAVES_COUNT;
 
   constructor(private http: HttpClient) {}
 
@@ -51,6 +53,21 @@ export class TeacherService {
     return this.http.post<IResponse<null>>(
       `${this.admitRequestApprovalApi}`,
       requestCredentials
+    );
+  }
+
+  createLeaveRequest(
+    requestCredentials: ICreateLeaveRequestInterface
+  ): Observable<IResponse<null>> {
+    return this.http.post<IResponse<null>>(
+      `${this.createLeaveRequestApi}`,
+      requestCredentials
+    );
+  }
+
+  getLeavesCount(userId: number): Observable<IResponse<ILeavesCountInterface>> {
+    return this.http.get<IResponse<ILeavesCountInterface>>(
+      `${this.getLeavesCountApi}/${userId}`
     );
   }
 }

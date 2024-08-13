@@ -42,6 +42,8 @@ public static class SystemConstants
 
     public const string DEFAULT_AVATAR_ROUTE = "../../../../assets/images/avatar.jpg";
 
+    public const string SICK_LEAVE = "sick leave";
+
     #region Policy Attribute
 
     public const string PRINCIPAL_POLICY = "Principal";

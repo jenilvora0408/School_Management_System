@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { NgClass } from '@angular/common';
-import { SystemConstants } from '../../../constants/shared/system-constants';
 import { ILeaveRequestListInterface } from '../../../models/teacher/leave-request-list';
 import { TeacherService } from '../../../services/teacher.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,6 +17,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CreateLeaveRequestComponent } from '../../../NgbModals/Teacher/create-leave-request/create-leave-request.component';
 import { ValidationPattern } from '../../../constants/validation/validation-pattern';
 import { ILeavesCountInterface } from '../../../models/teacher/leaves-count';
+import { LeaveStatusComponent } from '../../../shared/components/leave-status/leave-status.component';
+import { ChartOptions } from 'chart.js';
+import { NgChartsModule } from 'ng2-charts';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-leave-dashboard',
@@ -34,6 +37,8 @@ import { ILeavesCountInterface } from '../../../models/teacher/leaves-count';
     NgbPaginationModule,
     ReactiveFormsModule,
     FormsModule,
+    LeaveStatusComponent,
+    NgChartsModule,
   ],
 })
 export class LeaveDashboardComponent {
@@ -41,11 +46,12 @@ export class LeaveDashboardComponent {
   pageSize = 10;
   collectionSize!: number;
   searchQuery: string = '';
-  sortColumn: string = 'LeaveType';
-  sortOrder: string = 'ascending';
+  sortColumn: string = '';
+  sortOrder: string = '';
   responseData: ILeaveRequestListInterface[] = [];
-  filter: number = 1;
+  filter: number = 2;
   approvalStatus!: string;
+  activeStatus: string = 'Approved';
 
   leavesCountResponse: ILeavesCountInterface = {
     totalRequestsCount: 0,
@@ -56,10 +62,23 @@ export class LeaveDashboardComponent {
     leavesRemainingCount: 0,
   };
 
+  public pieChartOptions: ChartOptions<'pie'> = {
+    responsive: false,
+  };
+  public pieChartLabels = ['Approved', 'Pending', 'Declined', 'Sick Leaves'];
+  public pieChartDatasets = [
+    {
+      data: [0, 0, 0, 0],
+    },
+  ];
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
+
   constructor(
     private teacherService: TeacherService,
     private authService: AuthenticationService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -75,25 +94,10 @@ export class LeaveDashboardComponent {
     }
   }
 
-  onFilter(filterStatus: number): void {
+  onFilter(statusLabel: string, filterStatus: number): void {
     console.log(filterStatus);
     this.filter = filterStatus;
-    this.getLeaveRequestData();
-  }
-
-  onSort(column: string) {
-    console.log('SORT: ', this.sortColumn, this.sortOrder);
-
-    if (this.sortColumn === column) {
-      this.sortOrder =
-        this.sortOrder === SystemConstants.Ascending
-          ? SystemConstants.Descending
-          : SystemConstants.Ascending;
-    } else {
-      this.sortColumn = column;
-      this.sortOrder = SystemConstants.Ascending;
-    }
-    console.log('SORT: ', this.sortColumn, this.sortOrder);
+    this.activeStatus = statusLabel;
     this.getLeaveRequestData();
   }
 
@@ -102,6 +106,16 @@ export class LeaveDashboardComponent {
       next: (response: IResponse<ILeavesCountInterface>) => {
         this.leavesCountResponse = response.data;
         console.log('getLeavesCount  ', this.leavesCountResponse);
+        this.pieChartDatasets = [
+          {
+            data: [
+              this.leavesCountResponse.approvedRequestsCount,
+              this.leavesCountResponse.pendingRequestsCount,
+              this.leavesCountResponse.declinedRequestCount,
+              this.leavesCountResponse.sickLeavesCount,
+            ],
+          },
+        ];
       },
       error: (error: HttpErrorResponse) => {
         console.log(error);
@@ -134,6 +148,7 @@ export class LeaveDashboardComponent {
           this.collectionSize = response.data.totalRecords;
         },
         error: (error: HttpErrorResponse) => {
+          this.notificationService.error(error.error.errors);
           console.log(error);
         },
       });

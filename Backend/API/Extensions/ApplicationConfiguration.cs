@@ -74,7 +74,8 @@ public static class ApplicationConfiguration
 
         services.AddScoped<IMailService, MailService>();
         services.AddScoped<ICommonService, CommonService>();
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPrincipalService, PrincipalService>();
+        services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IJwtManagerService, JwtManagerService>();
 
         services.AddHttpContextAccessor();

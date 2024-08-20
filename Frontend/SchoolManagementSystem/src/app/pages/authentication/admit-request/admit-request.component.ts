@@ -26,6 +26,7 @@ import {
   CommonItemResponse,
   CommonListResponse,
 } from '../../../shared/models/common-item-response';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admit-request',
@@ -92,7 +93,8 @@ export class AdmitRequestComponent {
   constructor(
     private commonService: CommonService,
     private authService: AuthenticationService,
-    private notificationsService: NotificationService
+    private notificationsService: NotificationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -147,7 +149,10 @@ export class AdmitRequestComponent {
       .createAdmitRequest(this.admitRequestForm.value as IAdmitRequestInterface)
       .subscribe({
         next: (res: IResponse<null>) => {
-          if (res.success) this.notificationsService.success(res.message);
+          if (res.success) {
+            this.notificationsService.success(res.message);
+            this.router.navigate(['']);
+          }
         },
         error: (error: HttpErrorResponse) => {
           this.notificationsService.error(error.error.errors);

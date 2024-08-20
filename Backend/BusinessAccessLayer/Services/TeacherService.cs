@@ -79,7 +79,14 @@ public class TeacherService : ITeacherService
             PageSize = leaveRequestsListDTO.PageSize,
             SortColumn = !string.IsNullOrEmpty(leaveRequestsListDTO.SortColumn) ? leaveRequestsListDTO.SortColumn : null!,
             SortOrder = leaveRequestsListDTO.SortOrder,
-            Predicate = leave => leave.UserId == leaveRequestsListDTO.UserId && leave.ApprovalStatus == leaveRequestsListDTO.Filter,
+            Predicate = leave =>
+                leave.UserId == leaveRequestsListDTO.UserId && (
+                leaveRequestsListDTO.Filter == 0 ||
+                (leaveRequestsListDTO.Filter == 1 && leave.ApprovalStatus == 1) ||
+                (leaveRequestsListDTO.Filter == 2 && leave.ApprovalStatus == 2) ||
+                (leaveRequestsListDTO.Filter == 3 && leave.ApprovalStatus == 3) ||
+                (leaveRequestsListDTO.Filter == 8 && leave.LeaveType == SystemConstants.SICK_LEAVE)
+            ),
             Selects = responseInfo => new Leave()
             {
                 Id = responseInfo.Id,
@@ -134,7 +141,11 @@ public class TeacherService : ITeacherService
             User user = new();
             user = UserMappingProfile.ToSaveAdmitRequestUser(admitRequest, password);
 
+            Student student = new();
+            student = StudentMappingProfile.ToAddStudents(admitRequest);
+
             await _unitOfWork.UserRepository.AddAsync(user);
+            await _unitOfWork.StudentRepository.AddAsync(student);
             await _unitOfWork.SaveAsync();
 
             MailDTO mailDto = new()

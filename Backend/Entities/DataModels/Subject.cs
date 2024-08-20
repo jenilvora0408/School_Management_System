@@ -7,6 +7,8 @@ namespace Entities.DataModels
     {
         public string SubjectName { get; set; } = null!;
 
+        public int[]? ClassIds { get; set; }
+
         public long? SubjectTeacherId { get; set; }
 
         #region Foreign_Keys

@@ -1,4 +1,4 @@
-<div class="row teacher-header">
+<div class="teacher-header">
   <div class="col teacher-navbar justify-content-between">
     <div class="left">
       <div class="teacher-logo px-3 d-flex align-items-center">
@@ -22,12 +22,12 @@
               <span
                 type="button"
                 class=""
-                id="dropdownBasic1"
+                id="profileDropdown"
                 ngbDropdownToggle
               >
-                Jenil Vora
+                {{ username }}
               </span>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <div ngbDropdownMenu aria-labelledby="profileDropdown">
                 <button ngbDropdownItem (click)="onLogout()">Logout</button>
               </div>
             </div>

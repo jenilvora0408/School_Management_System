@@ -1,1 +1,15 @@
-<p>leave-status works!</p>
+<div
+  class="all-requests py-3 px-5 d-flex align-items-center justify-content-center gap-4"
+  [ngClass]="{ active: isActive }"
+  (click)="onClick()"
+>
+  <div class="icon">
+    <i [class]="iconClass + ' fs-2'"></i>
+  </div>
+  <div
+    class="content d-flex flex-column justify-content-center align-items-center"
+  >
+    <span class="fs-4">{{ count }}</span>
+    <span class="fs-4">{{ label }}</span>
+  </div>
+</div>

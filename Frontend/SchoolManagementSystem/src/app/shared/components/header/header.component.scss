@@ -34,3 +34,18 @@ $shadowSupport: 0px 20px 20px 0px rgb(132 144 255/30%);
 .profile-pic img {
   height: 35px;
 }
+.teacher-header {
+  overflow: hidden;
+}
+.teacher-header {
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+.header-dropdown {
+  position: relative;
+  z-index: 1000;
+}
+.ngb-dropdown-menu {
+  z-index: 1050; /* Bootstrap's default dropdown z-index */
+}

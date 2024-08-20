@@ -7,6 +7,9 @@ import { ResetPasswordComponent } from './pages/authentication/reset-password/re
 import { TeacherDashboardComponent } from './pages/teacher/teacher-dashboard/teacher-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LeaveDashboardComponent } from './pages/teacher/leave-dashboard/leave-dashboard.component';
+import { StudentDashboardComponent } from './pages/student/student-dashboard/student-dashboard.component';
+import { PrincipalDashboardComponent } from './pages/principal/principal-dashboard/principal-dashboard.component';
+import { ClassesSubjectsComponent } from './pages/principal/classes-subjects/classes-subjects.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -22,6 +25,21 @@ export const routes: Routes = [
   {
     path: 'leave-dashboard',
     component: LeaveDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'student-dashboard',
+    component: StudentDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'principal-dashboard',
+    component: PrincipalDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'classes-and-subjects',
+    component: ClassesSubjectsComponent,
     canActivate: [AuthGuard],
   },
 ];

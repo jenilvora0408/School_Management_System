@@ -17,18 +17,12 @@ import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IPageListResponse } from '../../../shared/models/page-list-response';
 import { NgClass } from '@angular/common';
-import { Router } from '@angular/router';
-import {
-  StatusConstants,
-  SystemConstants,
-} from '../../../constants/shared/system-constants';
+import { SystemConstants } from '../../../constants/shared/system-constants';
 import * as CryptoJS from 'crypto-js';
-import { RoutingPathConstant } from '../../../constants/routing/routing-path';
 import { ValidationPattern } from '../../../constants/validation/validation-pattern';
 import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
 import { ViewAdmitRequestComponent } from '../../../NgbModals/Teacher/view-admit-request/view-admit-request.component';
-import { AuthenticationService } from '../../../services/authentication.service';
-import { ILeavesCountInterface } from '../../../models/teacher/leaves-count';
+import { NotificationService } from '../../../shared/services/notification.service';
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
@@ -61,7 +55,8 @@ export class TeacherDashboardComponent {
 
   constructor(
     private teacherService: TeacherService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -120,6 +115,7 @@ export class TeacherDashboardComponent {
           this.collectionSize = response.data.totalRecords;
         },
         error: (error: HttpErrorResponse) => {
+          this.notificationService.error(error.error.errors);
           console.log(error);
         },
       });

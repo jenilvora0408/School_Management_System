@@ -13,4 +13,12 @@ public static class ClassMappingProfile
             Title = classes.ClassName
         }).ToList();
     }
+
+    public static Class ToUpsertClasses(this ClassRequestDTO classRequestDTO) => new()
+    {
+        Id = classRequestDTO.ClassId ?? 0,
+        ClassName = classRequestDTO.ClassName,
+        ClassStrength = classRequestDTO.ClassStrength,
+        ClassTeacherId = classRequestDTO.ClassTeacherId
+    };
 }

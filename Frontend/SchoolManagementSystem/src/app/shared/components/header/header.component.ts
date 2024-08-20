@@ -11,9 +11,15 @@ import { AuthenticationService } from '../../../services/authentication.service'
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  username: string = '';
+  userRole: number = 0;
   private offCanvasService = inject(NgbOffcanvas);
 
   constructor(private authService: AuthenticationService) {}
+
+  ngOnInit(): void {
+    this.username = this.authService.getUserName();
+  }
 
   open() {
     const offcanvasRef = this.offCanvasService.open(SidebarComponent);

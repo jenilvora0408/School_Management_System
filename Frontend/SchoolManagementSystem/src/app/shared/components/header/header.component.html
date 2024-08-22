@@ -2,9 +2,10 @@
   <div class="col teacher-navbar justify-content-between">
     <div class="left">
       <div class="teacher-logo px-3 d-flex align-items-center">
+        @if(userRole !== 1){
         <button class="btn btn-sm btn-outline-secondary" (click)="open()">
-          <i class="bi bi-list"></i>
-        </button>
+          <i class="bi bi-list"></i></button
+        >}
         <img
           src="../../../../assets/images/Black_Illustrated_School_Logo-removebg-preview.png"
           alt=""

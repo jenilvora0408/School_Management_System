@@ -38,6 +38,17 @@ export class VerifyOtpComponent {
   email: string = '';
   locationUrl: string = '';
 
+  verifyOtpForm = new FormGroup({
+    otp: new FormControl(
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(6),
+      ])
+    ),
+  });
+
   constructor(
     private authService: AuthenticationService,
     private route: ActivatedRoute,
@@ -57,17 +68,6 @@ export class VerifyOtpComponent {
       ).toString(CryptoJS.enc.Utf8);
     });
   }
-
-  verifyOtpForm = new FormGroup({
-    otp: new FormControl(
-      '',
-      Validators.compose([
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(6),
-      ])
-    ),
-  });
 
   onSubmit(): void {
     this.verifyOtpForm.markAllAsTouched();

@@ -12,4 +12,6 @@ public interface ICommonService
     Task<CommonEntityListResponseDTO> GetEntityList();
 
     Task<PageListResponseDTO<AdmitRequestListResponseDTO>> GetAdmitRequestsList(PageListRequestDTO admitRequestList);
+
+    Task<List<ClassesListResponseDTO>> GetAllClasses();
 }

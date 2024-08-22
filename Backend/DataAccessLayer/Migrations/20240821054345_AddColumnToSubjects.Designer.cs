@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240821054345_AddColumnToSubjects")]
+    partial class AddColumnToSubjects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,51 +245,17 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             ClassName = "Class-11",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         },
                         new
                         {
                             Id = 2,
                             ClassName = "Class-12",
                             ClassStrength = 120,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         });
-                });
-
-            modelBuilder.Entity("Entities.DataModels.ClassSubject", b =>
-                {
-                    b.Property<int>("ClassId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("ClassId", "SubjectId");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("SubjectId");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ClassSubject");
                 });
 
             modelBuilder.Entity("Entities.DataModels.Gender", b =>
@@ -470,6 +439,9 @@ namespace DataAccessLayer.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int[]>("ClassIds")
+                        .HasColumnType("integer[]");
+
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
@@ -504,44 +476,44 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
                             SubjectName = "Physics",
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
                             SubjectName = "Chemistry",
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
                             SubjectName = "Biology",
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
                             SubjectName = "Maths",
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
                             SubjectName = "Physics Practical",
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068),
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437),
                             SubjectName = "Chemistry Practical",
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         });
                 });
 
@@ -689,7 +661,7 @@ namespace DataAccessLayer.Migrations
                             Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital",
                             Avatar = "/images/Principal-photo.jpg",
                             BloodGroupId = (byte)5,
-                            CreatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 904, DateTimeKind.Utc).AddTicks(7367),
+                            CreatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 940, DateTimeKind.Utc).AddTicks(6684),
                             Email = "anurag@gmail.com",
                             FirstName = "Anurag",
                             GenderId = (byte)1,
@@ -700,7 +672,7 @@ namespace DataAccessLayer.Migrations
                             Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2",
                             PhoneNumber = "8957486525",
                             RoleId = (byte)1,
-                            UpdatedOn = new DateTime(2024, 8, 21, 5, 55, 34, 307, DateTimeKind.Utc).AddTicks(2068)
+                            UpdatedOn = new DateTime(2024, 8, 21, 5, 43, 42, 329, DateTimeKind.Utc).AddTicks(5437)
                         });
                 });
 
@@ -832,37 +804,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("ClassTeachers");
 
                     b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("Entities.DataModels.ClassSubject", b =>
-                {
-                    b.HasOne("Entities.DataModels.Class", "Class")
-                        .WithMany("ClassSubjects")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Entities.DataModels.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("Entities.DataModels.Subject", "Subject")
-                        .WithMany("ClassSubjects")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Entities.DataModels.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("Class");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("Subject");
 
                     b.Navigation("UpdatedByUser");
                 });
@@ -1027,16 +968,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("UpdatedByUser");
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Entities.DataModels.Class", b =>
-                {
-                    b.Navigation("ClassSubjects");
-                });
-
-            modelBuilder.Entity("Entities.DataModels.Subject", b =>
-                {
-                    b.Navigation("ClassSubjects");
                 });
 #pragma warning restore 612, 618
         }

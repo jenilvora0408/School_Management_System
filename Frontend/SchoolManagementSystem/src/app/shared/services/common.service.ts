@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiCallConstant } from '../../constants/api-call/apis';
+import { IClassListResponseInterface } from '../../models/teacher/classes-list-response';
+import { Observable } from 'rxjs';
+import { IResponse } from '../models/IResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -10,5 +13,11 @@ export class CommonService {
 
   getCommonEntityList() {
     return this.http.get<any>(ApiCallConstant.GET_COMMON_ENTITY_DATA);
+  }
+
+  getAllClassesInfo(): Observable<IResponse<IClassListResponseInterface[]>> {
+    return this.http.get<IResponse<IClassListResponseInterface[]>>(
+      ApiCallConstant.GET_ALL_CLASSES_INFO
+    );
   }
 }

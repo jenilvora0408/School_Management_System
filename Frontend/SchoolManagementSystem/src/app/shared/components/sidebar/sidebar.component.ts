@@ -5,6 +5,8 @@ import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
 import { NgbActiveOffcanvas, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,7 +26,18 @@ export class SidebarComponent {
   @Input() name: string = '';
   private offCanvasService = inject(NgbOffcanvas);
 
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router
+  ) {}
+
   close() {
     this.offCanvasService.dismiss(SidebarComponent);
+  }
+
+  openLeaveDashboard() {
+    this.close();
+    const userRole = this.authService.getUserType();
+    if (userRole == 2) this.router.navigate(['/leave-dashboard']);
   }
 }

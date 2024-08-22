@@ -4,16 +4,15 @@ $purple: #6c4e87;
 .main-content {
   background-color: $bg;
 }
-
 .box {
   width: 25%;
   border-radius: 15px;
   color: $purple;
   transition: transform 0.5s ease, background-color 0.3s ease, color 0.3s ease;
 }
-
 .box:hover {
   transform: translateY(-25px);
   background-color: $purple;
   color: white;
+  cursor: grab;
 }

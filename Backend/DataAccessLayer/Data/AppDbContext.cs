@@ -295,12 +295,27 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<ClassSubject>(entity =>
+        {
+            entity.HasKey(cs => new { cs.ClassId, cs.SubjectId });
+
+            entity.HasOne(cs => cs.Class)
+                .WithMany(c => c.ClassSubjects)
+                .HasForeignKey(cs => cs.ClassId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(cs => cs.Subject)
+                .WithMany(s => s.ClassSubjects)
+                .HasForeignKey(cs => cs.SubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
         #region Seeders
 
         modelBuilder.Entity<Gender>().HasData(
-             new Gender { Id = 1, Title = "Male" },
-             new Gender { Id = 2, Title = "Female" }
-        );
+         new Gender { Id = 1, Title = "Male" },
+         new Gender { Id = 2, Title = "Female" }
+    );
 
         modelBuilder.Entity<UserRole>().HasData(
              new UserRole { Id = 1, Title = "Principal" },

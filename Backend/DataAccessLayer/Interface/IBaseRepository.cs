@@ -20,7 +20,9 @@ public interface IBaseRepository<T> where T : class
 
     Task<T?> GetByIdAsync(long id, CancellationToken cancellationToken = default);
 
-    Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate, CancellationToken cancellationToken = default);
+    Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default);
+
+    Task<List<T>> GetListAsync(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, object>>[]? includes = null, Expression<Func<T, object>>? orderBy = null, bool ascending = true, CancellationToken cancellationToken = default);
 
     Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestEntity<T> pageListRequest);
 

@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Entities.DTOs;
 
 public class ClassRequestDTO
 {
-    public int? ClassId { get; set; }
+    [Required]
+    public int ClassId { get; set; }
 
     public string ClassName { get; set; } = null!;
 

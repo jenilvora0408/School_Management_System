@@ -102,5 +102,17 @@ public class CommonService : ICommonService
         return new PageListResponseDTO<AdmitRequestListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, admitRequestListResponseDTOs);
     }
 
+    public async Task<List<ClassesListResponseDTO>> GetAllClasses()
+    {
+        List<Class>? classes = await _unitOfWork.ClassRepository.GetListAsync(includes:
+        [
+            c => c.ClassTeachers
+        ], orderBy: c => c.Id);
+
+        List<ClassesListResponseDTO> classesListResponseDTO = ClassMappingProfile.ToClassesListResponseDTOs(classes);
+
+        return classesListResponseDTO;
+    }
+
     #endregion Http_Methods
 }

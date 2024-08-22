@@ -19,6 +19,8 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.username = this.authService.getUserName();
+    this.userRole = this.authService.getUserType();
+    console.log(this.userRole);
   }
 
   open() {

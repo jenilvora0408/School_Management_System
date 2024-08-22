@@ -48,7 +48,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate, CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Fetch list based on predicate
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default)
     {
         if (predicate == null)
         {
@@ -56,6 +62,40 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         }
 
         return await _dbSet.Where(predicate).ToListAsync();
+    }
+
+    /// <summary>
+    /// Fetch list based on predicate, Include entities & sort the list based on column
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <param name="includes"></param>
+    /// <param name="orderBy"></param>
+    /// <param name="ascending"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<T>> GetListAsync(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, object>>[]? includes = null, Expression<Func<T, object>>? orderBy = null, bool ascending = true, CancellationToken cancellationToken = default)
+    {
+        IQueryable<T> query = _dbSet;
+
+        if (includes != null && includes.Length > 0)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+
+        if (orderBy != null)
+        {
+            query = ascending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
+        }
+
+        return await query.ToListAsync(cancellationToken);
     }
 
     public async Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestEntity<T> pageListRequest)

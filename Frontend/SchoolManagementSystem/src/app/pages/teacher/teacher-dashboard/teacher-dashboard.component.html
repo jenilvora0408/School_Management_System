@@ -8,7 +8,7 @@
         class="form-control mb-4 w-25 bg-light p-2"
         placeholder="Search..."
         #searchInput
-        (keyup)="onKeyup(searchInput.value)"
+        (keyup)="search(searchInput.value)"
       />
       <div ngbDropdown class="d-inline-block">
         <span

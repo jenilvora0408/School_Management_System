@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Entities.DTOs;
 
 public class AdmitRequestApprovalDTO
 {
+    [Required]
     public long AdmitRequestId { get; set; }
 
+    [Required]
     public int ApprovalStatus { get; set; }
 
     public string? Comment { get; set; }

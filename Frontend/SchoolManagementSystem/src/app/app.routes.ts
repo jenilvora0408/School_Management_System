@@ -10,6 +10,7 @@ import { LeaveDashboardComponent } from './pages/teacher/leave-dashboard/leave-d
 import { StudentDashboardComponent } from './pages/student/student-dashboard/student-dashboard.component';
 import { PrincipalDashboardComponent } from './pages/principal/principal-dashboard/principal-dashboard.component';
 import { ClassesSubjectsComponent } from './pages/principal/classes-subjects/classes-subjects.component';
+import { EditClassComponent } from './pages/principal/edit-class/edit-class.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -40,6 +41,11 @@ export const routes: Routes = [
   {
     path: 'classes-and-subjects',
     component: ClassesSubjectsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'edit-class',
+    component: EditClassComponent,
     canActivate: [AuthGuard],
   },
 ];

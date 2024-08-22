@@ -17,5 +17,7 @@ namespace Entities.DataModels
         public virtual User? ClassTeachers { get; set; }
 
         #endregion Foreign_Keys
+
+        public virtual ICollection<ClassSubject> ClassSubjects { get; set; } = new HashSet<ClassSubject>();
     }
 }

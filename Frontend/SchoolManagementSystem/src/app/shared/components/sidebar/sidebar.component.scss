@@ -1,5 +1,9 @@
+$purple: #6c4e87;
+
 ul li {
   list-style-type: none;
   padding: 8px 0;
   font-size: 1.2rem;
+  cursor: pointer;
+  color: $purple;
 }

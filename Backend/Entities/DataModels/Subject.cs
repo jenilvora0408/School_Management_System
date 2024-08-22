@@ -7,8 +7,6 @@ namespace Entities.DataModels
     {
         public string SubjectName { get; set; } = null!;
 
-        public int[]? ClassIds { get; set; }
-
         public long? SubjectTeacherId { get; set; }
 
         #region Foreign_Keys
@@ -17,5 +15,7 @@ namespace Entities.DataModels
         public virtual User? SubjectTeacher { get; set; }
 
         #endregion Foreign_Keys
+
+        public virtual ICollection<ClassSubject> ClassSubjects { get; set; } = new HashSet<ClassSubject>();
     }
 }

@@ -1,0 +1,22 @@
+$purple: #6c4e87;
+$sub-heading: #75a0ea;
+$pink: #bf75ea;
+$green: rgba(42, 112, 42, 0.863);
+$bg: #bddcf0;
+
+.box {
+  border-radius: 15px;
+  width: 35% !important;
+  background-color: $bg;
+}
+h3 {
+  font-weight: normal;
+  word-spacing: 3px;
+  letter-spacing: 1px;
+}
+.result {
+  font-weight: 500;
+}
+.sub-heading {
+  font-weight: 400;
+}

@@ -21,29 +21,29 @@ public class UserController : ControllerBase
 
     #endregion Constructor
 
-    [HttpPost("create-admit-request")]
+    [HttpPost(APIRouteConstants.CREATE_ADMIT_REQUEST)]
     public async Task<IActionResult> CreateAdmitRequest(AdmitRequestDTO request, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.CreateAdmitRequest(request, cancellationToken);
-        return ResponseHelper.SuccessResponse<object>(null, message: "Admit request created successfully!");
+        return ResponseHelper.SuccessResponse<object>(null, message: MessageConstants.SuccessMessage.ADMIT_REQUEST_CREATED);
     }
 
-    [HttpPost("login")]
+    [HttpPost(APIRouteConstants.LOGIN)]
     public async Task<IActionResult> Login(LoginCredentialsDTO userCredential)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         return ResponseHelper.SuccessResponse(await _userService.Login(userCredential), MessageConstants.SuccessMessage.OTP_SENT);
     }
 
-    [HttpPost("verify-otp")]
+    [HttpPost(APIRouteConstants.VERIFY_OTP)]
     public async Task<IActionResult> VerifyOtp(LoginOtpDTO otpData)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         return ResponseHelper.SuccessResponse(await _userService.VerifyOtp(otpData), MessageConstants.SuccessMessage.LOGIN_SUCCESS);
     }
 
-    [HttpPost("send-otp")]
+    [HttpPost(APIRouteConstants.SEND_OTP)]
     public async Task<IActionResult> SendOtp(EmailRequestDTO emailRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -51,7 +51,7 @@ public class UserController : ControllerBase
         return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
     }
 
-    [HttpPost("forget-password")]
+    [HttpPost(APIRouteConstants.FORGET_PASSWORD)]
     public async Task<IActionResult> ForgetPassword(EmailRequestDTO emailRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -59,7 +59,7 @@ public class UserController : ControllerBase
         return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
     }
 
-    [HttpPut("reset-password")]
+    [HttpPut(APIRouteConstants.RESET_PASSWORD)]
     public async Task<IActionResult> ResetPassword(LoginCredentialsDTO loginCredentialsDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);

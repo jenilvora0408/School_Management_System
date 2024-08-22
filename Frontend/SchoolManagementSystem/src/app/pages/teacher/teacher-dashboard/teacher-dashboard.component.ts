@@ -61,13 +61,6 @@ export class TeacherDashboardComponent {
 
   ngOnInit(): void {
     this.getAdmitRequestData();
-    this.searchSubject.pipe(debounceTime(500)).subscribe((searchTerm) => {
-      this.search(searchTerm);
-    });
-  }
-
-  onKeyup(searchTerm: string) {
-    this.searchSubject.next(searchTerm);
   }
 
   search(searchTerm: string) {

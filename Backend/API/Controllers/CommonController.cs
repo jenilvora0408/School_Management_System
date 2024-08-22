@@ -1,5 +1,6 @@
 using API.Helpers;
 using BusinessAccessLayer.Interface;
+using Common.Constants;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using static API.Helpers.JwtAuthPolicies;
@@ -21,17 +22,23 @@ public class CommonController : ControllerBase
 
     #endregion Constructor
 
-    [HttpGet("common-entity-list")]
+    [HttpGet(APIRouteConstants.COMMON_ENTITYLIST)]
     public async Task<IActionResult> GetCommonEntityList()
     {
         CommonEntityListResponseDTO response = await _commonService.GetEntityList();
         return ResponseHelper.SuccessResponse(response);
     }
 
-    [HttpPost("admit-request-list")]
+    [HttpPost(APIRouteConstants.ADMIT_REQUEST_LIST)]
     [TeachersPolicy]
     public async Task<IActionResult> GetAdmitRequestList(PageListRequestDTO pageListRequest)
     {
         return ResponseHelper.SuccessResponse(await _commonService.GetAdmitRequestsList(pageListRequest));
+    }
+
+    [HttpGet(APIRouteConstants.GET_ALL_CLASSES_INFO)]
+    public async Task<IActionResult> GetAllClassesInfo()
+    {
+        return ResponseHelper.SuccessResponse(await _commonService.GetAllClasses());
     }
 }

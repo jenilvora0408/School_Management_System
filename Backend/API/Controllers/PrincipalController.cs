@@ -10,7 +10,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/principal")]
-[PrincipalPolicy]
+// [PrincipalPolicy]
 public class PrincipalController(IPrincipalService principalService) : ControllerBase
 {
     #region Constructor
@@ -25,5 +25,11 @@ public class PrincipalController(IPrincipalService principalService) : Controlle
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _principalService.UpsertClasses(classRequestDTO, cancellationToken);
         return ResponseHelper.SuccessResponse<object>(null, message: MessageConstants.SuccessMessage.CLASS_EDITED);
+    }
+
+    [HttpGet("get-all-subjects/{classId}")]
+    public async Task<IActionResult> GetAllSubjects(int classId)
+    {
+        return ResponseHelper.SuccessResponse(await _principalService.GetSubjectsByClass(classId));
     }
 }

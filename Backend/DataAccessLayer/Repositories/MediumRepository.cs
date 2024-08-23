@@ -4,10 +4,6 @@ using Entities.DataModels;
 
 namespace DataAccessLayer.Repositories;
 
-public class MediumRepository : BaseRepository<Medium>, IMediumRepository
+public class MediumRepository(AppDbContext context) : BaseRepository<Medium>(context), IMediumRepository
 {
-    public MediumRepository(AppDbContext context) : base(context)
-    {
-
-    }
 }

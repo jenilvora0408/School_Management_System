@@ -4,10 +4,6 @@ using Entities.DataModels;
 
 namespace DataAccessLayer.Repositories;
 
-public class LeaveRepository : BaseRepository<Leave>, ILeaveRepository
+public class LeaveRepository(AppDbContext context) : BaseRepository<Leave>(context), ILeaveRepository
 {
-    public LeaveRepository(AppDbContext context) : base(context)
-    {
-
-    }
 }

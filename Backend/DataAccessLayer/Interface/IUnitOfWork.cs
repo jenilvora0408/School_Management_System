@@ -21,4 +21,6 @@ public interface IUnitOfWork
     public IMediumRepository MediumRepository { get; }
 
     public ILeaveRepository LeaveRepository { get; }
+
+    public IClassSubjectRepository ClassSubjectRepository { get; }
 }

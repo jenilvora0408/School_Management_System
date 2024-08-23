@@ -297,14 +297,12 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<ClassSubject>(entity =>
         {
-            entity.HasKey(cs => new { cs.ClassId, cs.SubjectId });
-
-            entity.HasOne(cs => cs.Class)
+            entity.HasOne(cs => cs.Classes)
                 .WithMany(c => c.ClassSubjects)
                 .HasForeignKey(cs => cs.ClassId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasOne(cs => cs.Subject)
+            entity.HasOne(cs => cs.Subjects)
                 .WithMany(s => s.ClassSubjects)
                 .HasForeignKey(cs => cs.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -351,12 +349,38 @@ public class AppDbContext : DbContext
             new Subject { Id = 3, SubjectName = "Biology", SubjectTeacherId = null },
             new Subject { Id = 4, SubjectName = "Maths", SubjectTeacherId = null },
             new Subject { Id = 5, SubjectName = "Physics Practical", SubjectTeacherId = null },
-            new Subject { Id = 6, SubjectName = "Chemistry Practical", SubjectTeacherId = null }
+            new Subject { Id = 6, SubjectName = "Chemistry Practical", SubjectTeacherId = null },
+            new Subject { Id = 7, SubjectName = "English", SubjectTeacherId = null },
+            new Subject { Id = 8, SubjectName = "English Grammar", SubjectTeacherId = null },
+            new Subject { Id = 9, SubjectName = "Environment", SubjectTeacherId = null },
+            new Subject { Id = 10, SubjectName = "History", SubjectTeacherId = null },
+            new Subject { Id = 11, SubjectName = "Science", SubjectTeacherId = null },
+            new Subject { Id = 12, SubjectName = "Computer", SubjectTeacherId = null }
         );
 
         modelBuilder.Entity<Class>().HasData(
-            new Class { Id = 1, ClassName = "Class-11", ClassStrength = 60, ClassTeacherId = null },
-            new Class { Id = 2, ClassName = "Class-12", ClassStrength = 120, ClassTeacherId = null }
+            new Class { Id = 1, ClassName = "Class-3", ClassStrength = 60, ClassTeacherId = null },
+            new Class { Id = 2, ClassName = "Class-4", ClassStrength = 60, ClassTeacherId = null },
+            new Class { Id = 3, ClassName = "Class-5", ClassStrength = 60, ClassTeacherId = null },
+            new Class { Id = 4, ClassName = "Class-6", ClassStrength = 60, ClassTeacherId = null },
+            new Class { Id = 5, ClassName = "Class-7", ClassStrength = 80, ClassTeacherId = null },
+            new Class { Id = 6, ClassName = "Class-8", ClassStrength = 80, ClassTeacherId = null },
+            new Class { Id = 7, ClassName = "Class-9", ClassStrength = 80, ClassTeacherId = null },
+            new Class { Id = 8, ClassName = "Class-10", ClassStrength = 80, ClassTeacherId = null },
+            new Class { Id = 9, ClassName = "Class-11", ClassStrength = 100, ClassTeacherId = null },
+            new Class { Id = 10, ClassName = "Class-12", ClassStrength = 100, ClassTeacherId = null }
+        );
+
+        modelBuilder.Entity<ClassSubject>().HasData(
+            new ClassSubject { Id = 1, ClassId = 1, SubjectId = 7 },
+            new ClassSubject { Id = 2, ClassId = 1, SubjectId = 8 },
+            new ClassSubject { Id = 3, ClassId = 1, SubjectId = 4 },
+            new ClassSubject { Id = 4, ClassId = 1, SubjectId = 11 },
+            new ClassSubject { Id = 5, ClassId = 2, SubjectId = 7 },
+            new ClassSubject { Id = 6, ClassId = 2, SubjectId = 8 },
+            new ClassSubject { Id = 7, ClassId = 2, SubjectId = 4 },
+            new ClassSubject { Id = 8, ClassId = 2, SubjectId = 11 },
+            new ClassSubject { Id = 9, ClassId = 2, SubjectId = 9 }
         );
 
         #endregion

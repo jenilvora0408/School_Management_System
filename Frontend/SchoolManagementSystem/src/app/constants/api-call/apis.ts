@@ -5,6 +5,7 @@ export class ApiCallConstant {
   public static readonly COMMON_CONTROLLER = this.BASE_URL + 'common/';
   public static readonly USER_CONTROLLER = this.BASE_URL + 'user/';
   public static readonly TEACHER_CONTROLLER = this.BASE_URL + 'teacher/';
+  public static readonly PRINCIPAL_CONTROLLER = this.BASE_URL + 'principal/';
 
   //Common Controller Methods
   public static readonly GET_COMMON_ENTITY_DATA =
@@ -50,4 +51,9 @@ export class ApiCallConstant {
 
   public static readonly GET_LEAVES_COUNT =
     this.TEACHER_CONTROLLER + 'get-leaves-count';
+
+  // Principal Controller Methods
+
+  public static readonly GET_ALL_SUBJECTS =
+    this.PRINCIPAL_CONTROLLER + 'get-all-subjects';
 }

@@ -3,7 +3,7 @@ using DataAccessLayer.Interface;
 
 namespace DataAccessLayer.Repositories;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
 {
     #region Properties
 
@@ -17,17 +17,13 @@ public class UnitOfWork : IUnitOfWork
     private ISubjectRepository _subjectRepository;
     private IMediumRepository _mediumRepository;
     private ILeaveRepository _leaveRepository;
+    private IClassSubjectRepository _classSubjectRepository;
 
     #endregion
 
     #region Constructor
 
-    private readonly AppDbContext _dbContext;
-
-    public UnitOfWork(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly AppDbContext _dbContext = dbContext;
 
     #endregion
 
@@ -118,6 +114,14 @@ public class UnitOfWork : IUnitOfWork
         get
         {
             return _leaveRepository ??= new LeaveRepository(_dbContext);
+        }
+    }
+
+    public IClassSubjectRepository ClassSubjectRepository
+    {
+        get
+        {
+            return _classSubjectRepository ??= new ClassSubjectRepository(_dbContext);
         }
     }
 

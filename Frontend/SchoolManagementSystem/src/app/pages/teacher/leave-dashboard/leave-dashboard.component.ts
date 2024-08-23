@@ -163,6 +163,7 @@ export class LeaveDashboardComponent {
 
     modalRef.componentInstance.leaveRequestCreated.subscribe(() => {
       this.getLeaveRequestData();
+      this.getLeavesCount();
     });
   }
 }

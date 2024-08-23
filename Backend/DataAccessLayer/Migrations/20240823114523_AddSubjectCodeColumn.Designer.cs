@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240719123753_AdmitRequestAddColumns")]
-    partial class AdmitRequestAddColumns
+    [Migration("20240823114523_AddSubjectCodeColumn")]
+    partial class AddSubjectCodeColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,14 +41,19 @@ namespace DataAccessLayer.Migrations
                     b.Property<byte>("AdmitRequestRoleId")
                         .HasColumnType("smallint");
 
-                    b.Property<byte?>("ApprovalStatus")
-                        .HasColumnType("smallint");
+                    b.Property<int>("ApprovalStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
 
                     b.Property<long?>("ApprovedBy")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Avatar")
                         .HasColumnType("text");
+
+                    b.Property<long?>("BlockedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<byte>("BloodGroupId")
                         .HasColumnType("smallint");
@@ -57,7 +62,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
@@ -97,6 +103,10 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
+                    b.Property<string>("ReasonForBlock")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint");
 
@@ -108,6 +118,8 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("AdmitRequestRoleId");
 
                     b.HasIndex("ApprovedBy");
+
+                    b.HasIndex("BlockedBy");
 
                     b.HasIndex("BloodGroupId");
 
@@ -231,18 +243,195 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            ClassName = "Class-11",
+                            ClassName = "Class-3",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         },
                         new
                         {
                             Id = 2,
+                            ClassName = "Class-4",
+                            ClassStrength = 60,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClassName = "Class-5",
+                            ClassStrength = 60,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClassName = "Class-6",
+                            ClassStrength = 60,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClassName = "Class-7",
+                            ClassStrength = 80,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ClassName = "Class-8",
+                            ClassStrength = 80,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClassName = "Class-9",
+                            ClassStrength = 80,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClassName = "Class-10",
+                            ClassStrength = 80,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ClassName = "Class-11",
+                            ClassStrength = 100,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 10,
                             ClassName = "Class-12",
-                            ClassStrength = 120,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            ClassStrength = 100,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        });
+                });
+
+            modelBuilder.Entity("Entities.DataModels.ClassSubject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("integer");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("ClassSubject");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClassId = 1,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 7,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClassId = 1,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 8,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClassId = 1,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 4,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClassId = 1,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 11,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClassId = 2,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 7,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ClassId = 2,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 8,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClassId = 2,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 4,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClassId = 2,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 11,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ClassId = 2,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectId = 9,
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         });
                 });
 
@@ -271,6 +460,76 @@ namespace DataAccessLayer.Migrations
                             Id = (byte)2,
                             Title = "Female"
                         });
+                });
+
+            modelBuilder.Entity("Entities.DataModels.Leave", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("AlternatePhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<long>("ApprovalFromUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<byte>("ApprovalStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasDefaultValue((byte)1);
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LeaveDuration")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("LeaveType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("ReasonForLeave")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovalFromUserId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Leaves", (string)null);
                 });
 
             modelBuilder.Entity("Entities.DataModels.Medium", b =>
@@ -363,6 +622,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("SubjectCode")
+                        .HasColumnType("text");
+
                     b.Property<string>("SubjectName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -391,44 +653,86 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
                             SubjectName = "Physics",
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
                             SubjectName = "Chemistry",
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
                             SubjectName = "Biology",
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
                             SubjectName = "Maths",
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
                             SubjectName = "Physics Practical",
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207),
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
                             SubjectName = "Chemistry Practical",
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectName = "English",
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectName = "English Grammar",
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectName = "Environment",
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectName = "History",
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectName = "Science",
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433),
+                            SubjectName = "Computer",
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         });
                 });
 
@@ -483,15 +787,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<byte>("GenderId")
                         .HasColumnType("smallint");
 
-                    b.Property<bool?>("HasForgottenPassword")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Headline")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
-
-                    b.Property<bool?>("IsEligibleForResetPassword")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsUserActive")
                         .ValueGeneratedOnAdd()
@@ -582,7 +880,7 @@ namespace DataAccessLayer.Migrations
                             Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital",
                             Avatar = "/images/Principal-photo.jpg",
                             BloodGroupId = (byte)5,
-                            CreatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 983, DateTimeKind.Utc).AddTicks(9305),
+                            CreatedOn = new DateTime(2024, 8, 23, 11, 45, 22, 555, DateTimeKind.Utc).AddTicks(7527),
                             Email = "anurag@gmail.com",
                             FirstName = "Anurag",
                             GenderId = (byte)1,
@@ -593,7 +891,7 @@ namespace DataAccessLayer.Migrations
                             Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2",
                             PhoneNumber = "8957486525",
                             RoleId = (byte)1,
-                            UpdatedOn = new DateTime(2024, 7, 19, 12, 37, 51, 517, DateTimeKind.Utc).AddTicks(8207)
+                            UpdatedOn = new DateTime(2024, 8, 23, 11, 45, 21, 904, DateTimeKind.Utc).AddTicks(433)
                         });
                 });
 
@@ -646,6 +944,10 @@ namespace DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("ApprovedBy");
 
+                    b.HasOne("Entities.DataModels.User", "BlockedByUser")
+                        .WithMany()
+                        .HasForeignKey("BlockedBy");
+
                     b.HasOne("Entities.DataModels.BloodGroup", "BloodGroups")
                         .WithMany()
                         .HasForeignKey("BloodGroupId")
@@ -684,6 +986,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("ApprovedByUser");
 
+                    b.Navigation("BlockedByUser");
+
                     b.Navigation("BloodGroups");
 
                     b.Navigation("Classes");
@@ -721,6 +1025,70 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("Entities.DataModels.ClassSubject", b =>
+                {
+                    b.HasOne("Entities.DataModels.Class", "Classes")
+                        .WithMany("ClassSubjects")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Entities.DataModels.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Entities.DataModels.Subject", "Subjects")
+                        .WithMany("ClassSubjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Entities.DataModels.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("Classes");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("Subjects");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("Entities.DataModels.Leave", b =>
+                {
+                    b.HasOne("Entities.DataModels.User", "ApprovalFromUsers")
+                        .WithMany()
+                        .HasForeignKey("ApprovalFromUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Entities.DataModels.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Entities.DataModels.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Entities.DataModels.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ApprovalFromUsers");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Entities.DataModels.Student", b =>
@@ -850,6 +1218,16 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("UpdatedByUser");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Entities.DataModels.Class", b =>
+                {
+                    b.Navigation("ClassSubjects");
+                });
+
+            modelBuilder.Entity("Entities.DataModels.Subject", b =>
+                {
+                    b.Navigation("ClassSubjects");
                 });
 #pragma warning restore 612, 618
         }

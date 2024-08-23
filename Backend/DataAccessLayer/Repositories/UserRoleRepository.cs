@@ -4,11 +4,7 @@ using Entities.DataModels;
 
 namespace DataAccessLayer.Repositories
 {
-    public class UserRoleRepository : BaseRepository<UserRole>, IUserRoleRepository
+    public class UserRoleRepository(AppDbContext context) : BaseRepository<UserRole>(context), IUserRoleRepository
     {
-        public UserRoleRepository(AppDbContext context) : base(context)
-        {
-
-        }
     }
 }

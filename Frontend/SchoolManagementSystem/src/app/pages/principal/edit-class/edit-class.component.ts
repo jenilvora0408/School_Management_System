@@ -18,6 +18,9 @@ import { SelectComponent } from '../../../shared/components/select/select.compon
 import { DropdownItem } from '../../../shared/models/drop-down-item';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { InputComponent } from '../../../shared/components/input/input.component';
+import { ISubjectsListInterface } from '../../../models/teacher/subjects-list';
+import { PrincipalService } from '../../../services/principal.service';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-edit-class',
@@ -28,6 +31,7 @@ import { InputComponent } from '../../../shared/components/input/input.component
     ReactiveFormsModule,
     FormSubmitDirective,
     InputComponent,
+    ButtonComponent,
   ],
   templateUrl: './edit-class.component.html',
   styleUrl: './edit-class.component.scss',
@@ -37,6 +41,7 @@ export class EditClassComponent {
   classTeacherName: string = '';
   classStrength: number = 0;
   teachersList: DropdownItem[] = [];
+  responseData: ISubjectsListInterface[] = [];
 
   editClassForm = new FormGroup({
     classTeacherId: new FormControl('', Validators.required),
@@ -47,12 +52,14 @@ export class EditClassComponent {
     private route: ActivatedRoute,
     private commonService: CommonService,
     private notificationService: NotificationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private principalService: PrincipalService
   ) {}
 
   ngOnInit(): void {
     this.decryptQueryParams();
     this.getAllTeachers();
+    this.getAllSubjects();
 
     this.editClassForm.patchValue({
       classStrength: this.classStrength.toString(),
@@ -72,6 +79,19 @@ export class EditClassComponent {
             viewValue: item.firstName + ' ' + item.lastName,
           })
         );
+      },
+      error: (error: HttpErrorResponse) => {
+        this.notificationService.error(error.error.errors);
+        console.log(error);
+      },
+    });
+  }
+
+  getAllSubjects() {
+    this.principalService.getAllSubjects(this.classId).subscribe({
+      next: (response: IResponse<ISubjectsListInterface[]>) => {
+        console.log('all teachers: ', response);
+        this.responseData = response.data;
       },
       error: (error: HttpErrorResponse) => {
         this.notificationService.error(error.error.errors);
@@ -103,5 +123,9 @@ export class EditClassComponent {
     console.log(this.classId);
   }
 
+  addSubject() {}
+
   onSubmit() {}
+
+  cancelFormData() {}
 }

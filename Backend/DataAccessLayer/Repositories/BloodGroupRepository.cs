@@ -4,10 +4,6 @@ using Entities.DataModels;
 
 namespace DataAccessLayer.Repositories;
 
-public class BloodGroupRepository : BaseRepository<BloodGroup>, IBloodGroupRepository
+public class BloodGroupRepository(AppDbContext context) : BaseRepository<BloodGroup>(context), IBloodGroupRepository
 {
-    public BloodGroupRepository(AppDbContext context) : base(context)
-    {
-
-    }
 }

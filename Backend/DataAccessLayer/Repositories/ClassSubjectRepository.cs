@@ -4,6 +4,6 @@ using Entities.DataModels;
 
 namespace DataAccessLayer.Repositories;
 
-public class AdmitRequestRepository(AppDbContext context) : BaseRepository<AdmitRequest>(context), IAdmitRequestRepository
+public class ClassSubjectRepository(AppDbContext context) : BaseRepository<ClassSubject>(context), IClassSubjectRepository
 {
 }

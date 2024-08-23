@@ -4,10 +4,6 @@ using Entities.DataModels;
 
 namespace DataAccessLayer.Repositories;
 
-public class GenderRepository : BaseRepository<Gender>, IGenderRepository
+public class GenderRepository(AppDbContext context) : BaseRepository<Gender>(context), IGenderRepository
 {
-    public GenderRepository(AppDbContext context) : base(context)
-    {
-
-    }
 }

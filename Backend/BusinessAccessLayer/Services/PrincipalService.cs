@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace BusinessAccessLayer.Services;
 
+[Obsolete]
 public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonService, IHostingEnvironment environment, IMailService mailService) : IPrincipalService
 {
     #region Constructor
@@ -25,6 +26,15 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         Class request = ClassMappingProfile.ToUpsertClasses(classRequestDTO);
         await _unitOfWork.ClassRepository.UpdateAsync(request);
         await _unitOfWork.SaveAsync();
+    }
+
+    public async Task<List<SubjectsListResponseDTO>> GetSubjectsByClass(int classId)
+    {
+        List<ClassSubject> classSubjects = await _unitOfWork.ClassSubjectRepository.GetListAsync(predicate: x => x.ClassId == classId, includes: [x => x.Classes, x => x.Subjects, x => x.Subjects.SubjectTeacher]);
+
+        List<SubjectsListResponseDTO> subjectsListResponseDTOs = ClassSubjectMappingProfile.ToClassSubjectListResponseDTOs(classSubjects);
+
+        return subjectsListResponseDTOs;
     }
 
     #endregion HTTP_Methods

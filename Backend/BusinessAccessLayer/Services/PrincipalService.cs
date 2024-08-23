@@ -7,21 +7,14 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace BusinessAccessLayer.Services;
 
-public class PrincipalService : IPrincipalService
+public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonService, IHostingEnvironment environment, IMailService mailService) : IPrincipalService
 {
     #region Constructor
 
-    public readonly IUnitOfWork _unitOfWork;
-    private readonly IMailService _mailService;
-    private readonly ICommonService _commonService;
-    private readonly IHostingEnvironment _environment;
-    public PrincipalService(IUnitOfWork unitOfWork, ICommonService commonService, IHostingEnvironment environment, IMailService mailService)
-    {
-        _unitOfWork = unitOfWork;
-        _commonService = commonService;
-        _environment = environment;
-        _mailService = mailService;
-    }
+    public readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMailService _mailService = mailService;
+    private readonly ICommonService _commonService = commonService;
+    private readonly IHostingEnvironment _environment = environment;
 
     #endregion Constructor
 

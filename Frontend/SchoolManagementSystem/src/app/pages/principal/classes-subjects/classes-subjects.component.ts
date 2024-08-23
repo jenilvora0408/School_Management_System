@@ -42,11 +42,19 @@ export class ClassesSubjectsComponent {
     });
   }
 
-  editClass(classId: number) {
+  editClass(classId: number, classTeacherName: string, classStrength: number) {
     this.router.navigate(['/edit-class'], {
       queryParams: {
         classId: CryptoJS.AES.encrypt(
           classId.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        classTeacherName: CryptoJS.AES.encrypt(
+          classTeacherName ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        classStrength: CryptoJS.AES.encrypt(
+          classStrength.toString() ?? '',
           SystemConstants.EncryptionKey
         ),
       },

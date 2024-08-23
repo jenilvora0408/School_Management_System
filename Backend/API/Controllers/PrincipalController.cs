@@ -9,22 +9,17 @@ using static API.Helpers.JwtAuthPolicies;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/principal")]
 [PrincipalPolicy]
-public class PrincipalController : ControllerBase
+public class PrincipalController(IPrincipalService principalService) : ControllerBase
 {
     #region Constructor
 
-    private readonly IPrincipalService _principalService;
-
-    public PrincipalController(IPrincipalService principalService)
-    {
-        _principalService = principalService;
-    }
+    private readonly IPrincipalService _principalService = principalService;
 
     #endregion
 
-    [HttpPost(APIRouteConstants.EDIT_CLASS)]
+    [HttpPost("edit-class")]
     public async Task<IActionResult> EditClass(ClassRequestDTO classRequestDTO, CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);

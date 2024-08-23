@@ -7,15 +7,11 @@ using Entities.ExtensionMethods.MappingProfiles;
 
 namespace BusinessAccessLayer.Services;
 
-public class CommonService : ICommonService
+public class CommonService(IUnitOfWork unitOfWork) : ICommonService
 {
     #region Constructor
 
-    public readonly IUnitOfWork _unitOfWork;
-    public CommonService(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+    public readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     #endregion Constructor
 
@@ -112,6 +108,15 @@ public class CommonService : ICommonService
         List<ClassesListResponseDTO> classesListResponseDTO = ClassMappingProfile.ToClassesListResponseDTOs(classes);
 
         return classesListResponseDTO;
+    }
+
+    public async Task<IEnumerable<TeachersListResponseDTO>> GetAllTeachers()
+    {
+        IEnumerable<User>? users = await _unitOfWork.UserRepository.GetListAsync(predicate: x => x.RoleId == Convert.ToByte(2), orderBy: c => c.FirstName);
+
+        IEnumerable<TeachersListResponseDTO> response = UserMappingProfile.ToTeachersListResponseDTOs(users);
+
+        return response;
     }
 
     #endregion Http_Methods

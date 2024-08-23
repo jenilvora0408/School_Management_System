@@ -14,21 +14,14 @@ using static Common.Constants.MessageConstants;
 
 namespace BusinessAccessLayer.Services;
 
-public class TeacherService : ITeacherService
+public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService, IHostingEnvironment environment, IMailService mailService) : ITeacherService
 {
     #region Constructor
 
-    public readonly IUnitOfWork _unitOfWork;
-    private readonly IMailService _mailService;
-    private readonly ICommonService _commonService;
-    private readonly IHostingEnvironment _environment;
-    public TeacherService(IUnitOfWork unitOfWork, ICommonService commonService, IHostingEnvironment environment, IMailService mailService)
-    {
-        _unitOfWork = unitOfWork;
-        _commonService = commonService;
-        _environment = environment;
-        _mailService = mailService;
-    }
+    public readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMailService _mailService = mailService;
+    private readonly ICommonService _commonService = commonService;
+    private readonly IHostingEnvironment _environment = environment;
 
     #endregion Constructor
 
@@ -180,7 +173,7 @@ public class TeacherService : ITeacherService
 
     #region Helper_Methods
 
-    public string GeneratePassword()
+    public static string GeneratePassword()
     {
         int length = SystemConstants.PASSWORD_LENGTH;
         string chars = SystemConstants.PASSWORD_CHAR;

@@ -4,6 +4,7 @@ import { ApiCallConstant } from '../../constants/api-call/apis';
 import { IClassListResponseInterface } from '../../models/teacher/classes-list-response';
 import { Observable } from 'rxjs';
 import { IResponse } from '../models/IResponse';
+import { ITeachersListInterface } from '../../models/teacher/teachers-list';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,12 @@ export class CommonService {
   getAllClassesInfo(): Observable<IResponse<IClassListResponseInterface[]>> {
     return this.http.get<IResponse<IClassListResponseInterface[]>>(
       ApiCallConstant.GET_ALL_CLASSES_INFO
+    );
+  }
+
+  getAllTeachers(): Observable<IResponse<ITeachersListInterface[]>> {
+    return this.http.get<IResponse<ITeachersListInterface[]>>(
+      ApiCallConstant.GET_ALL_TEACHERS
     );
   }
 }

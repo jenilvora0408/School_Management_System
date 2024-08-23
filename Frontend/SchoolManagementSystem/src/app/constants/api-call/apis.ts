@@ -16,6 +16,9 @@ export class ApiCallConstant {
   public static readonly GET_ALL_CLASSES_INFO =
     this.COMMON_CONTROLLER + 'get-all-classes-info';
 
+  public static readonly GET_ALL_TEACHERS =
+    this.COMMON_CONTROLLER + 'get-all-teachers';
+
   //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';

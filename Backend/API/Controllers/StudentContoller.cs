@@ -4,7 +4,7 @@ using static API.Helpers.JwtAuthPolicies;
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/student")]
 [StudentPolicy]
 public class StudentContoller : ControllerBase
 {

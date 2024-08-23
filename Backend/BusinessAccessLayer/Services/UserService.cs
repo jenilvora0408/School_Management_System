@@ -13,24 +13,15 @@ using static Common.Constants.MessageConstants;
 
 namespace BusinessAccessLayer.Services;
 
-public class UserService : BaseService<User>, IUserService
+public class UserService(IUnitOfWork unitOfWork, IMailService mailService, ICommonService commonService, IHostingEnvironment environment, IJwtManagerService jwtManagerService) : BaseService<User>(unitOfWork.UserRepository, unitOfWork), IUserService
 {
     #region Constructor
 
-    private readonly IMailService _mailService;
-    public readonly IUnitOfWork _unitOfWork;
-    private readonly ICommonService _commonService;
-    private readonly IHostingEnvironment _environment;
-    private readonly IJwtManagerService _jwtManagerService;
-
-    public UserService(IUnitOfWork unitOfWork, IMailService mailService, ICommonService commonService, IHostingEnvironment environment, IJwtManagerService jwtManagerService) : base(unitOfWork.UserRepository, unitOfWork)
-    {
-        _mailService = mailService;
-        _unitOfWork = unitOfWork;
-        _commonService = commonService;
-        _environment = environment;
-        _jwtManagerService = jwtManagerService;
-    }
+    private readonly IMailService _mailService = mailService;
+    public readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly ICommonService _commonService = commonService;
+    private readonly IHostingEnvironment _environment = environment;
+    private readonly IJwtManagerService _jwtManagerService = jwtManagerService;
 
     #endregion Constructor
 

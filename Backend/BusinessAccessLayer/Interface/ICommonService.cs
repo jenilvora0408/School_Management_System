@@ -14,4 +14,6 @@ public interface ICommonService
     Task<PageListResponseDTO<AdmitRequestListResponseDTO>> GetAdmitRequestsList(PageListRequestDTO admitRequestList);
 
     Task<List<ClassesListResponseDTO>> GetAllClasses();
+
+    Task<IEnumerable<TeachersListResponseDTO>> GetAllTeachers();
 }

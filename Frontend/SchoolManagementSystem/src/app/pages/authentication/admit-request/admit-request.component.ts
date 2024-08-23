@@ -166,9 +166,7 @@ export class AdmitRequestComponent {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      console.log(reader.result);
       this.admitRequestForm.value.avatar = reader.result;
-      console.log(this.admitRequestForm.value);
     };
   }
 

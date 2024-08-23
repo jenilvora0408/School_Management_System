@@ -28,4 +28,17 @@ export class SelectComponent {
   @Input() parentForm!: FormGroup;
   @Input() controlName!: string;
   @Input({ required: false }) testId = '';
+
+  ngOnInit() {
+    if (this.parentForm && this.controlName) {
+      const control = this.parentForm.get(this.controlName);
+      if (control) {
+        control.setValue(this.value);
+      } else {
+        console.error(
+          `Control with name '${this.controlName}' not found in parent form`
+        );
+      }
+    }
+  }
 }

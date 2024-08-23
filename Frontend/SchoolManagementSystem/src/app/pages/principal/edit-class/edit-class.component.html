@@ -2,18 +2,67 @@
   <div class="header mb-5">
     <app-header></app-header>
   </div>
-  <div class="row m-0 p-5 bg-light">
-    <div
-      class="col-6 form-container d-flex align-items-center justify-content-center"
-    >
-      <div class="heading">
-        <h3>Name: Class-3</h3>
+  <form
+    action=""
+    class=""
+    [formGroup]="editClassForm"
+    (submit)="onSubmit()"
+    appFormSubmit
+  >
+    <div class="row m-0 p-5 bg-light flex-column">
+      <div
+        class="col form-container d-flex align-items-center justify-content-center"
+      >
+        <div class="heading mb-3">
+          <h3 class="text-center">Class-3</h3>
+          <p class="text-center tagline">
+            Edit class details and manage the subjects taught in this class.
+          </p>
+        </div>
+      </div>
+      <div class="col image d-flex align-items-center justify-content-start">
+        <div class="row class-info w-100">
+          <div class="col-6 d-flex justify-content-end">
+            @if(editClassForm.value.classTeacherId != ' '){
+            <app-select
+              [options]="teachersList"
+              controlName="classTeacherId"
+              [parentForm]="editClassForm"
+              placeholder="Select Class Teacher..."
+              className="py-2 form-control mb-3 w-100"
+              label="Class Teacher"
+              class="w-50"
+              errorTitle="Class Teacher"
+              value="{{ editClassForm.value.classTeacherId }}"
+            />
+            } @else {
+            <app-select
+              [options]="teachersList"
+              controlName="classTeacherId"
+              [parentForm]="editClassForm"
+              placeholder="Select Class Teacher..."
+              className="py-2 form-control mb-3 w-100"
+              label="Class Teacher"
+              errorTitle="Class Teacher"
+            />
+            }
+          </div>
+          <div class="col-6 d-flex justify-content-start">
+            <app-input
+              class="authInput mb-4 w-50"
+              title="Strength"
+              label="Strength"
+              type="number"
+              className="inputField py-2 fs-6 form-control border border-1 w-100"
+              placeholder="50"
+              [parentForm]="editClassForm"
+              controlName="classStrength"
+              errorTitle="Class Strength"
+              value="{{ editClassForm.value.classStrength }}"
+            ></app-input>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-6 image d-flex align-items-center justify-content-start">
-      <div class="heading">
-        <h3>Edit Subject Information</h3>
-      </div>
-    </div>
-  </div>
+  </form>
 </div>

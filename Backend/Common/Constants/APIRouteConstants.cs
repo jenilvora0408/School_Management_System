@@ -8,43 +8,45 @@ public static class APIRouteConstants
 
     public const string ADMIT_REQUEST_LIST = "admit-request-list";
 
-    public const string GET_ALL_CLASSES_INFO = "get-all-classes-info";
-    
+    public const string GET_ALL_CLASSES_INFO = "";
+
+    public const string GET_ALL_TEACHERS = "";
+
     #endregion
 
     #region Principal_Controller
 
-    public const string EDIT_CLASS = "edit-class";
+    public const string EDIT_CLASS = "";
 
     #endregion
 
     #region Teacher_Controller
 
-    public const string GET_ADMIT_REQUEST = "get-admit-request/{id}";
+    public const string GET_ADMIT_REQUEST = "";
 
-    public const string CREATE_LEAVE_REQUEST = "create-leave-request";
+    public const string CREATE_LEAVE_REQUEST = "";
 
-    public const string LEAVE_REQUEST_LIST = "leave-request-list";
+    public const string LEAVE_REQUEST_LIST = "";
 
-    public const string ADMIT_REQUEST_APPROVAL = "admit-request-approval";
+    public const string ADMIT_REQUEST_APPROVAL = "";
 
-    public const string GET_LEAVES_COUNT = "get-leaves-count/{userId}";
+    public const string GET_LEAVES_COUNT = "";
 
     #endregion
 
     #region User_Controller
 
-    public const string CREATE_ADMIT_REQUEST = "create-admit-request";
+    public const string CREATE_ADMIT_REQUEST = "";
 
-    public const string LOGIN = "login";
+    public const string LOGIN = "";
 
-    public const string VERIFY_OTP = "verify-otp";
+    public const string VERIFY_OTP = "";
 
-    public const string SEND_OTP = "send-otp";
+    public const string SEND_OTP = "";
 
-    public const string FORGET_PASSWORD = "forget-password";
+    public const string FORGET_PASSWORD = "";
 
-    public const string RESET_PASSWORD = "reset-password";
+    public const string RESET_PASSWORD = "";
 
     #endregion
 }

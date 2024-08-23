@@ -9,15 +9,11 @@ using static Common.Constants.MessageConstants;
 
 namespace BusinessAccessLayer.Services;
 
-public class MailService : IMailService
+public class MailService(IOptions<MailSettingsDTO> mailSetting) : IMailService
 {
     #region Constructor
 
-    private readonly MailSettingsDTO _mailSetting;
-    public MailService(IOptions<MailSettingsDTO> mailSetting)
-    {
-        _mailSetting = mailSetting.Value;
-    }
+    private readonly MailSettingsDTO _mailSetting = mailSetting.Value;
 
     #endregion Constructor
 

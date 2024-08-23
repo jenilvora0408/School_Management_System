@@ -5,18 +5,12 @@ using Entities.DTOs;
 
 namespace BusinessAccessLayer.Services;
 
-public class BaseService<T> : IBaseService<T> where T : class
+public class BaseService<T>(IBaseRepository<T> repository, IUnitOfWork unitOfWork) : IBaseService<T> where T : class
 {
     #region Constructor
 
-    private readonly IBaseRepository<T> _repository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public BaseService(IBaseRepository<T> repository, IUnitOfWork unitOfWork)
-    {
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IBaseRepository<T> _repository = repository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     #endregion
 

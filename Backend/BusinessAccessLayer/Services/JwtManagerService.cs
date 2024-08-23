@@ -12,18 +12,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BusinessAccessLayer.Services;
 
-public class JwtManagerService : IJwtManagerService
+public class JwtManagerService(IConfiguration configuration, IHttpContextAccessor httpContext) : IJwtManagerService
 {
     #region Constructor
 
-    public IConfiguration _configuration;
-    public IHttpContextAccessor _httpContext;
-
-    public JwtManagerService(IConfiguration configuration, IHttpContextAccessor httpContext)
-    {
-        _configuration = configuration;
-        _httpContext = httpContext;
-    }
+    public IConfiguration _configuration = configuration;
+    public IHttpContextAccessor _httpContext = httpContext;
 
     #endregion Constructor
 

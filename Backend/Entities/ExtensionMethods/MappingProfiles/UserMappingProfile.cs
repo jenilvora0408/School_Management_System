@@ -1,5 +1,6 @@
 using Common.Constants;
 using Entities.DataModels;
+using Entities.DTOs;
 
 namespace Entities.ExtensionMethods.MappingProfiles;
 
@@ -36,4 +37,14 @@ public static class UserMappingProfile
         BloodGroupId = admitRequest.BloodGroupId,
         DateOfBirth = admitRequest.DateOfBirth
     };
+
+    public static IEnumerable<TeachersListResponseDTO> ToTeachersListResponseDTOs(this IEnumerable<User> users)
+    {
+        return users.Select(user => new TeachersListResponseDTO()
+        {
+            UserId = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+        }).ToList();
+    }
 }

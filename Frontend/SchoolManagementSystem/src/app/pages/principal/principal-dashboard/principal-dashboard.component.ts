@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-principal-dashboard',
@@ -9,4 +9,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './principal-dashboard.component.html',
   styleUrl: './principal-dashboard.component.scss',
 })
-export class PrincipalDashboardComponent {}
+export class PrincipalDashboardComponent {
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
+  navigate() {
+    this.router.navigate(['principal/classes-and-subjects']);
+  }
+}

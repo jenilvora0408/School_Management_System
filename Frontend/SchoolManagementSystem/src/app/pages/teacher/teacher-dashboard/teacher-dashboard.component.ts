@@ -52,6 +52,7 @@ export class TeacherDashboardComponent {
   sortOrder: string = 'ascending';
   filter: number = 1;
   approvalStatus!: string;
+  tagline: string = 'pending';
 
   constructor(
     private teacherService: TeacherService,
@@ -118,7 +119,8 @@ export class TeacherDashboardComponent {
     return phoneNumber.replace(ValidationPattern.formatPhoneNumber, '');
   }
 
-  onFilter(filterStatus: number): void {
+  onFilter(filterStatus: number, tag: string): void {
+    this.tagline = tag;
     console.log(filterStatus);
     this.filter = filterStatus;
     this.getAdmitRequestData();

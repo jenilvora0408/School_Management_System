@@ -16,5 +16,7 @@ public class LeaveRequestsListResponseDTO
 
     public byte ApprovalStatus { get; init; }
 
+    public string PhoneNumber { get; init; } = null!;
+
     public string? AlternatePhoneNumber { get; init; }
 }

@@ -38,8 +38,11 @@ export class BlockAdmitRequestComponent {
   @Output() blockAdmitRequest = new EventEmitter<void>();
 
   blockAdmitRequestForm = new FormGroup({
-    comment: new FormControl(''),
-    reasonForBlock: new FormControl('', Validators.required),
+    comment: new FormControl('', Validators.maxLength(200)),
+    reasonForBlock: new FormControl(
+      '',
+      Validators.compose([Validators.required, Validators.maxLength(500)])
+    ),
   });
 
   constructor(

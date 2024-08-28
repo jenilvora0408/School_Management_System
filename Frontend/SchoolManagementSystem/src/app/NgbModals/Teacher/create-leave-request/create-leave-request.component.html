@@ -48,6 +48,17 @@
             errorTitle="Reason For Leave"
           ></app-input>
         </div>
+        <div class="leaveType w-100">
+          <app-select
+            [options]="leaveTypeOptions"
+            controlName="leaveType"
+            [parentForm]="createLeaveRequestForm"
+            placeholder="Select a Type"
+            className="py-2 form-control"
+            label="Select type of Leave"
+            errorTitle="Type of Leave"
+          />
+        </div>
         <div class="selectLeaveDuration w-100">
           <label for="selectLeaveDuration">Select Leave Duration</label>
           <div class="col-12">
@@ -97,20 +108,9 @@
             </div>
           </div>
         </div>
-        <div class="leaveType w-100">
-          <app-select
-            [options]="leaveTypeOptions"
-            controlName="leaveType"
-            [parentForm]="createLeaveRequestForm"
-            placeholder="Select a Type"
-            className="py-2 form-control"
-            label="Select type of Leave"
-            errorTitle="Type of Leave"
-          />
-        </div>
         <div class="contactNumber w-100">
           <app-phone-number-input
-            label="Phone Number"
+            label="Alternate Phone Number"
             errorTitle="Phone Number"
             placeholder="Enter Phone Number"
             [parentForm]="createLeaveRequestForm"

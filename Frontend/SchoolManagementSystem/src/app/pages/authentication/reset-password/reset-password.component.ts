@@ -40,6 +40,7 @@ export class ResetPasswordComponent {
       Validators.compose([
         Validators.required,
         Validators.pattern(ValidationPattern.password),
+        Validators.maxLength(15),
       ])
     ),
     confirmPassword: new FormControl(

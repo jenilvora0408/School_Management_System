@@ -65,9 +65,15 @@ export class CreateLeaveRequestComponent {
   ];
 
   createLeaveRequestForm = new FormGroup({
-    reasonForLeave: new FormControl('', Validators.required),
+    reasonForLeave: new FormControl(
+      '',
+      Validators.compose([Validators.required, Validators.maxLength(500)])
+    ),
     leaveType: new FormControl('', Validators.required),
-    alternatePhoneNumber: new FormControl('', Validators.required),
+    alternatePhoneNumber: new FormControl(
+      '',
+      Validators.compose([Validators.maxLength(15)])
+    ),
   });
 
   constructor(

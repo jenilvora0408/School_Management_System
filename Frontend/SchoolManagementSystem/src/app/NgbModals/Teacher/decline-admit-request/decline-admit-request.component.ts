@@ -5,7 +5,12 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { TextareaComponent } from '../../../shared/components/textarea/textarea.component';
@@ -33,7 +38,7 @@ export class DeclineAdmitRequestComponent {
   @Output() declineAdmitRequest = new EventEmitter<void>();
 
   declineAdmitRequestForm = new FormGroup({
-    comment: new FormControl(''),
+    comment: new FormControl('', Validators.maxLength(200)),
   });
 
   constructor(

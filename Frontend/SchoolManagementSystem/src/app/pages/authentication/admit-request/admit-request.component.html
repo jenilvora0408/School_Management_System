@@ -14,26 +14,28 @@
           <h3 class="text-center">Admit Request</h3>
 
           <div class="names d-flex gap-3">
-            <app-input
+            <app-alphabet-only-input
               [label]="'First Name'"
               title="First Name"
               type="name"
+              class="w-50"
               className="inputField py-2 fs-6 form-control"
               placeholder="John"
               [parentForm]="admitRequestForm"
               controlName="firstName"
               errorTitle="First Name"
-            ></app-input>
-            <app-input
+            ></app-alphabet-only-input>
+            <app-alphabet-only-input
               [label]="'Last Name'"
               title="Last Name"
               type="name"
+              class="w-50"
               className="inputField py-2 fs-6 form-control"
               placeholder="Donohue"
               [parentForm]="admitRequestForm"
               controlName="lastName"
               errorTitle="Last Name"
-            ></app-input>
+            ></app-alphabet-only-input>
           </div>
           <div class="contact-info d-flex gap-3">
             <div class="d-flex flex-column">
@@ -83,6 +85,7 @@
                   ngbDatepicker
                   #d="ngbDatepicker"
                   (keyup)="d.toggle()"
+                  (click)="d.toggle()"
                   (dateSelect)="onDateSelect($event)"
                   [minDate]="{ year: 1996, month: 1, day: 1 }"
                   [maxDate]="{
@@ -162,6 +165,9 @@
               class="form-control"
               formControlName="avatar"
             />
+            @if(avatarError){
+            <span class="text-danger"> {{ avatarError }} </span>
+            }
           </div>
 
           <div class="text-center">

@@ -82,6 +82,8 @@ export class LeaveDashboardComponent {
   ) {}
 
   ngOnInit(): void {
+    console.log('leave dash');
+
     this.getLeavesCount();
     this.getLeaveRequestData();
   }

@@ -6,7 +6,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
 import { NgbActiveOffcanvas, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,7 +28,8 @@ export class SidebarComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   close() {
@@ -38,6 +39,10 @@ export class SidebarComponent {
   openLeaveDashboard() {
     this.close();
     const userRole = this.authService.getUserType();
-    if (userRole == 2) this.router.navigate(['/leave-dashboard']);
+    if (userRole == 2) {
+      console.log('user 2');
+
+      this.router.navigateByUrl('/teacher/leave-dashboard');
+    }
   }
 }

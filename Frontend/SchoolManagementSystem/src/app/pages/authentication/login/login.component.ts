@@ -49,6 +49,8 @@ export class LoginComponent {
       Validators.compose([
         Validators.required,
         Validators.pattern(ValidationPattern.email),
+        Validators.maxLength(32),
+        Validators.minLength(8),
       ])
     ),
     password: new FormControl(
@@ -56,6 +58,7 @@ export class LoginComponent {
       Validators.compose([
         Validators.required,
         Validators.pattern(ValidationPattern.password),
+        Validators.maxLength(15),
       ])
     ),
   });

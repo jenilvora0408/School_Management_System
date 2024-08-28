@@ -106,6 +106,7 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
             LeaveDuration = leaves.LeaveDuration,
             LeaveType = leaves.LeaveType,
             ApprovalStatus = leaves.ApprovalStatus,
+            PhoneNumber = leaves.Users.PhoneNumber ?? string.Empty,
             AlternatePhoneNumber = leaves.AlternatePhoneNumber
         }).ToList();
 
@@ -134,11 +135,14 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
             User user = new();
             user = UserMappingProfile.ToSaveAdmitRequestUser(admitRequest, password);
 
-            Student student = new();
-            student = StudentMappingProfile.ToAddStudents(admitRequest);
+            if (user.RoleId == Convert.ToByte(3))
+            {
+                Student student = new();
+                student = StudentMappingProfile.ToAddStudents(admitRequest);
+                await _unitOfWork.StudentRepository.AddAsync(student);
+            };
 
             await _unitOfWork.UserRepository.AddAsync(user);
-            await _unitOfWork.StudentRepository.AddAsync(student);
             await _unitOfWork.SaveAsync();
 
             MailDTO mailDto = new()
@@ -156,15 +160,22 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
     {
         IList<Leave> allLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId);
 
-        IList<Leave> pendingLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.ApprovalStatus == Convert.ToByte(1));
+        int totalLeavesCount = allLeaves.Count;
+        int pendingRequestsCount = allLeaves.Count(leave => leave.ApprovalStatus == Convert.ToByte(1));
+        int approvedLeavesCount = allLeaves.Count(leave => leave.ApprovalStatus == Convert.ToByte(2));
+        int declinedLeavesCount = allLeaves.Count(leave => leave.ApprovalStatus == Convert.ToByte(3));
+        int sickLeavesCount = allLeaves.Count(leave => leave.LeaveType == SystemConstants.SICK_LEAVE);
 
-        IList<Leave> approvedLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.ApprovalStatus == Convert.ToByte(2));
+        int remainingLeavesCount = 0;
 
-        IList<Leave> declinedLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.ApprovalStatus == Convert.ToByte(3));
-
-        IList<Leave> sickLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId && leave.LeaveType == SystemConstants.SICK_LEAVE);
-
-        LeavesCountDTO leavesCountDTO = LeaveMappingProfile.ToGetLeavesCount(allLeaves.Count(), pendingLeaves.Count(), approvedLeaves.Count(), declinedLeaves.Count(), 0, sickLeaves.Count());
+        LeavesCountDTO leavesCountDTO = LeaveMappingProfile.ToGetLeavesCount(
+            totalLeavesCount,
+            pendingRequestsCount,
+            approvedLeavesCount,
+            declinedLeavesCount,
+            remainingLeavesCount,
+            sickLeavesCount
+        );
 
         return leavesCountDTO;
     }
@@ -175,14 +186,31 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
 
     public static string GeneratePassword()
     {
-        int length = SystemConstants.PASSWORD_LENGTH;
-        string chars = SystemConstants.PASSWORD_CHAR;
+        const int length = 8;
+        const string lowercase = "abcdefghijklmnopqrstuvwxyz";
+        const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const string digits = "0123456789";
+        const string specialChars = "$@$!%*?&";
+
         Random random = new();
-        string password = new(Enumerable.Repeat(chars, length)
-          .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        string password = new string(new char[]
+        {
+        uppercase[random.Next(uppercase.Length)],
+        digits[random.Next(digits.Length)],
+        specialChars[random.Next(specialChars.Length)],
+        lowercase[random.Next(lowercase.Length)]
+        });
+
+        string allChars = lowercase + uppercase + digits + specialChars;
+        password += new string(Enumerable.Repeat(allChars, length - 4)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        password = new string(password.OrderBy(c => random.Next()).ToArray());
 
         return password;
     }
+
 
     #endregion Helper_Methods
 }

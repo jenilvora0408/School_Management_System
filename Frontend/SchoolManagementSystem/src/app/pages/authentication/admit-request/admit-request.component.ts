@@ -27,6 +27,7 @@ import {
   CommonListResponse,
 } from '../../../shared/models/common-item-response';
 import { Router } from '@angular/router';
+import { AlphabetOnlyInputComponent } from '../../../shared/components/alphabet-only-input/alphabet-only-input.component';
 
 @Component({
   selector: 'app-admit-request',
@@ -41,6 +42,7 @@ import { Router } from '@angular/router';
     NgbDatepickerModule,
     PhoneNumberInputComponent,
     ButtonComponent,
+    AlphabetOnlyInputComponent,
   ],
   templateUrl: './admit-request.component.html',
   styleUrl: './admit-request.component.scss',
@@ -57,15 +59,32 @@ export class AdmitRequestComponent {
   combinedAddressValue: string = '';
   model!: NgbDateStruct;
   showStudentInfo: boolean = false;
+  avatarError: string = '';
 
   admitRequestForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
+    firstName: new FormControl(
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(18),
+      ])
+    ),
+    lastName: new FormControl(
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(18),
+      ])
+    ),
     email: new FormControl(
       '',
       Validators.compose([
         Validators.required,
         Validators.pattern(ValidationPattern.email),
+        Validators.maxLength(32),
+        Validators.minLength(8),
       ])
     ),
     phoneNumber: new FormControl(
@@ -73,9 +92,18 @@ export class AdmitRequestComponent {
       Validators.compose([
         Validators.required,
         Validators.pattern(ValidationPattern.phoneNumber),
+        Validators.maxLength(15),
+        Validators.minLength(10),
       ])
     ),
-    address: new FormControl('', Validators.required),
+    address: new FormControl(
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.maxLength(1000),
+        Validators.minLength(5),
+      ])
+    ),
     dateOfBirth: new FormControl(),
     genderId: new FormControl('', Validators.required),
     bloodGroupId: new FormControl('', Validators.required),
@@ -136,6 +164,7 @@ export class AdmitRequestComponent {
 
   onSubmit() {
     this.admitRequestForm.markAllAsTouched();
+    if (this.avatarError || !this.admitRequestForm.valid) return;
     if (
       this.admitRequestForm.value.classId == '' ||
       this.admitRequestForm.value.mediumId == '' ||
@@ -163,11 +192,25 @@ export class AdmitRequestComponent {
 
   handlePictureFileChange(event: any) {
     const file = event.target.files?.[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.admitRequestForm.value.avatar = reader.result;
-    };
+    this.avatarError = '';
+
+    if (file) {
+      const validExtensions = ['image/jpeg', 'image/jpg', 'image/png'];
+      const maxSizeInMB = 1;
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+      if (!validExtensions.includes(file.type)) {
+        this.avatarError = 'Only .jpg, .jpeg, and .png files are allowed.';
+      } else if (file.size > maxSizeInBytes) {
+        this.avatarError = 'File size must be less than 1MB.';
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.admitRequestForm.value.avatar = reader.result;
+        };
+      }
+    }
   }
 
   onDateSelect(date: any) {

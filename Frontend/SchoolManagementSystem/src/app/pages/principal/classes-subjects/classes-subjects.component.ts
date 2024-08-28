@@ -43,7 +43,7 @@ export class ClassesSubjectsComponent {
   }
 
   editClass(classId: number, classTeacherName: string, classStrength: number) {
-    this.router.navigate(['/edit-class'], {
+    this.router.navigate(['principal/edit-class'], {
       queryParams: {
         classId: CryptoJS.AES.encrypt(
           classId.toString() ?? '',

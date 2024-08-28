@@ -1,7 +1,9 @@
 <div class="teacher-dashboard-container container-fluid p-0">
   <app-header></app-header>
   <div class="admit-request-list-container p-5 pb-0">
-    <h3 class="dashboard-heading">Admit Requests</h3>
+    <h3 class="dashboard-heading">
+      Admit Requests<span class="fs-6">({{ tagline }})</span>
+    </h3>
     <div class="d-flex gap-4">
       <input
         type="text"
@@ -20,10 +22,18 @@
           Filter
         </span>
         <div ngbDropdownMenu aria-labelledby="sortDropdown" class="filters">
-          <button ngbDropdownItem (click)="onFilter(1)">Pending</button>
-          <button ngbDropdownItem (click)="onFilter(2)">Approved</button>
-          <button ngbDropdownItem (click)="onFilter(3)">Declined</button>
-          <button ngbDropdownItem (click)="onFilter(5)">Blocked</button>
+          <button ngbDropdownItem (click)="onFilter(1, 'pending')">
+            Pending
+          </button>
+          <button ngbDropdownItem (click)="onFilter(2, 'approved')">
+            Approved
+          </button>
+          <button ngbDropdownItem (click)="onFilter(3, 'declined')">
+            Declined
+          </button>
+          <button ngbDropdownItem (click)="onFilter(5, 'blocked')">
+            Blocked
+          </button>
         </div>
       </div>
     </div>
@@ -124,6 +134,8 @@
         <option [ngValue]="10">10 items per page</option>
       </select>
     </div>
+    } @else {
+    <h3 class="text-center">No {{ tagline }} Admit Requests Found!</h3>
     }
   </div>
 </div>

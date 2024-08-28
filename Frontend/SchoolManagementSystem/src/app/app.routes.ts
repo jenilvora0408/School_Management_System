@@ -19,33 +19,34 @@ export const routes: Routes = [
   { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   {
-    path: 'teacher-dashboard',
-    component: TeacherDashboardComponent,
+    path: 'teacher',
     canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TeacherDashboardComponent },
+      {
+        path: 'leave-dashboard',
+        component: LeaveDashboardComponent,
+      },
+    ],
   },
   {
-    path: 'leave-dashboard',
-    component: LeaveDashboardComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'student-dashboard',
+    path: 'student',
     component: StudentDashboardComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'principal-dashboard',
-    component: PrincipalDashboardComponent,
+    path: 'principal',
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'classes-and-subjects',
-    component: ClassesSubjectsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'edit-class',
-    component: EditClassComponent,
-    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: PrincipalDashboardComponent },
+      {
+        path: 'classes-and-subjects',
+        component: ClassesSubjectsComponent,
+      },
+      {
+        path: 'edit-class',
+        component: EditClassComponent,
+      },
+    ],
   },
 ];

@@ -1,3 +1,5 @@
+$purple: #6c4e87;
+
 h3 {
   font-weight: normal;
   word-spacing: 3px;
@@ -10,4 +12,7 @@ h3 {
 h4 {
   word-spacing: 3px;
   letter-spacing: 1px;
+}
+i {
+  color: $purple;
 }

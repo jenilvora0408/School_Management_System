@@ -40,6 +40,8 @@ export class ForgetPasswordComponent {
       Validators.compose([
         Validators.required,
         Validators.pattern(ValidationPattern.email),
+        Validators.maxLength(32),
+        Validators.minLength(8),
       ])
     ),
   });

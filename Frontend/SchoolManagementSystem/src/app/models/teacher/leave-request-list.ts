@@ -6,5 +6,6 @@ export interface ILeaveRequestListInterface {
   leaveDuration: number;
   leaveType: string;
   approvalStatus: number;
+  phoneNumber: string;
   alternatePhoneNumber: string;
 }

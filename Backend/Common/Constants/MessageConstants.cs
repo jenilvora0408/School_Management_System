@@ -6,6 +6,8 @@ public static class MessageConstants
 
     public static class ErrorMessage
     {
+        public const string DEFAULT_ERROR_MESSAGE = "Something went wrong!";
+
         public const string TOKEN_EXPIRED = "Your session has been expired!";
 
         public const string INVALID_MODELSTATE = "Invalid Entry";

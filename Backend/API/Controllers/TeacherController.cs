@@ -1,4 +1,3 @@
-using API.Helpers;
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
@@ -11,7 +10,7 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/teacher")]
 [TeachersPolicy]
-public class TeacherController(ITeacherService teacherService) : ControllerBase
+public class TeacherController(ITeacherService teacherService) : BaseController
 {
     #region Constructor
 
@@ -24,7 +23,8 @@ public class TeacherController(ITeacherService teacherService) : ControllerBase
     [HttpGet("get-admit-request/{id}")]
     public async Task<IActionResult> GetAdmitRequest(long id)
     {
-        return ResponseHelper.SuccessResponse(await _teacherService.GetAdmitRequest(id));
+        // return ResponseHelper.SuccessResponse(await _teacherService.GetAdmitRequest(id));
+        return GetResult(await _teacherService.GetAdmitRequest(id), message: null);
     }
 
     [HttpPost("create-leave-request")]
@@ -32,13 +32,14 @@ public class TeacherController(ITeacherService teacherService) : ControllerBase
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _teacherService.CreateLeaveRequest(leaveRequestDTO);
-        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.LEAVE_REQUEST_CREATED);
+        // return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.LEAVE_REQUEST_CREATED);
+        return GetResult(null, message: MessageConstants.SuccessMessage.LEAVE_REQUEST_CREATED);
     }
 
     [HttpPost("leave-request-list")]
     public async Task<IActionResult> LeaveRequestList(LeaveRequestsListDTO leaveRequestsListDTO)
     {
-        return ResponseHelper.SuccessResponse(await _teacherService.GetAllLeaveRequest(leaveRequestsListDTO));
+        return GetResult(await _teacherService.GetAllLeaveRequest(leaveRequestsListDTO), message: null);
     }
 
     [HttpPost("admit-request-approval")]
@@ -46,14 +47,14 @@ public class TeacherController(ITeacherService teacherService) : ControllerBase
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _teacherService.AdmitRequestApproval(admitRequestApprovalDTO);
-        return ResponseHelper.SuccessResponse<object>(null);
+        return GetResult(null, message: null);
     }
 
     [HttpGet("get-leaves-count/{userId}")]
     public async Task<IActionResult> GetLeavesCount(long userId)
     {
         LeavesCountDTO response = await _teacherService.GetLeavesCount(userId);
-        return ResponseHelper.SuccessResponse(response);
+        return GetResult(response, message: null);
     }
 
     #endregion HTTP_Methods

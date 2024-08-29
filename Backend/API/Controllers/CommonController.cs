@@ -1,4 +1,3 @@
-using API.Helpers;
 using BusinessAccessLayer.Interface;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,7 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/common")]
 
-public class CommonController(ICommonService commonService) : ControllerBase
+public class CommonController(ICommonService commonService) : BaseController
 {
     #region Constructor
 
@@ -21,25 +20,25 @@ public class CommonController(ICommonService commonService) : ControllerBase
     public async Task<IActionResult> GetCommonEntityList()
     {
         CommonEntityListResponseDTO response = await _commonService.GetEntityList();
-        return ResponseHelper.SuccessResponse(response);
+        return GetResult(response, message: null);
     }
 
     [HttpPost("admit-request-list")]
     [TeachersPolicy]
     public async Task<IActionResult> GetAdmitRequestList(PageListRequestDTO pageListRequest)
     {
-        return ResponseHelper.SuccessResponse(await _commonService.GetAdmitRequestsList(pageListRequest));
+        return GetResult(await _commonService.GetAdmitRequestsList(pageListRequest), message: null);
     }
 
     [HttpGet("get-all-classes-info")]
     public async Task<IActionResult> GetAllClassesInfo()
     {
-        return ResponseHelper.SuccessResponse(await _commonService.GetAllClasses());
+        return GetResult(await _commonService.GetAllClasses(), message: null);
     }
 
     [HttpGet("get-all-teachers")]
     public async Task<IActionResult> GetAllTeachers()
     {
-        return ResponseHelper.SuccessResponse(await _commonService.GetAllTeachers());
+        return GetResult(await _commonService.GetAllTeachers(), message: null);
     }
 }

@@ -1,4 +1,3 @@
-using API.Helpers;
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
@@ -9,7 +8,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/user")]
-public class UserController(IUserService userService) : ControllerBase
+public class UserController(IUserService userService) : BaseController
 {
     #region Constructor
 
@@ -22,21 +21,21 @@ public class UserController(IUserService userService) : ControllerBase
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.CreateAdmitRequest(request, cancellationToken);
-        return ResponseHelper.SuccessResponse<object>(null, message: MessageConstants.SuccessMessage.ADMIT_REQUEST_CREATED);
+        return GetResult(null, message: MessageConstants.SuccessMessage.ADMIT_REQUEST_CREATED);
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginCredentialsDTO userCredential)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
-        return ResponseHelper.SuccessResponse(await _userService.Login(userCredential), MessageConstants.SuccessMessage.OTP_SENT);
+        return GetResult(await _userService.Login(userCredential), MessageConstants.SuccessMessage.OTP_SENT);
     }
 
     [HttpPost("verify-otp")]
     public async Task<IActionResult> VerifyOtp(LoginOtpDTO otpData)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
-        return ResponseHelper.SuccessResponse(await _userService.VerifyOtp(otpData), MessageConstants.SuccessMessage.LOGIN_SUCCESS);
+        return GetResult(await _userService.VerifyOtp(otpData), MessageConstants.SuccessMessage.LOGIN_SUCCESS);
     }
 
     [HttpPost("send-otp")]
@@ -45,7 +44,7 @@ public class UserController(IUserService userService) : ControllerBase
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.SendOtp(emailRequestDTO.Email);
-        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
+        return GetResult(null, message: MessageConstants.SuccessMessage.OTP_SENT);
     }
 
     [HttpPost("forget-password")]
@@ -53,7 +52,7 @@ public class UserController(IUserService userService) : ControllerBase
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.ForgetPassword(emailRequestDTO.Email);
-        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.OTP_SENT);
+        return GetResult(null, message: MessageConstants.SuccessMessage.OTP_SENT);
     }
 
     [HttpPut("reset-password")]
@@ -61,6 +60,7 @@ public class UserController(IUserService userService) : ControllerBase
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.ResetPassword(loginCredentialsDTO);
-        return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.PASSWORD_RESETTED);
+        // return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.PASSWORD_RESETTED);
+        return GetResult(null, MessageConstants.SuccessMessage.PASSWORD_RESETTED);
     }
 }

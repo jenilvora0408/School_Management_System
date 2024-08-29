@@ -6,7 +6,7 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/student")]
 [StudentPolicy]
-public class StudentContoller : ControllerBase
+public class StudentContoller : BaseController
 {
 
 }

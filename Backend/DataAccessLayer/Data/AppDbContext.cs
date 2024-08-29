@@ -155,7 +155,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<AdmitRequest>(entity =>
         {
             entity.ToTable("AdmitRequests");
-            entity.HasIndex(e => e.Email).IsUnique();
             entity.Property(e => e.FirstName).IsRequired().HasMaxLength(18);
             entity.Property(e => e.LastName).IsRequired().HasMaxLength(18);
             entity.Property(e => e.Email).IsRequired().HasMaxLength(32);

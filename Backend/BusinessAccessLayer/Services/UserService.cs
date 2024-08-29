@@ -37,12 +37,12 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
 
         if (admitRequest != null)
         {
-            AdmitRequest? admitRequestApproval = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(approval => approval.Id == admitRequest.Id && approval.ApprovalStatus == 5);
+            AdmitRequest? admitRequestApproval = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(approval => approval.Id == admitRequest.Id);
 
-            if (admitRequestApproval != null)
+            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == 5)
                 throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ACCESS_BLOCKED);
 
-            throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
+            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == 1) throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
         }
 
         AdmitRequest createRequest = AdmitRequestMappingProfile.ToAdmitRequest(admitRequestDTO);
@@ -52,8 +52,14 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
 
     public async Task<string> Login(LoginCredentialsDTO userCredential)
     {
-        User? user = await _commonService.GetUserByEmail(userCredential.Email);
-        if (user == null || !PasswordUtil.VerifyPassword(userCredential.Password, user.Password)) throw new ModelValidationException(ValidationConstants.INVALID_LOGIN_CREDENTIAL);
+        User? user = await _commonService.GetUserByEmail(userCredential.Email) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
+
+        if (!(user.IsUserDeleted == false && user.IsUserActive == true))
+        {
+            throw new CustomException(StatusCodes.Status403Forbidden, ErrorMessage.INVALID_USER);
+        }
+
+        if (!PasswordUtil.VerifyPassword(userCredential.Password, user.Password)) throw new ModelValidationException(ValidationConstants.INVALID_LOGIN_CREDENTIAL);
 
         await SendOtp(user.Email);
         return user.FirstName;
@@ -79,7 +85,7 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
 
     public async Task<TokensDTO> VerifyOtp(LoginOtpDTO otpData)
     {
-        User? user = await _commonService.GetUserByEmail(otpData.Email) ?? throw new ModelValidationException(ValidationConstants.DEFAULT_MODELSTATE);
+        User? user = await _commonService.GetUserByEmail(otpData.Email) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
 
         if (user.OTP != otpData.Otp || user.ExpiryTime < DateTime.UtcNow) throw new ModelValidationException(ValidationConstants.INVALID_OTP);
 
@@ -95,7 +101,7 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
 
     public async Task ForgetPassword(string email)
     {
-        User? user = await _commonService.GetUserByEmail(email) ?? throw new ModelValidationException(ErrorMessage.USER_NOT_FOUND);
+        User? user = await _commonService.GetUserByEmail(email) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
 
         string otp = await GenerateOtp(user);
 
@@ -117,6 +123,22 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
 
         await UpdateAsync(user);
         await _unitOfWork.SaveAsync();
+    }
+
+    public async Task<string> CheckAdmitRequestStatus(string email)
+    {
+        AdmitRequest? request = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(request => request.Email == email);
+
+        string message = string.Empty;
+
+        if (request != null)
+        {
+            if (request.ApprovalStatus == 5) message = ValidationConstants.ACCESS_BLOCKED;
+            else if (request.ApprovalStatus == 1) message = ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS;
+            else if (request.ApprovalStatus == 2) message = ValidationConstants.ACCESS_ALREADY_PROVIDED;
+        }
+
+        return message;
     }
 
     #endregion Http_Methods

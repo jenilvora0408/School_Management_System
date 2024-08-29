@@ -16,4 +16,6 @@ public interface IUserService : IBaseService<User>
     Task ForgetPassword(string email);
 
     Task ResetPassword(LoginCredentialsDTO loginCredentialsDTO);
+
+    Task<string> CheckAdmitRequestStatus(string email);
 }

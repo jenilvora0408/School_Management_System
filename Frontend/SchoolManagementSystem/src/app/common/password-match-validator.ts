@@ -10,9 +10,9 @@ export function passwordMatchValidator(): AsyncValidatorFn {
     const password = control.parent?.get('password')?.value;
     const confirmPassword = control.value;
     if (password === confirmPassword) {
-      return of(null); // Passwords match
+      return of(null);
     } else {
-      return of({ passwordMismatch: true }); // Passwords do not match
+      return of({ passwordMismatch: true });
     }
   };
 }

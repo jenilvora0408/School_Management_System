@@ -23,6 +23,8 @@ public static class MessageConstants
         public const string USER_NOT_FOUND = "User not found!";
 
         public const string ADMIT_REQUEST_NOT_FOUND = "Admit Request not Found!";
+
+        public const string INVALID_USER = "Invalid User!";
     }
 
     public static class SuccessMessage

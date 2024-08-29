@@ -34,8 +34,6 @@ public static class SystemConstants
 
     public const string DEFAULT_SORTCOLUMN = "Id";
 
-    public const string PASSWORD_CHAR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-
     public const int PASSWORD_LENGTH = 8;
 
     public const string LOGGED_USER = "LoggedUser";
@@ -43,6 +41,14 @@ public static class SystemConstants
     public const string DEFAULT_AVATAR_ROUTE = "../../../../assets/images/avatar.jpg";
 
     public const string SICK_LEAVE = "sick leave";
+
+    public const string LOWERCASE_ALPHABETS = "abcdefghijklmnopqrstuvwxyz";
+
+    public const string UPPERCASE_ALPHABETS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    public const string DIGITS = "0123456789";
+
+    public const string SPECIAL_CHARS = "$@$!%*?&";
 
     #region Policy Attribute
 

@@ -60,7 +60,13 @@ public class UserController(IUserService userService) : BaseController
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.ResetPassword(loginCredentialsDTO);
-        // return ResponseHelper.SuccessResponse<object>(null, MessageConstants.SuccessMessage.PASSWORD_RESETTED);
         return GetResult(null, MessageConstants.SuccessMessage.PASSWORD_RESETTED);
+    }
+
+    [HttpGet("check-admit-request-status/{email}")]
+    public async Task<IActionResult> CheckAdmitRequestStatus(string email)
+    {
+        string responseMessage = await _userService.CheckAdmitRequestStatus(email);
+        return GetResult(responseMessage, null);
     }
 }

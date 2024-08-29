@@ -36,6 +36,9 @@ export class ApiCallConstant {
   public static readonly RESET_PASSWORD =
     this.USER_CONTROLLER + 'reset-password';
 
+  public static readonly CHECK_STATUS_OF_REQUEST =
+    this.USER_CONTROLLER + 'check-admit-request-status';
+
   //Teacher Controller Methods
   public static readonly VIEW_ADMIT_REQUEST =
     this.TEACHER_CONTROLLER + 'get-admit-request';

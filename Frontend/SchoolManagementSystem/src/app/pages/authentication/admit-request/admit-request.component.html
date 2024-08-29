@@ -53,6 +53,7 @@
               [label]="'Email'"
               title="Email"
               type="email"
+              (onFocusOut)="checkStatusOfRequest()"
               className="inputField py-2 fs-6"
               placeholder="john.donohue@gmail.com"
               [parentForm]="admitRequestForm"

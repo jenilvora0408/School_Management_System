@@ -60,6 +60,7 @@ export class AdmitRequestComponent {
   model!: NgbDateStruct;
   showStudentInfo: boolean = false;
   avatarError: string = '';
+  canUserSubmitAdmitRequest: boolean = true;
 
   admitRequestForm = new FormGroup({
     firstName: new FormControl(
@@ -173,7 +174,7 @@ export class AdmitRequestComponent {
       this.admitRequestForm.value.classId = null;
       this.admitRequestForm.value.mediumId = null;
     }
-    if (!this.admitRequestForm.valid) return;
+    if (!this.admitRequestForm.valid && !this.canUserSubmitAdmitRequest) return;
     this.authService
       .createAdmitRequest(this.admitRequestForm.value as IAdmitRequestInterface)
       .subscribe({
@@ -228,5 +229,25 @@ export class AdmitRequestComponent {
     } else {
       this.showStudentInfo = false;
     }
+  }
+
+  checkStatusOfRequest() {
+    console.log(this.admitRequestForm.value.email);
+
+    this.authService
+      .checkAdmitRequestStatus(this.admitRequestForm.value.email ?? '')
+      .subscribe({
+        next: (res: IResponse<string>) => {
+          if (res.success) {
+            if (res.data != null && res.data != '')
+              this.canUserSubmitAdmitRequest = false;
+            this.notificationsService.success(res.message);
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.notificationsService.error(error.error.errors);
+          console.log(error);
+        },
+      });
   }
 }

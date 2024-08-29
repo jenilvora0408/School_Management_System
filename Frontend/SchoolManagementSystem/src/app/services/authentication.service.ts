@@ -25,6 +25,7 @@ export class AuthenticationService {
   sendOtpApi = ApiCallConstant.SEND_OTP;
   forgetPasswordApi = ApiCallConstant.FORGET_PASSWORD;
   resetPasswordApi = ApiCallConstant.RESET_PASSWORD;
+  checkAdmitRequestStatusApi = ApiCallConstant.CHECK_STATUS_OF_REQUEST;
 
   constructor(
     private http: HttpClient,
@@ -41,6 +42,12 @@ export class AuthenticationService {
     return this.http.post<IResponse<null>>(
       this.admitRequestApi,
       admitRequestData
+    );
+  }
+
+  checkAdmitRequestStatus(email: string): Observable<IResponse<string>> {
+    return this.http.get<IResponse<string>>(
+      `${this.checkAdmitRequestStatusApi}/${email}`
     );
   }
 

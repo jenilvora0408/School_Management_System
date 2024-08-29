@@ -122,7 +122,7 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
         await _unitOfWork.AdmitRequestRepository.UpdateAsync(admitRequest);
         await _unitOfWork.SaveAsync();
 
-        if (admitRequestApprovalDTO.ApprovedBy != 0 || admitRequestApprovalDTO.ApprovedBy != null)
+        if (admitRequestApprovalDTO.ApprovedBy != 0 && admitRequestApprovalDTO.ApprovedBy != null)
         {
             GenerateCredentialsDTO generateCredentialsDTO = new()
             {
@@ -186,11 +186,11 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
 
     public static string GeneratePassword()
     {
-        const int length = 8;
-        const string lowercase = "abcdefghijklmnopqrstuvwxyz";
-        const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const string digits = "0123456789";
-        const string specialChars = "$@$!%*?&";
+        const int length = SystemConstants.PASSWORD_LENGTH;
+        const string lowercase = SystemConstants.LOWERCASE_ALPHABETS;
+        const string uppercase = SystemConstants.UPPERCASE_ALPHABETS;
+        const string digits = SystemConstants.DIGITS;
+        const string specialChars = SystemConstants.SPECIAL_CHARS;
 
         Random random = new();
 

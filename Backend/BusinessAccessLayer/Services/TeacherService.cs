@@ -11,6 +11,7 @@ using Entities.ExtensionMethods.MappingProfiles;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using static Common.Constants.MessageConstants;
+using static Common.Enums.SystemEnum;
 
 namespace BusinessAccessLayer.Services;
 
@@ -29,7 +30,7 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
 
     public async Task<ViewAdmitRequestDTO> GetAdmitRequest(long id)
     {
-        AdmitRequest request = await _unitOfWork.AdmitRequestRepository.GetAsync(request => request.Id == id, [x => x.Classes, x => x.Mediums, x => x.Genders, x => x.BloodGroups, x => x.AdmitRequestRoles, x => x.ApprovedByUser, x => x.DeclinedByUser, x => x.BlockedByUser]) ?? throw new CustomException(StatusCodes.Status404NotFound, MessageConstants.ErrorMessage.ADMIT_REQUEST_NOT_FOUND);
+        AdmitRequest request = await _unitOfWork.AdmitRequestRepository.GetAsync(request => request.Id == id, [x => x.Classes, x => x.Mediums, x => x.Genders, x => x.BloodGroups, x => x.AdmitRequestRoles, x => x.ApprovedByUser, x => x.DeclinedByUser, x => x.BlockedByUser]) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.ADMIT_REQUEST_NOT_FOUND);
 
         ViewAdmitRequestDTO viewAdmitRequestDTO = AdmitRequestMappingProfile.ToGetAdmitRequest(request);
 
@@ -75,10 +76,10 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
             Predicate = leave =>
                 leave.UserId == leaveRequestsListDTO.UserId && (
                 leaveRequestsListDTO.Filter == 0 ||
-                (leaveRequestsListDTO.Filter == 1 && leave.ApprovalStatus == 1) ||
-                (leaveRequestsListDTO.Filter == 2 && leave.ApprovalStatus == 2) ||
-                (leaveRequestsListDTO.Filter == 3 && leave.ApprovalStatus == 3) ||
-                (leaveRequestsListDTO.Filter == 8 && leave.LeaveType == SystemConstants.SICK_LEAVE)
+                (leaveRequestsListDTO.Filter == (int)StatusType.PENDING && leave.ApprovalStatus == (byte)StatusType.PENDING) ||
+                (leaveRequestsListDTO.Filter == (int)StatusType.APPROVED && leave.ApprovalStatus == (byte)StatusType.APPROVED) ||
+                (leaveRequestsListDTO.Filter == (int)StatusType.DECLINED && leave.ApprovalStatus == (byte)StatusType.DECLINED) ||
+                (leaveRequestsListDTO.Filter == SystemConstants.SICK_LEAVE_TYPE && leave.LeaveType == SystemConstants.SICK_LEAVE)
             ),
             Selects = responseInfo => new Leave()
             {
@@ -135,7 +136,7 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
             User user = new();
             user = UserMappingProfile.ToSaveAdmitRequestUser(admitRequest, password);
 
-            if (user.RoleId == Convert.ToByte(3))
+            if (user.RoleId == (byte)UserRoleType.STUDENT)
             {
                 Student student = new();
                 student = StudentMappingProfile.ToAddStudents(admitRequest);
@@ -161,9 +162,9 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
         IList<Leave> allLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId);
 
         int totalLeavesCount = allLeaves.Count;
-        int pendingRequestsCount = allLeaves.Count(leave => leave.ApprovalStatus == Convert.ToByte(1));
-        int approvedLeavesCount = allLeaves.Count(leave => leave.ApprovalStatus == Convert.ToByte(2));
-        int declinedLeavesCount = allLeaves.Count(leave => leave.ApprovalStatus == Convert.ToByte(3));
+        int pendingRequestsCount = allLeaves.Count(leave => leave.ApprovalStatus == (byte)StatusType.PENDING);
+        int approvedLeavesCount = allLeaves.Count(leave => leave.ApprovalStatus == (byte)StatusType.APPROVED);
+        int declinedLeavesCount = allLeaves.Count(leave => leave.ApprovalStatus == (byte)StatusType.DECLINED);
         int sickLeavesCount = allLeaves.Count(leave => leave.LeaveType == SystemConstants.SICK_LEAVE);
 
         int remainingLeavesCount = 0;

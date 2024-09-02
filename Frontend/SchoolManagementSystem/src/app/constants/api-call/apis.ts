@@ -1,5 +1,7 @@
+import { environment } from '../../../environments/environment';
+
 export class ApiCallConstant {
-  public static readonly BASE_URL = 'http://localhost:5108/api/';
+  public static readonly BASE_URL = environment.baseUrl;
 
   //Controller name
   public static readonly COMMON_CONTROLLER = this.BASE_URL + 'common/';

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import { DropdownItem } from '../../../shared/models/drop-down-item';
 import { NgbDateStruct, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -229,25 +229,5 @@ export class AdmitRequestComponent {
     } else {
       this.showStudentInfo = false;
     }
-  }
-
-  checkStatusOfRequest() {
-    console.log(this.admitRequestForm.value.email);
-
-    this.authService
-      .checkAdmitRequestStatus(this.admitRequestForm.value.email ?? '')
-      .subscribe({
-        next: (res: IResponse<string>) => {
-          if (res.success) {
-            if (res.data != null && res.data != '')
-              this.canUserSubmitAdmitRequest = false;
-            this.notificationsService.success(res.message);
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          this.notificationsService.error(error.error.errors);
-          console.log(error);
-        },
-      });
   }
 }

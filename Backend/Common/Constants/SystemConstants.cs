@@ -40,7 +40,7 @@ public static class SystemConstants
 
     public const string DEFAULT_AVATAR_ROUTE = "../../../../assets/images/avatar.jpg";
 
-    public const string SICK_LEAVE = "sick leave";
+    public const string SICK_LEAVE = "Sick Leave";
 
     public const string LOWERCASE_ALPHABETS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -49,6 +49,14 @@ public static class SystemConstants
     public const string DIGITS = "0123456789";
 
     public const string SPECIAL_CHARS = "$@$!%*?&";
+
+    public const int OTP_EXPIRY_TIME = 10;
+
+    public const int OTP_GENERATE_MIN_VALUE = 100000;
+
+    public const int OTP_GENERATE_MAX_VALUE = 999999;
+
+    public const int SICK_LEAVE_TYPE = 8;
 
     #region Policy Attribute
 

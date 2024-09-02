@@ -35,14 +35,14 @@ var app = builder.Build();
 app.UseCors(SystemConstants.CORS_POLICY);
 
 //Auto migration
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider
-        .GetRequiredService<AppDbContext>();
+// using (var scope = app.Services.CreateScope())
+// {
+//     var dbContext = scope.ServiceProvider
+//         .GetRequiredService<AppDbContext>();
 
-    // Here is the migration executed
-    dbContext.Database.Migrate();
-}
+//     // Here is the migration executed
+//     dbContext.Database.Migrate();
+// }
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();

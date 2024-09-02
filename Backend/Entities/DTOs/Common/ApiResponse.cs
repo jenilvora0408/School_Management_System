@@ -18,6 +18,3 @@ public class ApiResponse
 
     public int StatusCode { get; set; }
 }
-
-
-

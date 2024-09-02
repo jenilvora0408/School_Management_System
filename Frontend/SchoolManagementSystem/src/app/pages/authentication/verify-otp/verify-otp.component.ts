@@ -66,6 +66,10 @@ export class VerifyOtpComponent {
         params['from'],
         SystemConstants.EncryptionKey
       ).toString(CryptoJS.enc.Utf8);
+      this.userName = CryptoJS.AES.decrypt(
+        params['userName'],
+        SystemConstants.EncryptionKey
+      ).toString(CryptoJS.enc.Utf8);
     });
   }
 

@@ -2,6 +2,7 @@ using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -17,6 +18,9 @@ public class UserController(IUserService userService) : BaseController
     #endregion Constructor
 
     [HttpPost("create-admit-request")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(403, Type = typeof(ForbidHttpResult))]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> CreateAdmitRequest(AdmitRequestDTO request, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -25,6 +29,10 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPost("login")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(403, Type = typeof(ForbidHttpResult))]
+    [ProducesResponseType(404, Type = typeof(NotFound))]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> Login(LoginCredentialsDTO userCredential)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -32,6 +40,10 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPost("verify-otp")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(403, Type = typeof(ForbidHttpResult))]
+    [ProducesResponseType(404, Type = typeof(NotFound))]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> VerifyOtp(LoginOtpDTO otpData)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -40,6 +52,7 @@ public class UserController(IUserService userService) : BaseController
 
     [HttpPost("send-otp")]
     [ProducesResponseType(200)]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> SendOtp(EmailRequestDTO emailRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -48,6 +61,9 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPost("forget-password")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404, Type = typeof(NotFound))]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> ForgetPassword(EmailRequestDTO emailRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -56,17 +72,13 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPut("reset-password")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404, Type = typeof(NotFound))]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> ResetPassword(LoginCredentialsDTO loginCredentialsDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _userService.ResetPassword(loginCredentialsDTO);
         return GetResult(null, MessageConstants.SuccessMessage.PASSWORD_RESETTED);
-    }
-
-    [HttpGet("check-admit-request-status/{email}")]
-    public async Task<IActionResult> CheckAdmitRequestStatus(string email)
-    {
-        string responseMessage = await _userService.CheckAdmitRequestStatus(email);
-        return GetResult(responseMessage, null);
     }
 }

@@ -4,6 +4,7 @@ using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
 using Entities.ExtensionMethods.MappingProfiles;
+using static Common.Enums.SystemEnum;
 
 namespace BusinessAccessLayer.Services;
 
@@ -112,7 +113,7 @@ public class CommonService(IUnitOfWork unitOfWork) : ICommonService
 
     public async Task<IEnumerable<TeachersListResponseDTO>> GetAllTeachers()
     {
-        IEnumerable<User>? users = await _unitOfWork.UserRepository.GetListAsync(predicate: x => x.RoleId == Convert.ToByte(2), orderBy: c => c.FirstName);
+        IEnumerable<User>? users = await _unitOfWork.UserRepository.GetListAsync(predicate: x => x.RoleId == (byte)UserRoleType.TEACHER, orderBy: c => c.FirstName);
 
         IEnumerable<TeachersListResponseDTO> response = UserMappingProfile.ToTeachersListResponseDTOs(users);
 

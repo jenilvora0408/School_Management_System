@@ -36,6 +36,7 @@ export class LoginComponent {
   emailValidationMsg: string = ValidationMessageConstant.email;
   passwordValidationMsg: string = ValidationMessageConstant.password;
   showPassword: boolean = false;
+  userName: string = '';
 
   constructor(
     private authService: AuthenticationService,
@@ -69,7 +70,7 @@ export class LoginComponent {
       this.authService.login(<ILoginInterface>this.loginForm.value).subscribe({
         next: (response: IResponse<string>) => {
           console.log('login: ', response);
-
+          this.userName = response.data;
           if (response.success) {
             this.notificationService.success(response.message);
             this.router.navigate(['/verify-otp'], {
@@ -80,6 +81,10 @@ export class LoginComponent {
                 ),
                 from: CryptoJS.AES.encrypt(
                   'login',
+                  SystemConstants.EncryptionKey
+                ),
+                userName: CryptoJS.AES.encrypt(
+                  this.userName,
                   SystemConstants.EncryptionKey
                 ),
               },

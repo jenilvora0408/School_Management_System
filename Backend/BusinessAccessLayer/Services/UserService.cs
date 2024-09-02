@@ -1,5 +1,6 @@
 using System.Net;
 using BusinessAccessLayer.Interface;
+using Common.Constants;
 using Common.Exceptions;
 using Common.Utils;
 using DataAccessLayer.Interface;
@@ -10,6 +11,7 @@ using Entities.ExtensionMethods.MappingProfiles;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using static Common.Constants.MessageConstants;
+using static Common.Enums.SystemEnum;
 
 namespace BusinessAccessLayer.Services;
 
@@ -39,10 +41,10 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
         {
             AdmitRequest? admitRequestApproval = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(approval => approval.Id == admitRequest.Id);
 
-            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == 5)
+            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == (int)StatusType.BLOCKED)
                 throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ACCESS_BLOCKED);
 
-            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == 1) throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
+            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == (int)StatusType.PENDING) throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
         }
 
         AdmitRequest createRequest = AdmitRequestMappingProfile.ToAdmitRequest(admitRequestDTO);
@@ -62,7 +64,7 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
         if (!PasswordUtil.VerifyPassword(userCredential.Password, user.Password)) throw new ModelValidationException(ValidationConstants.INVALID_LOGIN_CREDENTIAL);
 
         await SendOtp(user.Email);
-        return user.FirstName;
+        return user.FirstName + ' ' + user.LastName;
     }
 
     public async Task SendOtp(string email)
@@ -125,22 +127,6 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
         await _unitOfWork.SaveAsync();
     }
 
-    public async Task<string> CheckAdmitRequestStatus(string email)
-    {
-        AdmitRequest? request = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(request => request.Email == email);
-
-        string message = string.Empty;
-
-        if (request != null)
-        {
-            if (request.ApprovalStatus == 5) message = ValidationConstants.ACCESS_BLOCKED;
-            else if (request.ApprovalStatus == 1) message = ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS;
-            else if (request.ApprovalStatus == 2) message = ValidationConstants.ACCESS_ALREADY_PROVIDED;
-        }
-
-        return message;
-    }
-
     #endregion Http_Methods
 
     #region Helper_Methods
@@ -148,8 +134,8 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
     public async Task<string> GenerateOtp(User user)
     {
         Random generator = new Random();
-        string otp = generator.Next(100000, 999999).ToString();
-        DateTime expiryTime = DateTime.UtcNow.AddMinutes(10);
+        string otp = generator.Next(SystemConstants.OTP_GENERATE_MIN_VALUE, SystemConstants.OTP_GENERATE_MAX_VALUE).ToString();
+        DateTime expiryTime = DateTime.UtcNow.AddMinutes(SystemConstants.OTP_EXPIRY_TIME);
 
         user.ToGenerateOtp(otp, expiryTime);
 

@@ -2,6 +2,7 @@ using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using static API.Helpers.JwtAuthPolicies;
 
@@ -19,6 +20,9 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     #endregion
 
     [HttpPost("edit-class")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> EditClass(ClassRequestDTO classRequestDTO, CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -27,6 +31,9 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     }
 
     [HttpGet("get-all-subjects/{classId}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
+    [ProducesResponseType(500, Type = typeof(ApiResponse))]
     public async Task<IActionResult> GetAllSubjects(int classId)
     {
         return GetResult(await _principalService.GetSubjectsByClass(classId), message: null);

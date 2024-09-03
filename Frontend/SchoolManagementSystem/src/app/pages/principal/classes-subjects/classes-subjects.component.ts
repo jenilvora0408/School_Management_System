@@ -42,7 +42,7 @@ export class ClassesSubjectsComponent {
     });
   }
 
-  editClass(classId: number, classTeacherName: string, classStrength: number) {
+  editClass(classId: number, classTeacherName: string, classStrength: number, className: string) {
     this.router.navigate(['principal/edit-class'], {
       queryParams: {
         classId: CryptoJS.AES.encrypt(
@@ -55,6 +55,10 @@ export class ClassesSubjectsComponent {
         ),
         classStrength: CryptoJS.AES.encrypt(
           classStrength.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        className: CryptoJS.AES.encrypt(
+          className.toString() ?? '',
           SystemConstants.EncryptionKey
         ),
       },

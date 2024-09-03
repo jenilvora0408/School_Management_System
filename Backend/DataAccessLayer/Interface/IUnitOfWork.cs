@@ -23,4 +23,6 @@ public interface IUnitOfWork
     public ILeaveRepository LeaveRepository { get; }
 
     public IClassSubjectRepository ClassSubjectRepository { get; }
+
+    public ISubjectRepository SubjectRepository { get; }
 }

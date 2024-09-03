@@ -2,7 +2,6 @@ using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
 using Entities.DTOs;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

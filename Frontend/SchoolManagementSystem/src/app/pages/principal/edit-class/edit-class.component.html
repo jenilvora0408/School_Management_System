@@ -14,7 +14,7 @@
         class="col form-container d-flex align-items-center justify-content-center"
       >
         <div class="heading mb-3">
-          <h3 class="text-center mb-3">Class-3</h3>
+          <h3 class="text-center mb-3"> {{className}} </h3>
           <p class="text-center tagline">
             Edit class details and manage the subjects taught in this class.
           </p>
@@ -94,7 +94,7 @@
                 <tr class="border border-2">
                   <td>{{ i + 1 }}</td>
                   <td>{{ item.subjectName }}</td>
-                  <td>AB457#</td>
+                  <td> {{item.subjectCode}} </td>
                   @if(item.subjectTeacherName == " "){
                   <td>Not Assigned</td>
                   } @else {

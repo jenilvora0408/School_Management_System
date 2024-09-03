@@ -49,4 +49,12 @@ public class CommonController(ICommonService commonService) : BaseController
     {
         return GetResult(await _commonService.GetAllTeachers(), message: null);
     }
+
+    [HttpGet("get-all-subjects")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    public async Task<IActionResult> GetAllSubjects()
+    {
+        return GetResult(await _commonService.GetAllSubjects(), message: null);
+    }
 }
+ 

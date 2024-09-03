@@ -22,6 +22,9 @@ export class ApiCallConstant {
   public static readonly GET_ALL_TEACHERS =
     this.COMMON_CONTROLLER + 'get-all-teachers';
 
+  public static readonly GET_ALL_SUBJECTS =
+    this.COMMON_CONTROLLER + 'get-all-subjects';
+
   //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';
@@ -59,6 +62,6 @@ export class ApiCallConstant {
 
   // Principal Controller Methods
 
-  public static readonly GET_ALL_SUBJECTS =
-    this.PRINCIPAL_CONTROLLER + 'get-all-subjects';
+  public static readonly GET_ALL_SUBJECTS_BY_CLASS_ID =
+    this.PRINCIPAL_CONTROLLER + 'get-all-subjects-by-class';
 }

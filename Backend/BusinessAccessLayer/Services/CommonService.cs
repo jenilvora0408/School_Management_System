@@ -120,5 +120,14 @@ public class CommonService(IUnitOfWork unitOfWork) : ICommonService
         return response;
     }
 
+    public async Task<IEnumerable<SubjectsListResponseDTO>> GetAllSubjects()
+    {
+        IEnumerable<Subject> subjects = await _unitOfWork.SubjectRepository.GetListAsync(orderBy: c => c.SubjectName, includes: [x => x.SubjectTeacher]);
+
+        IEnumerable<SubjectsListResponseDTO> response = SubjectMappingProfile.ToGetAllSubjects(subjects);
+
+        return response;
+    }
+
     #endregion Http_Methods
 }

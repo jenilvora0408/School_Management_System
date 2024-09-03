@@ -10,7 +10,7 @@ import { ApiCallConstant } from '../constants/api-call/apis';
   providedIn: 'root',
 })
 export class PrincipalService {
-  getAllSubjectsApi = ApiCallConstant.GET_ALL_SUBJECTS;
+  getAllSubjectsApi = ApiCallConstant.GET_ALL_SUBJECTS_BY_CLASS_ID;
   constructor(private http: HttpClient) {}
 
   getAllSubjects(

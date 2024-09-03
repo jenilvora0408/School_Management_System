@@ -2,7 +2,7 @@
   <div class="col teacher-navbar justify-content-between">
     <div class="left">
       <div class="teacher-logo px-3 d-flex align-items-center">
-        @if(userRole !== 1){
+        @if(userRole != 1){
         <button class="btn btn-sm btn-outline-secondary" (click)="open()">
           <i class="bi bi-list"></i></button
         >}
@@ -29,6 +29,7 @@
                 {{ username }}
               </span>
               <div ngbDropdownMenu aria-labelledby="profileDropdown">
+                <button ngbDropdownItem>My Profile</button>
                 <button ngbDropdownItem (click)="onLogout()">Logout</button>
               </div>
             </div>

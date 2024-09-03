@@ -21,6 +21,8 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { ISubjectsListInterface } from '../../../models/teacher/subjects-list';
 import { PrincipalService } from '../../../services/principal.service';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddSubjectToClassComponent } from '../../../NgbModals/Principal/add-subject-to-class/add-subject-to-class.component';
 
 @Component({
   selector: 'app-edit-class',
@@ -40,6 +42,7 @@ export class EditClassComponent {
   classId: number = 0;
   classTeacherName: string = '';
   classStrength: number = 0;
+  className: string = '';
   teachersList: DropdownItem[] = [];
   responseData: ISubjectsListInterface[] = [];
 
@@ -53,7 +56,8 @@ export class EditClassComponent {
     private commonService: CommonService,
     private notificationService: NotificationService,
     private cdr: ChangeDetectorRef,
-    private principalService: PrincipalService
+    private principalService: PrincipalService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -67,12 +71,14 @@ export class EditClassComponent {
     });
 
     this.cdr.detectChanges();
+
+    console.log(this.responseData);
+    
   }
 
   getAllTeachers() {
     this.commonService.getAllTeachers().subscribe({
       next: (response: IResponse<ITeachersListInterface[]>) => {
-        console.log('all teachers: ', response);
         this.teachersList = response.data.map(
           (item: ITeachersListInterface) => ({
             value: item.firstName + ' ' + item.lastName,
@@ -90,7 +96,6 @@ export class EditClassComponent {
   getAllSubjects() {
     this.principalService.getAllSubjects(this.classId).subscribe({
       next: (response: IResponse<ISubjectsListInterface[]>) => {
-        console.log('all teachers: ', response);
         this.responseData = response.data;
       },
       error: (error: HttpErrorResponse) => {
@@ -118,14 +123,31 @@ export class EditClassComponent {
           SystemConstants.EncryptionKey
         ).toString(CryptoJS.enc.Utf8)
       );
+      this.className = 
+        CryptoJS.AES.decrypt(
+          params['className'],
+          SystemConstants.EncryptionKey
+      ).toString(CryptoJS.enc.Utf8);
     });
 
     console.log(this.classId);
   }
 
-  addSubject() {}
+  addSubject() {
+    const modalRef = this.modalService.open(AddSubjectToClassComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.existingSubjects = this.responseData;
+
+    modalRef.componentInstance.subjectAdded.subscribe((subject: ISubjectsListInterface) => {
+      this.responseData.push(subject); 
+    });
+  }
 
   onSubmit() {}
 
-  cancelFormData() {}
+  cancelFormData() {
+  } 
 }

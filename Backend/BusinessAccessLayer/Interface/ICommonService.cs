@@ -16,4 +16,6 @@ public interface ICommonService
     Task<List<ClassesListResponseDTO>> GetAllClasses();
 
     Task<IEnumerable<TeachersListResponseDTO>> GetAllTeachers();
+
+    Task<IEnumerable<SubjectsListResponseDTO>> GetAllSubjects();
 }

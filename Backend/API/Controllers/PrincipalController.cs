@@ -2,7 +2,6 @@ using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
 using Entities.DTOs;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using static API.Helpers.JwtAuthPolicies;
 
@@ -30,7 +29,7 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
         return GetResult(null, message: MessageConstants.SuccessMessage.CLASS_EDITED);
     }
 
-    [HttpGet("get-all-subjects/{classId}")]
+    [HttpGet("get-all-subjects-by-class/{classId}")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(401)]
     [ProducesResponseType(500)]

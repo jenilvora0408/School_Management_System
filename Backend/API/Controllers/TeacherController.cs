@@ -22,19 +22,19 @@ public class TeacherController(ITeacherService teacherService) : BaseController
     #region HTTP_Methods
 
     [HttpGet("get-admit-request/{id}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> GetAdmitRequest(long id)
     {
         return GetResult(await _teacherService.GetAdmitRequest(id), message: null);
     }
 
     [HttpPost("create-leave-request")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
-    [ProducesResponseType(404, Type = typeof(NotFound))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> CreateLeaveRequest(LeaveRequestDTO leaveRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -43,19 +43,19 @@ public class TeacherController(ITeacherService teacherService) : BaseController
     }
 
     [HttpPost("leave-request-list")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> LeaveRequestList(LeaveRequestsListDTO leaveRequestsListDTO)
     {
         return GetResult(await _teacherService.GetAllLeaveRequest(leaveRequestsListDTO), message: null);
     }
 
     [HttpPost("admit-request-approval")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
-    [ProducesResponseType(404, Type = typeof(NotFound))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> AdmitRequestApproval(AdmitRequestApprovalDTO admitRequestApprovalDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -64,9 +64,9 @@ public class TeacherController(ITeacherService teacherService) : BaseController
     }
 
     [HttpGet("get-leaves-count/{userId}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> GetLeavesCount(long userId)
     {
         LeavesCountDTO response = await _teacherService.GetLeavesCount(userId);

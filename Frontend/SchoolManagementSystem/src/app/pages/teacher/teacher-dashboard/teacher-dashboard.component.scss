@@ -3,6 +3,10 @@ $para: #777;
 $helper-tint: #f3f4ff;
 $bg: rgb(249, 249, 255);
 $purple: #6c4e87;
+$pending: #b2651b;
+$approved: #003663;
+$declined: #dd7176;
+$blocked: #777878;
 
 .teacher-dashboard-container {
   background-color: $helper-tint;
@@ -41,4 +45,20 @@ h3 {
   word-spacing: 3px;
   letter-spacing: 1px;
   color: $purple;
+}
+.pending-status {
+  font-weight: 500;
+  color: $pending;
+}
+.approved-status {
+  font-weight: 500;
+  color: $approved;
+}
+.declined-status {
+  font-weight: 500;
+  color: $declined;
+}
+.blocked-status{
+  font-weight: 500;
+  color: $blocked;
 }

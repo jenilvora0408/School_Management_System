@@ -135,6 +135,8 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
 
             User user = new();
             user = UserMappingProfile.ToSaveAdmitRequestUser(admitRequest, password);
+            user.IsUserActive = true;
+            user.IsUserDeleted = false;
 
             if (user.RoleId == (byte)UserRoleType.STUDENT)
             {

@@ -251,6 +251,7 @@ namespace DataAccessLayer.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SubjectName = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    SubjectCode = table.Column<string>(type: "text", nullable: true),
                     SubjectTeacherId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -472,16 +473,16 @@ namespace DataAccessLayer.Migrations
                 columns: new[] { "Id", "ClassName", "ClassStrength", "ClassTeacherId", "CreatedBy", "CreatedOn", "UpdatedBy", "UpdatedOn" },
                 values: new object[,]
                 {
-                    { 1, "Class-3", 60, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 2, "Class-4", 60, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 3, "Class-5", 60, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 4, "Class-6", 60, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 5, "Class-7", 80, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 6, "Class-8", 80, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 7, "Class-9", 80, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 8, "Class-10", 80, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 9, "Class-11", 100, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 10, "Class-12", 100, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) }
+                    { 1, "Class-3", 60, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 2, "Class-4", 60, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 3, "Class-5", 60, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 4, "Class-6", 60, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 5, "Class-7", 80, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 6, "Class-8", 80, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 7, "Class-9", 80, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 8, "Class-10", 80, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 9, "Class-11", 100, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 10, "Class-12", 100, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) }
                 });
 
             migrationBuilder.InsertData(
@@ -505,21 +506,21 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Subjects",
-                columns: new[] { "Id", "CreatedBy", "CreatedOn", "SubjectName", "SubjectTeacherId", "UpdatedBy", "UpdatedOn" },
+                columns: new[] { "Id", "CreatedBy", "CreatedOn", "SubjectCode", "SubjectName", "SubjectTeacherId", "UpdatedBy", "UpdatedOn" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Physics", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 2, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Chemistry", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 3, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Biology", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 4, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Maths", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 5, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Physics Practical", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 6, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Chemistry Practical", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 7, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "English", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 8, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "English Grammar", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 9, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Environment", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 10, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "History", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 11, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Science", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 12, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), "Computer", null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) }
+                    { 1, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Physics", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 2, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Chemistry", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 3, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Biology", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 4, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Maths", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 5, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Physics Practical", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 6, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Chemistry Practical", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 7, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "English", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 8, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "English Grammar", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 9, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Environment", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 10, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "History", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 11, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Science", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 12, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), null, "Computer", null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) }
                 });
 
             migrationBuilder.InsertData(
@@ -538,21 +539,21 @@ namespace DataAccessLayer.Migrations
                 columns: new[] { "Id", "ClassId", "CreatedBy", "CreatedOn", "SubjectId", "UpdatedBy", "UpdatedOn" },
                 values: new object[,]
                 {
-                    { 1, 1, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 7, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 2, 1, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 8, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 3, 1, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 4, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 4, 1, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 11, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 5, 2, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 7, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 6, 2, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 8, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 7, 2, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 4, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 8, 2, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 11, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) },
-                    { 9, 2, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460), 9, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) }
+                    { 1, 1, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 7, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 2, 1, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 8, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 3, 1, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 4, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 4, 1, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 11, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 5, 2, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 7, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 6, 2, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 8, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 7, 2, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 4, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 8, 2, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 11, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) },
+                    { 9, 2, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617), 9, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "Avatar", "BloodGroupId", "CreatedBy", "CreatedOn", "DateOfBirth", "DeletedBy", "DeletedOn", "Email", "ExpiryTime", "FirstName", "GenderId", "Headline", "LabInstructorId", "LastName", "OTP", "Password", "PhoneNumber", "PrincipalId", "RoleId", "SuspendedBy", "SuspendedDuration", "SuspendedOn", "TeacherId", "UpdatedBy", "UpdatedOn" },
-                values: new object[] { 1L, "St. Mary's School Top Floor, Besides Wockhardt Hospital", "/images/Principal-photo.jpg", (byte)5, null, new DateTime(2024, 8, 23, 9, 4, 48, 991, DateTimeKind.Utc).AddTicks(5867), null, null, null, "anurag@gmail.com", null, "Anurag", (byte)1, "Principal since 2010", null, "Patwardhan", null, "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2", "8957486525", null, (byte)1, null, null, null, null, null, new DateTime(2024, 8, 23, 9, 4, 48, 432, DateTimeKind.Utc).AddTicks(9460) });
+                values: new object[] { 1L, "St. Mary's School Top Floor, Besides Wockhardt Hospital", "/images/Principal-photo.jpg", (byte)5, null, new DateTime(2024, 9, 3, 5, 49, 5, 764, DateTimeKind.Utc).AddTicks(5320), null, null, null, "anurag@gmail.com", null, "Anurag", (byte)1, "Principal since 2010", null, "Patwardhan", null, "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2", "8957486525", null, (byte)1, null, null, null, null, null, new DateTime(2024, 9, 3, 5, 49, 5, 179, DateTimeKind.Utc).AddTicks(7617) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdmitRequests_AdmitRequestRoleId",
@@ -588,12 +589,6 @@ namespace DataAccessLayer.Migrations
                 name: "IX_AdmitRequests_DeclinedBy",
                 table: "AdmitRequests",
                 column: "DeclinedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AdmitRequests_Email",
-                table: "AdmitRequests",
-                column: "Email",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdmitRequests_GenderId",

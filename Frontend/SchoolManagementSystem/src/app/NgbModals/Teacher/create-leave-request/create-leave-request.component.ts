@@ -47,6 +47,9 @@ import { LeaveTypePipe } from '../../../pipes/leave-type.pipe';
 export class CreateLeaveRequestComponent {
   calendar = inject(NgbCalendar);
   formatter = inject(NgbDateParserFormatter);
+  today!: NgbDate;
+  minDay!: NgbDate;
+  fromDay!: NgbDate;
 
   hoveredDate: NgbDate | null = null;
   fromDate: NgbDate | null = this.calendar.getToday();
@@ -84,7 +87,12 @@ export class CreateLeaveRequestComponent {
     private leaveTypePipe: LeaveTypePipe
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const today = new Date();
+    this.today = new NgbDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
+    this.minDay = this.today;
+    this.fromDay = this.today; 
+  }
 
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {

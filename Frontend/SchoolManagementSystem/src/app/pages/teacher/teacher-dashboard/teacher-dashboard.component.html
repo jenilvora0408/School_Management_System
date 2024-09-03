@@ -87,8 +87,23 @@
           </td>
           <td>{{ item.className }}</td>
           <td>{{ item.requestedRole }}</td>
-          <td>{{ item.approvalStatus | approvalStatus }}</td>
           <td>
+            @if(item.approvalStatus == 1){
+            <span class="pending-status p-1 px-3">{{
+              item.approvalStatus | approvalStatus
+            }}</span>
+            } @if(item.approvalStatus == 2){
+            <span class="approved-status p-1 px-3">{{
+              item.approvalStatus | approvalStatus
+            }}</span>
+            } @if(item.approvalStatus == 3){
+            <span class="declined-status p-1 px-3">{{
+              item.approvalStatus | approvalStatus
+            }}</span>
+            }
+          </td>
+          <td>
+            @if(item.approvalStatus == 1){
             <div ngbDropdown class="d-inline-block">
               <span
                 type="button"
@@ -107,7 +122,10 @@
                   View Request
                 </button>
               </div>
-            </div>
+            </div>}
+            @else {
+              <button type="button" class="btn btn-outline-secondary">View Profile</button>
+            }
           </td>
         </tr>
         }

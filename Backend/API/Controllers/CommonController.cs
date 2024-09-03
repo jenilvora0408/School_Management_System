@@ -1,6 +1,5 @@
 using BusinessAccessLayer.Interface;
 using Entities.DTOs;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using static API.Helpers.JwtAuthPolicies;
 
@@ -18,7 +17,7 @@ public class CommonController(ICommonService commonService) : BaseController
     #endregion Constructor
 
     [HttpGet("common-entity-list")]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
     public async Task<IActionResult> GetCommonEntityList()
     {
         CommonEntityListResponseDTO response = await _commonService.GetEntityList();
@@ -26,9 +25,9 @@ public class CommonController(ICommonService commonService) : BaseController
     }
 
     [HttpPost("admit-request-list")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(401, Type = typeof(UnauthorizedHttpResult))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
     [TeachersPolicy]
     public async Task<IActionResult> GetAdmitRequestList(PageListRequestDTO pageListRequest)
     {
@@ -36,16 +35,16 @@ public class CommonController(ICommonService commonService) : BaseController
     }
 
     [HttpGet("get-all-classes-info")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> GetAllClassesInfo()
     {
         return GetResult(await _commonService.GetAllClasses(), message: null);
     }
 
     [HttpGet("get-all-teachers")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> GetAllTeachers()
     {
         return GetResult(await _commonService.GetAllTeachers(), message: null);

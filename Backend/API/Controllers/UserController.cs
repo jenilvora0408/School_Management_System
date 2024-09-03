@@ -18,9 +18,9 @@ public class UserController(IUserService userService) : BaseController
     #endregion Constructor
 
     [HttpPost("create-admit-request")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(403, Type = typeof(ForbidHttpResult))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> CreateAdmitRequest(AdmitRequestDTO request, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -29,10 +29,10 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPost("login")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(403, Type = typeof(ForbidHttpResult))]
-    [ProducesResponseType(404, Type = typeof(NotFound))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> Login(LoginCredentialsDTO userCredential)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -40,10 +40,10 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPost("verify-otp")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(403, Type = typeof(ForbidHttpResult))]
-    [ProducesResponseType(404, Type = typeof(NotFound))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> VerifyOtp(LoginOtpDTO otpData)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -51,8 +51,8 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPost("send-otp")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> SendOtp(EmailRequestDTO emailRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -61,9 +61,9 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPost("forget-password")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404, Type = typeof(NotFound))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> ForgetPassword(EmailRequestDTO emailRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
@@ -72,9 +72,9 @@ public class UserController(IUserService userService) : BaseController
     }
 
     [HttpPut("reset-password")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404, Type = typeof(NotFound))]
-    [ProducesResponseType(500, Type = typeof(ApiResponse))]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> ResetPassword(LoginCredentialsDTO loginCredentialsDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);

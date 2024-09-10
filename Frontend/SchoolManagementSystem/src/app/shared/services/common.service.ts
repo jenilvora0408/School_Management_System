@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { IResponse } from '../models/IResponse';
 import { ITeachersListInterface } from '../../models/teacher/teachers-list';
 import { ISubjectsListInterface } from '../../models/teacher/subjects-list';
+import { IMyProfileInterface } from '../../models/common/my-profile';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +34,18 @@ export class CommonService {
     return this.http.get<IResponse<ISubjectsListInterface[]>>(
       ApiCallConstant.GET_ALL_SUBJECTS
     );
+  }
+
+  getMyProfile(userId: number): Observable<IResponse<IMyProfileInterface>> {
+    return this.http.get
+    <IResponse<IMyProfileInterface>>(`${ApiCallConstant.GET_MY_PROFILE}/${userId}`);
+  }
+
+  updateUserProfile(
+    listCredentials: IMyProfileInterface
+  ): Observable<IResponse<string>> {
+    return this.http.put<
+      IResponse<string>
+    >(ApiCallConstant.UPDATE_USER_PROFILE, listCredentials);
   }
 }

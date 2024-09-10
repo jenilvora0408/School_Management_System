@@ -135,6 +135,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Address).IsRequired().HasMaxLength(1000);
             entity.Property(e => e.IsUserActive).IsRequired().HasDefaultValue(true);
             entity.Property(e => e.IsUserDeleted).IsRequired().HasDefaultValue(false);
+            entity.Property(e  => e.City).HasMaxLength(25);
 
             entity.HasOne(u => u.Principal)
                 .WithMany()

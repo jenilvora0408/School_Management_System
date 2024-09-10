@@ -18,4 +18,8 @@ public interface ICommonService
     Task<IEnumerable<TeachersListResponseDTO>> GetAllTeachers();
 
     Task<IEnumerable<SubjectsListResponseDTO>> GetAllSubjects();
+
+    Task<GetUserProfileDTO> GetUserProfile(long userId);
+
+    Task UpdateUserProfile(GetUserProfileDTO getUserProfileDTO);
 }

@@ -40,6 +40,8 @@ public static class MessageConstants
         public const string ADMIT_REQUEST_CREATED = "Admit Request was created successfully!";
 
         public const string CLASS_EDITED = "Class Information edited successfully!";
+
+        public const string PROFILE_UPDATED = "Your profile has been updated successfully!";
     }
 
     #endregion Error_Messages

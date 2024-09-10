@@ -1,6 +1,6 @@
 import { Component, SimpleChanges } from '@angular/core';
 import { DropdownItem } from '../../../shared/models/drop-down-item';
-import { NgbDateStruct, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   FormGroup,
   FormControl,
@@ -28,6 +28,7 @@ import {
 } from '../../../shared/models/common-item-response';
 import { Router } from '@angular/router';
 import { AlphabetOnlyInputComponent } from '../../../shared/components/alphabet-only-input/alphabet-only-input.component';
+import { AdmitRequestConfirmationComponent } from '../../../NgbModals/Confirmation/admit-request-confirmation/admit-request-confirmation.component';
 
 @Component({
   selector: 'app-admit-request',
@@ -123,7 +124,8 @@ export class AdmitRequestComponent {
     private commonService: CommonService,
     private authService: AuthenticationService,
     private notificationsService: NotificationService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -158,7 +160,7 @@ export class AdmitRequestComponent {
         );
       },
       (error) => {
-        console.error('Error occurred list of genders', error);
+        console.error('Error occurred', error);
       }
     );
   }
@@ -180,8 +182,11 @@ export class AdmitRequestComponent {
       .subscribe({
         next: (res: IResponse<null>) => {
           if (res.success) {
-            this.notificationsService.success(res.message);
-            this.router.navigate(['']);
+            this.modalService.open(AdmitRequestConfirmationComponent, {
+              centered: true,
+              size: 'md',
+              backdrop: 'static',
+            });
           }
         },
         error: (error: HttpErrorResponse) => {

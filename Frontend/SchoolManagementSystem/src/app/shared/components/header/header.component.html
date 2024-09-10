@@ -29,7 +29,7 @@
                 {{ username }}
               </span>
               <div ngbDropdownMenu aria-labelledby="profileDropdown">
-                <button ngbDropdownItem>My Profile</button>
+                <button ngbDropdownItem (click)="navigateProfile()">My Profile</button>
                 <button ngbDropdownItem (click)="onLogout()">Logout</button>
               </div>
             </div>

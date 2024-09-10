@@ -53,6 +53,8 @@ public class User : AuditableEntity<long>
 
     public bool IsUserDeleted { get; set; }
 
+    public string? City  {get; set; }
+
 
     #region Foreign_Keys
 

@@ -47,4 +47,29 @@ public static class UserMappingProfile
             LastName = user.LastName,
         }).ToList();
     }
+
+    public static GetUserProfileDTO ToGetUserProfile(User user) => new()
+    {
+        UserId = user.Id,
+        FirstName = user.FirstName,
+        LastName = user.LastName,
+        Email = user.Email,
+        PhoneNumber = user.PhoneNumber,
+        Address = user.Address,
+        City = user.City,
+        Headline = user.Headline,
+        Avatar = user.Avatar
+    };
+
+    public static void ToUpdateUserProfile (GetUserProfileDTO getUserProfileDTO, User user)
+    {
+        user.FirstName = getUserProfileDTO.FirstName;
+        user.LastName = getUserProfileDTO.LastName;
+        user.Email = getUserProfileDTO.Email;
+        user.PhoneNumber = getUserProfileDTO.PhoneNumber;
+        user.Address = getUserProfileDTO.Address;
+        user.City = getUserProfileDTO.City;
+        user.Headline = getUserProfileDTO.Headline;
+        user.Avatar = getUserProfileDTO.Avatar ?? string.Empty;
+    }
 }

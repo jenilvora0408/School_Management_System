@@ -11,6 +11,7 @@ import { StudentDashboardComponent } from './pages/student/student-dashboard/stu
 import { PrincipalDashboardComponent } from './pages/principal/principal-dashboard/principal-dashboard.component';
 import { ClassesSubjectsComponent } from './pages/principal/classes-subjects/classes-subjects.component';
 import { EditClassComponent } from './pages/principal/edit-class/edit-class.component';
+import { MyProfileComponent } from './pages/common/my-profile/my-profile.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -46,6 +47,10 @@ export const routes: Routes = [
       {
         path: 'edit-class',
         component: EditClassComponent,
+      },
+      {
+        path: 'my-profile',
+        component: MyProfileComponent,
       },
     ],
   },

@@ -89,18 +89,23 @@
           <td>{{ item.requestedRole }}</td>
           <td>
             @if(item.approvalStatus == 1){
-            <span class="pending-status p-1 px-3">{{
+            <span class="pending-status">{{
               item.approvalStatus | approvalStatus
             }}</span>
-            } @if(item.approvalStatus == 2){
-            <span class="approved-status p-1 px-3">{{
+            } @else if(item.approvalStatus == 2){
+            <span class="approved-status">{{
               item.approvalStatus | approvalStatus
             }}</span>
-            } @if(item.approvalStatus == 3){
-            <span class="declined-status p-1 px-3">{{
+            } @else if(item.approvalStatus == 3){
+            <span class="declined-status">{{
               item.approvalStatus | approvalStatus
             }}</span>
             }
+            @else {
+              <span class="blocked-status">{{
+                item.approvalStatus | approvalStatus
+              }}</span>
+              }
           </td>
           <td>
             @if(item.approvalStatus == 1){

@@ -1,0 +1,166 @@
+<div class="container-fluid p-0">
+  <app-header></app-header>
+</div>
+
+<div class="container-fluid content bg-light">
+  <div class="d-flex justify-content-between align-items-center my-3">
+    <h3>My Profile</h3>
+  </div>
+  <div class="card mb-5">
+    <div class="card-body p-4 pt-0">
+      <form
+        [formGroup]="profileForm"
+        appFormSubmit
+        class="ps-3"
+      >
+        <div class="row align-items-center my-4">
+          <div class="col-md-2 position-relative">
+            @if (profilePicture) {<img
+              src="{{ profilePicture }}"
+              alt="Profile Avatar"
+              class="rounded-circle profile-image"
+              (click)="openPictureFileDialog()"
+            />} @else{<img
+              src="../../../../assets/images/avatar.jpg"
+              alt="Profile Avatar"
+              class="rounded-circle profile-image"
+              (click)="openPictureFileDialog()"
+            />}
+            <input
+              #profileInput
+              type="file"
+              name="profileFile"
+              id="profileFile"
+              accept=".jpg,.jpeg,.png,.jfif"
+              style="display: none"
+              formControlName="avatar"
+              (change)="handlePictureFileChange($event)"
+            />
+          </div>
+          <div class="col-md-10">
+            <h4>{{ userName }}</h4>
+            <span
+              >Want to update details? Modify the details & Save the form.</span
+            >
+          </div>
+          <div class="account-information-section mt-4">
+            <h5>Account Information</h5>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6 mt-3">
+              <app-alphabet-only-input
+                label="First Name"
+                controlName="firstName"
+                [required]="true"
+                [parentForm]="profileForm"
+                className="inputField py-2 fs-6 form-control"
+                placeholder="First Name"
+                type="text"
+                errorTitle="First Name"
+                testId="firstName"
+              />
+            </div>
+            <div class="form-group col-md-6 mt-3">
+              <app-alphabet-only-input
+                label="Last Name"
+                controlName="lastName"
+                [parentForm]="profileForm"
+                [required]="true"
+                className="inputField py-2 fs-6 form-control"
+                placeholder="Last Name"
+                type="text"
+                errorTitle="Last Name"
+                testId="lastName"
+              />
+            </div>
+            <div class="form-group col-md-6 mt-3">
+              <app-input
+                class="mb-4 login-input"
+                title="Email"
+                type="email"
+                label="Email"
+                [readonly]="true"
+                className="inputField py-3 fs-6 form-control border bg-light disabled-text"
+                placeholder="Email Address"
+                [parentForm]="profileForm"
+                controlName="email"
+                errorTitle="Email"
+              ></app-input>
+            </div>
+            <div class="form-group col-md-6 mt-3">  
+              <app-phone-number-input
+                [label]="'Phone Number'"
+                errorTitle="Phone Number"
+                placeholder="Phone Number"
+                [parentForm]="profileForm"
+                controlName="phoneNumber"
+                type="text"
+                [required]="true"
+                className="inputField py-2 fs-6 form-control"
+                [customErrors]="phoneNumberCustomErrors"
+              />
+            </div>
+          </div>
+          <div class="form-row mt-1">
+            <div class="form-group col-md-6 mt-3">
+              <app-alphabet-only-input
+                label="City"
+                controlName="city"
+                [parentForm]="profileForm"
+                className="inputField py-2 fs-6 form-control"
+                placeholder="City"
+                type="text"
+                errorTitle="City"
+                testId="City"
+              />
+            </div>
+            <div class="form-group col-md-6 mt-3">
+              <app-input
+                label="Headline"
+                [parentForm]="profileForm"
+                [maxlength]="50"
+                className="inputField py-2 fs-6 form-control border"
+                placeholder="Enter headline"
+                errorTitle="Zip"
+                controlName="headline"
+                class="w-100"
+              />
+            </div>
+            <div class="form-group col-md-12 mt-3">
+              <app-textarea
+                label="Address"
+                placeholder="Address"
+                [required]="true"
+                controlName="address"
+                [parentForm]="profileForm"
+                className="app-textarea form-control"
+                errorTitle="Address"
+                testId="address"
+              />
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-3 pe-5 mt-2">
+            <app-button
+              label="Edit"
+              title="Edit"
+              (btnClick)="onSubmit()"
+              type="Submit"
+              className="mt-3 px-3 text-btn"
+            >
+            </app-button>
+            <app-button
+              [routerLink]="['/admin-dashboard']"
+              label="Cancel"
+              title="cancel"
+              (btnClick)="cancelForm()"
+              type="button"
+              className="mt-3 px-3 close-btn"
+            >
+            </app-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

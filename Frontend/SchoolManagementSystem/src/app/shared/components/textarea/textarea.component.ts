@@ -22,6 +22,7 @@ export class TextareaComponent {
   @Input() column: number = 15;
   @Input() name: string = '';
   @Input() parentForm!: FormGroup;
+  @Input() required: boolean = false;
   @Input() errorTitle!: string;
   @Input() className!: string;
   @Input() placeholder!: string;

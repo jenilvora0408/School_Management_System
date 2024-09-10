@@ -1,0 +1,22 @@
+<div class="modal-body">
+  <div class="icon-container text-center">
+    <i class="bi bi-check-circle fs-2 text-success"></i>
+  </div>
+  <div class="message-content text-center">
+    <h5 class="mb-3">Success!</h5>
+    <p class="mb-3">Your admit request has been submitted successfully!</p>
+    <p class="mb-3">Please wait for further updates.</p>
+    <p>
+      <span class="highlight">Note:</span> Any action taken regarding your
+      request will be notified to you via email.
+    </p>
+  </div>
+  <div class="text-center mt-4">
+    <app-button
+      label="Okay"
+      className="btn rounded-pill border border-2 bg-white text-success"
+      type="button"
+      (btnClick)="close()"
+    />
+  </div>
+</div>

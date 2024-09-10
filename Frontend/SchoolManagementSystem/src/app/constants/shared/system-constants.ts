@@ -12,6 +12,7 @@ export class SystemConstants {
   public static EncryptionKey = 'SchoolPortal';
   public static Ascending = 'ascending';
   public static Descending = 'descending';
+  public static DefaultAvatar = '../../../../assets/images/avatar.jpg';
 }
 
 export class StatusConstants {

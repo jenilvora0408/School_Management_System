@@ -25,6 +25,12 @@ export class ApiCallConstant {
   public static readonly GET_ALL_SUBJECTS =
     this.COMMON_CONTROLLER + 'get-all-subjects';
 
+  public static readonly GET_MY_PROFILE =
+    this.COMMON_CONTROLLER + 'get-user-profile';
+
+  public static readonly UPDATE_USER_PROFILE =
+    this.COMMON_CONTROLLER + 'update-user-profile';
+
   //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';

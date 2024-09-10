@@ -28,6 +28,7 @@ export class SelectComponent {
   @Input() parentForm!: FormGroup;
   @Input() controlName!: string;
   @Input({ required: false }) testId = '';
+  @Input() required: boolean = false;
 
   ngOnInit() {
     if (this.parentForm && this.controlName) {

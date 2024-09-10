@@ -4,7 +4,9 @@
   appControlErrorContainer
 >
   @if(label){
-  <label class="label--style {{ labelClass }}">{{ label }}</label>
+  <label class="label--style {{ labelClass }}">{{ label }}@if(label && required){
+    <span class="text-danger">*</span>
+    }</label>
   }
   <textarea
     appControlErrors
@@ -12,6 +14,7 @@
     [formControlName]="controlName"
     [cols]="column"
     [rows]="row"
+    [required]="required"
     [errorTitle]="errorTitle"
     [class]="className"
     [placeholder]="placeholder"

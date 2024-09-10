@@ -1,6 +1,10 @@
 <div class="d-flex flex-column" [formGroup]="parentForm">
   @if(label){
-  <label class="label--style {{ labelClass }}">{{ label }}</label>
+  <label class="label--style {{ labelClass }}"
+    >{{ label }}@if(label && required){
+    <span class="text-danger">*</span>
+    }</label
+  >
   }
   <input
     #input

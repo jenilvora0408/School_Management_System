@@ -1,4 +1,5 @@
 using BusinessAccessLayer.Interface;
+using Common.Constants;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using static API.Helpers.JwtAuthPolicies;
@@ -55,6 +56,22 @@ public class CommonController(ICommonService commonService) : BaseController
     public async Task<IActionResult> GetAllSubjects()
     {
         return GetResult(await _commonService.GetAllSubjects(), message: null);
+    }
+
+    [HttpGet("get-user-profile/{userId}")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    public async Task<IActionResult> GetUserProfile(long userId)
+    {
+        return GetResult(await _commonService.GetUserProfile(userId), message: null);
+    }
+
+    [HttpPut("update-user-profile")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> UpdateUserProfile(GetUserProfileDTO getUserProfileDTO)
+    {
+        await _commonService.UpdateUserProfile(getUserProfileDTO);
+        return GetResult(null, message: MessageConstants.SuccessMessage.PROFILE_UPDATED);
     }
 }
  

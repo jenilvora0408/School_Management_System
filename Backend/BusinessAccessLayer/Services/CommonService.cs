@@ -1,9 +1,12 @@
 using System.Linq.Expressions;
 using BusinessAccessLayer.Interface;
+using Common.Constants;
+using Common.Exceptions;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
 using Entities.ExtensionMethods.MappingProfiles;
+using Microsoft.AspNetCore.Http;
 using static Common.Enums.SystemEnum;
 
 namespace BusinessAccessLayer.Services;
@@ -127,6 +130,25 @@ public class CommonService(IUnitOfWork unitOfWork) : ICommonService
         IEnumerable<SubjectsListResponseDTO> response = SubjectMappingProfile.ToGetAllSubjects(subjects);
 
         return response;
+    }
+
+    public async Task<GetUserProfileDTO> GetUserProfile(long userId)
+    {
+        User user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(user => user.Id == userId) ?? throw new CustomException(StatusCodes.Status404NotFound, MessageConstants.ErrorMessage.USER_NOT_FOUND);
+
+        GetUserProfileDTO getUserProfileDTO = UserMappingProfile.ToGetUserProfile(user);
+
+        return getUserProfileDTO;
+    }
+
+    public async Task UpdateUserProfile(GetUserProfileDTO getUserProfileDTO)
+    {
+        User user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(user => user.Id == getUserProfileDTO.UserId) ?? throw new CustomException(StatusCodes.Status404NotFound, MessageConstants.ErrorMessage.USER_NOT_FOUND);
+
+        UserMappingProfile.ToUpdateUserProfile(getUserProfileDTO, user);
+
+        await _unitOfWork.UserRepository.UpdateAsync(user);
+        await _unitOfWork.SaveAsync();
     }
 
     #endregion Http_Methods

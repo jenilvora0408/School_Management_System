@@ -12,4 +12,6 @@ public class ClassRequestDTO
     public int? ClassStrength { get; set; }
 
     public long? ClassTeacherId { get; set; }
+
+    public IEnumerable<SubjectsListResponseDTO>? SubjectDetails { get; set; }
 }

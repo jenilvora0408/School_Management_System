@@ -37,6 +37,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     public async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         => await Task.Run(() => _dbSet.UpdateRange(entities), cancellationToken);
 
+    public async Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        => await Task.Run(() => _dbSet.RemoveRange(entities), cancellationToken);
+
     public virtual async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default)
        => await _dbSet.FirstOrDefaultAsync(filter, cancellationToken);
 

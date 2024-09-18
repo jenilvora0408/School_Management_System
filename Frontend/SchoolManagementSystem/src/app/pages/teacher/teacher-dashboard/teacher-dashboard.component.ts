@@ -10,7 +10,7 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 import { IAdmitRequestListInterface } from '../../../models/teacher/admit-request-list';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { IPageListRequest } from '../../../shared/models/page-list-request';
 import { TeacherService } from '../../../services/teacher.service';
 import { IResponse } from '../../../shared/models/IResponse';
@@ -46,7 +46,6 @@ export class TeacherDashboardComponent {
   pageSize = 10;
   collectionSize!: number;
   responseData: IAdmitRequestListInterface[] = [];
-  private searchSubject = new Subject<string>();
   searchQuery: string = '';
   sortColumn: string = 'FirstName';
   sortOrder: string = 'ascending';
@@ -70,8 +69,6 @@ export class TeacherDashboardComponent {
   }
 
   onSort(column: string) {
-    console.log('SORT: ', this.sortColumn, this.sortOrder);
-
     if (this.sortColumn === column) {
       this.sortOrder =
         this.sortOrder === SystemConstants.Ascending
@@ -81,13 +78,10 @@ export class TeacherDashboardComponent {
       this.sortColumn = column;
       this.sortOrder = SystemConstants.Ascending;
     }
-    console.log('SORT: ', this.sortColumn, this.sortOrder);
     this.getAdmitRequestData();
   }
 
   getAdmitRequestData() {
-    console.log('Page Data: ', this.page, this.pageSize);
-
     const requestPayload: IPageListRequest = {
       pageIndex: this.page,
       pageSize: this.pageSize,
@@ -103,9 +97,7 @@ export class TeacherDashboardComponent {
         next: (
           response: IResponse<IPageListResponse<IAdmitRequestListInterface[]>>
         ) => {
-          console.log('request list: ', response);
           this.responseData = response.data.records;
-          console.log('Final response: ', this.responseData);
           this.collectionSize = response.data.totalRecords;
         },
         error: (error: HttpErrorResponse) => {
@@ -121,13 +113,11 @@ export class TeacherDashboardComponent {
 
   onFilter(filterStatus: number, tag: string): void {
     this.tagline = tag;
-    console.log(filterStatus);
     this.filter = filterStatus;
     this.getAdmitRequestData();
   }
 
   viewRequest(id: number): void {
-    console.log(id);
     const modalRef = this.modalService.open(ViewAdmitRequestComponent, {
       centered: true,
       size: 'xl',

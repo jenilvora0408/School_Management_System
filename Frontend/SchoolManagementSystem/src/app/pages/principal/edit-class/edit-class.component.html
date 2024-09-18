@@ -102,8 +102,8 @@
                     {{ item.subjectTeacherName }}
                   </td>
                   }
-                  <td>
-                    <span class="ms-3"></span><i class="bi bi-trash fs-4"></i>
+                  <td (click)="deleteSubject(item.subjectId)">
+                    <span class="ms-3" ></span><i class="bi bi-trash fs-4"></i>
                   </td>
                 </tr>
                 }

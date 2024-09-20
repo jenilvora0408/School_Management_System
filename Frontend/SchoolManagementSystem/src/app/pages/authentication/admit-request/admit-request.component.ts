@@ -206,9 +206,9 @@ export class AdmitRequestComponent {
       const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
       if (!validExtensions.includes(file.type)) {
-        this.avatarError = 'Only .jpg, .jpeg, and .png files are allowed.';
+        this.avatarError = ValidationMessageConstant.avatarExtensionError;
       } else if (file.size > maxSizeInBytes) {
-        this.avatarError = 'File size must be less than 1MB.';
+        this.avatarError = ValidationMessageConstant.avatarImageSizeError;
       } else {
         const reader = new FileReader();
         reader.readAsDataURL(file);

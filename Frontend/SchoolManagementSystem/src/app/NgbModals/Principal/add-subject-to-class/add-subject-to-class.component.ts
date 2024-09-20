@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SelectComponent } from '../../../shared/components/select/select.component';
 import { DropdownItem } from '../../../shared/models/drop-down-item';
 import { CommonService } from '../../../shared/services/common.service';
-import { ISubjectsListInterface } from '../../../models/teacher/subjects-list';
+import { ISubjectsListInterface } from '../../../models/principal/subjects-list';
 import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../shared/services/notification.service';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiCallConstant } from '../constants/api-call/apis';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
 import { RoutingPathConstant } from '../constants/routing/routing-path';
@@ -26,6 +26,8 @@ export class AuthenticationService {
   forgetPasswordApi = ApiCallConstant.FORGET_PASSWORD;
   resetPasswordApi = ApiCallConstant.RESET_PASSWORD;
   checkAdmitRequestStatusApi = ApiCallConstant.CHECK_STATUS_OF_REQUEST;
+  private userNameSubject = new BehaviorSubject<string>('');
+  userName$ = this.userNameSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -164,4 +166,12 @@ export class AuthenticationService {
   }
 
   //#endregion Token_Methods
+
+  //#region Helper_Methods
+
+  updateUserName(userName: string) {
+    this.userNameSubject.next(userName);
+  }
+
+  //#endregion
 }

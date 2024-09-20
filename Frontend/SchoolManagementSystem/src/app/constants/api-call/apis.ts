@@ -70,4 +70,6 @@ export class ApiCallConstant {
 
   public static readonly GET_ALL_SUBJECTS_BY_CLASS_ID =
     this.PRINCIPAL_CONTROLLER + 'get-all-subjects-by-class';
+
+  public static readonly EDIT_CLASS = this.PRINCIPAL_CONTROLLER + 'edit-class';
 }

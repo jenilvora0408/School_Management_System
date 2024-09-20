@@ -82,8 +82,6 @@ export class LeaveDashboardComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log('leave dash');
-
     this.getLeavesCount();
     this.getLeaveRequestData();
   }
@@ -97,7 +95,6 @@ export class LeaveDashboardComponent {
   }
 
   onFilter(statusLabel: string, filterStatus: number): void {
-    console.log(filterStatus);
     this.filter = filterStatus;
     this.activeStatus = statusLabel;
     this.getLeaveRequestData();
@@ -107,7 +104,6 @@ export class LeaveDashboardComponent {
     this.teacherService.getLeavesCount(this.authService.getUserId()).subscribe({
       next: (response: IResponse<ILeavesCountInterface>) => {
         this.leavesCountResponse = response.data;
-        console.log('getLeavesCount  ', this.leavesCountResponse);
         this.pieChartDatasets = [
           {
             data: [
@@ -126,8 +122,6 @@ export class LeaveDashboardComponent {
   }
 
   getLeaveRequestData() {
-    console.log('Page Data: ', this.page, this.pageSize);
-
     const requestPayload: IUserPageListRequest = {
       pageIndex: this.page,
       pageSize: this.pageSize,
@@ -144,9 +138,7 @@ export class LeaveDashboardComponent {
         next: (
           response: IResponse<IPageListResponse<ILeaveRequestListInterface[]>>
         ) => {
-          console.log('request list: ', response);
           this.responseData = response.data.records;
-          console.log('Final response: ', this.responseData);
           this.collectionSize = response.data.totalRecords;
         },
         error: (error: HttpErrorResponse) => {

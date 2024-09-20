@@ -26,7 +26,7 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
 
     public async Task UpsertClasses(ClassRequestDTO classRequestDTO, CancellationToken cancellationToken)
     {
-        Class? existingClass = await _unitOfWork.ClassRepository.GetFirstOrDefaultAsync(x => x.Id == classRequestDTO.ClassId) ?? throw new CustomException(StatusCodes.Status404NotFound, MessageConstants.ErrorMessage.CLASS_NOT_FOUND);
+        Class? existingClass = await _unitOfWork.ClassRepository.GetFirstOrDefaultAsync(x => x.Id == classRequestDTO.ClassId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.CLASS_NOT_FOUND);
 
         if (classRequestDTO.ClassStrength.HasValue)
         {

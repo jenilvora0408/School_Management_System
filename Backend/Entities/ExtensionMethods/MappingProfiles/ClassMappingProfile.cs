@@ -14,14 +14,6 @@ public static class ClassMappingProfile
         }).ToList();
     }
 
-    public static Class ToUpsertClasses(this ClassRequestDTO classRequestDTO) => new()
-    {
-        Id = classRequestDTO.ClassId,
-        ClassName = classRequestDTO.ClassName,
-        ClassStrength = classRequestDTO.ClassStrength,
-        ClassTeacherId = classRequestDTO.ClassTeacherId
-    };
-
     public static List<ClassesListResponseDTO> ToClassesListResponseDTOs(this List<Class> classes)
     {
         return classes.Select(classes => new ClassesListResponseDTO()

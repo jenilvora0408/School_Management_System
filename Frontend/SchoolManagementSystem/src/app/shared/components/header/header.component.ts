@@ -3,8 +3,11 @@ import { NgbDropdownModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { Router } from '@angular/router';
-import { SystemConstants } from '../../../constants/shared/system-constants';
-import * as CryptoJS from 'crypto-js';
+import { CommonService } from '../../services/common.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IMyProfileInterface } from '../../../models/common/my-profile';
+import { IResponse } from '../../models/IResponse';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -16,13 +19,25 @@ import * as CryptoJS from 'crypto-js';
 export class HeaderComponent {
   username: string = '';
   userRole: number = 0;
+  userId: number = 0;
   private offCanvasService = inject(NgbOffcanvas);
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    private commonService: CommonService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
-    this.username = this.authService.getUserName();
     this.userRole = parseInt(this.authService.getUserType());
+    this.userId = parseInt(this.authService.getUserId());
+
+    this.getProfileDetails();
+    
+    this.authService.userName$.subscribe((name) => {
+      this.getProfileDetails();
+    });
   }
 
   open() {
@@ -34,7 +49,20 @@ export class HeaderComponent {
     this.authService.logOut();
   }
 
-  navigateProfile(){
-      this.router.navigate(['principal/my-profile']);
+  navigateProfile() {
+    this.router.navigate(['principal/my-profile']);
+  }
+
+  getProfileDetails() {
+    this.commonService.getMyProfile(this.userId).subscribe({
+      next: (response: IResponse<IMyProfileInterface>) => {
+        if (response.success) {
+          this.username = response.data.firstName + ' ' + response.data.lastName;
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.notificationService.error(error.error.errors);
+      },
+    });
   }
 }

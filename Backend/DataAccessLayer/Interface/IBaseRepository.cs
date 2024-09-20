@@ -14,6 +14,8 @@ public interface IBaseRepository<T> where T : class
 
     Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
+    Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+
     Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default);
 
     Task<bool> AnyAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default);

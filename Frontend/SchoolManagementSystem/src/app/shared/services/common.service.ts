@@ -5,7 +5,7 @@ import { IClassListResponseInterface } from '../../models/teacher/classes-list-r
 import { Observable } from 'rxjs';
 import { IResponse } from '../models/IResponse';
 import { ITeachersListInterface } from '../../models/teacher/teachers-list';
-import { ISubjectsListInterface } from '../../models/teacher/subjects-list';
+import { ISubjectsListInterface } from '../../models/principal/subjects-list';
 import { IMyProfileInterface } from '../../models/common/my-profile';
 
 @Injectable({

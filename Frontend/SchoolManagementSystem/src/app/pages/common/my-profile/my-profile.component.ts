@@ -1,8 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { SystemConstants } from '../../../constants/shared/system-constants';
-import * as CryptoJS from 'crypto-js';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { TextareaComponent } from '../../../shared/components/textarea/textarea.component';
@@ -20,7 +19,6 @@ import { ValidationPattern } from '../../../constants/validation/validation-patt
 import { IResponse } from '../../../shared/models/IResponse';
 import { CommonService } from '../../../shared/services/common.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { IMyProfileInterface } from '../../../models/common/my-profile';
 import { PhoneMaskDirective } from '../../../directives/phone-mask.directive';
@@ -124,14 +122,14 @@ export class MyProfileComponent {
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.notificationService.error(error.error.messages);
+        this.notificationService.error(error.error.errors);
       },
     });
   }
 
   populateForm(data: any) {
     this.profilePicture =
-      data.avatar == '' ? data.avatar : SystemConstants.DefaultAvatar;
+      data.avatar == '' ? SystemConstants.DefaultAvatar: data.avatar;
     this.profileForm.patchValue({
       firstName: data.firstName,
       lastName: data.lastName,
@@ -147,11 +145,8 @@ export class MyProfileComponent {
   }
 
   onSubmit() {
-    console.log(this.profileForm.valid, this.profileForm.value);
-    
     if (this.profileForm.valid) {
       this.profileForm.value.avatar = this.profilePicture;
-      console.log(this.profileForm.value);
 
       const payload : IMyProfileInterface = {
         userId: this.authService.getUserId(),
@@ -171,7 +166,7 @@ export class MyProfileComponent {
           next: (response: IResponse<string>) => {
             if (response.success) {
               this.getProfileDetails();
-              // this.checkAndUpdateUserName();
+              this.checkAndUpdateUserName();
               this.notificationService.success(response.message);
             }
           },
@@ -189,11 +184,11 @@ export class MyProfileComponent {
       currentFirstName !== this.initialFirstName ||
       currentLastName !== this.initialLastName
     ) {
-      // this.authService.updateUserName(`${currentFirstName} ${currentLastName}`);
+      this.authService.updateUserName(`${currentFirstName} ${currentLastName}`);
     }
   }
 
-  cancelForm(){    
-    this.getProfileDetails()
+  cancelForm(){
+    this.getProfileDetails();
   }
 }

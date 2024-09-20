@@ -27,4 +27,25 @@ public static class LeaveMappingProfile
         LeavesRemainingCount = remainingLeavesCount,
         SickLeavesCount = sickLeavesCount
     };
+
+    public static List<LeaveRequestsListResponseDTO> ToGetLeavesForPrincipal(this List<Leave> leaves)
+    {
+        return leaves.Select(leave => leave.ToGetLeavesData()).ToList();
+    }
+
+    public static LeaveRequestsListResponseDTO ToGetLeavesData(this Leave leave)
+    {
+        return new LeaveRequestsListResponseDTO
+        {
+            Id = leave.Id,
+            ReasonForLeave = leave.ReasonForLeave,
+            StartDate = leave.StartDate,
+            EndDate = leave.EndDate,
+            LeaveDuration = leave.LeaveDuration,
+            LeaveType = leave.LeaveType,
+            ApprovalStatus = leave.ApprovalStatus,
+            AlternatePhoneNumber = leave.AlternatePhoneNumber,
+            PhoneNumber = leave.Users?.PhoneNumber?? string.Empty
+        };
+    }
 }

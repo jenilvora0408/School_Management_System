@@ -12,6 +12,7 @@ public class SystemEnum
 
     public enum StatusType : byte
     {
+        ALL = 0,
         PENDING = 1,
         APPROVED = 2,
         DECLINED = 3,

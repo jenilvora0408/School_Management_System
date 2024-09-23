@@ -7,6 +7,7 @@ using Entities.DTOs;
 using Entities.ExtensionMethods.MappingProfiles;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using static Common.Enums.SystemEnum;
 
 namespace BusinessAccessLayer.Services;
 
@@ -72,6 +73,32 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         List<SubjectsListResponseDTO> subjectsListResponseDTOs = ClassSubjectMappingProfile.ToClassSubjectListResponseDTOs(classSubjects);
 
         return subjectsListResponseDTOs;
+    }
+
+    public async Task<PageListResponseDTO<LeaveRequestsListResponseDTO>> GetAllLeaveRequest(PageListRequestDTO leaveRequestsListDTO)
+    {
+        PageListRequestEntity<Leave> pageListRequestEntity = new()
+        {
+            PageIndex = leaveRequestsListDTO.PageIndex,
+            PageSize = leaveRequestsListDTO.PageSize,
+            SortColumn = !string.IsNullOrEmpty(leaveRequestsListDTO.SortColumn) ? leaveRequestsListDTO.SortColumn : null!,
+            SortOrder = leaveRequestsListDTO.SortOrder,
+            Predicate = leave =>
+                leave.ApprovalFromUserId == (long)UserRoleType.PRINCIPAL && (
+                leaveRequestsListDTO.Filter == (int)StatusType.ALL ||
+                (leaveRequestsListDTO.Filter == (int)StatusType.PENDING && leave.ApprovalStatus == (byte)StatusType.PENDING) ||
+                (leaveRequestsListDTO.Filter == (int)StatusType.APPROVED && leave.ApprovalStatus == (byte)StatusType.APPROVED) ||
+                (leaveRequestsListDTO.Filter == (int)StatusType.DECLINED && leave.ApprovalStatus == (byte)StatusType.DECLINED) ||
+                (leaveRequestsListDTO.Filter == SystemConstants.SICK_LEAVE_TYPE && leave.LeaveType == SystemConstants.SICK_LEAVE)
+            ),
+        };
+
+        PageListResponseDTO<Leave> pageListResponse = await _unitOfWork.LeaveRepository.GetAllAsync(pageListRequestEntity);
+
+        List<LeaveRequestsListResponseDTO> leaveRequestsListResponseDTOs = LeaveMappingProfile.ToGetLeavesForPrincipal(pageListResponse.Records);
+
+        return new PageListResponseDTO<LeaveRequestsListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
+
     }
 
     #endregion HTTP_Methods

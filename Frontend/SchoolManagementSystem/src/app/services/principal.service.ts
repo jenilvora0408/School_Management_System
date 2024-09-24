@@ -6,6 +6,10 @@ import { IResponse } from '../shared/models/IResponse';
 import { ISubjectsListInterface } from '../models/principal/subjects-list';
 import { ApiCallConstant } from '../constants/api-call/apis';
 import { IClassInfoInterface } from '../models/principal/class-info';
+import { IAdmitRequestListInterface } from '../models/teacher/admit-request-list';
+import { IPageListRequest } from '../shared/models/page-list-request';
+import { IPageListResponse } from '../shared/models/page-list-response';
+import { ILeaveRequestsInterface } from '../models/principal/leave-requests';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +17,7 @@ import { IClassInfoInterface } from '../models/principal/class-info';
 export class PrincipalService {
   getAllSubjectsApi = ApiCallConstant.GET_ALL_SUBJECTS_BY_CLASS_ID;
   editClassApi = ApiCallConstant.EDIT_CLASS;
+  leaveRequestApi = ApiCallConstant.LEAVE_REQUESTS;
 
   constructor(private http: HttpClient) {}
 
@@ -29,5 +34,13 @@ export class PrincipalService {
       `${this.editClassApi}`,
       requestCredentials
     );
+  }
+
+  getLeaveRequestList(
+    listCredentials: IPageListRequest
+  ): Observable<IResponse<IPageListResponse<ILeaveRequestsInterface[]>>> {
+    return this.http.post<
+      IResponse<IPageListResponse<ILeaveRequestsInterface[]>>
+    >(this.leaveRequestApi, listCredentials);
   }
 }

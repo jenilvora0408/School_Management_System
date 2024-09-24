@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/principal")]
-[PrincipalPolicy]
+// [PrincipalPolicy]
 public class PrincipalController(IPrincipalService principalService) : BaseController
 {
     #region Constructor
@@ -36,5 +36,14 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     public async Task<IActionResult> GetAllSubjects(int classId)
     {
         return GetResult(await _principalService.GetSubjectsByClass(classId), message: null);
+    }
+
+    [HttpPost("leave-requests")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetLeaveRequests(PageListRequestDTO pageListRequestDTO)
+    {
+        return GetResult(await _principalService.GetAllLeaveRequest(pageListRequestDTO), message: null);
     }
 }

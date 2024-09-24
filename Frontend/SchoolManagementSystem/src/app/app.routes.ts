@@ -12,6 +12,7 @@ import { PrincipalDashboardComponent } from './pages/principal/principal-dashboa
 import { ClassesSubjectsComponent } from './pages/principal/classes-subjects/classes-subjects.component';
 import { EditClassComponent } from './pages/principal/edit-class/edit-class.component';
 import { MyProfileComponent } from './pages/common/my-profile/my-profile.component';
+import { LeaveRequestsComponent } from './pages/principal/leave-requests/leave-requests.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -51,6 +52,10 @@ export const routes: Routes = [
       {
         path: 'my-profile',
         component: MyProfileComponent,
+      },
+      {
+        path: 'leave-requests',
+        component: LeaveRequestsComponent,
       },
     ],
   },

@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/principal")]
-// [PrincipalPolicy]
+[PrincipalPolicy]
 public class PrincipalController(IPrincipalService principalService) : BaseController
 {
     #region Constructor

@@ -72,4 +72,6 @@ export class ApiCallConstant {
     this.PRINCIPAL_CONTROLLER + 'get-all-subjects-by-class';
 
   public static readonly EDIT_CLASS = this.PRINCIPAL_CONTROLLER + 'edit-class';
+
+  public static readonly LEAVE_REQUESTS = this.PRINCIPAL_CONTROLLER + 'leave-requests-awaiting-approval';
 }

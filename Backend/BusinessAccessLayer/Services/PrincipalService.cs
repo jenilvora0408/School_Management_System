@@ -75,7 +75,7 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         return subjectsListResponseDTOs;
     }
 
-    public async Task<PageListResponseDTO<LeaveRequestsListResponseDTO>> GetAllLeaveRequest(PageListRequestDTO leaveRequestsListDTO)
+    public async Task<PageListResponseDTO<LeaveRequestsAwaitingApprovalDTO>> GetAllLeaveRequest(PageListRequestDTO leaveRequestsListDTO)
     {
         PageListRequestEntity<Leave> pageListRequestEntity = new()
         {
@@ -84,21 +84,21 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
             SortColumn = !string.IsNullOrEmpty(leaveRequestsListDTO.SortColumn) ? leaveRequestsListDTO.SortColumn : null!,
             SortOrder = leaveRequestsListDTO.SortOrder,
             Predicate = leave =>
-                leave.ApprovalFromUserId == (long)UserRoleType.PRINCIPAL && (
+                leave.ApprovalFromUserId == (long)UserRoleType.PRINCIPAL && (leave.Users.FirstName.ToLower().Contains(leaveRequestsListDTO.SearchQuery.ToLower()) || leave.Users.LastName.ToLower().Contains(leaveRequestsListDTO.SearchQuery.ToLower()) || leave.Users.Email.ToLower().Contains(leaveRequestsListDTO.SearchQuery.ToLower())) && (
                 leaveRequestsListDTO.Filter == (int)StatusType.ALL ||
                 (leaveRequestsListDTO.Filter == (int)StatusType.PENDING && leave.ApprovalStatus == (byte)StatusType.PENDING) ||
                 (leaveRequestsListDTO.Filter == (int)StatusType.APPROVED && leave.ApprovalStatus == (byte)StatusType.APPROVED) ||
                 (leaveRequestsListDTO.Filter == (int)StatusType.DECLINED && leave.ApprovalStatus == (byte)StatusType.DECLINED) ||
                 (leaveRequestsListDTO.Filter == SystemConstants.SICK_LEAVE_TYPE && leave.LeaveType == SystemConstants.SICK_LEAVE)
             ),
+            IncludeExpressions = [x => x.Users]
         };
 
         PageListResponseDTO<Leave> pageListResponse = await _unitOfWork.LeaveRepository.GetAllAsync(pageListRequestEntity);
 
-        List<LeaveRequestsListResponseDTO> leaveRequestsListResponseDTOs = LeaveMappingProfile.ToGetLeavesForPrincipal(pageListResponse.Records);
+        List<LeaveRequestsAwaitingApprovalDTO> leaveRequestsListResponseDTOs = LeaveMappingProfile.ToGetLeavesForPrincipal(pageListResponse.Records);
 
-        return new PageListResponseDTO<LeaveRequestsListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
-
+        return new PageListResponseDTO<LeaveRequestsAwaitingApprovalDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
     }
 
     #endregion HTTP_Methods

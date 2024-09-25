@@ -12,7 +12,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 export class PrincipalDashboardComponent {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
-  navigate() {
-    this.router.navigate(['principal/classes-and-subjects']);
+  navigate(routingPath: string) {
+    if (routingPath == 'edit-class')
+      this.router.navigate(['principal/classes-and-subjects']);
+    else if(routingPath == 'leave-requests')
+      this.router.navigate(['principal/leave-requests'])
   }
 }

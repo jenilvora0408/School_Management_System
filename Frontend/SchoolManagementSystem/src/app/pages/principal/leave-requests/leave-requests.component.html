@@ -1,0 +1,140 @@
+<div class="teacher-dashboard-container container-fluid p-0">
+  <app-header></app-header>
+  <div class="admit-request-list-container p-5 pb-0">
+    <h3 class="dashboard-heading">
+      Leave Requests<span class="fs-6">({{ tagline }})</span>
+    </h3>
+    <div class="d-flex justify-content-between align-items-center gap-4">
+      <div class="d-flex gap-4 w-100">
+      <input
+        type="text"
+        class="form-control mb-4 w-25 bg-light p-2"
+        placeholder="Search..."
+        #searchInput
+        (keyup)="search(searchInput.value)"
+      />
+      <div ngbDropdown class="d-inline-block">
+        <span
+          type="button"
+          class="btn border border-1 py-2 bg-light text-dark"
+          id="sortDropdown"
+          ngbDropdownToggle
+        >
+          Filter
+        </span>
+        <div ngbDropdownMenu aria-labelledby="sortDropdown" class="filters">
+          <button ngbDropdownItem (click)="onFilter(1, 'pending')">
+            Pending
+          </button>
+          <button ngbDropdownItem (click)="onFilter(2, 'approved')">
+            Approved
+          </button>
+          <button ngbDropdownItem (click)="onFilter(3, 'declined')">
+            Declined
+          </button>
+          <button ngbDropdownItem (click)="onFilter(5, 'blocked')">
+            Blocked
+          </button>
+        </div>
+      </div>
+    </div>
+    <div></div>
+    </div>
+    @if(responseData.length > 0){
+    <table class="table table-striped table-hover border border-1">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">Name</th>
+          <th scope="col">Reason for Leave</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of responseData; track i; let i = $index){
+        <tr class="border border-2">
+          <td>{{ item.name }}</td>
+          <td>{{ item.subjectDetails.reasonForLeave }}</td>
+          <td>
+            <a
+              [href]="
+                'tel:' +
+                getFormattedPhoneNumber(item.subjectDetails.phoneNumber)
+              "
+            >
+              <button class="btn btn-outline-secondary bg-white text-dark w-75">
+                <i class="bi bi-telephone-outbound me-2"></i>
+                {{ item.subjectDetails.phoneNumber }}
+              </button></a
+            >
+          </td>
+          <td>{{ item.subjectDetails.startDate | dateFormat }}</td>
+          <td>{{ item.subjectDetails.endDate | dateFormat }}</td>
+          <td>
+            @if(item.subjectDetails.approvalStatus == 1){
+            <span class="pending-status">{{
+              item.subjectDetails.approvalStatus | approvalStatus
+            }}</span>
+            } @else if(item.subjectDetails.approvalStatus == 2){
+            <span class="approved-status">{{
+              item.subjectDetails.approvalStatus | approvalStatus
+            }}</span>
+            } @else if(item.subjectDetails.approvalStatus == 3){
+            <span class="declined-status">{{
+              item.subjectDetails.approvalStatus | approvalStatus
+            }}</span>
+            } @else {
+            <span class="blocked-status">{{
+              item.subjectDetails.approvalStatus | approvalStatus
+            }}</span>
+            }
+          </td>
+          <td>
+            @if(item.subjectDetails.approvalStatus == 1){
+            <div class="d-flex gap-3">
+              <div (click)="openModal('approve')">
+                <i class="bi bi-check-circle fs-4"></i>
+              </div>
+              <div (click)="openModal('decline')">
+                <i class="bi bi-x-circle fs-4"></i>
+              </div>
+            </div>
+            } @else {
+            <button type="button" class="btn btn-outline-secondary">
+              View Profile
+            </button>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="getLeaveRequestData()"
+      >
+      </ngb-pagination>
+
+      <select
+        class="form-select"
+        style="width: auto"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="getLeaveRequestData()"
+      >
+        <option [ngValue]="3">3 items per page</option>
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="8">8 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+      </select>
+    </div>
+    } @else {
+    <h3 class="text-center">No {{ tagline }} Admit Requests Found!</h3>
+    }
+  </div>
+</div>

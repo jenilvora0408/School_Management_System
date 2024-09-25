@@ -38,7 +38,7 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
         return GetResult(await _principalService.GetSubjectsByClass(classId), message: null);
     }
 
-    [HttpPost("leave-requests")]
+    [HttpPost("leave-requests-awaiting-approval")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(401)]
     [ProducesResponseType(500)]

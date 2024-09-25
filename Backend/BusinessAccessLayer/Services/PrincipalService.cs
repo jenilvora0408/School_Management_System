@@ -75,7 +75,7 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         return subjectsListResponseDTOs;
     }
 
-    public async Task<PageListResponseDTO<LeaveRequestsForPrincipalDTO>> GetAllLeaveRequest(PageListRequestDTO leaveRequestsListDTO)
+    public async Task<PageListResponseDTO<LeaveRequestsAwaitingApprovalDTO>> GetAllLeaveRequest(PageListRequestDTO leaveRequestsListDTO)
     {
         PageListRequestEntity<Leave> pageListRequestEntity = new()
         {
@@ -96,9 +96,9 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
 
         PageListResponseDTO<Leave> pageListResponse = await _unitOfWork.LeaveRepository.GetAllAsync(pageListRequestEntity);
 
-        List<LeaveRequestsForPrincipalDTO> leaveRequestsListResponseDTOs = LeaveMappingProfile.ToGetLeavesForPrincipal(pageListResponse.Records);
+        List<LeaveRequestsAwaitingApprovalDTO> leaveRequestsListResponseDTOs = LeaveMappingProfile.ToGetLeavesForPrincipal(pageListResponse.Records);
 
-        return new PageListResponseDTO<LeaveRequestsForPrincipalDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
+        return new PageListResponseDTO<LeaveRequestsAwaitingApprovalDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
     }
 
     #endregion HTTP_Methods

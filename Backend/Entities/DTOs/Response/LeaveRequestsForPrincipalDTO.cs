@@ -1,6 +1,6 @@
 namespace Entities.DTOs;
 
-public class LeaveRequestsForPrincipalDTO : LeaveRequestsListResponseDTO
+public class LeaveRequestsAwaitingApprovalDTO : LeaveRequestsListResponseDTO
 {
     public long UserId { get; set; }
     

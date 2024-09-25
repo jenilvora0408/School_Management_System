@@ -28,14 +28,14 @@ public static class LeaveMappingProfile
         SickLeavesCount = sickLeavesCount
     };
 
-    public static List<LeaveRequestsForPrincipalDTO> ToGetLeavesForPrincipal(this List<Leave> leaves)
+    public static List<LeaveRequestsAwaitingApprovalDTO> ToGetLeavesForPrincipal(this List<Leave> leaves)
     {
         return leaves.Select(leave => leave.ToGetLeavesData()).ToList();
     }
 
-    public static LeaveRequestsForPrincipalDTO ToGetLeavesData(this Leave leave)
+    public static LeaveRequestsAwaitingApprovalDTO ToGetLeavesData(this Leave leave)
     {
-        return new LeaveRequestsForPrincipalDTO
+        return new LeaveRequestsAwaitingApprovalDTO
         {
             Id = leave.Id,
             ReasonForLeave = leave.ReasonForLeave,

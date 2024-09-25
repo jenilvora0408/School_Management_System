@@ -73,5 +73,5 @@ export class ApiCallConstant {
 
   public static readonly EDIT_CLASS = this.PRINCIPAL_CONTROLLER + 'edit-class';
 
-  public static readonly LEAVE_REQUESTS = this.PRINCIPAL_CONTROLLER + 'leave-requests';
+  public static readonly LEAVE_REQUESTS = this.PRINCIPAL_CONTROLLER + 'leave-requests-awaiting-approval';
 }

@@ -59,7 +59,7 @@ export class LeaveRequestsComponent {
   filter: number = 1;
   approvalStatus!: string;
   tagline: string = 'pending';
-  excelFfileName= 'ExcelSheet.xlsx';
+  excelFfileName= 'LeaveRequestData.xlsx';
   pdfFileName = "LeaveRequestData.pdf";
   @ViewChild('content') content!:ElementRef;
 
@@ -132,12 +132,28 @@ export class LeaveRequestsComponent {
     console.log(action);
   }
 
-  exportexcel(): void
-  {
+  exportexcel(): void {
     let element = document.getElementById('excel-table');
-    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, { raw: true });
+    const range = XLSX.utils.decode_range(ws['!ref']!);
+
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
+      const cell = ws[cellAddress];
+      
+      if (cell && cell.v === 'Actions') {
+        for (let R = 0; R <= range.e.r; ++R) {
+          const removeCellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+          delete ws[removeCellAddress];
+        }
+        ws['!cols'] = ws['!cols'] || [];
+        ws['!cols'][C] = { hidden: true };
+      }
+    }
+  
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, ws, this.excelFfileName);
+  
     XLSX.writeFile(wb, this.excelFfileName);
   }
 

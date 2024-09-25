@@ -6,42 +6,68 @@
     </h3>
     <div class="d-flex justify-content-between align-items-center gap-4">
       <div class="d-flex gap-4 w-100">
-      <input
-        type="text"
-        class="form-control mb-4 w-25 bg-light p-2"
-        placeholder="Search..."
-        #searchInput
-        (keyup)="search(searchInput.value)"
-      />
-      <div ngbDropdown class="d-inline-block">
-        <span
-          type="button"
-          class="btn border border-1 py-2 bg-light text-dark"
-          id="sortDropdown"
-          ngbDropdownToggle
-        >
-          Filter
-        </span>
-        <div ngbDropdownMenu aria-labelledby="sortDropdown" class="filters">
-          <button ngbDropdownItem (click)="onFilter(1, 'pending')">
-            Pending
-          </button>
-          <button ngbDropdownItem (click)="onFilter(2, 'approved')">
-            Approved
-          </button>
-          <button ngbDropdownItem (click)="onFilter(3, 'declined')">
-            Declined
-          </button>
-          <button ngbDropdownItem (click)="onFilter(5, 'blocked')">
-            Blocked
-          </button>
+        <input
+          type="text"
+          class="form-control mb-4 w-25 bg-light p-2"
+          placeholder="Search..."
+          #searchInput
+          (keyup)="search(searchInput.value)"
+        />
+        <div ngbDropdown class="d-inline-block">
+          <span
+            type="button"
+            class="btn border border-1 py-2 bg-light text-dark"
+            id="sortDropdown"
+            ngbDropdownToggle
+          >
+            Filter
+          </span>
+          <div ngbDropdownMenu aria-labelledby="sortDropdown" class="filters">
+            <button ngbDropdownItem (click)="onFilter(1, 'pending')">
+              Pending
+            </button>
+            <button ngbDropdownItem (click)="onFilter(2, 'approved')">
+              Approved
+            </button>
+            <button ngbDropdownItem (click)="onFilter(3, 'declined')">
+              Declined
+            </button>
+            <button ngbDropdownItem (click)="onFilter(5, 'blocked')">
+              Blocked
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div></div>
+      <ng-template #popContent>
+        <div class="d-flex gap-2 pop-content">
+        <app-button
+            (btnClick)="exportexcel()"
+            type="button"
+            label="Excel"
+            className="btn text-btn"
+          ></app-button>
+          <app-button
+            (btnClick)="savePDF()"
+            type="button"
+            label="PDF"
+            className="btn text-btn"
+          ></app-button>
+        </div>
+      </ng-template>
+      <div
+        placement="start"
+        [ngbPopover]="popContent"
+        popoverTitle="Export data as"
+      >
+        <i class="bi bi-database-down fs-3"></i>
+      </div>
     </div>
     @if(responseData.length > 0){
-    <table class="table table-striped table-hover border border-1">
+    <table
+      class="table table-striped table-hover border border-1"
+      id="excel-table"
+      #content
+    >
       <thead>
         <tr class="table-primary">
           <th scope="col">Name</th>

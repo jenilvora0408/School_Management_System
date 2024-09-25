@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ILeaveRequestsInterface } from '../../../models/principal/leave-requests';
 import { PrincipalService } from '../../../services/principal.service';
 import {
@@ -6,6 +6,7 @@ import {
   NgbHighlight,
   NgbModal,
   NgbPaginationModule,
+  NgbPopoverModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -21,6 +22,10 @@ import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { DateFormatPipe } from '../../../pipes/date-format.pipe';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-leave-requests',
@@ -36,7 +41,9 @@ import { DateFormatPipe } from '../../../pipes/date-format.pipe';
     FormsModule,
     NgClass,
     ApprovalStatusPipe,
-    DateFormatPipe
+    DateFormatPipe,
+    NgbPopoverModule,
+    ButtonComponent
   ],
   templateUrl: './leave-requests.component.html',
   styleUrl: './leave-requests.component.scss',
@@ -52,7 +59,9 @@ export class LeaveRequestsComponent {
   filter: number = 1;
   approvalStatus!: string;
   tagline: string = 'pending';
-  fileName= 'ExcelSheet.xlsx';
+  excelFfileName= 'LeaveRequestData.xlsx';
+  pdfFileName = "LeaveRequestData.pdf";
+  @ViewChild('content') content!:ElementRef;
 
   constructor(
     private principalService: PrincipalService,
@@ -121,5 +130,61 @@ export class LeaveRequestsComponent {
 
   openModal(action: string){
     console.log(action);
+  }
+
+  exportexcel(): void {
+    let element = document.getElementById('excel-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, { raw: true });
+    const range = XLSX.utils.decode_range(ws['!ref']!);
+
+    for (let C = range.s.c; C <= range.e.c; ++C) {
+      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
+      const cell = ws[cellAddress];
+      
+      if (cell && cell.v === 'Actions') {
+        for (let R = 0; R <= range.e.r; ++R) {
+          const removeCellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+          delete ws[removeCellAddress];
+        }
+        ws['!cols'] = ws['!cols'] || [];
+        ws['!cols'][C] = { hidden: true };
+      }
+    }
+  
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, this.excelFfileName);
+  
+    XLSX.writeFile(wb, this.excelFfileName);
+  }
+
+  savePDF(): void {
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'pt',
+      format: 'a2',
+    });
+  
+    const content = this.content.nativeElement;
+  
+    html2canvas(content).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 1200;
+      const pageHeight = 2000;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+  
+      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+  
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+  
+      doc.save(this.pdfFileName);
+    });
   }
 }

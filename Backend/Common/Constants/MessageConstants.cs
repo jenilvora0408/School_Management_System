@@ -27,6 +27,8 @@ public static class MessageConstants
         public const string INVALID_USER = "Invalid User!";
 
         public const string CLASS_NOT_FOUND = "Class not found!";
+
+        public const string LEAVE_REQUEST_NOT_FOUND = "Leave Request not found!";
     }
 
     public static class SuccessMessage
@@ -44,6 +46,10 @@ public static class MessageConstants
         public const string CLASS_EDITED = "Class Information edited successfully!";
 
         public const string PROFILE_UPDATED = "Your profile has been updated successfully!";
+
+        public const string LEAVE_APPROVED = "Leave Request has been approved successfully!";
+
+        public const string LEAVE_DECLINED = "Leave Request has been declined successfully!";
     }
 
     #endregion Error_Messages

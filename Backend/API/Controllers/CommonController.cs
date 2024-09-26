@@ -1,5 +1,6 @@
 using BusinessAccessLayer.Interface;
 using Common.Constants;
+using Common.Exceptions;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using static API.Helpers.JwtAuthPolicies;
@@ -73,12 +74,14 @@ public class CommonController(ICommonService commonService) : BaseController
         await _commonService.UpdateUserProfile(getUserProfileDTO);
         return GetResult(null, message: MessageConstants.SuccessMessage.PROFILE_UPDATED);
     }
-
+    
     [HttpPatch("leave-request-approval")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(422)]
+    [ProducesResponseType(400)]
     public async Task<IActionResult> LeaveRequestApproval(LeavesApprovalDTO leavesApprovalDTO)
     {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         return GetResult(null, message: await _commonService.LeaveRequestApproval(leavesApprovalDTO));
     }
 }

@@ -73,5 +73,12 @@ public class CommonController(ICommonService commonService) : BaseController
         await _commonService.UpdateUserProfile(getUserProfileDTO);
         return GetResult(null, message: MessageConstants.SuccessMessage.PROFILE_UPDATED);
     }
+
+    [HttpPatch("leave-request-approval")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> LeaveRequestApproval(LeavesApprovalDTO leavesApprovalDTO)
+    {
+        return GetResult(null, message: await _commonService.LeaveRequestApproval(leavesApprovalDTO));
+    }
 }
- 

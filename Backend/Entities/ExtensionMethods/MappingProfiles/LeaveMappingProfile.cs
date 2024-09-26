@@ -50,4 +50,9 @@ public static class LeaveMappingProfile
             Name = leave.Users?.FirstName + ' ' + leave.Users?.LastName
         };
     }
+
+    public static void ToApproveOrDeclineLeave(this LeavesApprovalDTO leavesApprovalDTO, Leave leave)
+    {
+        leave.ApprovalStatus = leavesApprovalDTO.ApprovalStatus;
+    }
 }

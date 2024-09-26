@@ -151,5 +151,19 @@ public class CommonService(IUnitOfWork unitOfWork) : ICommonService
         await _unitOfWork.SaveAsync();
     }
 
+    public async Task<string> LeaveRequestApproval(LeavesApprovalDTO leavesApprovalDTO)
+    {
+        Leave? leave = await _unitOfWork.LeaveRepository.GetFirstOrDefaultAsync(leave => leave.Id == leavesApprovalDTO.LeaveId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.LEAVE_REQUEST_NOT_FOUND);
+
+        LeaveMappingProfile.ToApproveOrDeclineLeave(leavesApprovalDTO, leave);
+
+        await _unitOfWork.LeaveRepository.UpdateAsync(leave);
+        await _unitOfWork.SaveAsync();
+
+        string message = leavesApprovalDTO.ApprovalStatus == (byte)StatusType.APPROVED ? MessageConstants.SuccessMessage.LEAVE_APPROVED : MessageConstants.SuccessMessage.LEAVE_DECLINED;
+
+        return message;
+    }
+
     #endregion Http_Methods
 }

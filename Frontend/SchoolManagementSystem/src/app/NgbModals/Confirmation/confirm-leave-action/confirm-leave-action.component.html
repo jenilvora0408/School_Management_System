@@ -1,0 +1,47 @@
+<div class="modal-header pb-1">
+    <h4>{{actionWord | capitalize}} Leave Request</h4>
+  </div>
+  <div class="modal-body">
+    <div class="icon-container text-center">
+      <i class="bi fs-2" [ngClass]="actionWord === 'approve' ? 'bi-check-circle text-success' : 'bi-x-circle text-danger'"></i>
+    </div>
+    <div>
+      <p class="text-center fs-5" [ngClass]="{'approved': actionWord === 'approve', 'declined': actionWord === 'decline'}">
+        Are you sure you want to {{actionWord}} Leave Request of {{ userName }}?
+      </p>
+    </div>
+    <div class="leave-details mt-3">
+      <div class="d-flex justify-content-center">
+        <div class="text-heading">
+          <p><i> Start Date:</i></p>
+          <p><i>End Date:</i></p>
+          <p><i>Duration:</i></p>
+        </div>
+        <div class="text-content">
+          <p class="ms-2">
+            {{ leaveData.subjectDetails.startDate | dateFormat }}
+          </p>
+          <p class="ms-2">{{ leaveData.subjectDetails.endDate | dateFormat }}</p>
+          <p class="ms-2">{{ leaveData.subjectDetails.leaveDuration }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer p-0 mb-3">
+    <div class="buttons d-flex justify-content-center w-100 mt-3 gap-3">
+      <app-button
+        type="submit"
+        label="Submit"
+        className="btn text-btn"
+        (btnClick)="leaveAction()"
+      ></app-button>
+  
+      <app-button
+        type="button"
+        label="Cancel"
+        className="btn close-btn"
+        (btnClick)="close()"
+      ></app-button>
+    </div>
+  </div>
+  

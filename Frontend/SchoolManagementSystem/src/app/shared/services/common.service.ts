@@ -7,6 +7,7 @@ import { IResponse } from '../models/IResponse';
 import { ITeachersListInterface } from '../../models/teacher/teachers-list';
 import { ISubjectsListInterface } from '../../models/principal/subjects-list';
 import { IMyProfileInterface } from '../../models/common/my-profile';
+import { ILeaveApprovalInterface } from '../../models/common/leave-approval';
 
 @Injectable({
   providedIn: 'root',
@@ -37,15 +38,26 @@ export class CommonService {
   }
 
   getMyProfile(userId: number): Observable<IResponse<IMyProfileInterface>> {
-    return this.http.get
-    <IResponse<IMyProfileInterface>>(`${ApiCallConstant.GET_MY_PROFILE}/${userId}`);
+    return this.http.get<IResponse<IMyProfileInterface>>(
+      `${ApiCallConstant.GET_MY_PROFILE}/${userId}`
+    );
   }
 
   updateUserProfile(
     listCredentials: IMyProfileInterface
   ): Observable<IResponse<string>> {
-    return this.http.put<
-      IResponse<string>
-    >(ApiCallConstant.UPDATE_USER_PROFILE, listCredentials);
+    return this.http.put<IResponse<string>>(
+      ApiCallConstant.UPDATE_USER_PROFILE,
+      listCredentials
+    );
+  }
+
+  leaveAction(
+    credentials: ILeaveApprovalInterface
+  ): Observable<IResponse<null>> {
+    return this.http.patch<IResponse<null>>(
+      ApiCallConstant.LEAVE_REQUEST_APPROVAL,
+      credentials
+    );
   }
 }

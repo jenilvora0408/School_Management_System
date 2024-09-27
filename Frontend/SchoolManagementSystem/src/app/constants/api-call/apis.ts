@@ -31,6 +31,9 @@ export class ApiCallConstant {
   public static readonly UPDATE_USER_PROFILE =
     this.COMMON_CONTROLLER + 'update-user-profile';
 
+  public static readonly LEAVE_REQUEST_APPROVAL =
+    this.COMMON_CONTROLLER + 'leave-request-approval';
+
   //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';
@@ -73,5 +76,6 @@ export class ApiCallConstant {
 
   public static readonly EDIT_CLASS = this.PRINCIPAL_CONTROLLER + 'edit-class';
 
-  public static readonly LEAVE_REQUESTS = this.PRINCIPAL_CONTROLLER + 'leave-requests-awaiting-approval';
+  public static readonly LEAVE_REQUESTS =
+    this.PRINCIPAL_CONTROLLER + 'leave-requests-awaiting-approval';
 }

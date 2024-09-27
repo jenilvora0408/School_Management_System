@@ -1,0 +1,19 @@
+$purple: #6c4e87;
+$approved: #003663;
+$declined: #dd7176;
+
+h4 {
+  font-weight: normal;
+  word-spacing: 3px;
+  letter-spacing: 0.5px;
+  color: $purple;
+}
+
+.fs-5 {
+  &.approved {
+    color: $approved;
+  }
+  &.declined {
+    color: $declined;
+  }
+}

@@ -14,7 +14,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IResponse } from '../../../shared/models/IResponse';
 import { IPageListRequest } from '../../../shared/models/page-list-request';
 import { IPageListResponse } from '../../../shared/models/page-list-response';
-import { SystemConstants } from '../../../constants/shared/system-constants';
 import { ValidationPattern } from '../../../constants/validation/validation-pattern';
 import { NgClass } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -26,6 +25,7 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import html2canvas from 'html2canvas';
+import { ConfirmLeaveActionComponent } from '../../../NgbModals/Confirmation/confirm-leave-action/confirm-leave-action.component';
 
 @Component({
   selector: 'app-leave-requests',
@@ -43,7 +43,7 @@ import html2canvas from 'html2canvas';
     ApprovalStatusPipe,
     DateFormatPipe,
     NgbPopoverModule,
-    ButtonComponent
+    ButtonComponent,
   ],
   templateUrl: './leave-requests.component.html',
   styleUrl: './leave-requests.component.scss',
@@ -59,9 +59,9 @@ export class LeaveRequestsComponent {
   filter: number = 1;
   approvalStatus!: string;
   tagline: string = 'pending';
-  excelFfileName= 'LeaveRequestData.xlsx';
-  pdfFileName = "LeaveRequestData.pdf";
-  @ViewChild('content') content!:ElementRef;
+  excelFfileName = 'LeaveRequestData.xlsx';
+  pdfFileName = 'LeaveRequestData.pdf';
+  @ViewChild('content') content!: ElementRef;
 
   constructor(
     private principalService: PrincipalService,
@@ -107,7 +107,7 @@ export class LeaveRequestsComponent {
               approvalStatus: record.approvalStatus,
               phoneNumber: record.phoneNumber,
               alternatePhoneNumber: record.alternatePhoneNumber,
-            } 
+            },
           }));
           this.collectionSize = response.data.totalRecords;
         },
@@ -128,19 +128,35 @@ export class LeaveRequestsComponent {
     this.getLeaveRequestData();
   }
 
-  openModal(action: string){
-    console.log(action);
+  openModal(status: number, leaveId: number) {
+    const modalRef = this.modalService.open(ConfirmLeaveActionComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+    });
+
+    modalRef.componentInstance.leaveData = this.responseData.find(
+      (data) => data.subjectDetails.id === leaveId
+    );
+
+    modalRef.componentInstance.status = status;
+
+    modalRef.componentInstance.actionCompleted.subscribe(() => {
+      this.getLeaveRequestData();
+    });
   }
 
   exportexcel(): void {
     let element = document.getElementById('excel-table');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, { raw: true });
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, {
+      raw: true,
+    });
     const range = XLSX.utils.decode_range(ws['!ref']!);
 
     for (let C = range.s.c; C <= range.e.c; ++C) {
       const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
       const cell = ws[cellAddress];
-      
+
       if (cell && cell.v === 'Actions') {
         for (let R = 0; R <= range.e.r; ++R) {
           const removeCellAddress = XLSX.utils.encode_cell({ r: R, c: C });
@@ -150,10 +166,10 @@ export class LeaveRequestsComponent {
         ws['!cols'][C] = { hidden: true };
       }
     }
-  
+
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, this.excelFfileName);
-  
+
     XLSX.writeFile(wb, this.excelFfileName);
   }
 
@@ -163,9 +179,9 @@ export class LeaveRequestsComponent {
       unit: 'pt',
       format: 'a2',
     });
-  
+
     const content = this.content.nativeElement;
-  
+
     html2canvas(content).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const imgWidth = 1200;
@@ -173,17 +189,17 @@ export class LeaveRequestsComponent {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
       let position = 0;
-  
+
       doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
-  
+
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         doc.addPage();
         doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
-  
+
       doc.save(this.pdfFileName);
     });
   }

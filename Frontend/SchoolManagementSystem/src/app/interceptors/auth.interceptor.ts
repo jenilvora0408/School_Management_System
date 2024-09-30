@@ -6,17 +6,19 @@ import {
   HttpInterceptor,
   HttpHeaders,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
+import { LoaderService } from '../shared/services/loader.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private loaderService: LoaderService) {}
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const authToken = this.authService.getJwtToken();
+    this.loaderService.show();
     if (authToken === null || authToken === '') return next.handle(request);
     const authRequest = request.clone({
       setHeaders: {
@@ -26,6 +28,8 @@ export class AuthInterceptor implements HttpInterceptor {
       },
       withCredentials: true,
     });
-    return next.handle(authRequest);
+    return next.handle(authRequest).pipe(
+      finalize(() => this.loaderService.hide())
+    );;
   }
 }

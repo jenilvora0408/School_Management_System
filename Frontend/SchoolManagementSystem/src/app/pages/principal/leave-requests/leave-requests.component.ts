@@ -26,6 +26,7 @@ import jsPDF from 'jspdf';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import html2canvas from 'html2canvas';
 import { ConfirmLeaveActionComponent } from '../../../NgbModals/Confirmation/confirm-leave-action/confirm-leave-action.component';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-leave-requests',
@@ -66,7 +67,8 @@ export class LeaveRequestsComponent {
   constructor(
     private principalService: PrincipalService,
     private modalService: NgbModal,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -147,6 +149,7 @@ export class LeaveRequestsComponent {
   }
 
   exportexcel(): void {
+    this.loaderService.show();
     let element = document.getElementById('excel-table');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, {
       raw: true,
@@ -170,10 +173,13 @@ export class LeaveRequestsComponent {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, this.excelFfileName);
 
+    this.loaderService.hide();
+
     XLSX.writeFile(wb, this.excelFfileName);
   }
 
   savePDF(): void {
+    this.loaderService.show();
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'pt',
@@ -199,6 +205,8 @@ export class LeaveRequestsComponent {
         doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
+
+      this.loaderService.hide();
 
       doc.save(this.pdfFileName);
     });

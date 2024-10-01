@@ -84,4 +84,15 @@ public class CommonController(ICommonService commonService) : BaseController
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         return GetResult(null, message: await _commonService.LeaveRequestApproval(leavesApprovalDTO));
     }
+
+    [HttpPost("contact-principal")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(422)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> ContactPrincipal(ContactPrincipalDTO contactPrincipalDTO)
+    {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
+        await _commonService.ContactPrincipalRequest(contactPrincipalDTO);
+        return GetResult(null, message: MessageConstants.SuccessMessage.CONTACT_PRINCIPAL_SUCCESS);
+    }
 }

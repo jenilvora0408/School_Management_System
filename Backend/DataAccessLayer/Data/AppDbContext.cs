@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Common.Utils;
 using Entities.Abstract;
 using Entities.DataModels;
@@ -98,6 +99,10 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<Subject> Subjects { get; set; }
 
+    public virtual DbSet<ContactPrincipal> ContactPrincipals { get; set; }
+
+    public virtual DbSet<ContactType> ContactTypes { get; set; }
+
     #endregion
 
     #region Model_Builder
@@ -135,7 +140,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Address).IsRequired().HasMaxLength(1000);
             entity.Property(e => e.IsUserActive).IsRequired().HasDefaultValue(true);
             entity.Property(e => e.IsUserDeleted).IsRequired().HasDefaultValue(false);
-            entity.Property(e  => e.City).HasMaxLength(25);
+            entity.Property(e => e.City).HasMaxLength(25);
 
             entity.HasOne(u => u.Principal)
                 .WithMany()
@@ -308,6 +313,27 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<ContactType>(entity =>
+        {
+            entity.ToTable("ContactTypes");
+            entity.Property(c => c.ContactTitle).HasMaxLength(25);
+        });
+
+        modelBuilder.Entity<ContactPrincipal>(entity =>
+        {
+            entity.ToTable("ContactPrincipal");
+            entity.Property(e => e.Subject).IsRequired().HasMaxLength(120);
+            entity.Property(e => e.Description).IsRequired().HasMaxLength(2000);
+            entity.Property(e => e.IsResolved).IsRequired().HasDefaultValue(false);
+            entity.Property(e => e.ResponseMessage).HasMaxLength(2500);
+            entity.Property(e => e.RequestDate).HasDefaultValue(DateTime.UtcNow);
+
+            entity.HasOne(u => u.ContactOfType)
+                .WithMany()
+                .HasForeignKey(u => u.Type)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
         #region Seeders
 
         modelBuilder.Entity<Gender>().HasData(
@@ -381,6 +407,14 @@ public class AppDbContext : DbContext
             new ClassSubject { Id = 7, ClassId = 2, SubjectId = 4 },
             new ClassSubject { Id = 8, ClassId = 2, SubjectId = 11 },
             new ClassSubject { Id = 9, ClassId = 2, SubjectId = 9 }
+        );
+
+        modelBuilder.Entity<ContactType>().HasData(
+            new ContactType { Id = 1, ContactTitle = "Harassment" },
+            new ContactType { Id = 2, ContactTitle = "Awareness" },
+            new ContactType { Id = 3, ContactTitle = "Notice" },
+            new ContactType { Id = 4, ContactTitle = "ExternalHelp" },
+            new ContactType { Id = 5, ContactTitle = "Other" }
         );
 
         #endregion

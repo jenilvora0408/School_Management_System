@@ -18,6 +18,8 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
     private IMediumRepository _mediumRepository;
     private ILeaveRepository _leaveRepository;
     private IClassSubjectRepository _classSubjectRepository;
+    private IContactTypeRepository _contactTypeRepository;
+    private IContactPrincipalRepository _contactPrincipalRepository;
 
     #endregion
 
@@ -122,6 +124,22 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
         get
         {
             return _classSubjectRepository ??= new ClassSubjectRepository(_dbContext);
+        }
+    }
+
+    public IContactTypeRepository ContactTypeRepository
+    {
+        get
+        {
+            return _contactTypeRepository ??= new ContactTypeRepository(_dbContext);
+        }
+    }
+
+    public IContactPrincipalRepository ContactPrincipalRepository
+    {
+        get
+        {
+            return _contactPrincipalRepository ??= new ContactPrincipalRepository(_dbContext);
         }
     }
 

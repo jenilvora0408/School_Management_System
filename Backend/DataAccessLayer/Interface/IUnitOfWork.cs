@@ -25,4 +25,8 @@ public interface IUnitOfWork
     public IClassSubjectRepository ClassSubjectRepository { get; }
 
     public ISubjectRepository SubjectRepository { get; }
+
+    public IContactTypeRepository ContactTypeRepository { get; }
+
+    public IContactPrincipalRepository ContactPrincipalRepository { get; }
 }

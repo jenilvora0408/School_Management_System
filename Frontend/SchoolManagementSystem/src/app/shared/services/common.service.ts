@@ -8,6 +8,7 @@ import { ITeachersListInterface } from '../../models/teacher/teachers-list';
 import { ISubjectsListInterface } from '../../models/principal/subjects-list';
 import { IMyProfileInterface } from '../../models/common/my-profile';
 import { ILeaveApprovalInterface } from '../../models/common/leave-approval';
+import { CommonListResponse } from '../models/common-item-response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,8 @@ import { ILeaveApprovalInterface } from '../../models/common/leave-approval';
 export class CommonService {
   constructor(private http: HttpClient) {}
 
-  getCommonEntityList() {
-    return this.http.get<any>(ApiCallConstant.GET_COMMON_ENTITY_DATA);
+  getCommonEntityList() : Observable<IResponse<CommonListResponse>> {
+    return this.http.get<IResponse<CommonListResponse>>(ApiCallConstant.GET_COMMON_ENTITY_DATA);
   }
 
   getAllClassesInfo(): Observable<IResponse<IClassListResponseInterface[]>> {

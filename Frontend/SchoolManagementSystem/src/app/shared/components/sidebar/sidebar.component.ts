@@ -6,7 +6,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
 import { NgbActiveOffcanvas, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     RippleModule,
     AvatarModule,
     StyleClassModule,
+    RouterLink
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',

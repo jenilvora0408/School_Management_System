@@ -23,6 +23,7 @@ import { ValidationPattern } from '../../../constants/validation/validation-patt
 import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
 import { ViewAdmitRequestComponent } from '../../../NgbModals/Teacher/view-admit-request/view-admit-request.component';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { LoaderService } from '../../../shared/services/loader.service';
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
@@ -56,10 +57,12 @@ export class TeacherDashboardComponent {
   constructor(
     private teacherService: TeacherService,
     private modalService: NgbModal,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
+    this.loaderService.show();
     this.getAdmitRequestData();
   }
 
@@ -99,6 +102,7 @@ export class TeacherDashboardComponent {
         ) => {
           this.responseData = response.data.records;
           this.collectionSize = response.data.totalRecords;
+          this.loaderService.hide();
         },
         error: (error: HttpErrorResponse) => {
           this.notificationService.error(error.error.errors);

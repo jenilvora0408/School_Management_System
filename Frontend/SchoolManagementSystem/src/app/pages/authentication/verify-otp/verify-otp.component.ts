@@ -20,6 +20,7 @@ import {
 import * as CryptoJS from 'crypto-js';
 import { RoutingPathConstant } from '../../../constants/routing/routing-path';
 import { NotificationMessageConstant } from '../../../constants/notification/notification-message';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-verify-otp',
@@ -53,10 +54,12 @@ export class VerifyOtpComponent {
     private authService: AuthenticationService,
     private route: ActivatedRoute,
     private notificationsService: NotificationService,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
+    this.loaderService.hide();
     this.route.queryParams.subscribe((params) => {
       this.email = CryptoJS.AES.decrypt(
         params['email'],

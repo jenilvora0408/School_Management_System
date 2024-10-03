@@ -40,4 +40,12 @@ public class SystemEnum
         AB_NEGATIVE = 8,
     }
 
+    public enum ContactType
+    {
+        Harassment = 1,
+        Awareness = 2,
+        Notice = 3,
+        ExternalHelp = 4,
+        Other = 5
+    }
 }

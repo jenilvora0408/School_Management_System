@@ -24,4 +24,6 @@ public interface ICommonService
     Task UpdateUserProfile(GetUserProfileDTO getUserProfileDTO);
 
     Task<string> LeaveRequestApproval(LeavesApprovalDTO leavesApprovalDTO);
+
+    Task ContactPrincipalRequest(ContactPrincipalDTO contactPrincipalDTO);
 }

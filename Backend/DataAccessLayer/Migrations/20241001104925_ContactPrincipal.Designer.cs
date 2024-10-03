@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001104925_ContactPrincipal")]
+    partial class ContactPrincipal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,80 +242,80 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             ClassName = "Class-3",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 2,
                             ClassName = "Class-4",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 3,
                             ClassName = "Class-5",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 4,
                             ClassName = "Class-6",
                             ClassStrength = 60,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 5,
                             ClassName = "Class-7",
                             ClassStrength = 80,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 6,
                             ClassName = "Class-8",
                             ClassStrength = 80,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 7,
                             ClassName = "Class-9",
                             ClassStrength = 80,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 8,
                             ClassName = "Class-10",
                             ClassStrength = 80,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 9,
                             ClassName = "Class-11",
                             ClassStrength = 100,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 10,
                             ClassName = "Class-12",
                             ClassStrength = 100,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         });
                 });
 
@@ -359,73 +362,73 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 1,
                             ClassId = 1,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 7,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 2,
                             ClassId = 1,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 8,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 3,
                             ClassId = 1,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 4,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 4,
                             ClassId = 1,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 11,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 5,
                             ClassId = 2,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 7,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 6,
                             ClassId = 2,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 8,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 7,
                             ClassId = 2,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 4,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 8,
                             ClassId = 2,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 11,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 9,
                             ClassId = 2,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectId = 9,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         });
                 });
 
@@ -456,9 +459,10 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("RequestDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 10, 1, 12, 24, 8, 786, DateTimeKind.Utc).AddTicks(3803));
+                        .HasDefaultValue(new DateTime(2024, 10, 1, 10, 49, 22, 959, DateTimeKind.Utc).AddTicks(1182));
 
                     b.Property<string>("ResponseMessage")
+                        .IsRequired()
                         .HasMaxLength(2500)
                         .HasColumnType("character varying(2500)");
 
@@ -742,86 +746,86 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Physics",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Chemistry",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Biology",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Maths",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Physics Practical",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Chemistry Practical",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "English",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "English Grammar",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 9,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Environment",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 10,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "History",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 11,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Science",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         },
                         new
                         {
                             Id = 12,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759),
                             SubjectName = "Computer",
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         });
                 });
 
@@ -973,7 +977,7 @@ namespace DataAccessLayer.Migrations
                             Address = "St. Mary's School Top Floor, Besides Wockhardt Hospital",
                             Avatar = "/images/Principal-photo.jpg",
                             BloodGroupId = (byte)5,
-                            CreatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 787, DateTimeKind.Utc).AddTicks(3184),
+                            CreatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 960, DateTimeKind.Utc).AddTicks(593),
                             Email = "anurag@gmail.com",
                             FirstName = "Anurag",
                             GenderId = (byte)1,
@@ -984,7 +988,7 @@ namespace DataAccessLayer.Migrations
                             Password = "$2a$10$KrAm5ughTCf8bUKjZlr.SeKmffzR7tzgwMQ9fdaVxCX5uktNo19D2",
                             PhoneNumber = "8957486525",
                             RoleId = (byte)1,
-                            UpdatedOn = new DateTime(2024, 10, 1, 12, 24, 8, 184, DateTimeKind.Utc).AddTicks(5009)
+                            UpdatedOn = new DateTime(2024, 10, 1, 10, 49, 22, 349, DateTimeKind.Utc).AddTicks(759)
                         });
                 });
 

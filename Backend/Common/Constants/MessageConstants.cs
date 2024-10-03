@@ -50,6 +50,8 @@ public static class MessageConstants
         public const string LEAVE_APPROVED = "Leave Request has been approved successfully!";
 
         public const string LEAVE_DECLINED = "Leave Request has been declined successfully!";
+
+        public const string CONTACT_PRINCIPAL_SUCCESS = "Your request has been sent to the Principal!";
     }
 
     #endregion Error_Messages

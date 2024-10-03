@@ -165,5 +165,15 @@ public class CommonService(IUnitOfWork unitOfWork) : ICommonService
         return message;
     }
 
+    public async Task ContactPrincipalRequest(ContactPrincipalDTO contactPrincipalDTO)
+    {
+        User? user = await GetUserById(contactPrincipalDTO.UserId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.USER_NOT_FOUND);
+
+        ContactPrincipal  contactPrincipal = ContactPrincipalMappingProfile.ToContactPrincipal(contactPrincipalDTO);
+
+        await _unitOfWork.ContactPrincipalRepository.AddAsync(contactPrincipal);
+        await _unitOfWork.SaveAsync();
+    }
+
     #endregion Http_Methods
 }

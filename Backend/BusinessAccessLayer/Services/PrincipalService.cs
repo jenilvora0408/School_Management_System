@@ -101,5 +101,23 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         return new PageListResponseDTO<LeaveRequestsAwaitingApprovalDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
     }
 
+    public async Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetContactPrincipalList(PageListRequestDTO pageListRequestDTO)
+    {
+        PageListRequestEntity<ContactPrincipal> pageListRequestEntity = new()
+        {
+            PageIndex = pageListRequestDTO.PageIndex,
+            PageSize = pageListRequestDTO.PageSize,
+            SortColumn = SystemConstants.REQUEST_DATE_COLUMN,
+            SortOrder = SystemConstants.DESCENDING,
+            Predicate = contactPrincipal => contactPrincipal.Subject.ToLower().Contains(pageListRequestDTO.SearchQuery.ToLower()) || contactPrincipal.Description.ToLower().Contains(pageListRequestDTO.SearchQuery.ToLower()),
+        };
+
+        PageListResponseDTO<ContactPrincipal> pageListResponse = await _unitOfWork.ContactPrincipalRepository.GetAllAsync(pageListRequestEntity);
+
+        List<GetContactPrincipalListDTO> getContactPrincipalListDTO = ContactPrincipalMappingProfile.ToGetContactPrincipalList(pageListResponse.Records);
+
+        return new PageListResponseDTO<GetContactPrincipalListDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, getContactPrincipalListDTO);
+    }
+
     #endregion HTTP_Methods
 }

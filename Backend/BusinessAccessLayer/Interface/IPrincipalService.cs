@@ -9,4 +9,6 @@ public interface IPrincipalService
     Task<List<SubjectsListResponseDTO>> GetSubjectsByClass(int classId);
 
     Task<PageListResponseDTO<LeaveRequestsAwaitingApprovalDTO>> GetAllLeaveRequest(PageListRequestDTO leaveRequestsListDTO);
+
+    Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetContactPrincipalList(PageListRequestDTO pageListRequestDTO);
 }

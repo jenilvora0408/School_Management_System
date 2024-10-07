@@ -34,6 +34,9 @@ export class ApiCallConstant {
   public static readonly LEAVE_REQUEST_APPROVAL =
     this.COMMON_CONTROLLER + 'leave-request-approval';
 
+  public static readonly CONTACT_PRINCIPAL =
+    this.COMMON_CONTROLLER + 'contact-principal';
+
   //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';

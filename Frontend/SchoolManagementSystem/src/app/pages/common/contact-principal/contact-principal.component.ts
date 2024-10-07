@@ -18,6 +18,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { AuthenticationService } from '../../../services/authentication.service';
 import { IContactPrincipalInterface } from '../../../models/common/contact-principal';
 import { IResponse } from '../../../shared/models/IResponse';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-contact-principal',
@@ -71,7 +72,8 @@ export class ContactPrincipalComponent {
   constructor(
     private commonService: CommonService,
     private notificationService: NotificationService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {}
@@ -111,9 +113,6 @@ export class ContactPrincipalComponent {
       relatableEvidence: this.uploadEvidence,
     };
 
-    console.log(payload);
-    
-
     this.commonService.contactPrincipal(payload).subscribe({
       next: (response: IResponse<null>) => {
         if (response.success) {
@@ -121,6 +120,7 @@ export class ContactPrincipalComponent {
         }
       },
       error: (error) => {
+        this.loaderService.hide();
         this.notificationService.error(error.error.errors);
       },
     });

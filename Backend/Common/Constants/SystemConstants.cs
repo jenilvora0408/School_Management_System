@@ -58,6 +58,8 @@ public static class SystemConstants
 
     public const int SICK_LEAVE_TYPE = 8;
 
+    public const string REQUEST_DATE_COLUMN = "RequestDate";
+
     #region Policy Attribute
 
     public const string PRINCIPAL_POLICY = "Principal";

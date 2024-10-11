@@ -15,4 +15,25 @@ public static class ContactPrincipalMappingProfile
         IsResolved = false,
         RelatableEvidence = contactPrincipalDTO.RelatableEvidence,
     };
+
+    public static List<GetContactPrincipalListDTO> ToGetContactPrincipalList(this List<ContactPrincipal> contactPrincipals)
+    {
+        return contactPrincipals.Select(contactPrincipal => contactPrincipal.ToGetContactPrincipalData()).ToList();
+    }
+
+    public static GetContactPrincipalListDTO ToGetContactPrincipalData(this ContactPrincipal contactPrincipal)
+    {
+        return new GetContactPrincipalListDTO
+        {
+            ContactPrincipalId = contactPrincipal.Id,
+            UserId = contactPrincipal.UserId,
+            Subject = contactPrincipal.Subject,
+            Description = contactPrincipal.Description,
+            RequestDate = contactPrincipal.RequestDate,
+            Type = contactPrincipal.Type,
+            IsResolved = contactPrincipal.IsResolved,
+            ResponseMessage = contactPrincipal.ResponseMessage,
+            RelatableEvidence = contactPrincipal.RelatableEvidence,
+        };
+    }
 }

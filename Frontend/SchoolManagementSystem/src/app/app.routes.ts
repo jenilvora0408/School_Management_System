@@ -14,6 +14,7 @@ import { EditClassComponent } from './pages/principal/edit-class/edit-class.comp
 import { MyProfileComponent } from './pages/common/my-profile/my-profile.component';
 import { LeaveRequestsComponent } from './pages/principal/leave-requests/leave-requests.component';
 import { ContactPrincipalComponent } from './pages/common/contact-principal/contact-principal.component';
+import { ContactRequestsComponent } from './pages/principal/contact-requests/contact-requests.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -62,6 +63,10 @@ export const routes: Routes = [
       {
         path: 'leave-requests',
         component: LeaveRequestsComponent,
+      },
+      {
+        path: 'contact-requests',
+        component: ContactRequestsComponent,
       },
     ],
   },

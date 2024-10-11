@@ -13,6 +13,7 @@ import { ClassesSubjectsComponent } from './pages/principal/classes-subjects/cla
 import { EditClassComponent } from './pages/principal/edit-class/edit-class.component';
 import { MyProfileComponent } from './pages/common/my-profile/my-profile.component';
 import { LeaveRequestsComponent } from './pages/principal/leave-requests/leave-requests.component';
+import { ContactPrincipalComponent } from './pages/common/contact-principal/contact-principal.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -20,6 +21,11 @@ export const routes: Routes = [
   { path: 'verify-otp', component: VerifyOtpComponent },
   { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  {
+    path: 'contact-principal',
+    component: ContactPrincipalComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'teacher',
     canActivate: [AuthGuard],

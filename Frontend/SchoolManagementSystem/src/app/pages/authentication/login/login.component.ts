@@ -18,6 +18,7 @@ import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SystemConstants } from '../../../constants/shared/system-constants';
 import * as CryptoJS from 'crypto-js';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthenticationService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService
   ) {}
 
   loginForm = new FormGroup({
@@ -92,6 +94,7 @@ export class LoginComponent {
           }
         },
         error: (error: HttpErrorResponse) => {
+          this.loaderService.hide();
           this.notificationService.error(error.error.errors);
         },
       });

@@ -4,10 +4,8 @@ export interface CommonItemResponse {
 }
 
 export interface CommonListResponse {
-  data: {
-    listOfGenders: CommonItemResponse[];
-    listOfBloodGroups: CommonItemResponse[];
-    listOfClasses: CommonItemResponse[];
-    listOfMediums: CommonItemResponse[];
-  };
+  listOfGenders: CommonItemResponse[];
+  listOfBloodGroups: CommonItemResponse[];
+  listOfClasses: CommonItemResponse[];
+  listOfMediums: CommonItemResponse[];
 }

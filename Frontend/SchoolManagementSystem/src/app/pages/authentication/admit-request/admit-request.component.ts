@@ -1,6 +1,10 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { DropdownItem } from '../../../shared/models/drop-down-item';
-import { NgbDateStruct, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDateStruct,
+  NgbDatepickerModule,
+  NgbModal,
+} from '@ng-bootstrap/ng-bootstrap';
 import {
   FormGroup,
   FormControl,
@@ -29,6 +33,7 @@ import {
 import { Router } from '@angular/router';
 import { AlphabetOnlyInputComponent } from '../../../shared/components/alphabet-only-input/alphabet-only-input.component';
 import { AdmitRequestConfirmationComponent } from '../../../NgbModals/Confirmation/admit-request-confirmation/admit-request-confirmation.component';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-admit-request',
@@ -124,13 +129,13 @@ export class AdmitRequestComponent {
     private commonService: CommonService,
     private authService: AuthenticationService,
     private notificationsService: NotificationService,
-    private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
-    this.commonService.getCommonEntityList().subscribe(
-      (response: CommonListResponse) => {
+    this.commonService.getCommonEntityList().subscribe({
+      next: (response: IResponse<CommonListResponse>) => {
         this.genderOptions = response.data.listOfGenders.map(
           (item: CommonItemResponse) => ({
             value: item.id,
@@ -158,11 +163,13 @@ export class AdmitRequestComponent {
             viewValue: item.title,
           })
         );
+        this.loaderService.hide();
       },
-      (error) => {
+      error: (error: HttpErrorResponse) => {
+        this.loaderService.hide();
         console.error('Error occurred', error);
-      }
-    );
+      },
+    });
   }
 
   onSubmit() {

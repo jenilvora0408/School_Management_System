@@ -9,6 +9,7 @@ import { IPageListResponse } from '../../../shared/models/page-list-response';
 import { IPageListRequest } from '../../../shared/models/page-list-request';
 import { AccordionComponent } from '../../../shared/components/accordion/accordion.component';
 import { LoaderService } from '../../../shared/services/loader.service';
+import { ContactPrincipalTaglineConstants } from '../../../constants/shared/system-constants';
 
 @Component({
   selector: 'app-contact-requests',
@@ -28,7 +29,7 @@ export class ContactRequestsComponent {
   ];
   selectedFilter: string | null = null;
   selectedTagline: string =
-    'Attend each request carefully & answer them at earliest!';
+  ContactPrincipalTaglineConstants.all;
   panels: Panel[] = [];
   page = 1;
   pageSize = 10;
@@ -39,15 +40,12 @@ export class ContactRequestsComponent {
   collectionSize!: number;
   requestData: IContactPrincipalListInterface[] = [];
   taglines: { [key: string]: string } = {
-    All: 'Attend each request carefully & answer them at earliest!',
-    Harassment:
-      'Take reasonable actions & neutralize the situation immediately!',
-    Awareness:
-      'The requests below want to bring your attention towards unknown or unattended matters!',
-    Notice: 'The requests wants you to take note of something significant!',
-    'External Help':
-      'Contact legal authorities in case of any actions required; Ensure proper well-being of all individuals at any cost!',
-    Other: 'General requests or inquiries',
+    All: ContactPrincipalTaglineConstants.all,
+    Harassment: ContactPrincipalTaglineConstants.harassment,
+    Awareness: ContactPrincipalTaglineConstants.awareness,
+    Notice: ContactPrincipalTaglineConstants.notice,
+    'External Help': ContactPrincipalTaglineConstants.externalHelp,
+    Other: ContactPrincipalTaglineConstants.other,
   };
 
   constructor(

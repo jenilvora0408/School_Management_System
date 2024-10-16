@@ -34,7 +34,7 @@ public static class ContactPrincipalMappingProfile
             IsResolved = contactPrincipal.IsResolved,
             ResponseMessage = contactPrincipal.ResponseMessage,
             RelatableEvidence = contactPrincipal.RelatableEvidence,
-            UserName = contactPrincipal.Users.FirstName + ' ' + contactPrincipal.Users.LastName,
+            UserName = $"{contactPrincipal.Users.FirstName} {contactPrincipal.Users.LastName}",
             ContactTypeTitle = contactPrincipal.ContactOfType.ContactTitle
         };
     }

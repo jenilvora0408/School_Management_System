@@ -110,6 +110,7 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
             SortColumn = SystemConstants.REQUEST_DATE_COLUMN,
             SortOrder = SystemConstants.DESCENDING,
             Predicate = contactPrincipal => contactPrincipal.Subject.ToLower().Contains(pageListRequestDTO.SearchQuery.ToLower()) || contactPrincipal.Description.ToLower().Contains(pageListRequestDTO.SearchQuery.ToLower()),
+            IncludeExpressions = [x => x.Users, x => x.ContactOfType]
         };
 
         PageListResponseDTO<ContactPrincipal> pageListResponse = await _unitOfWork.ContactPrincipalRepository.GetAllAsync(pageListRequestEntity);

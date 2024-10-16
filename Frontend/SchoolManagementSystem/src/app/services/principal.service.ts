@@ -10,6 +10,7 @@ import { IAdmitRequestListInterface } from '../models/teacher/admit-request-list
 import { IPageListRequest } from '../shared/models/page-list-request';
 import { IPageListResponse } from '../shared/models/page-list-response';
 import { ILeaveRequestsInterface } from '../models/principal/leave-requests';
+import { IContactPrincipalListInterface } from '../models/principal/contact-principal-list';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class PrincipalService {
   getAllSubjectsApi = ApiCallConstant.GET_ALL_SUBJECTS_BY_CLASS_ID;
   editClassApi = ApiCallConstant.EDIT_CLASS;
   leaveRequestApi = ApiCallConstant.LEAVE_REQUESTS;
+  contactPrincipalApi = ApiCallConstant.CONTACT_PRINCIPAL_REQUESTS;
 
   constructor(private http: HttpClient) {}
 
@@ -29,7 +31,9 @@ export class PrincipalService {
     );
   }
 
-  submitClassInfo(requestCredentials: IClassInfoInterface): Observable<IResponse<null>> {
+  submitClassInfo(
+    requestCredentials: IClassInfoInterface
+  ): Observable<IResponse<null>> {
     return this.http.post<IResponse<null>>(
       `${this.editClassApi}`,
       requestCredentials
@@ -42,5 +46,13 @@ export class PrincipalService {
     return this.http.post<
       IResponse<IPageListResponse<ILeaveRequestsInterface[]>>
     >(this.leaveRequestApi, listCredentials);
+  }
+
+  getContactPrincipalRequests(
+    listCredentials: IPageListRequest
+  ): Observable<IResponse<IPageListResponse<IContactPrincipalListInterface[]>>> {
+    return this.http.post<
+      IResponse<IPageListResponse<IContactPrincipalListInterface[]>>
+    >(this.contactPrincipalApi, listCredentials);
   }
 }

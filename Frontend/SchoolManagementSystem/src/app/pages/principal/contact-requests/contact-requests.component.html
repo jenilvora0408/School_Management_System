@@ -1,0 +1,33 @@
+<div class="container-fluid p-0">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="filters-container mt-5 px-4">
+    <div class="filter-options d-flex justify-content-center flex-wrap gap-4">
+      @for (filter of filters; track i; let i = $index){
+      <div
+        class="filter-content"
+        [ngClass]="{
+          selected: selectedFilter === filter,
+          dimmed: selectedFilter && selectedFilter !== filter
+        }"
+        (click)="onFilterSelect(filter)"
+      >
+        <span>{{ filter }}</span>
+        @if(selectedFilter === filter){
+        <span class="ms-2" (click)="clearFilter($event)">
+          <i class="bi bi-x-circle"></i>
+        </span>
+        }
+      </div>
+      }
+    </div>
+  </div>
+  <div class="heading mt-4 ms-5 ps-5">
+    <h3 class="ps-1">Contact Requests</h3>
+    <span class="tagline ps-1"> <u>{{selectedTagline}}</u></span>
+  </div>
+  <div class="request-content">
+    <app-accordion [panels]="panels"></app-accordion>
+  </div>
+</div>

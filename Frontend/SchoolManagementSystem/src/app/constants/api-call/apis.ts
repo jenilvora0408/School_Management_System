@@ -81,4 +81,7 @@ export class ApiCallConstant {
 
   public static readonly LEAVE_REQUESTS =
     this.PRINCIPAL_CONTROLLER + 'leave-requests-awaiting-approval';
+
+  public static readonly CONTACT_PRINCIPAL_REQUESTS =
+    this.PRINCIPAL_CONTROLLER + 'contact-principal-list';
 }

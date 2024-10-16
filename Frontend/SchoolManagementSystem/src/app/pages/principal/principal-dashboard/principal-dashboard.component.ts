@@ -13,9 +13,18 @@ export class PrincipalDashboardComponent {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   navigate(routingPath: string) {
-    if (routingPath == 'edit-class')
-      this.router.navigate(['principal/classes-and-subjects']);
-    else if(routingPath == 'leave-requests')
-      this.router.navigate(['principal/leave-requests'])
+    switch (routingPath) {
+      case 'edit-class':
+        this.router.navigate(['principal/classes-and-subjects']);
+        break;
+      case 'leave-requests':
+        this.router.navigate(['principal/leave-requests']);
+        break;
+      case 'contact-requests':
+        this.router.navigate(['principal/contact-requests']);
+        break;
+      default:
+        console.log('Invalid routing path');
+    }
   }
 }

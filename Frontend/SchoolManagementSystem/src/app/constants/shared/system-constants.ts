@@ -27,3 +27,12 @@ export class LeaveTypeConstants {
   public static casualLeave = 'Casual Leave';
   public static adhocLeave = 'Adhoc Leave';
 }
+
+export class ContactPrincipalTaglineConstants{
+  public static all = 'Attend each request carefully & answer them at earliest!';
+  public static harassment = 'Take reasonable actions & neutralize the situation immediately!';
+  public static awareness = 'The requests below want to bring your attention towards unknown or unattended matters!';
+  public static notice = 'The requests wants you to take note of something significant!';
+  public static externalHelp = 'Contact legal authorities in case of any actions required; Ensure proper well-being of all individuals at any cost!';
+  public static other = 'General requests or inquiries';
+}

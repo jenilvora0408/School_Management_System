@@ -1,0 +1,32 @@
+.filter-content {
+  padding: 1% 5%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  border: 2px solid #676a8f;
+  border-radius: 10px;
+}
+.filter-content.dimmed {
+  opacity: 0.5;
+}
+.filter-content.selected {
+  background-color: #e4e5f1;
+  font-weight: bold;
+  position: relative;
+}
+.filter-content .bi-x-circle {
+  cursor: pointer;
+  color: red;
+}
+h3 {
+  color: #484b6a;
+  font-weight: normal;
+  word-spacing: 3px;
+  letter-spacing: 1px;
+}
+.tagline {
+  color: #7d7e8f;
+}
+.request-content{
+  padding: 1rem 5rem;
+}

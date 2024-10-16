@@ -1,0 +1,24 @@
+<div ngbAccordion [closeOthers]="true">
+  @for (panel of panels; track i; let i = $index){
+  <div ngbAccordionItem [collapsed]="panel.subject !== ''">
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton class="custom-accordion-button">
+        {{ panel.subject | capitalize }} <i class="bi bi-plus-circle"></i>
+      </button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody class="font-15 text--gray answer d-flex flex-column gap-2">
+        <span><b>User:</b> {{ panel.username }}</span>
+        <span><b>Type of Request:</b> {{ panel.contactType }}</span>
+        <span><b>Requested Date:</b> {{ panel.requestDate | dateFormat}}</span>
+        <span><b>Description:</b> {{ panel.description }}</span>
+        <span class="d-flex">
+          <b>Evidence:</b> 
+          <img [ngClass]="{'evidence-img': panel.relatableEvidence !== null}" 
+               [src]="panel.relatableEvidence" alt="Not Uploaded">
+        </span>
+      </div>
+    </div>
+  </div>
+  }
+</div>

@@ -26,5 +26,8 @@ public class ContactPrincipal : IdentityEntity<int>
     [ForeignKey(nameof(Type))]
     public virtual ContactType ContactOfType { get; set; } = null!;
 
+    [ForeignKey(nameof(UserId))]
+    public virtual User Users { get; set; } = null!;
+
     #endregion Foreign_Keys
 }

@@ -6,6 +6,8 @@ public class GetContactPrincipalListDTO
 
     public long UserId { get; set; }
 
+    public string UserName { get; set; } = null!;
+
     public string Subject { get; set; } = null!;
 
     public string Description { get; set; } = null!;
@@ -13,6 +15,8 @@ public class GetContactPrincipalListDTO
     public DateTime? RequestDate { get; set; }
 
     public byte Type { get; set; }
+
+    public string ContactTypeTitle { get; set; } = null!;
 
     public string? RelatableEvidence { get; set; }
 

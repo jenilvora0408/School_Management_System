@@ -332,6 +332,11 @@ public class AppDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(u => u.Type)
                 .OnDelete(DeleteBehavior.Restrict);
+
+             entity.HasOne(u => u.Users)
+                .WithMany()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         #region Seeders

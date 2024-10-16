@@ -1,5 +1,8 @@
 export interface Panel {
-  name: string;
-  content: string;
-  duration: number;
+  subject: string;
+  description: string;
+  username: string;
+  contactType: string;
+  requestDate: Date;
+  relatableEvidence: string;
 }

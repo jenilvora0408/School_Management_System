@@ -104,33 +104,35 @@ export class ContactPrincipalComponent {
   // }
 
   onSubmit() {
-    this.contactPrincipalForm.value.relatableEvidence = this.uploadEvidence;
-    console.log(this.contactPrincipalForm.value);
-    const documents = this.uploadedImages.map(image => image.url);
+    if (!this.showDocumentErrors) {
+      this.contactPrincipalForm.value.relatableEvidence = this.uploadEvidence;
+      console.log(this.contactPrincipalForm.value);
+      const documents = this.uploadedImages.map((image) => image.url);
 
-    const payload: IContactPrincipalInterface = {
-      userId: this.authService.getUserId(),
-      subject: this.contactPrincipalForm.value.subject || 'Contact Principal',
-      description: this.contactPrincipalForm.value.description || '',
-      type:
-        this.contactPrincipalForm.value.typeOfRequest != null
-          ? parseInt(this.contactPrincipalForm.value.typeOfRequest)
-          : 0,
-      relatableEvidence: this.uploadEvidence,
-      documentContent: documents
-    };
+      const payload: IContactPrincipalInterface = {
+        userId: this.authService.getUserId(),
+        subject: this.contactPrincipalForm.value.subject || 'Contact Principal',
+        description: this.contactPrincipalForm.value.description || '',
+        type:
+          this.contactPrincipalForm.value.typeOfRequest != null
+            ? parseInt(this.contactPrincipalForm.value.typeOfRequest)
+            : 0,
+        relatableEvidence: this.uploadEvidence,
+        documentContent: documents,
+      };
 
-    this.commonService.contactPrincipal(payload).subscribe({
-      next: (response: IResponse<null>) => {
-        if (response.success) {
-          this.notificationService.success(response.message);
-        }
-      },
-      error: (error) => {
-        this.loaderService.hide();
-        this.notificationService.error(error.error.errors);
-      },
-    });
+      this.commonService.contactPrincipal(payload).subscribe({
+        next: (response: IResponse<null>) => {
+          if (response.success) {
+            this.notificationService.success(response.message);
+          }
+        },
+        error: (error) => {
+          this.loaderService.hide();
+          this.notificationService.error(error.error.errors);
+        },
+      });
+    }
   }
 
   cancelForm() {}

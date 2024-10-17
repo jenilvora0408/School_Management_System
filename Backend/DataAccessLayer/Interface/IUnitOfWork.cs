@@ -29,4 +29,6 @@ public interface IUnitOfWork
     public IContactTypeRepository ContactTypeRepository { get; }
 
     public IContactPrincipalRepository ContactPrincipalRepository { get; }
+
+    public IDocumentRepository DocumentRepository { get; }
 }

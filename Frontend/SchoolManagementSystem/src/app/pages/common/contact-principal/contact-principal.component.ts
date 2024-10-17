@@ -9,7 +9,6 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { ValidationPattern } from '../../../constants/validation/validation-pattern';
 import { DropdownItem } from '../../../shared/models/drop-down-item';
 import { SelectComponent } from '../../../shared/components/select/select.component';
 import { TextareaComponent } from '../../../shared/components/textarea/textarea.component';
@@ -19,6 +18,7 @@ import { AuthenticationService } from '../../../services/authentication.service'
 import { IContactPrincipalInterface } from '../../../models/common/contact-principal';
 import { IResponse } from '../../../shared/models/IResponse';
 import { LoaderService } from '../../../shared/services/loader.service';
+import { ValidationMessageConstant } from '../../../constants/validation/validation-message';
 
 @Component({
   selector: 'app-contact-principal',
@@ -37,6 +37,11 @@ import { LoaderService } from '../../../shared/services/loader.service';
 })
 export class ContactPrincipalComponent {
   uploadEvidence: any;
+  uploadedImages: { url: string; file: File }[] = [];
+  isDragging: boolean = false;
+  showDocumentErrors: boolean = false;
+  documentError: string = '';
+  maxImages: number = 7;
   contactPrincipalForm = new FormGroup({
     subject: new FormControl(
       '',
@@ -78,53 +83,103 @@ export class ContactPrincipalComponent {
 
   ngOnInit(): void {}
 
-  handlePictureFileChange(event: any) {
-    const file = event.target.files?.[0];
+  onSubmit() {
+    if (!this.showDocumentErrors) {
+      this.contactPrincipalForm.value.relatableEvidence = this.uploadEvidence;
+      const documents = this.uploadedImages.map((image) => image.url);
 
-    if (file) {
-      const validExtensions = ['image/jpeg', 'image/jpg', 'image/png'];
-      const maxSizeInMB = 1;
-      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+      const payload: IContactPrincipalInterface = {
+        userId: this.authService.getUserId(),
+        subject: this.contactPrincipalForm.value.subject || 'Contact Principal',
+        description: this.contactPrincipalForm.value.description || '',
+        type:
+          this.contactPrincipalForm.value.typeOfRequest != null
+            ? parseInt(this.contactPrincipalForm.value.typeOfRequest)
+            : 0,
+        relatableEvidence: this.uploadEvidence,
+        documentContent: documents,
+      };
 
-      if (!validExtensions.includes(file.type)) {
-      } else if (file.size > maxSizeInBytes) {
-      } else {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.uploadEvidence = reader.result;
-        };
-      }
+      this.commonService.contactPrincipal(payload).subscribe({
+        next: (response: IResponse<null>) => {
+          if (response.success) {
+            this.notificationService.success(response.message);
+          }
+        },
+        error: (error) => {
+          this.loaderService.hide();
+          this.notificationService.error(error.error.errors);
+        },
+      });
     }
   }
 
-  onSubmit() {
-    this.contactPrincipalForm.value.relatableEvidence = this.uploadEvidence;
-    console.log(this.contactPrincipalForm.value);
+  cancelForm() {}
 
-    const payload: IContactPrincipalInterface = {
-      userId: this.authService.getUserId(),
-      subject: this.contactPrincipalForm.value.subject || 'Contact Principal',
-      description: this.contactPrincipalForm.value.description || '',
-      type:
-        this.contactPrincipalForm.value.typeOfRequest != null
-          ? parseInt(this.contactPrincipalForm.value.typeOfRequest)
-          : 0,
-      relatableEvidence: this.uploadEvidence,
-    };
+  handlePictureFileChange(event: any) {
+    const files = event.target.files;
 
-    this.commonService.contactPrincipal(payload).subscribe({
-      next: (response: IResponse<null>) => {
-        if (response.success) {
-          this.notificationService.success(response.message);
-        }
-      },
-      error: (error) => {
-        this.loaderService.hide();
-        this.notificationService.error(error.error.errors);
-      },
-    });
+    if (files && files.length > 0) {
+      Array.from(files).forEach((file: any) => {
+        this.validateAndUpload(file);
+      });
+    }
   }
 
-  cancelForm() {}
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = true;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = false;
+
+    const files = event.dataTransfer?.files;
+
+    if (files && files.length > 0) {
+      Array.from(files).forEach((file: File) => {
+        this.validateAndUpload(file);
+      });
+    }
+  }
+
+  onDragLeave(event: DragEvent) {
+    this.isDragging = false;
+  }
+
+  validateAndUpload(file: File) {
+    const validExtensions = ['image/jpeg', 'image/jpg', 'image/png'];
+    const maxSizeInMB = 1;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+    const isDuplicate = this.uploadedImages.some(
+      (img) => img.file.name === file.name
+    );
+
+    if (this.uploadedImages.length >= this.maxImages) {
+      this.showDocumentErrors = true;
+      this.documentError = ValidationMessageConstant.canUploadMax7Images;
+    } else if (isDuplicate) {
+      this.showDocumentErrors = true;
+      this.documentError = ValidationMessageConstant.imageAlreadyUploaded;
+    } else if (!validExtensions.includes(file.type)) {
+      this.showDocumentErrors = true;
+      this.documentError = ValidationMessageConstant.avatarExtensionError;
+    } else if (file.size > maxSizeInBytes) {
+      this.showDocumentErrors = true;
+      this.documentError = ValidationMessageConstant.avatarImageSizeError;
+    } else {
+      this.showDocumentErrors = false;
+      this.documentError = '';
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.uploadedImages.push({ url: reader.result as string, file });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeImage(index: number) {
+    this.uploadedImages.splice(index, 1);
+  }
 }

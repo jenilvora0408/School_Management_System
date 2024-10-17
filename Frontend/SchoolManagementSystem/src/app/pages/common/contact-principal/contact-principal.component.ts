@@ -83,30 +83,9 @@ export class ContactPrincipalComponent {
 
   ngOnInit(): void {}
 
-  // handlePictureFileChange(event: any) {
-  //   const file = event.target.files?.[0];
-
-  //   if (file) {
-  //     const validExtensions = ['image/jpeg', 'image/jpg', 'image/png'];
-  //     const maxSizeInMB = 1;
-  //     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-
-  //     if (!validExtensions.includes(file.type)) {
-  //     } else if (file.size > maxSizeInBytes) {
-  //     } else {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(file);
-  //       reader.onload = () => {
-  //         this.uploadEvidence = reader.result;
-  //       };
-  //     }
-  //   }
-  // }
-
   onSubmit() {
     if (!this.showDocumentErrors) {
       this.contactPrincipalForm.value.relatableEvidence = this.uploadEvidence;
-      console.log(this.contactPrincipalForm.value);
       const documents = this.uploadedImages.map((image) => image.url);
 
       const payload: IContactPrincipalInterface = {
@@ -198,11 +177,9 @@ export class ContactPrincipalComponent {
       };
       reader.readAsDataURL(file);
     }
-    console.log(this.uploadedImages);
   }
 
   removeImage(index: number) {
     this.uploadedImages.splice(index, 1);
-    console.log(this.uploadedImages);
   }
 }

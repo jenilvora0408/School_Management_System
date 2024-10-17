@@ -18,4 +18,6 @@ public class ContactPrincipalDTO
     public byte Type { get; set; }
 
     public string? RelatableEvidence { get; set; }
+
+    public string[]? DocumentContent { get; set; }
 }

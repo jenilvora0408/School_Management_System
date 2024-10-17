@@ -169,9 +169,19 @@ public class CommonService(IUnitOfWork unitOfWork) : ICommonService
     {
         User? user = await GetUserById(contactPrincipalDTO.UserId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.USER_NOT_FOUND);
 
-        ContactPrincipal  contactPrincipal = ContactPrincipalMappingProfile.ToContactPrincipal(contactPrincipalDTO);
+        ContactPrincipal contactPrincipal = ContactPrincipalMappingProfile.ToContactPrincipal(contactPrincipalDTO);
 
         await _unitOfWork.ContactPrincipalRepository.AddAsync(contactPrincipal);
+        await _unitOfWork.SaveAsync();
+
+        List<Document> documents = [];
+
+        if (contactPrincipalDTO.DocumentContent != null && contactPrincipalDTO.DocumentContent.Any())
+        {
+            documents = DocumentMappingProfile.ToDocumentList(contactPrincipalDTO.DocumentContent, contactPrincipal.Id);
+        }
+
+        await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
         await _unitOfWork.SaveAsync();
     }
 

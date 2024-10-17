@@ -4,4 +4,5 @@ export interface IContactPrincipalInterface {
   description: string;
   type: number;
   relatableEvidence: string;
+  documentContent: string[];
 }

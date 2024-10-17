@@ -46,7 +46,7 @@
             placeholder=""
           />
           <div class="avatar-container">
-            <label for="relatableEvidence">Upload Evidence</label>
+            <!-- <label for="relatableEvidence">Upload Evidence</label>
             <input
               type="file"
               (change)="handlePictureFileChange($event)"
@@ -55,7 +55,44 @@
               accept="image/*"
               class="form-control"
               formControlName="relatableEvidence"
-            />
+            /> -->
+
+            <div
+              class="drop-zone mt-3"
+              (click)="photoInput.click()"
+              (dragover)="onDragOver($event)"
+              (drop)="onDrop($event)"
+              (dragleave)="onDragLeave($event)"
+              [class.dragging]="isDragging"
+            >
+            <div class="d-flex flex-column align-items-center">
+              <i class="bi bi-cloud-arrow-up-fill fs-2"></i>
+              <p>Drag & Drop or Click to Upload Evidence</p>
+            </div>
+              <input
+                type="file"
+                (change)="handlePictureFileChange($event)"
+                #photoInput
+                id="photoInput"
+                accept="image/*"
+                class="form-control d-none"
+                multiple
+              />
+            </div>
+            @if(showDocumentErrors){
+              <span class="text-danger"> {{documentError}} </span>
+            }
+            <div class="preview-container">
+              @for (image of uploadedImages; track i; let i = $index){
+              <div
+                class="image-preview"
+              >
+                <img [src]="image.url" alt="Uploaded Image" />
+                <button type="button" (click)="removeImage(i)" class="remove-btn">
+                  &times;
+                </button>
+              </div>}
+            </div>
           </div>
           <div class="buttons d-flex justify-content-center gap-3 pe-4">
             <app-button

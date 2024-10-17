@@ -60,6 +60,8 @@ public static class SystemConstants
 
     public const string REQUEST_DATE_COLUMN = "RequestDate";
 
+    public const string USE_DOCUMENT_FOR_CONTACT_PRINCIPAL = "Contact Principal";
+
     #region Policy Attribute
 
     public const string PRINCIPAL_POLICY = "Principal";

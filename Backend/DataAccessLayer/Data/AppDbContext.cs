@@ -103,6 +103,8 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<ContactType> ContactTypes { get; set; }
 
+    public virtual DbSet<Document> Documents { get; set; }
+
     #endregion
 
     #region Model_Builder
@@ -336,6 +338,18 @@ public class AppDbContext : DbContext
              entity.HasOne(u => u.Users)
                 .WithMany()
                 .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.ToTable("Documents");
+            entity.Property(e => e.UseDocumentFor).IsRequired().HasMaxLength(40);
+            entity.Property(e => e.DocumentContent).IsRequired();
+
+            entity.HasOne(u => u.ContactPrincipals)
+                .WithMany()
+                .HasForeignKey(u => u.ContactPrincipalId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

@@ -84,4 +84,7 @@ export class ApiCallConstant {
 
   public static readonly CONTACT_PRINCIPAL_REQUESTS =
     this.PRINCIPAL_CONTROLLER + 'contact-principal-list';
+
+  public static readonly GET_CONTACT_PRINCIPAL_DOCUMENTS =
+    this.PRINCIPAL_CONTROLLER + 'contact-documents';
 }

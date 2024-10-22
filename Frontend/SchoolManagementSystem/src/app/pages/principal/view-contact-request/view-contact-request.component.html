@@ -1,0 +1,59 @@
+<div class="container-fluid p-0">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="user-request-info px-5 mt-4 d-flex justify-content-center">
+    <div class="card border border-1shadow-sm p-4 w-50">
+      <h3 class="text-center mb-4">Contact Request</h3>
+      <div class="form-group mb-3">
+        <label for="name" class="">Username</label>
+        <input
+          type="text"
+          class="form-control bg-light"
+          disabled
+          value="{{ username }}"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="subject" class="">Subject</label>
+        <input
+          type="text"
+          class="form-control bg-light"
+          disabled
+          value="{{ subject }}"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="type-of-request" class="">Request Type</label>
+        <input
+          type="text"
+          class="form-control bg-light"
+          disabled
+          value="{{ requestType }}"
+        />
+      </div>
+      <div class="form-group mb-4">
+        <label for="description" class="">Description</label>
+        <textarea name="address" class="form-control bg-light" disabled>{{
+          description
+        }}</textarea>
+      </div>
+      <label for="documents" class="">Documents</label>
+      <div class="documents d-flex flex-wrap">
+        @for (image of requestDocuments; track i; let i = $index){
+        <div class="image-preview me-3 mb-3">
+          <div class="image-card position-relative">
+            <img [src]="image" alt="Uploaded Image" />
+            <div
+              class="download-icon download-btn position-absolute"
+              (click)="downloadImage(image, i)"
+            >
+              <i class="bi bi-arrow-down-circle-fill"></i>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

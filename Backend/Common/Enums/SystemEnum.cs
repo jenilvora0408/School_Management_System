@@ -40,7 +40,7 @@ public class SystemEnum
         AB_NEGATIVE = 8,
     }
 
-    public enum ContactType
+    public enum ContactTypes : byte
     {
         Harassment = 1,
         Awareness = 2,

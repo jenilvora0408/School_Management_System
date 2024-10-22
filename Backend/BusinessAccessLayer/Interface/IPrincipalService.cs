@@ -11,4 +11,6 @@ public interface IPrincipalService
     Task<PageListResponseDTO<LeaveRequestsAwaitingApprovalDTO>> GetAllLeaveRequest(PageListRequestDTO leaveRequestsListDTO);
 
     Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetContactPrincipalList(PageListRequestDTO pageListRequestDTO);
+
+    Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId);
 }

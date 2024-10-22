@@ -109,7 +109,12 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
             PageSize = pageListRequestDTO.PageSize,
             SortColumn = SystemConstants.REQUEST_DATE_COLUMN,
             SortOrder = SystemConstants.DESCENDING,
-            Predicate = contactPrincipal => contactPrincipal.Subject.ToLower().Contains(pageListRequestDTO.SearchQuery.ToLower()) || contactPrincipal.Description.ToLower().Contains(pageListRequestDTO.SearchQuery.ToLower()),
+            Predicate = contactPrincipal => pageListRequestDTO.Filter == (int)StatusType.ALL ||
+                (pageListRequestDTO.Filter == (int)ContactTypes.Harassment && contactPrincipal.Type == (byte)ContactTypes.Harassment) ||
+                (pageListRequestDTO.Filter == (int)ContactTypes.Awareness && contactPrincipal.Type == (byte)ContactTypes.Awareness) ||
+                (pageListRequestDTO.Filter == (int)ContactTypes.Notice && contactPrincipal.Type == (byte)ContactTypes.Notice) ||
+                (pageListRequestDTO.Filter == (int)ContactTypes.ExternalHelp && contactPrincipal.Type == (byte)ContactTypes.ExternalHelp) ||
+                (pageListRequestDTO.Filter == (int)ContactTypes.Other && contactPrincipal.Type == (byte)ContactTypes.Other),
             IncludeExpressions = [x => x.Users, x => x.ContactOfType]
         };
 
@@ -118,6 +123,20 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         List<GetContactPrincipalListDTO> getContactPrincipalListDTO = ContactPrincipalMappingProfile.ToGetContactPrincipalList(pageListResponse.Records);
 
         return new PageListResponseDTO<GetContactPrincipalListDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, getContactPrincipalListDTO);
+    }
+
+    public async Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId)
+    {
+        IEnumerable<Document> documents = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.ContactPrincipalId == contactPrincipalId);
+        List<string> documentContent = [];
+        if (documents.Any())
+        {
+            foreach (Document item in documents)
+            {
+                documentContent.Add(item.DocumentContent);
+            }
+        }
+        return documentContent;
     }
 
     #endregion HTTP_Methods

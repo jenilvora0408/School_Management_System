@@ -20,6 +20,7 @@ export class PrincipalService {
   editClassApi = ApiCallConstant.EDIT_CLASS;
   leaveRequestApi = ApiCallConstant.LEAVE_REQUESTS;
   contactPrincipalApi = ApiCallConstant.CONTACT_PRINCIPAL_REQUESTS;
+  contactPrincipalDocumentsAPi = ApiCallConstant.GET_CONTACT_PRINCIPAL_DOCUMENTS;
 
   constructor(private http: HttpClient) {}
 
@@ -54,5 +55,13 @@ export class PrincipalService {
     return this.http.post<
       IResponse<IPageListResponse<IContactPrincipalListInterface[]>>
     >(this.contactPrincipalApi, listCredentials);
+  }
+
+  getContactPrincipalDocuments(
+    id: number
+  ): Observable<IResponse<string[]>> {
+    return this.http.get<IResponse<string[]>>(
+      `${this.contactPrincipalDocumentsAPi}/${id}`
+    );
   }
 }

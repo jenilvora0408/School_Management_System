@@ -15,6 +15,7 @@ import { MyProfileComponent } from './pages/common/my-profile/my-profile.compone
 import { LeaveRequestsComponent } from './pages/principal/leave-requests/leave-requests.component';
 import { ContactPrincipalComponent } from './pages/common/contact-principal/contact-principal.component';
 import { ContactRequestsComponent } from './pages/principal/contact-requests/contact-requests.component';
+import { ViewContactRequestComponent } from './pages/principal/view-contact-request/view-contact-request.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -67,6 +68,10 @@ export const routes: Routes = [
       {
         path: 'contact-requests',
         component: ContactRequestsComponent,
+      },
+      {
+        path: 'view-contact-request',
+        component: ViewContactRequestComponent,
       },
     ],
   },

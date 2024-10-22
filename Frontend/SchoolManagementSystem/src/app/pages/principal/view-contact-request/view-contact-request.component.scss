@@ -1,4 +1,6 @@
 $purple: #6c4e87;
+$border-color: #ced4da;
+$white: #fff;
 
 h3 {
   color: $purple;
@@ -6,28 +8,36 @@ h3 {
   word-spacing: 3px;
   letter-spacing: 1px;
 }
+.card {
+  border-radius: 12px;
+  border: none;
+}
+.form-control {
+  border: 1px solid $border-color;
+  border-radius: 8px;
+}
 .image-preview {
   position: relative;
-  margin: 5px;
+  width: 120px;
 }
 .image-preview img {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 120px;
   object-fit: cover;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .download-btn {
-  position: absolute;
   top: 6px;
-  right: 3px;
-  color: white;
+  right: 6px;   
+  color: $white;
   border: none;
   cursor: pointer;
   font-size: 18px;
-  padding: 0 5px;
+  padding: 5px;
   border-radius: 50%;
-  line-height: 1;
 }
 i {
   color: $purple;
 }
+

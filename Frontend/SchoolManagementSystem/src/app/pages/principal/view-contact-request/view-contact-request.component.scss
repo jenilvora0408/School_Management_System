@@ -1,0 +1,33 @@
+$purple: #6c4e87;
+
+h3 {
+  color: $purple;
+  font-weight: normal;
+  word-spacing: 3px;
+  letter-spacing: 1px;
+}
+.image-preview {
+  position: relative;
+  margin: 5px;
+}
+.image-preview img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+.download-btn {
+  position: absolute;
+  top: 6px;
+  right: 3px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 5px;
+  border-radius: 50%;
+  line-height: 1;
+}
+i {
+  color: $purple;
+}

@@ -55,4 +55,13 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     {
         return GetResult(await _principalService.GetContactPrincipalList(pageListRequestDTO), message: null);
     }
+
+    [HttpGet("get-contact-principal-documents/{id}")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetContactPrincipalDocuments(int id)
+    {
+        return GetResult(await _principalService.GetContactPrincipalDocuments(id), message: null);
+    }
 }

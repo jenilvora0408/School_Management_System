@@ -2,7 +2,7 @@
   <div class="header">
     <app-header></app-header>
   </div>
-  <div class="filters-container mt-5 px-4">
+  <div class="filters-container mt-3 px-4">
     <div class="filter-options d-flex justify-content-center flex-wrap gap-4">
       @for (filter of filters; track i; let i = $index){
       <div
@@ -23,11 +23,72 @@
       }
     </div>
   </div>
-  <div class="heading mt-4 ms-5 ps-5">
-    <h3 class="ps-1">Contact Requests</h3>
-    <span class="tagline ps-1"> <u>{{selectedTagline}}</u></span>
+  <div class="ps-1">
+    <div class="heading mt-3 ms-4 ps-5">
+      <h3 class="ps-1 mb-0">Contact Requests</h3>
+      <span class="tagline ps-1">
+        <u>{{ selectedTagline }}</u></span
+      >
+    </div>
   </div>
   <div class="request-content">
-    <app-accordion [panels]="panels"></app-accordion>
+    @if(requestData.length > 0){
+    <table
+      class="table table-striped table-hover border border-1"
+      id="excel-table"
+      #content
+    >
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">Username</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Requested Date</th>
+          <th scope="col">Request Type</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of requestData; track i; let i = $index){
+        <tr class="border border-2">
+          <td>{{ item.userName }}</td>
+          <td>{{ item.subject }}</td>
+          <td>{{ item.requestDate | dateFormat }}</td>
+          <td>{{ item.contactTypeTitle }}</td>
+          <td>
+            <app-button
+              type="button"
+              label="View Request"
+              className="btn btn-outline-secondary bg-light text-dark"
+              (btnClick)="viewContactRequest(item.contactPrincipalId)"
+            ></app-button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="getContactRequestData()"
+      >
+      </ngb-pagination>
+
+      <select
+        class="form-select"
+        style="width: auto"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="getContactRequestData()"
+      >
+        <option [ngValue]="3">3 items per page</option>
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="8">8 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+      </select>
+    </div>
+    } @else {
+    <h3 class="text-center">No Contact Requests Found!</h3>
+    }
   </div>
 </div>

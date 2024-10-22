@@ -7,4 +7,5 @@ export class ValidationMessageConstant {
   public static avatarExtensionError = "Only .jpg, .jpeg, and .png files are allowed.";
   public static canUploadMax7Images = "You can upload a maximum of 7 images only!";
   public static imageAlreadyUploaded = 'This image has already been uploaded.';
+  public static filterError = "Something went wrong while applying filters!";
 }

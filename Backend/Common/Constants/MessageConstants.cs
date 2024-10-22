@@ -29,6 +29,8 @@ public static class MessageConstants
         public const string CLASS_NOT_FOUND = "Class not found!";
 
         public const string LEAVE_REQUEST_NOT_FOUND = "Leave Request not found!";
+
+        public const string CONTACT_REQUEST_NOT_FOUND = "Contact Principal Request not found!";
     }
 
     public static class SuccessMessage
@@ -96,6 +98,8 @@ public static class MessageConstants
         public const string GENERATE_LOGIN_CREDENTIALS_SUBJECT = "School || Generate Login Credentials || No Reply";
 
         public const string RESET_PASSWORD_SUBJECT = "School || ResetPassword || No Reply";
+
+        public const string CONTACT_PRINCIPAL_RESPONSE = "School || Contact Principal Response || No Reply";
     }
 
     #endregion Email_Constants

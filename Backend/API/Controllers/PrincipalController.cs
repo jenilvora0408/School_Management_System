@@ -10,7 +10,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/principal")]
-[PrincipalPolicy]
+// [PrincipalPolicy]
 public class PrincipalController(IPrincipalService principalService) : BaseController
 {
     #region Constructor
@@ -64,5 +64,17 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     public async Task<IActionResult> GetContactPrincipalDocuments([Required] int id)
     {
         return GetResult(await _principalService.GetContactPrincipalDocuments(id), message: null);
+    }
+
+    [HttpPost("principal-response")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(422)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> PostPrincipalResponse(ContactPrincipalResponseDTO contactPrincipalResponseDTO)
+    {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
+        await _principalService.PostContactPrincipalResponse(contactPrincipalResponseDTO);
+        return GetResult(null, message: null);
     }
 }

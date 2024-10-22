@@ -38,4 +38,10 @@ public static class ContactPrincipalMappingProfile
             ContactTypeTitle = contactPrincipal.ContactOfType.ContactTitle
         };
     }
+
+    public static void ToPostPrincipalResponse(ContactPrincipal contactPrincipal, ContactPrincipalResponseDTO contactPrincipalDTO)
+    {
+        contactPrincipal.ResponseMessage = contactPrincipalDTO.ResponseMessage;
+    }
+
 }

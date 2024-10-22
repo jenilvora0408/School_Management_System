@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
@@ -56,11 +57,11 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
         return GetResult(await _principalService.GetContactPrincipalList(pageListRequestDTO), message: null);
     }
 
-    [HttpGet("get-contact-principal-documents/{id}")]
+    [HttpGet("contact-documents/{id}")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(401)]
     [ProducesResponseType(500)]
-    public async Task<IActionResult> GetContactPrincipalDocuments(int id)
+    public async Task<IActionResult> GetContactPrincipalDocuments([Required] int id)
     {
         return GetResult(await _principalService.GetContactPrincipalDocuments(id), message: null);
     }

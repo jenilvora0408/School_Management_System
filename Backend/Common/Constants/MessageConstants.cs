@@ -79,6 +79,8 @@ public static class MessageConstants
         public const string DEFAULT_MODELSTATE = "Model state is Invalid!";
 
         public const string INVALID_OTP = "OTP is Invalid!";
+
+        public const string INVALID_CREDENTIALS = "Invalid credentials!";
     }
 
     #endregion Validation_Messages

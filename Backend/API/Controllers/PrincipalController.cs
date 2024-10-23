@@ -65,4 +65,16 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     {
         return GetResult(await _principalService.GetContactPrincipalDocuments(id), message: null);
     }
+
+    [HttpPost("principal-response")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(422)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> PostPrincipalResponse(ContactPrincipalResponseDTO contactPrincipalResponseDTO)
+    {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
+        await _principalService.PostContactPrincipalResponse(contactPrincipalResponseDTO);
+        return GetResult(null, message: null);
+    }
 }

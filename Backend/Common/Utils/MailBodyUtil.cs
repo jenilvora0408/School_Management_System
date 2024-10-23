@@ -37,6 +37,17 @@ public class MailBodyUtil
         return CreateMessage(body);
     }
 
+    public static string PostContactPrincipalResponse(string username, string subject, string responseMessage, string mailTemplateLink)
+    {
+        string filePath = Path.Combine(mailTemplateLink, SystemConstants.MAIL_TEMPLATES, SystemConstants.CONTACT_PRINCIPAL_RESPONSE_FILE);
+
+        string body = File.ReadAllText(filePath);
+        body = body.Replace("{userName}", username);
+        body = body.Replace("{subject}", subject);
+        body = body.Replace("{responseMessage}", responseMessage);
+        return CreateMessage(body);
+    }
+
     private static string CreateMessage(string body)
     {
         return body;

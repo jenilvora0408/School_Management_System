@@ -32,7 +32,7 @@
           value="{{ requestType }}"
         />
       </div>
-      <div class="form-group mb-4">
+      <div class="form-group mb-2">
         <label for="description" class="">Description</label>
         <textarea name="address" class="form-control bg-light" disabled>{{
           description
@@ -53,6 +53,16 @@
           </div>
         </div>
         }
+      </div>
+      <div class="form-content">
+        
+        <label for="response">Response</label>
+          <ckeditor
+            [editor]="Editor"
+            [config]="config"
+            data="" 
+            class="w-100"
+          ></ckeditor>
       </div>
     </div>
   </div>

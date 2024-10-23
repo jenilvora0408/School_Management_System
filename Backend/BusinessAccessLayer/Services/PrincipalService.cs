@@ -131,7 +131,7 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         List<string> documentContent = [];
         if (documents.Any())
         {
-            foreach (Document item in documents)
+            foreach (Document item in documents) 
             {
                 documentContent.Add(item.DocumentContent);
             }

@@ -1,12 +1,15 @@
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
+using Common.Utils;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
+using Entities.DTOs.Common;
 using Entities.ExtensionMethods.MappingProfiles;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using static Common.Constants.MessageConstants;
 using static Common.Enums.SystemEnum;
 
 namespace BusinessAccessLayer.Services;
@@ -137,6 +140,24 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
             }
         }
         return documentContent;
+    }
+
+    public async Task PostContactPrincipalResponse(ContactPrincipalResponseDTO contactPrincipalResponseDTO)
+    {
+        ContactPrincipal? contactPrincipal = await _unitOfWork.ContactPrincipalRepository.GetAsync(cp => cp.Id == contactPrincipalResponseDTO.ContactPrincipalId, [x => x.Users]) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.CONTACT_REQUEST_NOT_FOUND);
+
+        ContactPrincipalMappingProfile.ToPostPrincipalResponse(contactPrincipal, contactPrincipalResponseDTO);
+
+        await _unitOfWork.ContactPrincipalRepository.UpdateAsync(contactPrincipal);
+        await _unitOfWork.SaveAsync();
+
+        MailDTO mailDto = new()
+        {
+            ToEmail = contactPrincipal.Users.Email,
+            Subject = EmailConstants.CONTACT_PRINCIPAL_RESPONSE,
+            Body = MailBodyUtil.PostContactPrincipalResponse($"{contactPrincipal.Users.FirstName} {contactPrincipal.Users.LastName}", contactPrincipal.Subject, contactPrincipalResponseDTO.ResponseMessage, _environment.WebRootPath)
+        };
+        await _mailService.SendMailAsync(mailDto);
     }
 
     #endregion HTTP_Methods

@@ -18,6 +18,8 @@ public static class SystemConstants
 
     public const string GENERATE_CREDENTIALS = "GenerateCredentialsMailTemplate.html";
 
+    public const string CONTACT_PRINCIPAL_RESPONSE_FILE = "ContactPrincipalResponseMailTemplate.html";
+
     public const string USER_ID_CLAIM = "UserId";
 
     public const string BEARER = "Bearer ";

@@ -2,20 +2,26 @@ using System.Linq.Expressions;
 using BusinessAccessLayer.Interface;
 using Common.Constants;
 using Common.Exceptions;
+using Common.Utils;
 using DataAccessLayer.Interface;
 using Entities.DataModels;
 using Entities.DTOs;
+using Entities.DTOs.Common;
 using Entities.ExtensionMethods.MappingProfiles;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using static Common.Constants.MessageConstants;
 using static Common.Enums.SystemEnum;
 
 namespace BusinessAccessLayer.Services;
-
-public class CommonService(IUnitOfWork unitOfWork) : ICommonService
+[Obsolete]
+public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environment, IMailService mailService) : ICommonService
 {
     #region Constructor
 
     public readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMailService _mailService = mailService;
+    private readonly IHostingEnvironment _environment = environment;
 
     #endregion Constructor
 
@@ -183,6 +189,16 @@ public class CommonService(IUnitOfWork unitOfWork) : ICommonService
 
         await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
         await _unitOfWork.SaveAsync();
+
+        User? users = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(user => user.RoleId == 1);
+
+        MailDTO mailDto = new()
+        {
+            ToEmail = users.Email,
+            Subject = EmailConstants.CONTACT_PRINCIPAL_RESPONSE,
+            Body = MailBodyUtil.CreateContactPrincipalRequest($"{users.FirstName} {users.LastName}", $"{contactPrincipal.Users.FirstName} {contactPrincipal.Users.LastName}", contactPrincipal.Subject, _environment.WebRootPath)
+        };
+        await _mailService.SendMailAsync(mailDto);
     }
 
     #endregion Http_Methods

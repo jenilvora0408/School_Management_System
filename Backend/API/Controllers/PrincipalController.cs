@@ -75,6 +75,6 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
         await _principalService.PostContactPrincipalResponse(contactPrincipalResponseDTO);
-        return GetResult(null, message: null);
+        return GetResult(null, message: MessageConstants.SuccessMessage.SAVE_CONTACT_PRINCIPAL_RESPONSE);
     }
 }

@@ -3,13 +3,6 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 import { IContactPrincipalListInterface } from '../../../models/principal/contact-principal-list';
 import { PrincipalService } from '../../../services/principal.service';
 import { IResponse } from '../../../shared/models/IResponse';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EditorConfig } from '@ckeditor/ckeditor5-core';
 import {
@@ -21,7 +14,6 @@ import {
   BlockQuote,
   Base64UploadAdapter,
   CloudServices,
-  CKBox,
   Essentials,
   Heading,
   Image,
@@ -45,15 +37,17 @@ import {
   TextTransformation,
 } from 'ckeditor5';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { FormsModule } from '@angular/forms';
+import { ValidationMessageConstant } from '../../../constants/validation/validation-message';
+import { IContactPrincipalResponse } from '../../../models/principal/contact-principal-response';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-contact-request',
   standalone: true,
-  imports: [
-    HeaderComponent,
-    CKEditorModule,
-    ButtonComponent
-  ],
+  imports: [HeaderComponent, CKEditorModule, ButtonComponent, FormsModule],
   templateUrl: './view-contact-request.component.html',
   styleUrl: './view-contact-request.component.scss',
 })
@@ -65,8 +59,15 @@ export class ViewContactRequestComponent {
   subject: string = '';
   requestType: string = '';
   description: string = '';
+  ckEditorContent: string = '';
+  ckEditorValidationMessage: string = '';
 
-  constructor(private principalService: PrincipalService) {}
+  constructor(
+    private principalService: PrincipalService,
+    private loaderService: LoaderService,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const importDataArray = history.state
@@ -216,5 +217,39 @@ export class ViewContactRequestComponent {
     link.click();
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    this.loaderService.show();
+    console.log('CKEditor content:', this.ckEditorContent);
+    const contentLength = this.ckEditorContent.trim().length;
+
+    if (contentLength < 15) {
+      this.ckEditorValidationMessage = ValidationMessageConstant.shortResponse;
+    } else if (contentLength > 2000) {
+      this.ckEditorValidationMessage =
+        ValidationMessageConstant.responseCannotExceed2000;
+    } else {
+      this.ckEditorValidationMessage = '';
+
+      const payload: IContactPrincipalResponse = {
+        contactPrincipalId: this.contactRequestId,
+        responseMessage: this.ckEditorContent,
+      };
+
+      this.principalService.postContactPrincipalResponse(payload).subscribe({
+        next: (response: IResponse<null>) => {
+          if (response.success) {
+            this.loaderService.hide();
+            this.router.navigate(['/principal/contact-requests'])
+            this.notificationService.success(response.message);
+          }
+        },
+        error: (error) => {
+          this.loaderService.hide();
+          this.notificationService.error(error.error.errors);
+        },
+      });
+    }
+  }
+
+  onCancel(): void {}
 }

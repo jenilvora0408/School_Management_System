@@ -54,6 +54,8 @@ public static class MessageConstants
         public const string LEAVE_DECLINED = "Leave Request has been declined successfully!";
 
         public const string CONTACT_PRINCIPAL_SUCCESS = "Your request has been sent to the Principal!";
+
+        public const string SAVE_CONTACT_PRINCIPAL_RESPONSE = "Your response to the contact request has been saved successfully!";
     }
 
     #endregion Error_Messages

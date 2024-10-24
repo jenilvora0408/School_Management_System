@@ -20,6 +20,10 @@ public static class SystemConstants
 
     public const string CONTACT_PRINCIPAL_RESPONSE_FILE = "ContactPrincipalResponseMailTemplate.html";
 
+    public const string CONTACT_PRINCIPAL_REQUEST_FILE = "CreateContactPrincipalRequestMailTemplate.html";
+
+    public const string PRINCIPAL_NAME = "Anurag Patwardhan";
+
     public const string USER_ID_CLAIM = "UserId";
 
     public const string BEARER = "Bearer ";

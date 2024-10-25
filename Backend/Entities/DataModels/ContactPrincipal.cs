@@ -19,8 +19,6 @@ public class ContactPrincipal : IdentityEntity<int>
 
     public string? ResponseMessage { get; set; }
 
-    public string? RelatableEvidence { get; set; }
-
     #region Foreign_Keys
 
     [ForeignKey(nameof(Type))]

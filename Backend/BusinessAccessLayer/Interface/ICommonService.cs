@@ -26,4 +26,6 @@ public interface ICommonService
     Task<string> LeaveRequestApproval(LeavesApprovalDTO leavesApprovalDTO);
 
     Task ContactPrincipalRequest(ContactPrincipalDTO contactPrincipalDTO);
+
+    Task<List<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(long userId);
 }

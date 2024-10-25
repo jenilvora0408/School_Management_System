@@ -18,8 +18,6 @@ public class GetContactPrincipalListDTO
 
     public string ContactTypeTitle { get; set; } = null!;
 
-    public string? RelatableEvidence { get; set; }
-
     public bool IsResolved { get; set; }
 
     public string? ResponseMessage { get; set; }

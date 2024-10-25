@@ -201,5 +201,16 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
         await _mailService.SendMailAsync(mailDto);
     }
 
+    public async Task<List<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(long userId)
+    {
+        User? user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.Id == userId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.USER_NOT_FOUND);
+
+        List<ContactPrincipal>? contactPrincipalRequests = await _unitOfWork.ContactPrincipalRepository.GetListAsync(predicate: x => x.UserId == userId, includes: [x => x.ContactOfType]);
+
+        List<GetContactPrincipalListDTO> response = ContactPrincipalMappingProfile.ToViewOwnContactRequest(contactPrincipalRequests);
+
+        return response;
+    }
+
     #endregion Http_Methods
 }

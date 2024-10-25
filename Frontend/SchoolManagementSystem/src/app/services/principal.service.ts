@@ -11,6 +11,7 @@ import { IPageListRequest } from '../shared/models/page-list-request';
 import { IPageListResponse } from '../shared/models/page-list-response';
 import { ILeaveRequestsInterface } from '../models/principal/leave-requests';
 import { IContactPrincipalListInterface } from '../models/principal/contact-principal-list';
+import { IContactPrincipalResponse } from '../models/principal/contact-principal-response';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,7 @@ export class PrincipalService {
   leaveRequestApi = ApiCallConstant.LEAVE_REQUESTS;
   contactPrincipalApi = ApiCallConstant.CONTACT_PRINCIPAL_REQUESTS;
   contactPrincipalDocumentsAPi = ApiCallConstant.GET_CONTACT_PRINCIPAL_DOCUMENTS;
+  postContactPrincipalResponseApi = ApiCallConstant.POST_CONTACT_PRINCIPAL_RESPONSE;
 
   constructor(private http: HttpClient) {}
 
@@ -62,6 +64,15 @@ export class PrincipalService {
   ): Observable<IResponse<string[]>> {
     return this.http.get<IResponse<string[]>>(
       `${this.contactPrincipalDocumentsAPi}/${id}`
+    );
+  }
+
+  postContactPrincipalResponse(
+    requestCredentials: IContactPrincipalResponse
+  ): Observable<IResponse<null>> {
+    return this.http.post<IResponse<null>>(
+      `${this.postContactPrincipalResponseApi}`,
+      requestCredentials
     );
   }
 }

@@ -48,6 +48,17 @@ public class MailBodyUtil
         return CreateMessage(body);
     }
 
+    public static string CreateContactPrincipalRequest(string principalName, string userName, string subject, string mailTemplateLink)
+    {
+        string filePath = Path.Combine(mailTemplateLink, SystemConstants.MAIL_TEMPLATES, SystemConstants.CONTACT_PRINCIPAL_REQUEST_FILE);
+
+        string body = File.ReadAllText(filePath);
+        body = body.Replace("{username}", userName);
+        body = body.Replace("{subject}", subject);
+        body = body.Replace("{principalName}", principalName);
+        return CreateMessage(body);
+    }
+
     private static string CreateMessage(string body)
     {
         return body;

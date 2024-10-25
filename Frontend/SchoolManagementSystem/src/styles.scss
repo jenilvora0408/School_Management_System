@@ -1,6 +1,7 @@
 @import "bootstrap/scss/bootstrap";
 @import "../node_modules//ngx-toastr//toastr.css";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Work+Sans:wght@400;500&display=swap");
+@import 'ckeditor5/ckeditor5.css';
 
 * {
   font-family: "Work Sans", sans-serif !important;
@@ -23,4 +24,7 @@ select.ng-touched.ng-invalid {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.ck-content{
+  height: 150px !important;
 }

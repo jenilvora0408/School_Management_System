@@ -8,4 +8,6 @@ export class ValidationMessageConstant {
   public static canUploadMax7Images = "You can upload a maximum of 7 images only!";
   public static imageAlreadyUploaded = 'This image has already been uploaded.';
   public static filterError = "Something went wrong while applying filters!";
+  public static shortResponse = "Response Message is too short!";
+  public static responseCannotExceed2000 = 'The response message cannot exceed 2000 characters.';
 }

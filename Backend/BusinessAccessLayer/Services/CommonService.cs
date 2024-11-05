@@ -214,16 +214,9 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
 
     public async Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId)
     {
-        IEnumerable<Document> documents = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.ContactPrincipalId == contactPrincipalId);
-        List<string> documentContent = [];
-        if (documents.Any())
-        {
-            foreach (Document item in documents) 
-            {
-                documentContent.Add(item.DocumentContent);
-            }
-        }
-        return documentContent;
+        List<string> documents = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.ContactPrincipalId == contactPrincipalId, doc => doc.DocumentContent);
+
+        return documents;
     }
 
     #endregion Http_Methods

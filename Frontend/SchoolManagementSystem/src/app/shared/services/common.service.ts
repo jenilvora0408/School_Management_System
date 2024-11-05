@@ -10,6 +10,7 @@ import { IMyProfileInterface } from '../../models/common/my-profile';
 import { ILeaveApprovalInterface } from '../../models/common/leave-approval';
 import { CommonListResponse } from '../models/common-item-response';
 import { IContactPrincipalInterface } from '../../models/common/contact-principal';
+import { IContactPrincipalListInterface } from '../../models/principal/contact-principal-list';
 
 @Injectable({
   providedIn: 'root',
@@ -72,5 +73,20 @@ export class CommonService {
       ApiCallConstant.CONTACT_PRINCIPAL,
       credentials
     );
+  }
+
+  getOwnContactRequestsHistory(
+    userId: number
+  ): Observable<IResponse<IContactPrincipalListInterface[]>> {
+    return this.http.get<IResponse<IContactPrincipalListInterface[]>>(
+      `${ApiCallConstant.VIEW_OWN_CONTACT_REQUESTS}/${userId}`
+    );
+  }
+
+  downloadImage(imageUrl: string, index: number): void {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = `evidence_${index + 1}`;
+    link.click();
   }
 }

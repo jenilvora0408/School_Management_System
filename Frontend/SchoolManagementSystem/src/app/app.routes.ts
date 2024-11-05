@@ -16,6 +16,9 @@ import { LeaveRequestsComponent } from './pages/principal/leave-requests/leave-r
 import { ContactPrincipalComponent } from './pages/common/contact-principal/contact-principal.component';
 import { ContactRequestsComponent } from './pages/principal/contact-requests/contact-requests.component';
 import { ViewContactRequestComponent } from './pages/principal/view-contact-request/view-contact-request.component';
+import { ContactRequestOptionsComponent } from './pages/common/contact-request-options/contact-request-options.component';
+import { ContactRequestHistoryComponent } from './pages/common/contact-request-history/contact-request-history.component';
+import { MyContactRequestComponent } from './pages/common/my-contact-request/my-contact-request.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -26,6 +29,21 @@ export const routes: Routes = [
   {
     path: 'contact-principal',
     component: ContactPrincipalComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'contact-request-options',
+    component: ContactRequestOptionsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'contact-request-history',
+    component: ContactRequestHistoryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'my-contact-request',
+    component: MyContactRequestComponent,
     canActivate: [AuthGuard],
   },
   {

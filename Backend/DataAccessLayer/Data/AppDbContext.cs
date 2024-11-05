@@ -105,6 +105,8 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<Document> Documents { get; set; }
 
+    public virtual DbSet<Course> Courses { get; set; }
+
     #endregion
 
     #region Model_Builder
@@ -350,6 +352,21 @@ public class AppDbContext : DbContext
             entity.HasOne(u => u.ContactPrincipals)
                 .WithMany()
                 .HasForeignKey(u => u.ContactPrincipalId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Course>(entity =>
+        {
+            entity.ToTable("Courses");
+            entity.Property(e => e.ChapterSerialNumber).IsRequired();
+            entity.Property(e => e.ChapterName).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.ClassSubjectId).IsRequired();
+            entity.Property(e => e.ProbableDurationToTeach).HasMaxLength(10);
+            entity.Property(e => e.IsOptionalToTeach).HasDefaultValue(false);
+            entity.Property(e => e.LearningObjectives).HasMaxLength(100);
+            entity.HasOne(u => u.ClassSubjects)
+                .WithMany()
+                .HasForeignKey(u => u.ClassSubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

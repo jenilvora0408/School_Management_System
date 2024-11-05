@@ -31,4 +31,6 @@ public interface IUnitOfWork
     public IContactPrincipalRepository ContactPrincipalRepository { get; }
 
     public IDocumentRepository DocumentRepository { get; }
+
+    public ICourseRepository CourseRepository { get; }
 }

@@ -21,6 +21,7 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
     private IContactTypeRepository _contactTypeRepository;
     private IContactPrincipalRepository _contactPrincipalRepository;
     private IDocumentRepository _documentRepository;
+    private ICourseRepository _courseRepository;
 
     #endregion
 
@@ -149,6 +150,14 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
         get
         {
             return _documentRepository ??= new DocumentRepository(_dbContext);
+        }
+    }
+
+    public ICourseRepository CourseRepository
+    {
+        get
+        {
+            return _courseRepository ??= new CourseRepository(_dbContext);
         }
     }
 

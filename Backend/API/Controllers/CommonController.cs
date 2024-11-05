@@ -105,4 +105,13 @@ public class CommonController(ICommonService commonService) : BaseController
     {
         return GetResult(await _commonService.GetOwnContactPrincipalRequests(userId), message: null);
     }
+
+    
+    [HttpGet("contact-documents/{id}")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetContactPrincipalDocuments([Required] int id)
+    {
+        return GetResult(await _commonService.GetContactPrincipalDocuments(id), message: null);
+    }
 }

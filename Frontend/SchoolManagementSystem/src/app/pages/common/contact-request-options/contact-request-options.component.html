@@ -1,0 +1,31 @@
+<div class="container-fluid p-0">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="container mt-5">
+    <div class="card text-center">
+      <div class="card-header text-white">
+        <h4 class="mt-1">Contact Principal</h4>
+      </div>
+      <div class="card-body">
+        <p class="card-text">Please select an option below:</p>
+        <div class="d-flex justify-content-center gap-4">
+          <app-button
+            label="Create New Request"
+            (btnClick)="navigateToCreateRequest()"
+            type="button"
+            className="mt-3 px-3 new-outline-btn"
+          >
+          </app-button>
+          <app-button
+            label="View Past Requests"
+            (btnClick)="navigateToViewRequests()"
+            type="button"
+            className="mt-3 px-3 previous-outline-btn"
+          >
+          </app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

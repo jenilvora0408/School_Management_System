@@ -11,6 +11,9 @@ $white: #fff;
 $white-hover: #f0edf3;
 $white-active: #e2dce7;
 $black: #111;
+$light-purple: #676a8f;
+$previous: #d3873f;
+$new: #59a2dd;
 
 .text-btn {
   font-weight: 500;
@@ -100,12 +103,43 @@ $black: #111;
   letter-spacing: 1px;
   padding: 9px 20px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid $purple;
   font-size: 15px;
   color: $purple;
+  background-color: $white;
 }
 .outline-btn:hover {
   background-color: $purple;
+  color: $white;
+}
+.new-outline-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 9px 20px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid $new;
+  font-size: 15px;
+  color: $new;
+  background-color: $white;
+}
+.new-outline-btn:hover {
+  background-color: $new;
+  color: $white;
+}
+.previous-outline-btn{
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 9px 20px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid $previous;
+  font-size: 15px;
+  color: $previous;
+  background-color: $white;
+}
+.previous-outline-btn:hover {
+  background-color: $previous;
   color: $white;
 }

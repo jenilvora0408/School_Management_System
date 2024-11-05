@@ -67,6 +67,24 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbSet.Where(predicate).ToListAsync();
     }
 
+    public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, TResult>>? selector = null, CancellationToken cancellationToken = default)
+    {
+        IQueryable<T> query = _dbSet;
+
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+
+        if (selector != null)
+        {
+            return await query.Select(selector).ToListAsync(cancellationToken);
+        }
+
+        return await query.Cast<TResult>().ToListAsync(cancellationToken);
+    }
+
+
     /// <summary>
     /// Fetch list based on predicate, Include entities & sort the list based on column
     /// </summary>

@@ -37,6 +37,12 @@ export class ApiCallConstant {
   public static readonly CONTACT_PRINCIPAL =
     this.COMMON_CONTROLLER + 'contact-principal';
 
+  public static readonly VIEW_OWN_CONTACT_REQUESTS =
+    this.COMMON_CONTROLLER + 'view-own-contact-requests';
+
+  public static readonly GET_CONTACT_PRINCIPAL_DOCUMENTS =
+    this.COMMON_CONTROLLER + 'contact-documents';
+
   //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';
@@ -84,9 +90,6 @@ export class ApiCallConstant {
 
   public static readonly CONTACT_PRINCIPAL_REQUESTS =
     this.PRINCIPAL_CONTROLLER + 'contact-principal-list';
-
-  public static readonly GET_CONTACT_PRINCIPAL_DOCUMENTS =
-    this.PRINCIPAL_CONTROLLER + 'contact-documents';
 
   public static readonly POST_CONTACT_PRINCIPAL_RESPONSE =
     this.PRINCIPAL_CONTROLLER + 'principal-response';

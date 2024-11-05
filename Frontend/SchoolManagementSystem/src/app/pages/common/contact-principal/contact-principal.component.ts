@@ -19,6 +19,7 @@ import { IContactPrincipalInterface } from '../../../models/common/contact-princ
 import { IResponse } from '../../../shared/models/IResponse';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { ValidationMessageConstant } from '../../../constants/validation/validation-message';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contact-principal',
@@ -78,7 +79,8 @@ export class ContactPrincipalComponent {
     private commonService: CommonService,
     private notificationService: NotificationService,
     private authService: AuthenticationService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -103,6 +105,7 @@ export class ContactPrincipalComponent {
       this.commonService.contactPrincipal(payload).subscribe({
         next: (response: IResponse<null>) => {
           if (response.success) {
+            this.router.navigate(['/contact-request-options'])
             this.notificationService.success(response.message);
           }
         },
@@ -181,5 +184,12 @@ export class ContactPrincipalComponent {
 
   removeImage(index: number) {
     this.uploadedImages.splice(index, 1);
+    if (
+      this.documentError == ValidationMessageConstant.canUploadMax7Images &&
+      this.uploadedImages.length <= this.maxImages
+    ) {
+      this.showDocumentErrors = false;
+      this.documentError = '';
+    }
   }
 }

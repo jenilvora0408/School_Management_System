@@ -212,5 +212,12 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
         return response;
     }
 
+    public async Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId)
+    {
+        List<string> documents = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.ContactPrincipalId == contactPrincipalId, doc => doc.DocumentContent);
+
+        return documents;
+    }
+
     #endregion Http_Methods
 }

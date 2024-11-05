@@ -1,0 +1,78 @@
+<div class="container-fluid p-0">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="container mt-5 p-0">
+    <h3 class="text-center bg-light py-3">Contact Request Details</h3>
+    <div class="capsules d-flex gap-3 m-4 justify-content-center">
+      <div class="capsule p-3 rounded-4 text-center">
+        <h6 class="text-muted mb-1">Sent To</h6>
+        <p class="text-dark mb-0">Anurag Patwardhan</p>
+      </div>
+      <div class="capsule p-3 rounded-4 text-center">
+        <h6 class="text-muted mb-1">Request Type</h6>
+        <p class="text-dark mb-0">{{ requestType }}</p>
+      </div>
+      <div class="capsule p-3 rounded-4 text-center">
+        <h6 class="text-muted mb-1">Requested On</h6>
+        <p class="text-dark mb-0">{{ requestedDate | dateFormat }}</p>
+      </div>
+      <div class="capsule p-3 rounded-4 text-center">
+        <h6 class="text-muted mb-1">Status</h6>
+        <p class="text-dark mb-0">{{ resolved ? "Resolved" : "Pending" }}</p>
+      </div>
+    </div>
+    <div class="m-4 mb-3">
+      <div class="form-group">
+        <label for="subject" class="form-label m-0 ms-1">Subject</label>
+        <input
+          id="subject"
+          type="text"
+          class="form-control mb-3"
+          [value]="subject"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="description" class="form-label m-0 ms-1">Description</label>
+        <textarea
+          id="description"
+          class="form-control rounded-4 mb-3"
+          rows="3"
+          [value]="description"
+          readonly
+        ></textarea>
+      </div>
+    </div>
+    @if(responseMessage !== null){
+    <div class="ms-4">
+      <label for="response-message ms-1">Response Message</label>
+    </div>
+    <div
+      class="response-message m-4 mt-0 p-3 bg-light rounded-2"
+      [innerHTML]="responseMessage"
+    ></div>
+    } @if(requestDocuments.length > 0){
+    <div class="ms-4">
+      <label for="uploaded-documents" class="form-label"
+        >Uploaded Documents</label
+      >
+    </div>
+    <div class="documents d-flex flex-wrap ms-4 mb-3">
+      @for (image of requestDocuments; track i; let i = $index){
+      <div class="image-preview me-3 mb-3">
+        <div class="image-card position-relative">
+          <img [src]="image" alt="Uploaded Image" />
+          <div
+            class="download-icon download-btn position-absolute"
+            (click)="downloadImage(image, i)"
+          >
+            <i class="bi bi-arrow-down-circle-fill"></i>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>

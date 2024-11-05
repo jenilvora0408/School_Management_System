@@ -57,15 +57,6 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
         return GetResult(await _principalService.GetContactPrincipalList(pageListRequestDTO), message: null);
     }
 
-    [HttpGet("contact-documents/{id}")]
-    [ProducesResponseType(200, Type = typeof(ApiResponse))]
-    [ProducesResponseType(401)]
-    [ProducesResponseType(500)]
-    public async Task<IActionResult> GetContactPrincipalDocuments([Required] int id)
-    {
-        return GetResult(await _principalService.GetContactPrincipalDocuments(id), message: null);
-    }
-
     [HttpPost("principal-response")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(401)]

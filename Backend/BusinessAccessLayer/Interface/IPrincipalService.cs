@@ -12,7 +12,5 @@ public interface IPrincipalService
 
     Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetContactPrincipalList(PageListRequestDTO pageListRequestDTO);
 
-    Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId);
-
     Task PostContactPrincipalResponse(ContactPrincipalResponseDTO contactPrincipalResponseDTO);
 }

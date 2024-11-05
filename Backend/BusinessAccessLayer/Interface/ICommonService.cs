@@ -28,4 +28,6 @@ public interface ICommonService
     Task ContactPrincipalRequest(ContactPrincipalDTO contactPrincipalDTO);
 
     Task<List<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(long userId);
+
+    Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId);
 }

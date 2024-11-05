@@ -43,6 +43,7 @@ import { IContactPrincipalResponse } from '../../../models/principal/contact-pri
 import { LoaderService } from '../../../shared/services/loader.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
+import { CommonService } from '../../../shared/services/common.service';
 
 @Component({
   selector: 'app-view-contact-request',
@@ -66,7 +67,8 @@ export class ViewContactRequestComponent {
     private principalService: PrincipalService,
     private loaderService: LoaderService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -211,10 +213,7 @@ export class ViewContactRequestComponent {
   }
 
   downloadImage(imageUrl: string, index: number) {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = `evidence_${index + 1}`;
-    link.click();
+    this.commonService.downloadImage(imageUrl, index);
   }
 
   onSubmit(): void {

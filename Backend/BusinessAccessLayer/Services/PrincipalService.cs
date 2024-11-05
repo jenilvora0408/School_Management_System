@@ -128,20 +128,6 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         return new PageListResponseDTO<GetContactPrincipalListDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, getContactPrincipalListDTO);
     }
 
-    public async Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId)
-    {
-        IEnumerable<Document> documents = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.ContactPrincipalId == contactPrincipalId);
-        List<string> documentContent = [];
-        if (documents.Any())
-        {
-            foreach (Document item in documents) 
-            {
-                documentContent.Add(item.DocumentContent);
-            }
-        }
-        return documentContent;
-    }
-
     public async Task PostContactPrincipalResponse(ContactPrincipalResponseDTO contactPrincipalResponseDTO)
     {
         ContactPrincipal? contactPrincipal = await _unitOfWork.ContactPrincipalRepository.GetAsync(cp => cp.Id == contactPrincipalResponseDTO.ContactPrincipalId, [x => x.Users]) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.CONTACT_REQUEST_NOT_FOUND);

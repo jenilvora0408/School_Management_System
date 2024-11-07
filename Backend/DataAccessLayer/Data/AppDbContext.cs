@@ -107,6 +107,10 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<Course> Courses { get; set; }
 
+    public virtual DbSet<Assignment> Assignments { get; set; }
+
+    public virtual DbSet<AssignmentQuestion> AssignmentQuestions { get; set; }
+
     #endregion
 
     #region Model_Builder
@@ -367,6 +371,37 @@ public class AppDbContext : DbContext
             entity.HasOne(u => u.ClassSubjects)
                 .WithMany()
                 .HasForeignKey(u => u.ClassSubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<Assignment>(entity =>
+        {
+            entity.ToTable("Assignments");
+            entity.Property(e => e.AssignmentPublisherId).IsRequired();
+            entity.Property(e => e.AssignmentTitle).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.ClassSubjectId).IsRequired();
+            entity.Property(e => e.AssignmentInstructions).HasMaxLength(500);
+            entity.Property(e => e.Deadline).IsRequired();
+            entity.HasOne(u => u.ClassSubjects)
+                .WithMany()
+                .HasForeignKey(u => u.ClassSubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(u => u.AssignmentPublisher)
+                .WithMany()
+                .HasForeignKey(u => u.AssignmentPublisherId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<AssignmentQuestion>(entity =>
+        {
+            entity.ToTable("AssignmentQuestions");
+            entity.Property(e => e.AssignmentId).IsRequired();
+            entity.Property(e => e.Question).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.TypeOfQuestion).HasMaxLength(10);
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+            entity.HasOne(u => u.Assignments)
+                .WithMany()
+                .HasForeignKey(u => u.AssignmentId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

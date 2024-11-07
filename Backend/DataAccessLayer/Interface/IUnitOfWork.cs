@@ -33,4 +33,6 @@ public interface IUnitOfWork
     public IDocumentRepository DocumentRepository { get; }
 
     public ICourseRepository CourseRepository { get; }
+
+    public IAssignmentQuestionRepository AssignmentQuestionRepository { get; }
 }

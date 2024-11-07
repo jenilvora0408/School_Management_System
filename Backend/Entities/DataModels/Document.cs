@@ -11,10 +11,15 @@ public class Document : IdentityEntity<long>
 
     public int? ContactPrincipalId { get; set; }
 
+    public int? CourseId { get; set; }
+
     #region Foreign_Keys
 
     [ForeignKey(nameof(ContactPrincipalId))]
     public virtual ContactPrincipal ContactPrincipals { get; set; } = null!;
+
+    [ForeignKey(nameof(CourseId))]
+    public virtual Course Courses { get; set; } = null!;
 
     #endregion Foreign_Keys
 }

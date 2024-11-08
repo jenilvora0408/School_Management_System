@@ -13,4 +13,6 @@ public interface IPrincipalService
     Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetContactPrincipalList(PageListRequestDTO pageListRequestDTO);
 
     Task PostContactPrincipalResponse(ContactPrincipalResponseDTO contactPrincipalResponseDTO);
+
+    Task UpsertCourseChapters(AddCourseDTO addCourseDto);
 }

@@ -68,4 +68,16 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
         await _principalService.PostContactPrincipalResponse(contactPrincipalResponseDTO);
         return GetResult(null, message: MessageConstants.SuccessMessage.SAVE_CONTACT_PRINCIPAL_RESPONSE);
     }
+
+    [HttpPost("upsert-course-chapters")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(422)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> UpsertCourseChapters(AddCourseDTO addCourseDTO)
+    {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
+        await _principalService.UpsertCourseChapters(addCourseDTO);
+        return GetResult(null, message: null);
+    }
 }

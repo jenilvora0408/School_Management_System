@@ -146,5 +146,21 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         await _mailService.SendMailAsync(mailDto);
     }
 
+    public async Task UpsertCourseChapters(AddCourseDTO addCourseDto)
+    {
+        ClassSubject classSubject = await _unitOfWork.ClassSubjectRepository.GetFirstOrDefaultAsync(x => x.Id == addCourseDto.ClassSubjectId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, message: ErrorMessage.CLASS_SUBJECT_NOT_FOUND);
+
+        if (addCourseDto.AddChaptersDTO != null && addCourseDto.AddChaptersDTO.Any())
+        {
+            List<Course>? existingCourses = await _unitOfWork.CourseRepository
+                .GetAllAsync(course => addCourseDto.AddChaptersDTO.Select(chapter => chapter.CourseId).Contains(course.Id));
+
+            List<Course> courses = addCourseDto.AddChaptersDTO.ToCourseList(addCourseDto.ClassSubjectId, existingCourses);
+
+            await _unitOfWork.CourseRepository.AddRangeAsync(courses.Where(course => course.Id == 0));
+            await _unitOfWork.CourseRepository.UpdateRangeAsync(courses.Where(course => course.Id != 0));
+            await _unitOfWork.SaveAsync();
+        }
+    }
     #endregion HTTP_Methods
 }

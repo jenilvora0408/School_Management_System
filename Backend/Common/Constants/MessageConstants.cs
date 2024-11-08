@@ -31,6 +31,8 @@ public static class MessageConstants
         public const string LEAVE_REQUEST_NOT_FOUND = "Leave Request not found!";
 
         public const string CONTACT_REQUEST_NOT_FOUND = "Contact Principal Request not found!";
+
+        public const string CLASS_SUBJECT_NOT_FOUND = "The course you are trying to add for respective class & subject is not availabe at this moment!";
     }
 
     public static class SuccessMessage

@@ -11,4 +11,6 @@ public class SubjectsListResponseDTO
     public string? SubjectTeacherName { get; init; }
 
     public string? SubjectCode { get; init; }
+
+    public int ClassSubjectId { get; init; }
 }

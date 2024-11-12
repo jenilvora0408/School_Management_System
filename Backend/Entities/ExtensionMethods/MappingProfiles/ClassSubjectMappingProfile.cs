@@ -13,7 +13,8 @@ public static class ClassSubjectMappingProfile
             SubjectName = cs.Subjects.SubjectName,
             SubjectTeacherId = cs.Subjects.SubjectTeacherId,
             SubjectTeacherName = cs.Subjects.SubjectTeacher?.FirstName + ' ' + cs.Subjects.SubjectTeacher?.LastName,
-            SubjectCode = cs.Subjects.SubjectCode
+            SubjectCode = cs.Subjects.SubjectCode,
+            ClassSubjectId = cs.Id
         }).ToList();
     }
 }

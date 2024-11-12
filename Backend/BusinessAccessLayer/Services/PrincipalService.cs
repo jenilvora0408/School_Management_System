@@ -162,5 +162,15 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
             await _unitOfWork.SaveAsync();
         }
     }
+
+    public async Task<List<GetCoursesForClassSubjectDTO>> GetAllChapetrsForClassSubject(int classSubjectId)
+    {
+        List<Course> courses = await _unitOfWork.CourseRepository.GetListAsync(predicate: x => x.ClassSubjectId == classSubjectId, includes: [x => x.ClassSubjects, x => x.ClassSubjects.Subjects, x => x.ClassSubjects.Classes]);
+
+        List<GetCoursesForClassSubjectDTO> getCoursesForClassSubjectDTOs = courses.ToGetAllCourseForClassSubjects();
+
+        return getCoursesForClassSubjectDTOs;
+    }
+
     #endregion HTTP_Methods
 }

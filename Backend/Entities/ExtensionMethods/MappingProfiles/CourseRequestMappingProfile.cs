@@ -38,5 +38,23 @@ public static class CourseRequestMappingProfile
             }
         }).ToList();
     }
+
+    public static List<GetCoursesForClassSubjectDTO> ToGetAllCourseForClassSubjects(this List<Course> courses)
+    {
+        return courses.Select(cs => new GetCoursesForClassSubjectDTO()
+        {
+            CourseId = cs.Id,
+            ChapterName = cs.ChapterName,
+            ProbableDurationToTeach = cs.ProbableDurationToTeach,
+            ProbableWeightageInExam = cs.ProbableWeightageInExam,
+            IsOptionalToTeach = cs.IsOptionalToTeach,
+            LearningObjectives = cs.LearningObjectives,
+            ChapterSerialNumber = cs.ChapterSerialNumber,
+            ClassId = cs.ClassSubjects.ClassId,
+            SubjectId = cs.ClassSubjects.SubjectId,
+            ClassName = cs.ClassSubjects.Classes.ClassName,
+            SubjectName = cs.ClassSubjects.Subjects.SubjectName
+        }).ToList();
+    }
 }
 

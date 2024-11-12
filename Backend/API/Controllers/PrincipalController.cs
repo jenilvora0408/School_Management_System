@@ -80,4 +80,13 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
         await _principalService.UpsertCourseChapters(addCourseDTO);
         return GetResult(null, message: null);
     }
+
+    [HttpGet("get-all-courses-by-class-subject/{classSubjectId}")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetAllCourse(int classSubjectId)
+    {
+        return GetResult(await _principalService.GetAllChapetrsForClassSubject(classSubjectId), message: null);
+    }
 }

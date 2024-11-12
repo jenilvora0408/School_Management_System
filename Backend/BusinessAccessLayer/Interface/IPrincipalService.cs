@@ -15,4 +15,6 @@ public interface IPrincipalService
     Task PostContactPrincipalResponse(ContactPrincipalResponseDTO contactPrincipalResponseDTO);
 
     Task UpsertCourseChapters(AddCourseDTO addCourseDto);
+
+    Task<List<GetCoursesForClassSubjectDTO>> GetAllChapetrsForClassSubject(int classSubjectId);
 }

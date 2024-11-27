@@ -189,6 +189,7 @@ export class AdmitRequestComponent {
       .subscribe({
         next: (res: IResponse<null>) => {
           if (res.success) {
+            this.loaderService.hide();
             this.modalService.open(AdmitRequestConfirmationComponent, {
               centered: true,
               size: 'md',

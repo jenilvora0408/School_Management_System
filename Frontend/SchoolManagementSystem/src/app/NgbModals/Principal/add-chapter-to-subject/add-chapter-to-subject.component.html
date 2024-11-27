@@ -1,0 +1,113 @@
+<div class="add-chapter-to-subject">
+  <div
+    class="modal-header heading px-3 pt-3 pb-2 d-flex justify-content-between align-items-center"
+  >
+    <h4>Add Chapter</h4>
+    <button
+      type="button"
+      class="btn-close me-2"
+      aria-label="Close"
+      (click)="close()"
+    ></button>
+  </div>
+  <div class="form-container modal-body">
+    <form
+      action=""
+      class="d-flex flex-column"
+      [formGroup]="addChapterForm"
+      appFormSubmit
+    >
+      <div class="form-details">
+        <div class="chapter-name mb-3">
+          <app-input
+            label="Chapter Name"
+            title="Chapter Name"
+            type="text"
+            className=" py-2 fs-6 form-control"
+            placeholder="Eg. - Birbal the Legend"
+            [parentForm]="addChapterForm"
+            controlName="chapterName"
+            errorTitle="Chapter Name"
+          ></app-input>
+          @if(showError){
+            <span class="error"> {{chapterAlreadyExistsError}} </span>
+          }
+        </div>
+        <div class="probable-weightage">
+          <app-input
+            label="Probable Weightage in Exam"
+            title="Probable Weightage in Exam"
+            type="number"
+            className=" py-2 fs-6 form-control mb-3"
+            placeholder="Eg. - 8"
+            [parentForm]="addChapterForm"
+            controlName="probableWeightageInExam"
+          ></app-input>
+        </div>
+        <div class="probable-duration">
+          <app-input
+            label="Probable Duration to Teach"
+            title="Probable Duration to Teach"
+            type="number"
+            className=" py-2 fs-6 form-control mb-3"
+            placeholder="In Weeks"
+            [parentForm]="addChapterForm"
+            controlName="probableDurationToTeach"
+          ></app-input>
+        </div>
+        <div class="learning-objectives">
+          <app-input
+            label="Learning Objectives"
+            title="Learning Objectives"
+            type="text"
+            className=" py-2 fs-6 form-control mb-3"
+            placeholder="Eg. - Teach counting numbers"
+            [parentForm]="addChapterForm"
+            controlName="learningObjectives"
+            errorTitle="Learning Objectives"
+          ></app-input>
+        </div>
+        <div class="is-optional-to-teach">
+          <label for="is-optional-to-teach">Is Optional to Teach?</label>
+          <app-radio
+            id="radio1"
+            label="Yes"
+            value="true"
+            [parentForm]="addChapterForm"
+            [checked]="selectedValue === 'true'"
+            (selected)="onRadioChange($event)"
+            name="isOptionalToTeach"
+            controlName="isOptionalToTeach"
+          ></app-radio>
+          <app-radio
+            id="radio2"
+            label="No"
+            value="false"
+            [parentForm]="addChapterForm"
+            [checked]="selectedValue === 'false'"
+            (selected)="onRadioChange($event)"
+            name="isOptionalToTeach"
+            controlName="isOptionalToTeach"
+          ></app-radio>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="buttons mt-1 d-flex gap-4">
+      <app-button
+        type="submit"
+        label="Submit"
+        (btnClick)="onSubmit()"
+        className="btn text-btn"
+      ></app-button>
+
+      <app-button
+        type="button"
+        label="Cancel"
+        className="btn close-btn"
+        (btnClick)="close()"
+      ></app-button>
+    </div>
+  </div>
+</div>

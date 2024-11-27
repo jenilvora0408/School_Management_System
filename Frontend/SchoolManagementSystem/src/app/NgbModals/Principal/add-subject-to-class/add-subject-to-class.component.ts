@@ -41,6 +41,7 @@ export class AddSubjectToClassComponent {
     subjectTeacherId: 0,
     subjectTeacherName: '',
     subjectCode: '',
+    classSubjectId: 0
   };
   showError: boolean = false;
 

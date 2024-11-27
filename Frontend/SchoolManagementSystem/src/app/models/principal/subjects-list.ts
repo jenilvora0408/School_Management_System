@@ -4,4 +4,5 @@ export interface ISubjectsListInterface {
   subjectTeacherId: number;
   subjectTeacherName: string;
   subjectCode: string;
+  classSubjectId: number;
 }

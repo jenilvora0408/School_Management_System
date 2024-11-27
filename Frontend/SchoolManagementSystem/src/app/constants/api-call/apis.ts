@@ -93,4 +93,10 @@ export class ApiCallConstant {
 
   public static readonly POST_CONTACT_PRINCIPAL_RESPONSE =
     this.PRINCIPAL_CONTROLLER + 'principal-response';
+
+  public static readonly GET_CHAPTERS_FOR_CLASS_SUBJECT =
+    this.PRINCIPAL_CONTROLLER + 'get-all-courses-by-class-subject';
+
+  public static readonly UPSERT_COURSE_CHAPTERS =
+    this.PRINCIPAL_CONTROLLER + 'upsert-course-chapters';
 }

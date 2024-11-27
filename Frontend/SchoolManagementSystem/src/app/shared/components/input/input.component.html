@@ -24,6 +24,7 @@
     [ngStyle]="styles"
     [errorTitle]="errorTitle"
     (keyup)="onKeyUp(input.value)"
+    (blur)="onBlur(input.value)"
     [attr.data-testid]="testId"
   />
 </div>

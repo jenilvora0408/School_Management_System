@@ -203,14 +203,6 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
 
     public async Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(UserPageListRequestDTO userPageListRequestDTO)
     {
-        // User? user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.Id == userId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.USER_NOT_FOUND);
-
-        // List<ContactPrincipal>? contactPrincipalRequests = await _unitOfWork.ContactPrincipalRepository.GetListAsync(predicate: x => x.UserId == userId, includes: [x => x.ContactOfType]);
-
-        // List<GetContactPrincipalListDTO> response = ContactPrincipalMappingProfile.ToViewOwnContactRequest(contactPrincipalRequests);
-
-        // return response;
-
         PageListRequestEntity<ContactPrincipal> pageListRequestEntity = new()
         {
             PageIndex = userPageListRequestDTO.PageIndex,
@@ -218,12 +210,12 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
             SortColumn = SystemConstants.REQUEST_DATE_COLUMN,
             SortOrder = SystemConstants.DESCENDING,
             Predicate = contactPrincipal => userPageListRequestDTO.UserId == contactPrincipal.UserId && 
-                userPageListRequestDTO.Filter == (int)StatusType.ALL ||
+                (userPageListRequestDTO.Filter == (int)StatusType.ALL ||
                 (userPageListRequestDTO.Filter == (int)ContactTypes.Harassment && contactPrincipal.Type == (byte)ContactTypes.Harassment) ||
                 (userPageListRequestDTO.Filter == (int)ContactTypes.Awareness && contactPrincipal.Type == (byte)ContactTypes.Awareness) ||
                 (userPageListRequestDTO.Filter == (int)ContactTypes.Notice && contactPrincipal.Type == (byte)ContactTypes.Notice) ||
                 (userPageListRequestDTO.Filter == (int)ContactTypes.ExternalHelp && contactPrincipal.Type == (byte)ContactTypes.ExternalHelp) ||
-                (userPageListRequestDTO.Filter == (int)ContactTypes.Other && contactPrincipal.Type == (byte)ContactTypes.Other),
+                (userPageListRequestDTO.Filter == (int)ContactTypes.Other && contactPrincipal.Type == (byte)ContactTypes.Other)),
             IncludeExpressions = [x => x.Users, x => x.ContactOfType, x => x.Users.UserRoles]
         };
 

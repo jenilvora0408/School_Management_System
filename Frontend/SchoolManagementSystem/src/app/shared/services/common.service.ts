@@ -11,6 +11,9 @@ import { ILeaveApprovalInterface } from '../../models/common/leave-approval';
 import { CommonListResponse } from '../models/common-item-response';
 import { IContactPrincipalInterface } from '../../models/common/contact-principal';
 import { IContactPrincipalListInterface } from '../../models/principal/contact-principal-list';
+import { IPageListResponse } from '../models/page-list-response';
+import { IPageListRequest } from '../models/page-list-request';
+import { IUserPageListRequest } from '../models/user-page-list-request';
 
 @Injectable({
   providedIn: 'root',
@@ -76,11 +79,13 @@ export class CommonService {
   }
 
   getOwnContactRequestsHistory(
-    userId: number
-  ): Observable<IResponse<IContactPrincipalListInterface[]>> {
-    return this.http.get<IResponse<IContactPrincipalListInterface[]>>(
-      `${ApiCallConstant.VIEW_OWN_CONTACT_REQUESTS}/${userId}`
-    );
+    listCredentials: IUserPageListRequest
+  ): Observable<
+    IResponse<IPageListResponse<IContactPrincipalListInterface[]>>
+  > {
+    return this.http.post<
+      IResponse<IPageListResponse<IContactPrincipalListInterface[]>>
+    >(ApiCallConstant.VIEW_OWN_CONTACT_REQUESTS, listCredentials);
   }
 
   downloadImage(imageUrl: string, index: number): void {

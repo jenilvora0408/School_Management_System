@@ -33,7 +33,8 @@ public static class ContactPrincipalMappingProfile
             IsResolved = contactPrincipal.IsResolved,
             ResponseMessage = contactPrincipal.ResponseMessage,
             UserName = $"{contactPrincipal.Users.FirstName} {contactPrincipal.Users.LastName}",
-            ContactTypeTitle = contactPrincipal.ContactOfType.ContactTitle
+            ContactTypeTitle = contactPrincipal.ContactOfType.ContactTitle,
+            UserRole = contactPrincipal.Users.UserRoles.Title
         };
     }
 

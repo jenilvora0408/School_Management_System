@@ -201,15 +201,37 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
         await _mailService.SendMailAsync(mailDto);
     }
 
-    public async Task<List<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(long userId)
+    public async Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(UserPageListRequestDTO userPageListRequestDTO)
     {
-        User? user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.Id == userId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.USER_NOT_FOUND);
+        // User? user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.Id == userId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.USER_NOT_FOUND);
 
-        List<ContactPrincipal>? contactPrincipalRequests = await _unitOfWork.ContactPrincipalRepository.GetListAsync(predicate: x => x.UserId == userId, includes: [x => x.ContactOfType]);
+        // List<ContactPrincipal>? contactPrincipalRequests = await _unitOfWork.ContactPrincipalRepository.GetListAsync(predicate: x => x.UserId == userId, includes: [x => x.ContactOfType]);
 
-        List<GetContactPrincipalListDTO> response = ContactPrincipalMappingProfile.ToViewOwnContactRequest(contactPrincipalRequests);
+        // List<GetContactPrincipalListDTO> response = ContactPrincipalMappingProfile.ToViewOwnContactRequest(contactPrincipalRequests);
 
-        return response;
+        // return response;
+
+        PageListRequestEntity<ContactPrincipal> pageListRequestEntity = new()
+        {
+            PageIndex = userPageListRequestDTO.PageIndex,
+            PageSize = userPageListRequestDTO.PageSize,
+            SortColumn = SystemConstants.REQUEST_DATE_COLUMN,
+            SortOrder = SystemConstants.DESCENDING,
+            Predicate = contactPrincipal => userPageListRequestDTO.UserId == contactPrincipal.UserId && 
+                userPageListRequestDTO.Filter == (int)StatusType.ALL ||
+                (userPageListRequestDTO.Filter == (int)ContactTypes.Harassment && contactPrincipal.Type == (byte)ContactTypes.Harassment) ||
+                (userPageListRequestDTO.Filter == (int)ContactTypes.Awareness && contactPrincipal.Type == (byte)ContactTypes.Awareness) ||
+                (userPageListRequestDTO.Filter == (int)ContactTypes.Notice && contactPrincipal.Type == (byte)ContactTypes.Notice) ||
+                (userPageListRequestDTO.Filter == (int)ContactTypes.ExternalHelp && contactPrincipal.Type == (byte)ContactTypes.ExternalHelp) ||
+                (userPageListRequestDTO.Filter == (int)ContactTypes.Other && contactPrincipal.Type == (byte)ContactTypes.Other),
+            IncludeExpressions = [x => x.Users, x => x.ContactOfType, x => x.Users.UserRoles]
+        };
+
+        PageListResponseDTO<ContactPrincipal> pageListResponse = await _unitOfWork.ContactPrincipalRepository.GetAllAsync(pageListRequestEntity);
+
+        List<GetContactPrincipalListDTO> getContactPrincipalListDTO = ContactPrincipalMappingProfile.ToGetContactPrincipalList(pageListResponse.Records);
+
+        return new PageListResponseDTO<GetContactPrincipalListDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, getContactPrincipalListDTO);
     }
 
     public async Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId)

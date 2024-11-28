@@ -27,7 +27,7 @@ public interface ICommonService
 
     Task ContactPrincipalRequest(ContactPrincipalDTO contactPrincipalDTO);
 
-    Task<List<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(long userId);
+    Task<PageListResponseDTO<GetContactPrincipalListDTO>> GetOwnContactPrincipalRequests(UserPageListRequestDTO userPageListRequestDTO);
 
     Task<List<string>> GetContactPrincipalDocuments(int contactPrincipalId);
 }

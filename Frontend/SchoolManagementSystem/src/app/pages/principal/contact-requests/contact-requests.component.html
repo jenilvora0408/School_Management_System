@@ -41,6 +41,7 @@
       <thead>
         <tr class="table-primary">
           <th scope="col">Username</th>
+          <th scope="col">Requested By</th>
           <th scope="col">Subject</th>
           <th scope="col">Requested Date</th>
           <th scope="col">Request Type</th>
@@ -51,6 +52,7 @@
         @for (item of requestData; track i; let i = $index){
         <tr class="border border-2">
           <td>{{ item.userName }}</td>
+          <td>{{ item.userRole }}</td>
           <td>{{ item.subject }}</td>
           <td>{{ item.requestDate | dateFormat }}</td>
           <td>{{ item.contactTypeTitle }}</td>

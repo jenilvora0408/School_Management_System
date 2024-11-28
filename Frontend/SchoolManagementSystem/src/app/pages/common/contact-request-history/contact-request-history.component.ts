@@ -10,6 +10,7 @@ import { DateFormatPipe } from '../../../pipes/date-format.pipe';
 import { Router } from '@angular/router';
 import { SystemConstants } from '../../../constants/shared/system-constants';
 import * as CryptoJS from 'crypto-js';
+import { IPageListRequest } from '../../../shared/models/page-list-request';
 
 @Component({
   selector: 'app-contact-request-history',
@@ -21,6 +22,13 @@ import * as CryptoJS from 'crypto-js';
 export class ContactRequestHistoryComponent {
   responseData: IContactPrincipalListInterface[] = [];
   userId: number = 0;
+  page = 1;
+  pageSize = 10;
+  searchQuery: string = '';
+  sortColumn: string = '';
+  sortOrder: string = 'ascending';
+  filter: number = 0;
+  collectionSize!: number;
 
   constructor(
     private commonService: CommonService,
@@ -35,6 +43,15 @@ export class ContactRequestHistoryComponent {
   }
 
   getOwnContactRequestData() {
+    const requestPayload: IPageListRequest = {
+      pageIndex: this.page,
+      pageSize: this.pageSize,
+      sortOrder: this.sortOrder,
+      sortColumn: this.sortColumn,
+      searchQuery: this.searchQuery,
+      filter: this.filter,
+    };
+    
     this.commonService.getOwnContactRequestsHistory(this.userId).subscribe({
       next: (response: IResponse<IContactPrincipalListInterface[]>) => {
         console.log('own contact requests: ', response);

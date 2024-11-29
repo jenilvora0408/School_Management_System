@@ -148,18 +148,28 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
 
     public async Task UpsertCourseChapters(AddCourseDTO addCourseDto)
     {
-        ClassSubject classSubject = await _unitOfWork.ClassSubjectRepository.GetFirstOrDefaultAsync(x => x.Id == addCourseDto.ClassSubjectId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, message: ErrorMessage.CLASS_SUBJECT_NOT_FOUND);
+        ClassSubject? existingClassSubject = await _unitOfWork.ClassSubjectRepository.GetFirstOrDefaultAsync(x => x.Id == addCourseDto.ClassSubjectId) ?? throw new CustomException(StatusCodes.Status422UnprocessableEntity, MessageConstants.ErrorMessage.CLASS_SUBJECT_NOT_FOUND);
 
-        if (addCourseDto.AddChaptersDTO != null && addCourseDto.AddChaptersDTO.Any())
+        if (addCourseDto.AddChaptersDTO != null)
         {
-            List<Course>? existingCourses = await _unitOfWork.CourseRepository
-                .GetAllAsync(course => addCourseDto.AddChaptersDTO.Select(chapter => chapter.CourseId).Contains(course.Id));
+            List<Course> coursesPresentInDb = await _unitOfWork.CourseRepository.GetAllAsync(x => x.ClassSubjectId == addCourseDto.ClassSubjectId);
 
-            List<Course> courses = addCourseDto.AddChaptersDTO.ToCourseList(addCourseDto.ClassSubjectId, existingCourses);
+            IEnumerable<AddChaptersDTO> courseToAdd = addCourseDto.AddChaptersDTO.Where(x => x.CourseId == 0);
 
-            await _unitOfWork.CourseRepository.AddRangeAsync(courses.Where(course => course.Id == 0));
-            await _unitOfWork.CourseRepository.UpdateRangeAsync(courses.Where(course => course.Id != 0));
-            await _unitOfWork.SaveAsync();
+            List<Course> coursesToRemove = coursesPresentInDb.Where(x => !addCourseDto.AddChaptersDTO.Any(y => y.CourseId == x.Id)).ToList();
+
+            if (coursesToRemove.Any())
+            {
+                await _unitOfWork.CourseRepository.RemoveRangeAsync(coursesToRemove);
+                await _unitOfWork.SaveAsync();
+            }
+
+            if (courseToAdd.Any())
+            {
+                List<Course> mappedCourses = courseToAdd.ToCourseList(addCourseDto.ClassSubjectId);
+                await _unitOfWork.CourseRepository.AddRangeAsync(mappedCourses);
+                await _unitOfWork.SaveAsync();
+            }
         }
     }
 

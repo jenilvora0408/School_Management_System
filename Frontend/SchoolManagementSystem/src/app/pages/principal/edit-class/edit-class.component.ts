@@ -196,4 +196,27 @@ export class EditClassComponent {
       console.log('Subject not found with id:', subjectId);
     }
   }
+
+  editCourse(classSubjectId: number, className: string, subjectName: string, subjectId: number){
+    this.router.navigate(['principal/edit-course'], {
+      queryParams: {
+        classSubjectId: CryptoJS.AES.encrypt(
+          classSubjectId.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        className: CryptoJS.AES.encrypt(
+          className ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        subjectName: CryptoJS.AES.encrypt(
+          subjectName ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        subjectId: CryptoJS.AES.encrypt(
+          subjectId.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+      },
+    });
+  }
 }

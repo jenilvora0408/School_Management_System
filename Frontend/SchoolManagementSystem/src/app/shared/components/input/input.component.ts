@@ -33,6 +33,7 @@ export class InputComponent {
   @Input() errorTitle: string = this.label;
   @Input({ required: false }) testId = '';
   @Output() onKeyup: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onBlurr: EventEmitter<string> = new EventEmitter<string>();
 
   ngOnInit() {
     if (this.parentForm && this.controlName) {
@@ -49,5 +50,9 @@ export class InputComponent {
 
   onKeyUp(inputValue: string) {
     this.onKeyup.emit(inputValue);
+  }
+
+  onBlur(inputValue: string) {
+    this.onBlurr.emit(inputValue);
   }
 }

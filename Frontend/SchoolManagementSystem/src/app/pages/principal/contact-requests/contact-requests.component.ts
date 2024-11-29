@@ -89,6 +89,9 @@ export class ContactRequestsComponent {
       filter: this.filter,
     };
 
+    console.log(requestPayload);
+    
+
     this.loaderService.show();
 
     this.principalService
@@ -141,7 +144,9 @@ export class ContactRequestsComponent {
   clearFilter(event: Event) {
     event.stopPropagation();
     this.selectedFilter = null;
+    this.filter = 0;
     this.selectedTagline = this.taglines['All'];
+    this.getContactRequestData();
   }
 
   viewContactRequest(id: number) {

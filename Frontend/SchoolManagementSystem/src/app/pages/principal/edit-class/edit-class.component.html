@@ -14,7 +14,7 @@
         class="col form-container d-flex align-items-center justify-content-center"
       >
         <div class="heading mb-3">
-          <h3 class="text-center mb-3"> {{className}} </h3>
+          <h3 class="text-center mb-3">{{ className }}</h3>
           <p class="text-center tagline">
             Edit class details and manage the subjects taught in this class.
           </p>
@@ -94,7 +94,7 @@
                 <tr class="border border-2">
                   <td>{{ i + 1 }}</td>
                   <td>{{ item.subjectName }}</td>
-                  <td> {{item.subjectCode}} </td>
+                  <td>{{ item.subjectCode }}</td>
                   @if(item.subjectTeacherName == " "){
                   <td>Not Assigned</td>
                   } @else {
@@ -102,8 +102,13 @@
                     {{ item.subjectTeacherName }}
                   </td>
                   }
-                  <td (click)="deleteSubject(item.subjectId)">
-                    <span class="ms-3" ></span><i class="bi bi-trash fs-4"></i>
+                  <td class="d-flex gap-2">
+                    <div (click)="editCourse(item.classSubjectId, className, item.subjectName, item.subjectId)">
+                      <i class="bi bi-journals fs-4"></i>
+                    </div>
+                    <div (click)="deleteSubject(item.subjectId)">
+                      <i class="bi bi-trash fs-4"></i>
+                    </div>
                   </td>
                 </tr>
                 }

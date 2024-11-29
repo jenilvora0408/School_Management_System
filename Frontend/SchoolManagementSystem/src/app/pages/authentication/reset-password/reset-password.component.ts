@@ -18,6 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IResponse } from '../../../shared/models/IResponse';
 import { SystemConstants } from '../../../constants/shared/system-constants';
 import * as CryptoJS from 'crypto-js';
+import { LoaderService } from '../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -54,7 +55,8 @@ export class ResetPasswordComponent {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthenticationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +77,7 @@ export class ResetPasswordComponent {
         .subscribe({
           next: (response: IResponse<null>) => {
             console.log('reset-password: ', response);
-
+            this.loaderService.hide();
             if (response.success) {
               this.notificationService.success(response.message);
               this.router.navigate(['']);

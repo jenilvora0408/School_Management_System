@@ -1,0 +1,19 @@
+<div class="form-check" [formGroup]="parentForm">
+    <input
+      appControlErrors
+      class="form-check-input"
+      type="radio"
+      [name]="controlName"
+      [id]="id"
+      [checked]="checked"
+      [value]="value"
+      [attr.disabled]="disabled ? true : null"
+      [formControlName]="controlName"
+      [errorTitle]="errorTitle"
+      (change)="onSelectionChange()"
+    />
+    <label class="form-check-label" [for]="id">
+      {{ label }}
+    </label>
+  </div>
+  

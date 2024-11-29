@@ -38,7 +38,9 @@
           description
         }}</textarea>
       </div>
-      <label for="documents" class="">Documents</label>
+      @if(requestDocuments.length > 0){
+        <label for="documents" class="">Documents</label>
+      }
       <div class="documents d-flex flex-wrap">
         @for (image of requestDocuments; track i; let i = $index){
         <div class="image-preview me-3 mb-3">

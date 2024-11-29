@@ -12,6 +12,8 @@ import { IPageListResponse } from '../shared/models/page-list-response';
 import { ILeaveRequestsInterface } from '../models/principal/leave-requests';
 import { IContactPrincipalListInterface } from '../models/principal/contact-principal-list';
 import { IContactPrincipalResponse } from '../models/principal/contact-principal-response';
+import { ICourseListForClassSubjectInterface } from '../models/principal/course-list-for-class-subject';
+import { ISubmitCourseInfo } from '../models/principal/submit-course-info';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +25,8 @@ export class PrincipalService {
   contactPrincipalApi = ApiCallConstant.CONTACT_PRINCIPAL_REQUESTS;
   contactPrincipalDocumentsAPi = ApiCallConstant.GET_CONTACT_PRINCIPAL_DOCUMENTS;
   postContactPrincipalResponseApi = ApiCallConstant.POST_CONTACT_PRINCIPAL_RESPONSE;
+  getChaptersForClassSubjectApi = ApiCallConstant.GET_CHAPTERS_FOR_CLASS_SUBJECT;
+  upsertCourseChaptersApi = ApiCallConstant.UPSERT_COURSE_CHAPTERS;
 
   constructor(private http: HttpClient) {}
 
@@ -72,6 +76,23 @@ export class PrincipalService {
   ): Observable<IResponse<null>> {
     return this.http.post<IResponse<null>>(
       `${this.postContactPrincipalResponseApi}`,
+      requestCredentials
+    );
+  }
+
+  getChaptersForClassSubject(
+    id: number
+  ): Observable<IResponse<ICourseListForClassSubjectInterface[]>> {
+    return this.http.get<IResponse<ICourseListForClassSubjectInterface[]>>(
+      `${this.getChaptersForClassSubjectApi}/${id}`
+    );
+  }
+
+  submitChaptersInfo(
+    requestCredentials: ISubmitCourseInfo
+  ): Observable<IResponse<null>> {
+    return this.http.post<IResponse<null>>(
+      `${this.upsertCourseChaptersApi}`,
       requestCredentials
     );
   }

@@ -84,6 +84,7 @@ export class VerifyOtpComponent {
       const otpValue = this.verifyOtpForm.get('otp')?.value;
       this.authService.verifyOtp(this.email, otpValue).subscribe({
         next: (response: any) => {
+          this.loaderService.hide();
           if (this.locationUrl == 'login') {
             console.log('verify-otp response: ', response);
             this.authService.setToken(response.data.accessToken);

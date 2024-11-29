@@ -19,6 +19,7 @@ import { ViewContactRequestComponent } from './pages/principal/view-contact-requ
 import { ContactRequestOptionsComponent } from './pages/common/contact-request-options/contact-request-options.component';
 import { ContactRequestHistoryComponent } from './pages/common/contact-request-history/contact-request-history.component';
 import { MyContactRequestComponent } from './pages/common/my-contact-request/my-contact-request.component';
+import { EditCourseComponent } from './pages/principal/edit-course/edit-course.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -90,6 +91,10 @@ export const routes: Routes = [
       {
         path: 'view-contact-request',
         component: ViewContactRequestComponent,
+      },
+      {
+        path: 'edit-course',
+        component: EditCourseComponent,
       },
     ],
   },

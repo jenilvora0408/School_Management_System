@@ -118,7 +118,7 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
                 (pageListRequestDTO.Filter == (int)ContactTypes.Notice && contactPrincipal.Type == (byte)ContactTypes.Notice) ||
                 (pageListRequestDTO.Filter == (int)ContactTypes.ExternalHelp && contactPrincipal.Type == (byte)ContactTypes.ExternalHelp) ||
                 (pageListRequestDTO.Filter == (int)ContactTypes.Other && contactPrincipal.Type == (byte)ContactTypes.Other),
-            IncludeExpressions = [x => x.Users, x => x.ContactOfType]
+            IncludeExpressions = [x => x.Users, x => x.ContactOfType, x => x.Users.UserRoles]
         };
 
         PageListResponseDTO<ContactPrincipal> pageListResponse = await _unitOfWork.ContactPrincipalRepository.GetAllAsync(pageListRequestEntity);

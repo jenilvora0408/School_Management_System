@@ -62,6 +62,7 @@ export class ViewContactRequestComponent {
   description: string = '';
   ckEditorContent: string = '';
   ckEditorValidationMessage: string = '';
+  responseMessage: string = '';
 
   constructor(
     private principalService: PrincipalService,
@@ -81,7 +82,8 @@ export class ViewContactRequestComponent {
     this.subject = this.importData.subject;
     this.requestType = this.importData.contactTypeTitle;
     this.description = this.importData.description;
-    console.log(this.importData, this.contactRequestId);
+    this.responseMessage = this.importData.responseMessage;
+    console.log(this.importData, this.responseMessage);
 
     this.getContactRequestDocuments(this.contactRequestId);
   }
@@ -217,17 +219,21 @@ export class ViewContactRequestComponent {
   }
 
   onSubmit(): void {
-    this.loaderService.show();
     console.log('CKEditor content:', this.ckEditorContent);
     const contentLength = this.ckEditorContent.trim().length;
-
-    if (contentLength < 15) {
+    console.log(contentLength);
+    if(contentLength <= 0){
+      this.ckEditorValidationMessage = ValidationMessageConstant.responseMessageRequired;
+    }
+    else if (contentLength < 15) {
       this.ckEditorValidationMessage = ValidationMessageConstant.shortResponse;
     } else if (contentLength > 2000) {
       this.ckEditorValidationMessage =
         ValidationMessageConstant.responseCannotExceed2000;
     } else {
       this.ckEditorValidationMessage = '';
+
+      this.loaderService.show();
 
       const payload: IContactPrincipalResponse = {
         contactPrincipalId: this.contactRequestId,

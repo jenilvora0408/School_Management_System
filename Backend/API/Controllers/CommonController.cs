@@ -97,13 +97,13 @@ public class CommonController(ICommonService commonService) : BaseController
         return GetResult(null, message: MessageConstants.SuccessMessage.CONTACT_PRINCIPAL_SUCCESS);
     }
 
-    [HttpGet("view-own-contact-requests/{userId}")]
+    [HttpPost("view-own-contact-requests")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(422)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> ViewOwnContactRequests([Required] long userId)
+    public async Task<IActionResult> ViewOwnContactRequests(UserPageListRequestDTO userPageListRequestDTO)
     {
-        return GetResult(await _commonService.GetOwnContactPrincipalRequests(userId), message: null);
+        return GetResult(await _commonService.GetOwnContactPrincipalRequests(userPageListRequestDTO), message: null);
     }
 
     

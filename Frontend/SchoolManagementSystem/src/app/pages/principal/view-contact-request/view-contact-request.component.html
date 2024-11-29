@@ -56,6 +56,7 @@
         </div>
         }
       </div>
+      @if((responseMessage ?? '').length <= 0) {
       <div class="form-content">
         <label for="response">Response</label>
           <ckeditor
@@ -67,22 +68,34 @@
           ></ckeditor>
           <span class="text-danger"> {{ckEditorValidationMessage}} </span>
       </div>
-      <div class="buttons mt-3">
-        <div class=" d-flex gap-3 justify-content-center">
-          <app-button
-            type="button"
-            label="Submit"
-            className="btn text-btn"
-            (btnClick)="onSubmit()"
-          ></app-button>
-          <app-button
-            type="button"
-            label="Cancel"
-            className="btn blocked-btn"
-            (btnClick)="onCancel()"
-          ></app-button>
+      
+        <div class="buttons mt-3">
+          <div class=" d-flex gap-3 justify-content-center">
+            <app-button
+              type="button"
+              label="Submit"
+              className="btn text-btn"
+              (btnClick)="onSubmit()"
+            ></app-button>
+            <app-button
+              type="button"
+              label="Cancel"
+              className="btn blocked-btn"
+              (btnClick)="onCancel()"
+            ></app-button>
+          </div>
         </div>
-      </div>
+      }
+      @else() {
+        <label for="response">Response</label>
+        <ckeditor
+            [editor]="Editor"
+            [config]="config"
+            data="responseMessage"
+            [(ngModel)]="responseMessage"
+            class="w-100"
+          ></ckeditor>
+      }
     </div>
   </div>
 </div>

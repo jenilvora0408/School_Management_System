@@ -33,7 +33,8 @@ public static class ContactPrincipalMappingProfile
             IsResolved = contactPrincipal.IsResolved,
             ResponseMessage = contactPrincipal.ResponseMessage,
             UserName = $"{contactPrincipal.Users.FirstName} {contactPrincipal.Users.LastName}",
-            ContactTypeTitle = contactPrincipal.ContactOfType.ContactTitle
+            ContactTypeTitle = contactPrincipal.ContactOfType.ContactTitle,
+            UserRole = contactPrincipal.Users.UserRoles.Title
         };
     }
 
@@ -41,26 +42,5 @@ public static class ContactPrincipalMappingProfile
     {
         contactPrincipal.ResponseMessage = contactPrincipalDTO.ResponseMessage;
         contactPrincipal.IsResolved = true;
-    }
-
-    public static List<GetContactPrincipalListDTO> ToViewOwnContactRequest(this List<ContactPrincipal> contactPrincipals)
-    {
-        return contactPrincipals.Select(contactPrincipal => contactPrincipal.ToViewOwnContactRequestData()).ToList();
-    }
-
-    public static GetContactPrincipalListDTO ToViewOwnContactRequestData(this ContactPrincipal contactPrincipal)
-    {
-        return new GetContactPrincipalListDTO
-        {
-            ContactPrincipalId = contactPrincipal.Id,
-            UserId = contactPrincipal.UserId,
-            Subject = contactPrincipal.Subject,
-            Description = contactPrincipal.Description,
-            RequestDate = contactPrincipal.RequestDate,
-            Type = contactPrincipal.Type,
-            IsResolved = contactPrincipal.IsResolved,
-            ResponseMessage = contactPrincipal.ResponseMessage,
-            ContactTypeTitle = contactPrincipal.ContactOfType.ContactTitle
-        };
     }
 }

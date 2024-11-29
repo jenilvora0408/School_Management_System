@@ -21,4 +21,6 @@ public class GetContactPrincipalListDTO
     public bool IsResolved { get; set; }
 
     public string? ResponseMessage { get; set; }
+
+    public string UserRole { get; set; } = null!;
 }

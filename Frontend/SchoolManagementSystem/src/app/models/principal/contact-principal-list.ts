@@ -10,5 +10,6 @@ export interface IContactPrincipalListInterface {
     relatableEvidence: string;
     isResolved: boolean;
     responseMessage: string;
+    userRole: string;
   }
   

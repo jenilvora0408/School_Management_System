@@ -39,12 +39,25 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
 
         if (admitRequest != null)
         {
-            AdmitRequest? admitRequestApproval = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(approval => approval.Id == admitRequest.Id);
+            // List<AdmitRequest>? admitRequestApproval = await _unitOfWork.AdmitRequestRepository.GetAllAsync(approval => approval.Id == admitRequest.Id);
 
-            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == (int)StatusType.BLOCKED)
-                throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ACCESS_BLOCKED);
+            // if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == (int)StatusType.BLOCKED)
+            //     throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ACCESS_BLOCKED);
 
-            if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == (int)StatusType.PENDING) throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
+            // if (admitRequestApproval != null && admitRequestApproval.ApprovalStatus == (int)StatusType.PENDING) throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
+
+            List<AdmitRequest>? admitRequestApprovalList = await _unitOfWork.AdmitRequestRepository.GetAllAsync(approval => approval.Email == admitRequestDTO.Email);
+
+            if (admitRequestApprovalList != null && admitRequestApprovalList.Any())
+            {
+                AdmitRequest? blockedRequest = admitRequestApprovalList.FirstOrDefault(x => x.ApprovalStatus == (int)StatusType.BLOCKED);
+                if (blockedRequest != null)
+                    throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ACCESS_BLOCKED);
+
+                AdmitRequest? pendingRequest = admitRequestApprovalList.FirstOrDefault(x => x.ApprovalStatus == (int)StatusType.PENDING);
+                if (pendingRequest != null)
+                    throw new CustomException((int)HttpStatusCode.Forbidden, ValidationConstants.ADMIT_REQUEST_ALREADY_EXISTS);
+            }
         }
 
         AdmitRequest createRequest = AdmitRequestMappingProfile.ToAdmitRequest(admitRequestDTO);

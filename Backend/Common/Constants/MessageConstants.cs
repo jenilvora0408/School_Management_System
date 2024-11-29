@@ -104,6 +104,10 @@ public static class MessageConstants
         public const string RESET_PASSWORD_SUBJECT = "School || ResetPassword || No Reply";
 
         public const string CONTACT_PRINCIPAL_RESPONSE = "School || Contact Principal Response || No Reply";
+
+        public const string DECLINE_ADMIT_REQUEST = "School || Decline Admit Request || No Reply";
+
+        public const string BLOCK_ADMIT_REQUEST = "School || Block Admit Request || No Reply";
     }
 
     #endregion Email_Constants

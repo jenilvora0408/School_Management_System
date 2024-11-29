@@ -14,14 +14,6 @@ public static class SystemConstants
 
     public const string MAIL_TEMPLATES = "MailTemplates";
 
-    public const string OTP_MAIL_TEMPLATE_FILE = "OtpMailTemplate.html";
-
-    public const string GENERATE_CREDENTIALS = "GenerateCredentialsMailTemplate.html";
-
-    public const string CONTACT_PRINCIPAL_RESPONSE_FILE = "ContactPrincipalResponseMailTemplate.html";
-
-    public const string CONTACT_PRINCIPAL_REQUEST_FILE = "CreateContactPrincipalRequestMailTemplate.html";
-
     public const string PRINCIPAL_NAME = "Anurag Patwardhan";
 
     public const string USER_ID_CLAIM = "UserId";
@@ -94,4 +86,20 @@ public static class SystemConstants
     }
 
     #endregion ModelStateConstant
+
+    #region MailTemplateFiles
+
+    public const string OTP_MAIL_TEMPLATE_FILE = "OtpMailTemplate.html";
+
+    public const string GENERATE_CREDENTIALS = "GenerateCredentialsMailTemplate.html";
+
+    public const string CONTACT_PRINCIPAL_RESPONSE_FILE = "ContactPrincipalResponseMailTemplate.html";
+
+    public const string CONTACT_PRINCIPAL_REQUEST_FILE = "CreateContactPrincipalRequestMailTemplate.html";
+
+    public const string DECLINE_ADMIT_REQUEST_FILE = "DeclineAdmitRequestMailTemplate.html";
+
+    public const string BLOCK_ADMIT_REQUEST_FILE = "BlockAdmitRequestMailTemplate.html";
+
+    #endregion
 }

@@ -198,6 +198,7 @@ export class AdmitRequestComponent {
           }
         },
         error: (error: HttpErrorResponse) => {
+          this.loaderService.hide();
           this.notificationsService.error(error.error.errors);
           console.log(error);
         },

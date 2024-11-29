@@ -157,6 +157,30 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
 
             await _mailService.SendMailAsync(mailDto);
         }
+
+        else if (admitRequestApprovalDTO.DeclinedBy != 0 && admitRequestApprovalDTO.DeclinedBy != null)
+        {
+            MailDTO mailDto = new()
+            {
+                ToEmail = admitRequest.Email,
+                Subject = EmailConstants.DECLINE_ADMIT_REQUEST,
+                Body = MailBodyUtil.DeclineAdmitRequest($"{admitRequest.FirstName} {admitRequest.LastName}", _environment.WebRootPath)
+            };
+
+            await _mailService.SendMailAsync(mailDto);
+        }
+
+        else
+        {
+            MailDTO mailDto = new()
+            {
+                ToEmail = admitRequest.Email,
+                Subject = EmailConstants.BLOCK_ADMIT_REQUEST,
+                Body = MailBodyUtil.BlockAdmitRequest($"{admitRequest.FirstName} {admitRequest.LastName}", admitRequest.ReasonForBlock ?? string.Empty, _environment.WebRootPath)
+            };
+
+            await _mailService.SendMailAsync(mailDto);
+        }
     }
 
     public async Task<LeavesCountDTO> GetLeavesCount(long userId)

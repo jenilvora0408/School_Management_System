@@ -116,73 +116,30 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
 
     public async Task AdmitRequestApproval(AdmitRequestApprovalDTO admitRequestApprovalDTO)
     {
-        AdmitRequest? admitRequest = await _unitOfWork.AdmitRequestRepository.GetFirstOrDefaultAsync(a => a.Id == admitRequestApprovalDTO.AdmitRequestId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.ADMIT_REQUEST_NOT_FOUND);
+        AdmitRequest? admitRequest = await _unitOfWork.AdmitRequestRepository
+            .GetFirstOrDefaultAsync(a => a.Id == admitRequestApprovalDTO.AdmitRequestId)
+            ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.ADMIT_REQUEST_NOT_FOUND);
 
-        AdmitRequestMappingProfile.ToApproveAdmitRequest(admitRequestApprovalDTO, admitRequest);
+        admitRequestApprovalDTO.ToApproveAdmitRequest(admitRequest);
 
         await _unitOfWork.AdmitRequestRepository.UpdateAsync(admitRequest);
         await _unitOfWork.SaveAsync();
 
         if (admitRequestApprovalDTO.ApprovedBy != 0 && admitRequestApprovalDTO.ApprovedBy != null)
         {
-            GenerateCredentialsDTO generateCredentialsDTO = new()
-            {
-                UserName = admitRequest.Email,
-                Password = GeneratePassword()
-            };
-
-            string password = PasswordUtil.HashPassword(generateCredentialsDTO.Password);
-
-            User user = new();
-            user = UserMappingProfile.ToSaveAdmitRequestUser(admitRequest, password);
-            user.IsUserActive = true;
-            user.IsUserDeleted = false;
-
-            if (user.RoleId == (byte)UserRoleType.STUDENT)
-            {
-                Student student = new();
-                student = StudentMappingProfile.ToAddStudents(admitRequest);
-                await _unitOfWork.StudentRepository.AddAsync(student);
-            };
-
-            await _unitOfWork.UserRepository.AddAsync(user);
-            await _unitOfWork.SaveAsync();
-
-            MailDTO mailDto = new()
-            {
-                ToEmail = admitRequest.Email,
-                Subject = EmailConstants.GENERATE_LOGIN_CREDENTIALS_SUBJECT,
-                Body = MailBodyUtil.SendCredentialsForLogin(admitRequest.FirstName + " " + admitRequest.LastName, generateCredentialsDTO.UserName, generateCredentialsDTO.Password, _environment.WebRootPath)
-            };
-
-            await _mailService.SendMailAsync(mailDto);
+            await HandleApprovedRequest(admitRequest, admitRequestApprovalDTO);
         }
-
         else if (admitRequestApprovalDTO.DeclinedBy != 0 && admitRequestApprovalDTO.DeclinedBy != null)
         {
-            MailDTO mailDto = new()
-            {
-                ToEmail = admitRequest.Email,
-                Subject = EmailConstants.DECLINE_ADMIT_REQUEST,
-                Body = MailBodyUtil.DeclineAdmitRequest($"{admitRequest.FirstName} {admitRequest.LastName}", _environment.WebRootPath)
-            };
-
-            await _mailService.SendMailAsync(mailDto);
+            await SendAdmitRequestMail(admitRequest.Email, EmailConstants.DECLINE_ADMIT_REQUEST,
+                MailBodyUtil.DeclineAdmitRequest($"{admitRequest.FirstName} {admitRequest.LastName}", _environment.WebRootPath));
         }
-
         else
         {
-            MailDTO mailDto = new()
-            {
-                ToEmail = admitRequest.Email,
-                Subject = EmailConstants.BLOCK_ADMIT_REQUEST,
-                Body = MailBodyUtil.BlockAdmitRequest($"{admitRequest.FirstName} {admitRequest.LastName}", admitRequest.ReasonForBlock ?? string.Empty, _environment.WebRootPath)
-            };
-
-            await _mailService.SendMailAsync(mailDto);
+            await SendAdmitRequestMail(admitRequest.Email, EmailConstants.BLOCK_ADMIT_REQUEST,
+                MailBodyUtil.BlockAdmitRequest($"{admitRequest.FirstName} {admitRequest.LastName}", admitRequest.ReasonForBlock ?? string.Empty, _environment.WebRootPath));
         }
     }
-
     public async Task<LeavesCountDTO> GetLeavesCount(long userId)
     {
         IList<Leave> allLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId);
@@ -236,6 +193,45 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
         password = new string(password.OrderBy(c => random.Next()).ToArray());
 
         return password;
+    }
+
+    private async Task SendAdmitRequestMail(string email, string subject, string body)
+    {
+        MailDTO mailDto = new()
+        {
+            ToEmail = email,
+            Subject = subject,
+            Body = body
+        };
+
+        await _mailService.SendMailAsync(mailDto);
+    }
+
+    private async Task HandleApprovedRequest(AdmitRequest admitRequest, AdmitRequestApprovalDTO admitRequestApprovalDTO)
+    {
+        GenerateCredentialsDTO generateCredentialsDTO = new()
+        {
+            UserName = admitRequest.Email,
+            Password = GeneratePassword()
+        };
+
+        string hashedPassword = PasswordUtil.HashPassword(generateCredentialsDTO.Password);
+
+        User user = admitRequest.ToSaveAdmitRequestUser(hashedPassword);
+        user.IsUserActive = true;
+        user.IsUserDeleted = false;
+
+        if (user.RoleId == (byte)UserRoleType.STUDENT)
+        {
+            Student student = admitRequest.ToAddStudents();
+            await _unitOfWork.StudentRepository.AddAsync(student);
+        }
+
+        await _unitOfWork.UserRepository.AddAsync(user);
+        await _unitOfWork.SaveAsync();
+
+        await SendAdmitRequestMail(admitRequest.Email, EmailConstants.GENERATE_LOGIN_CREDENTIALS_SUBJECT, MailBodyUtil.SendCredentialsForLogin(
+            $"{admitRequest.FirstName} {admitRequest.LastName}", generateCredentialsDTO.UserName, generateCredentialsDTO.Password, _environment.WebRootPath));
     }
 
 

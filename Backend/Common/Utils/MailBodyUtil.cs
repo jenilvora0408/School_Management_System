@@ -59,6 +59,25 @@ public class MailBodyUtil
         return CreateMessage(body);
     }
 
+    public static string DeclineAdmitRequest(string username, string mailTemplateLink)
+    {
+        string filePath = Path.Combine(mailTemplateLink, SystemConstants.MAIL_TEMPLATES, SystemConstants.DECLINE_ADMIT_REQUEST_FILE);
+
+        string body = File.ReadAllText(filePath);
+        body = body.Replace("{userName}", username);
+        return CreateMessage(body);
+    }
+
+    public static string BlockAdmitRequest(string username, string reasonForBlock, string mailTemplateLink)
+    {
+        string filePath = Path.Combine(mailTemplateLink, SystemConstants.MAIL_TEMPLATES, SystemConstants.BLOCK_ADMIT_REQUEST_FILE);
+
+        string body = File.ReadAllText(filePath);
+        body = body.Replace("{userName}", username);
+        body = body.Replace("{reasonForBlock}", reasonForBlock);
+        return CreateMessage(body);
+    }
+
     private static string CreateMessage(string body)
     {
         return body;

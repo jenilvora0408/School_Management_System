@@ -12,4 +12,5 @@ export class ValidationMessageConstant {
   public static responseCannotExceed2000 = 'The response message cannot exceed 2000 characters.';
   public static responseMessageRequired = "Response Message is required!";
   public static chapterAlreadyExists = "The chapter already exists!";
+  public static classTeacherAlreadyAssigned = "Class Teacher has already been assigned to another Class!";
 }

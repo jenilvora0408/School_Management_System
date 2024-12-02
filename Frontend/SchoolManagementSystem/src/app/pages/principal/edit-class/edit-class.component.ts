@@ -25,6 +25,8 @@ import { AddSubjectToClassComponent } from '../../../NgbModals/Principal/add-sub
 import { DropdownMenu } from '../../../shared/models/dropdown-menu';
 import { IClassInfoInterface } from '../../../models/principal/class-info';
 import { RoutingPathConstant } from '../../../constants/routing/routing-path';
+import { ITeacherDropdownInterface } from '../../../models/common/teacher-dropdown';
+import { ValidationMessageConstant } from '../../../constants/validation/validation-message';
 
 @Component({
   selector: 'app-edit-class',
@@ -48,6 +50,7 @@ export class EditClassComponent {
   className: string = '';
   strength: number = 0;
   teachersList: DropdownMenu[] = [];
+  teachersData: ITeacherDropdownInterface[] = [];
   responseData: ISubjectsListInterface[] = [];
 
   editClassForm = new FormGroup({
@@ -79,9 +82,10 @@ export class EditClassComponent {
 
   getAllTeachers() {
     this.commonService.getAllTeachers().subscribe({
-      next: (response: IResponse<ITeachersListInterface[]>) => {
+      next: (response: IResponse<ITeacherDropdownInterface[]>) => {
+        this.teachersData = response.data;
         this.teachersList = response.data.map(
-          (item: ITeachersListInterface) => ({
+          (item: ITeacherDropdownInterface) => ({
             value: item.firstName + ' ' + item.lastName,
             viewValue: item.firstName + ' ' + item.lastName,
             id: item.userId,
@@ -155,6 +159,23 @@ export class EditClassComponent {
           (teacher) => teacher.value === selectedTeacherId
         );
         this.classTeacherId = selectedTeacher ? selectedTeacher.id : 0;
+
+        const findAlreadyAssignedTeacher = this.teachersData.find(
+          (teacher) =>
+            this.classTeacherId == teacher.userId &&
+            teacher.isAssigned == true &&
+            this.classId != teacher.assignedClassId
+        );
+
+        if (
+          findAlreadyAssignedTeacher != null ||
+          findAlreadyAssignedTeacher != undefined
+        ) {
+          this.notificationService.error(
+            ValidationMessageConstant.classTeacherAlreadyAssigned
+          );
+          return;
+        }
       }
 
       if (this.editClassForm.value.classStrength) {
@@ -197,7 +218,12 @@ export class EditClassComponent {
     }
   }
 
-  editCourse(classSubjectId: number, className: string, subjectName: string, subjectId: number){
+  editCourse(
+    classSubjectId: number,
+    className: string,
+    subjectName: string,
+    subjectId: number
+  ) {
     this.router.navigate(['principal/edit-course'], {
       queryParams: {
         classSubjectId: CryptoJS.AES.encrypt(

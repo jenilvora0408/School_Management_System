@@ -124,7 +124,9 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
     {
         IEnumerable<User>? users = await _unitOfWork.UserRepository.GetListAsync(predicate: x => x.RoleId == (byte)UserRoleType.TEACHER, orderBy: c => c.FirstName);
 
-        IEnumerable<TeachersListResponseDTO> response = UserMappingProfile.ToTeachersListResponseDTOs(users);
+        IEnumerable<Class> classes = await _unitOfWork.ClassRepository.GetListAsync();
+
+        IEnumerable<TeachersListResponseDTO> response = users.ToTeachersListResponseDTOs(classes);
 
         return response;
     }
@@ -209,7 +211,7 @@ public class CommonService(IUnitOfWork unitOfWork, IHostingEnvironment environme
             PageSize = userPageListRequestDTO.PageSize,
             SortColumn = SystemConstants.REQUEST_DATE_COLUMN,
             SortOrder = SystemConstants.DESCENDING,
-            Predicate = contactPrincipal => userPageListRequestDTO.UserId == contactPrincipal.UserId && 
+            Predicate = contactPrincipal => userPageListRequestDTO.UserId == contactPrincipal.UserId &&
                 (userPageListRequestDTO.Filter == (int)StatusType.ALL ||
                 (userPageListRequestDTO.Filter == (int)ContactTypes.Harassment && contactPrincipal.Type == (byte)ContactTypes.Harassment) ||
                 (userPageListRequestDTO.Filter == (int)ContactTypes.Awareness && contactPrincipal.Type == (byte)ContactTypes.Awareness) ||

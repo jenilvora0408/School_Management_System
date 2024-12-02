@@ -38,13 +38,15 @@ public static class UserMappingProfile
         DateOfBirth = admitRequest.DateOfBirth
     };
 
-    public static IEnumerable<TeachersListResponseDTO> ToTeachersListResponseDTOs(this IEnumerable<User> users)
+    public static IEnumerable<TeachersListResponseDTO> ToTeachersListResponseDTOs(this IEnumerable<User> users, IEnumerable<Class> classes) 
     {
         return users.Select(user => new TeachersListResponseDTO()
         {
             UserId = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
+            IsAssigned = classes.Any(cls => cls.ClassTeacherId == user.Id),
+            AssignedClassId = classes.Where(cls => cls.ClassTeacherId == user.Id).Select(cls => (int?)cls.Id).FirstOrDefault(),
         }).ToList();
     }
 

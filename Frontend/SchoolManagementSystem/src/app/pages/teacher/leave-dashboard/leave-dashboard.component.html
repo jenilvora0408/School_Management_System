@@ -3,13 +3,22 @@
   <div class="leave-dashboard-header row m-2 mt-3">
     <div class="col-12 d-flex justify-content-between align-items-center">
       <h3>Leave Dashboard</h3>
-      <app-button
-        type="button"
-        label="Add Leave"
-        className="btn text-btn leave-btn"
-        [iconClass]="'bi bi-plus'"
-        (btnClick)="createLeaveRequest()"
-      ></app-button>
+      <div class="d-flex gap-5 align-items-center">
+        <app-button
+          type="button"
+          label="Add Leave"
+          className="btn text-btn leave-btn"
+          [iconClass]="'bi bi-plus'"
+          (btnClick)="createLeaveRequest()"
+        ></app-button>
+        <app-button
+          label="Back"
+          className="back-btn w-100 mt-2"
+          type="button"
+          iconClass="bi bi-arrow-left"
+          (btnClick)="navigateBack()"
+        />
+      </div>
     </div>
   </div>
   <div

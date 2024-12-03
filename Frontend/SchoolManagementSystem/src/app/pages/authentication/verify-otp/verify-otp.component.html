@@ -37,10 +37,23 @@
               <app-button
                 type="submit"
                 label="Verify OTP"
-                className="btn text-white my-3 px-4 text-btn w-100 fs-6"
+                className="btn text-white mt-3 px-4 text-btn w-100 fs-6"
                 title="Submit"
               ></app-button>
-
+              @if(locationUrl == "login"){
+                <p class="text-center mt-1">
+                  <a routerLink="/" class="text-decoration-none" href=""
+                    >Back To Login</a
+                  >
+                </p>
+              }
+              @else {
+                <p class="text-center mt-1">
+                  <a routerLink="/forget-password" class="text-decoration-none" href=""
+                    >Back To Forget Password</a
+                  >
+                </p>
+              }
               <p class="text-center">
                 Haven't received yet?
                 <a class="text-decoration-none" (click)="resendOtp()">

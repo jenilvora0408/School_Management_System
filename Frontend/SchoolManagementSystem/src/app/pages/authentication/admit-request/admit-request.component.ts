@@ -130,7 +130,8 @@ export class AdmitRequestComponent {
     private authService: AuthenticationService,
     private notificationsService: NotificationService,
     private modalService: NgbModal,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -243,5 +244,9 @@ export class AdmitRequestComponent {
     } else {
       this.showStudentInfo = false;
     }
+  }
+
+  navigateToLogin():void{
+    this.router.navigate(['/']);
   }
 }

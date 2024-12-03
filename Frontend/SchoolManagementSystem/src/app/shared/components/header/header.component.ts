@@ -65,4 +65,21 @@ export class HeaderComponent {
       },
     });
   }
+
+  navigateToDashboard():void {
+    console.log(this.userRole);
+    switch (this.userRole) {
+      case 1:
+        this.router.navigate(['/principal']);
+        break;
+      case 2:
+        this.router.navigate(['/teacher']);
+        break;
+      case 3:
+        this.router.navigate(['student']);
+        break;
+      default:
+        break;
+    }
+  }
 }

@@ -192,4 +192,8 @@ export class ContactPrincipalComponent {
       this.documentError = '';
     }
   }
+
+  navigateBack(): void {
+    this.router.navigate(['/contact-request-options']);
+}
 }

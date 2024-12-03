@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { FormSubmitDirective } from '../../../directives/form-submit.directive';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IResponse } from '../../../shared/models/IResponse';
@@ -30,6 +30,7 @@ import { LoaderService } from '../../../shared/services/loader.service';
     ButtonComponent,
     ReactiveFormsModule,
     FormSubmitDirective,
+    RouterLink
   ],
   templateUrl: './verify-otp.component.html',
   styleUrl: './verify-otp.component.scss',
@@ -74,6 +75,8 @@ export class VerifyOtpComponent {
         SystemConstants.EncryptionKey
       ).toString(CryptoJS.enc.Utf8);
     });
+    console.log(this.locationUrl);
+    
   }
 
   onSubmit(): void {

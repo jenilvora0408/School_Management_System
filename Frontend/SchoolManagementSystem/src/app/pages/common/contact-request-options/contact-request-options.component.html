@@ -2,7 +2,16 @@
   <div class="header">
     <app-header></app-header>
   </div>
-  <div class="container mt-5">
+  <div class="container mt-3">
+    <div class="mb-3 d-flex justify-content-end">
+      <app-button
+        label="Back"
+        className="back-btn w-100 mt-2"
+        type="button"
+        iconClass="bi bi-arrow-left"
+        (btnClick)="navigateBack()"
+      />
+    </div>
     <div class="card text-center">
       <div class="card-header text-white">
         <h4 class="mt-1">Contact Principal</h4>

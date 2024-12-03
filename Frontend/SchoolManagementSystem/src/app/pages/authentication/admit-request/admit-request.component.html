@@ -11,7 +11,16 @@
         appFormSubmit
       >
         <div class="personal-info d-flex flex-column gap-3">
-          <h3 class="text-center">Admit Request</h3>
+          <div class="sub-header d-flex align-items-center justify-content-between">
+            <h3 class="">Admit Request</h3>
+            <app-button
+              label="Back"
+              className="back-btn w-100 mt-2"
+              type="button"
+              iconClass="bi bi-arrow-left"
+              (btnClick)="navigateToLogin()"
+            />
+          </div>
 
           <div class="names d-flex gap-3">
             <app-alphabet-only-input
@@ -88,7 +97,6 @@
                   controlName="dateOfBirth"
                   name="dp"
                   ngbDatepicker
-                  
                   value=""
                   #d="ngbDatepicker"
                   (keyup)="d.toggle()"

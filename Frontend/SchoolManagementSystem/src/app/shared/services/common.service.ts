@@ -14,6 +14,7 @@ import { IContactPrincipalListInterface } from '../../models/principal/contact-p
 import { IPageListResponse } from '../models/page-list-response';
 import { IPageListRequest } from '../models/page-list-request';
 import { IUserPageListRequest } from '../models/user-page-list-request';
+import { ITeacherDropdownInterface } from '../../models/common/teacher-dropdown';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +34,8 @@ export class CommonService {
     );
   }
 
-  getAllTeachers(): Observable<IResponse<ITeachersListInterface[]>> {
-    return this.http.get<IResponse<ITeachersListInterface[]>>(
+  getAllTeachers(): Observable<IResponse<ITeacherDropdownInterface[]>> {
+    return this.http.get<IResponse<ITeacherDropdownInterface[]>>(
       ApiCallConstant.GET_ALL_TEACHERS
     );
   }

@@ -123,7 +123,6 @@ export class EditCourseComponent {
 
     this.principalService.submitChaptersInfo(payload).subscribe({
       next: (response: IResponse<null>) => {
-        // this.router.navigate([RoutingPathConstant.classesAndSubjectsUrl]);
         this.notificationService.success(response.message);
         this.navigateBack();
       },
@@ -169,8 +168,6 @@ export class EditCourseComponent {
   cancelFormData(): void {}
 
   navigateBack(): void {
-    console.log(this.classId);
-    
     this.router.navigate(['/principal/edit-class'], {
       queryParams: {
         classId: CryptoJS.AES.encrypt(

@@ -68,7 +68,6 @@ export class EditClassComponent {
 
   ngOnInit(): void {
     this.decryptQueryParams();
-    console.log(this.classId);
     this.getAllTeachers();
     this.getAllSubjects();
 

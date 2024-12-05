@@ -25,10 +25,23 @@
   </div>
   <div class="ps-1">
     <div class="heading mt-3 ms-4 ps-5">
-      <h3 class="ps-1 mb-0">Contact Requests</h3>
-      <span class="tagline ps-1">
-        <u>{{ selectedTagline }}</u></span
-      >
+      <div class="sub-heading d-flex justify-content-between me-5 pe-5">
+        <div>
+          <h3 class="ps-1 mb-0">Contact Requests</h3>
+          <span class="tagline ps-1">
+            <u>{{ selectedTagline }}</u></span
+          >
+        </div>
+        <div>
+          <app-button
+          label="Back"
+          className="back-btn w-100 mt-2"
+          type="button"
+          iconClass="bi bi-arrow-left"
+          (btnClick)="navigateBack()"
+        />
+        </div>
+      </div>
     </div>
   </div>
   <div class="request-content">

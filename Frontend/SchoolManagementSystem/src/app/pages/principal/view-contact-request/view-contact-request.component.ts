@@ -257,4 +257,8 @@ export class ViewContactRequestComponent {
   }
 
   onCancel(): void {}
+
+  navigateBack(): void {
+    this.router.navigate(['/principal/contact-requests']);
+  }
 }

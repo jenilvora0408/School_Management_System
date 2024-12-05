@@ -58,6 +58,15 @@
       >
         <i class="bi bi-database-down fs-3"></i>
       </div>
+      <div class="back-btn-container">
+        <app-button
+        label="Back"
+        className="back-btn w-100"
+        type="button"
+        iconClass="bi bi-arrow-left"
+        (btnClick)="navigateBack()"
+      />
+      </div>
     </div>
     @if(responseData.length > 0){
     <table

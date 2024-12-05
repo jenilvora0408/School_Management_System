@@ -49,6 +49,7 @@ export class EditClassComponent {
   strength: number = 0;
   teachersList: DropdownMenu[] = [];
   responseData: ISubjectsListInterface[] = [];
+  classData: any;
 
   editClassForm = new FormGroup({
     classTeacherId: new FormControl('', Validators.required),
@@ -67,6 +68,7 @@ export class EditClassComponent {
 
   ngOnInit(): void {
     this.decryptQueryParams();
+    console.log(this.classId);
     this.getAllTeachers();
     this.getAllSubjects();
 
@@ -197,7 +199,12 @@ export class EditClassComponent {
     }
   }
 
-  editCourse(classSubjectId: number, className: string, subjectName: string, subjectId: number){
+  editCourse(
+    classSubjectId: number,
+    className: string,
+    subjectName: string,
+    subjectId: number
+  ) {
     this.router.navigate(['principal/edit-course'], {
       queryParams: {
         classSubjectId: CryptoJS.AES.encrypt(
@@ -216,7 +223,23 @@ export class EditClassComponent {
           subjectId.toString() ?? '',
           SystemConstants.EncryptionKey
         ),
+        classId: CryptoJS.AES.encrypt(
+          this.classId.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        classTeacherName: CryptoJS.AES.encrypt(
+          this.classTeacherName ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        classStrength: CryptoJS.AES.encrypt(
+          this.classStrength.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
       },
     });
+  }
+
+  navigateBack(): void {
+    this.router.navigate(['principal/classes-and-subjects']);
   }
 }

@@ -9,12 +9,21 @@
     (submit)="onSubmit()"
     appFormSubmit
   >
-    <div class="row m-0 p-5 bg-light flex-column">
+    <div class="row m-0 p-5 pb-0 pt-3 bg-light flex-column">
+      <div class="sub-header d-flex justify-content-end">
+        <app-button
+          label="Back"
+          className="back-btn w-100 mt-2"
+          type="button"
+          iconClass="bi bi-arrow-left"
+          (btnClick)="navigateBack()"
+        />
+      </div>
       <div
         class="col form-container d-flex align-items-center justify-content-center"
       >
-        <div class="heading mb-3">
-          <h3 class="text-center mb-3">{{ className }}</h3>
+        <div class="heading">
+          <h3 class="text-center">{{ className }}</h3>
           <p class="text-center tagline">
             Edit class details and manage the subjects taught in this class.
           </p>
@@ -103,7 +112,16 @@
                   </td>
                   }
                   <td class="d-flex gap-2">
-                    <div (click)="editCourse(item.classSubjectId, className, item.subjectName, item.subjectId)">
+                    <div
+                      (click)="
+                        editCourse(
+                          item.classSubjectId,
+                          className,
+                          item.subjectName,
+                          item.subjectId
+                        )
+                      "
+                    >
                       <i class="bi bi-journals fs-4"></i>
                     </div>
                     <div (click)="deleteSubject(item.subjectId)">

@@ -40,6 +40,9 @@ export class EditCourseComponent {
   responseData: ICourseListForClassSubjectInterface[] = [];
   subjectId: number = 0;
   teachersList: DropdownMenu[] = [];
+  classId: number = 0;
+  classTeacherName: string = '';
+  classStrength: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,6 +79,22 @@ export class EditCourseComponent {
           SystemConstants.EncryptionKey
         ).toString(CryptoJS.enc.Utf8)
       );
+      this.classTeacherName = CryptoJS.AES.decrypt(
+        params['classTeacherName'],
+        SystemConstants.EncryptionKey
+      ).toString(CryptoJS.enc.Utf8);
+      this.classStrength = parseInt(
+        CryptoJS.AES.decrypt(
+          params['classStrength'],
+          SystemConstants.EncryptionKey
+        ).toString(CryptoJS.enc.Utf8)
+      );
+      this.classId = parseInt(
+        CryptoJS.AES.decrypt(
+          params['classId'],
+          SystemConstants.EncryptionKey
+        ).toString(CryptoJS.enc.Utf8)
+      );
     });
   }
 
@@ -96,15 +115,17 @@ export class EditCourseComponent {
   onSubmit(): void {
     console.log('submit');
 
-    const payload : ISubmitCourseInfo = {
+    const payload: ISubmitCourseInfo = {
       classSubjectId: this.classSubjectId,
-      addChaptersDTO: this.responseData as ICourseListForClassSubjectInterface[]
-    }
-    
+      addChaptersDTO: this
+        .responseData as ICourseListForClassSubjectInterface[],
+    };
+
     this.principalService.submitChaptersInfo(payload).subscribe({
       next: (response: IResponse<null>) => {
-        this.router.navigate([RoutingPathConstant.classesAndSubjectsUrl]);
+        // this.router.navigate([RoutingPathConstant.classesAndSubjectsUrl]);
         this.notificationService.success(response.message);
+        this.navigateBack();
       },
       error: (error: HttpErrorResponse) => {
         this.notificationService.error(error.error.errors);
@@ -146,4 +167,29 @@ export class EditCourseComponent {
   }
 
   cancelFormData(): void {}
+
+  navigateBack(): void {
+    console.log(this.classId);
+    
+    this.router.navigate(['/principal/edit-class'], {
+      queryParams: {
+        classId: CryptoJS.AES.encrypt(
+          this.classId.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        classTeacherName: CryptoJS.AES.encrypt(
+          this.classTeacherName ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        classStrength: CryptoJS.AES.encrypt(
+          this.classStrength.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        className: CryptoJS.AES.encrypt(
+          this.className.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+      },
+    });
+  }
 }

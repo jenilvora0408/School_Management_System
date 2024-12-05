@@ -5,7 +5,16 @@
   <div class="bg-light m-5 p-5">
     <div>
       <div class="heading mb-5">
-        <h3>Classes</h3>
+        <div class="sub-header d-flex justify-content-between">
+          <h3>Classes</h3>
+          <app-button
+          label="Back"
+          className="back-btn w-100"
+          type="button"
+          iconClass="bi bi-arrow-left"
+          (btnClick)="navigateBack()"
+        />
+        </div>
       </div>
     </div>
     <div

@@ -158,4 +158,8 @@ export class ContactRequestsComponent {
       state: { exportData: [matchedRequest] },
     });
   }
+
+  navigateBack(): void {
+    this.router.navigate(['/principal']);
+  }
 }

@@ -27,6 +27,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 import html2canvas from 'html2canvas';
 import { ConfirmLeaveActionComponent } from '../../../NgbModals/Confirmation/confirm-leave-action/confirm-leave-action.component';
 import { LoaderService } from '../../../shared/services/loader.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-leave-requests',
@@ -68,7 +69,8 @@ export class LeaveRequestsComponent {
     private principalService: PrincipalService,
     private modalService: NgbModal,
     private notificationService: NotificationService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -210,5 +212,9 @@ export class LeaveRequestsComponent {
 
       doc.save(this.pdfFileName);
     });
+  }
+
+  navigateBack(): void {
+    this.router.navigate(['/principal']);
   }
 }

@@ -143,3 +143,17 @@ $new: #59a2dd;
   background-color: $previous;
   color: $white;
 }
+.back-btn {
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 9px 10px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  color: $white;
+  font-size: 15px;
+  background-color: $gray;
+}
+.back-btn:active{
+  background-color: $gray-active;
+}

@@ -8,11 +8,12 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { SystemConstants } from '../../../constants/shared/system-constants';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-classes-subjects',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent, ButtonComponent],
   templateUrl: './classes-subjects.component.html',
   styleUrl: './classes-subjects.component.scss',
 })
@@ -63,5 +64,9 @@ export class ClassesSubjectsComponent {
         ),
       },
     });
+  }
+
+  navigateBack(): void {
+    this.router.navigate(['/principal']);
   }
 }

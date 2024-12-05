@@ -13,4 +13,6 @@ public interface ITeacherService
     Task AdmitRequestApproval(AdmitRequestApprovalDTO admitRequestApprovalDTO);
 
     Task<LeavesCountDTO> GetLeavesCount(long userId);
+
+    Task<SubjectTeacherInfoDTO> GetClassesForSubjectTeacher(long userId);
 }

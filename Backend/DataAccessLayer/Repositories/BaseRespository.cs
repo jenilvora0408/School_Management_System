@@ -67,6 +67,27 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbSet.Where(predicate).ToListAsync();
     }
 
+
+    public async Task<List<T>> GetAllIncludeAsync(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, object>>[]? includes = null, Expression<Func<T, T>>? selects = null, CancellationToken cancellationToken = default)
+    {
+        IQueryable<T> query = _dbSet.AsQueryable();
+
+        if (includes != null)
+        {
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
+        }
+
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+
+        if (selects != null)
+            query = query.Select(selects);
+
+        return await query.ToListAsync();
+    }
+
     public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, TResult>>? selector = null, CancellationToken cancellationToken = default)
     {
         IQueryable<T> query = _dbSet;

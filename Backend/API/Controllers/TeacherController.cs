@@ -72,5 +72,15 @@ public class TeacherController(ITeacherService teacherService) : BaseController
         return GetResult(response, message: null);
     }
 
+    [HttpGet("get-classes-for-subject-teacher/{userId}")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetClassesForSubjectTeacher(long userId)
+    {
+        return GetResult(await _teacherService.GetClassesForSubjectTeacher(userId), message: null);
+    }
+
     #endregion HTTP_Methods
 }

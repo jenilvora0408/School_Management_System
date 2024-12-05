@@ -31,4 +31,6 @@ public interface IBaseRepository<T> where T : class
     Task<PageListResponseDTO<T>> GetAllAsync(PageListRequestEntity<T> pageListRequest);
 
     Task<T?> GetAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>>[]? includes = null, string[]? thenIncludes = null, Expression<Func<T, T>>? selects = null, CancellationToken cancellationToken = default);
+
+    Task<List<T>> GetAllIncludeAsync(Expression<Func<T, bool>>? predicate = null, Expression<Func<T, object>>[]? includes = null, Expression<Func<T, T>>? selects = null, CancellationToken cancellationToken = default);
 }

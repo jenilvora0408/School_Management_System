@@ -234,6 +234,24 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
             $"{admitRequest.FirstName} {admitRequest.LastName}", generateCredentialsDTO.UserName, generateCredentialsDTO.Password, _environment.WebRootPath));
     }
 
+    public async Task<SubjectTeacherInfoDTO> GetClassesForSubjectTeacher(long userId)
+    {
+        User? user = await _commonService.GetUserById(userId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
+
+        Subject? subject = await _unitOfWork.SubjectRepository.GetAsync(sub => sub.SubjectTeacherId == userId, includes: [sub => sub.ClassSubjects]
+        );
+
+        if (subject == null || !subject.ClassSubjects.Any())
+        {
+            return user.ToEmptySubjectTeacherInfoDTO();
+        }
+
+        List<int>? classIds = subject.ClassSubjects.Select(cs => cs.ClassId).ToList();
+
+        List<Class> classes = await _unitOfWork.ClassRepository.GetAllIncludeAsync(cls => classIds.Contains(cls.Id), includes: [cls => cls.ClassTeachers]);
+
+        return subject.ToSubjectTeacherInfoDTO(user, classes);
+    }
 
     #endregion Helper_Methods
 }

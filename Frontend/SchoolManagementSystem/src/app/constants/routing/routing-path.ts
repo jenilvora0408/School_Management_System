@@ -7,4 +7,5 @@ export class RoutingPathConstant {
   public static resetPasswordUrl = '/reset-password';
   public static viewAdmitRequestUrl = '/view-admit-request';
   public static classesAndSubjectsUrl = '/principal/classes-and-subjects';
+  public static subjectClassesUrl = 'teacher/subject-classes';
 }

@@ -20,6 +20,7 @@ import { ContactRequestOptionsComponent } from './pages/common/contact-request-o
 import { ContactRequestHistoryComponent } from './pages/common/contact-request-history/contact-request-history.component';
 import { MyContactRequestComponent } from './pages/common/my-contact-request/my-contact-request.component';
 import { EditCourseComponent } from './pages/principal/edit-course/edit-course.component';
+import { SubjectClassesComponent } from './pages/teacher/subject-classes/subject-classes.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -56,6 +57,10 @@ export const routes: Routes = [
         path: 'leave-dashboard',
         component: LeaveDashboardComponent,
       },
+      {
+        path: 'subject-classes',
+        component: SubjectClassesComponent,
+      }
     ],
   },
   {

@@ -9,4 +9,6 @@ public class SubjectTeacherAssignedClassDTO
     public string ClassTeacherName { get; set; } = null!;
 
     public int ClassStrength { get; set; }
+
+    public int ClassId { get; set; }
 }

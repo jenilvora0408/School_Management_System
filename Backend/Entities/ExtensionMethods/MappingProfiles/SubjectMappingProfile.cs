@@ -45,7 +45,8 @@ public static class SubjectMappingProfile
             ClassName = cls.ClassName,
             ClassTeacherId = cls.ClassTeacherId ?? 0,
             ClassTeacherName = cls.ClassTeachers != null ? $"{cls.ClassTeachers.FirstName} {cls.ClassTeachers.LastName}" : "N/A",
-            ClassStrength = cls.ClassStrength ?? 0
+            ClassStrength = cls.ClassStrength ?? 0,
+            ClassId = cls.Id
         };
     }
 }

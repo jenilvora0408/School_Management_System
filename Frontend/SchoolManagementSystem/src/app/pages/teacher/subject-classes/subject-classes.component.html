@@ -1,55 +1,75 @@
 <div class="classes-subjects-container container-fluid p-0">
-    <div class="header">
-      <app-header></app-header>
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  @if(responseData.subjectId != null){
+  <div class="subject-info-container p-5 pb-0">
+    <div class="subject-heading">
+      <h3 class="text-center">{{ responseData.subjectName }}</h3>
+      <p class="text-center">
+        Shaping knowledge: Guiding {{ responseData.subjectName }} learners in
+        {{ responseData.subjectTeacherAssignedClasses.length }} classes.
+      </p>
     </div>
-    <div class="subject-info-container p-5 pb-0">
-        <div class="subject-heading">
-            <h3 class="text-center">Subject Name</h3>
-        </div>
-    </div>
-    <div class="bg-light m-5 p-5">
-      <div>
-        <div class="heading mb-5">
-          <div class="sub-header d-flex justify-content-between">
-            <h4>Classes</h4>
-            <app-button
+  </div>
+  <div class="bg-light m-5 p-5">
+    <div>
+      <div class="heading mb-5">
+        <div class="sub-header d-flex justify-content-between">
+          <h4>Classes</h4>
+          <app-button
             label="Back"
             className="back-btn w-100"
             type="button"
             iconClass="bi bi-arrow-left"
             (btnClick)="navigateBack()"
           />
-          </div>
         </div>
-      </div>
-      <div
-        class="class-boxes d-flex flex-wrap gap-4 align-items-center justify-content-center pb-4"
-      >
-        @for (item of responseData.subjectTeacherAssignedClasses; track i; let i = $index){
-        <div class="box px-3 py-2">
-          <div class="d-flex align-items-center justify-content-between">
-            <p class="sub-heading fs-4">{{ item.className }}</p>
-            <div>
-              <i class="bi bi-arrow-right-circle fs-4" (click)="viewChapters()"></i>
-            </div>
-          </div>
-          <div class="d-flex align-items-center justify-content-between">
-            @if(item.classTeacherName !== ' '){
-            <span
-              >Class Teacher:
-              <span class="result"> {{ item.classTeacherName }} </span></span
-            >
-            } @else {
-            <span>Class Teacher: <span class="result"> Not Assigned </span></span>
-            }
-            <span
-              >Strength:
-              <span class="result"> {{ item.classStrength }} </span></span
-            >
-          </div>
-        </div>
-        }
       </div>
     </div>
+    <div
+      class="class-boxes d-flex flex-wrap gap-4 align-items-center justify-content-center pb-4"
+    >
+      @for (item of responseData.subjectTeacherAssignedClasses; track i; let i =
+      $index){
+      <div class="box px-3 py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <p class="sub-heading fs-4">{{ item.className }}</p>
+          <div>
+            <i
+              class="bi bi-arrow-right-circle fs-4"
+              (click)="viewChapters()"
+            ></i>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          @if(item.classTeacherName !== ' '){
+          <span
+            >Class Teacher:
+            <span class="result"> {{ item.classTeacherName }} </span></span
+          >
+          } @else {
+          <span>Class Teacher: <span class="result"> Not Assigned </span></span>
+          }
+          <span
+            >Strength:
+            <span class="result"> {{ item.classStrength }} </span></span
+          >
+        </div>
+      </div>
+      }
+    </div>
   </div>
-  
+  } @else {
+  <div class="mt-3">
+    <p class="text-center mb-0 no-data-tagline fs-5">
+      You haven't been assigned to teach any Subject yet!
+    </p>
+    <p class="text-center no-data-tagline fs-5">
+      You will receive an email once the Principal assigns you a subject to
+      teach.
+    </p>
+  </div>
+
+  }
+</div>

@@ -3,6 +3,7 @@ $sub-heading: #75a0ea;
 $pink: #bf75ea;
 $green: rgba(42, 112, 42, 0.863);
 $bg: #bddcf0;
+$gray: gray;
 
 .box {
   border-radius: 15px;
@@ -23,4 +24,7 @@ h3 {
 }
 .sub-heading {
   font-weight: 400;
+}
+.no-data-tagline{
+    color: $gray;
 }

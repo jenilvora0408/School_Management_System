@@ -107,7 +107,7 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
         return token;
     }
 
-    public async Task ForgetPassword(string email)
+    public async Task<string> ForgetPassword(string email)
     {
         User? user = await _commonService.GetUserByEmail(email) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
 
@@ -120,6 +120,8 @@ public class UserService(IUnitOfWork unitOfWork, IMailService mailService, IComm
             Body = MailBodyUtil.SendOtpForResetPasswordBody(otp, user.FirstName + " " + user.LastName, _environment.WebRootPath)
         };
         await _mailService.SendMailAsync(mailDto);
+
+        return $"{user.FirstName} {user.LastName}";
     }
 
     public async Task ResetPassword(LoginCredentialsDTO loginCredentialsDTO)

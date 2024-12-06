@@ -33,6 +33,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class ForgetPasswordComponent {
   emailValidationMsg: string = ValidationMessageConstant.email;
+  userName: string = '';
 
   forgetPasswordForm = new FormGroup({
     email: new FormControl(
@@ -58,9 +59,9 @@ export class ForgetPasswordComponent {
       this.authService
         .forgetPassword(<IForgetPasswordInterface>this.forgetPasswordForm.value)
         .subscribe({
-          next: (response: IResponse<null>) => {
+          next: (response: IResponse<string>) => {
             console.log('forget-password: ', response);
-
+            this.userName = response.data;
             if (response.success) {
               this.notificationService.success(response.message);
               this.router.navigate(['/verify-otp'], {
@@ -71,6 +72,10 @@ export class ForgetPasswordComponent {
                   ),
                   from: CryptoJS.AES.encrypt(
                     'forgot-password',
+                    SystemConstants.EncryptionKey
+                  ),
+                  userName: CryptoJS.AES.encrypt(
+                    this.userName,
                     SystemConstants.EncryptionKey
                   ),
                 },

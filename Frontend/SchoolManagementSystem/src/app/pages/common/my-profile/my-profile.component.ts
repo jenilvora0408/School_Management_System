@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SystemConstants } from '../../../constants/shared/system-constants';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { InputComponent } from '../../../shared/components/input/input.component';
@@ -46,6 +46,7 @@ export class MyProfileComponent {
   userId: number = this.authService.getUserId();
   userName: string = this.authService.getUserName();
   profilePicture: string | ArrayBuffer | null = '';
+  userRole: string = '';
   @ViewChild('profileInput') profileInput!: ElementRef;
   phoneNumberCustomErrors = {
     pattern: ValidationMessageConstant.phoneNumber,
@@ -92,12 +93,14 @@ export class MyProfileComponent {
   constructor(
     private commonService: CommonService,
     private notificationService: NotificationService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
     this.getProfileDetails();
+    this.userRole = this.authService.getUserType();
   }
 
   openPictureFileDialog() {
@@ -190,5 +193,14 @@ export class MyProfileComponent {
 
   cancelForm(){
     this.getProfileDetails();
+  }
+
+  navigateBack(): void {
+    if(this.userRole == '1')
+      this.router.navigate(['/principal']);
+    else if(this.userRole == '2')
+      this.router.navigate(['/teacher']);
+    else
+      this.router.navigate(['/student']);
   }
 }

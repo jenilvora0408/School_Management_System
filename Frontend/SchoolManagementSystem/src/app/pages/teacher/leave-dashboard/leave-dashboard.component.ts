@@ -21,6 +21,7 @@ import { LeaveStatusComponent } from '../../../shared/components/leave-status/le
 import { ChartOptions } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-leave-dashboard',
@@ -78,7 +79,8 @@ export class LeaveDashboardComponent {
     private teacherService: TeacherService,
     private authService: AuthenticationService,
     private modalService: NgbModal,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -159,5 +161,9 @@ export class LeaveDashboardComponent {
       this.getLeaveRequestData();
       this.getLeavesCount();
     });
+  }
+
+  navigateBack():void{
+    this.router.navigate(['/teacher']);
   }
 }

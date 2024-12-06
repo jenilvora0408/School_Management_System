@@ -66,8 +66,7 @@ public class UserController(IUserService userService) : BaseController
     public async Task<IActionResult> ForgetPassword(EmailRequestDTO emailRequestDTO)
     {
         if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
-        await _userService.ForgetPassword(emailRequestDTO.Email);
-        return GetResult(null, message: MessageConstants.SuccessMessage.OTP_SENT);
+        return GetResult(await _userService.ForgetPassword(emailRequestDTO.Email), message: MessageConstants.SuccessMessage.OTP_SENT);
     }
 
     [HttpPut("reset-password")]

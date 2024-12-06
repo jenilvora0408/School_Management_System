@@ -79,7 +79,7 @@ export class ContactRequestHistoryComponent {
     private loaderService: LoaderService,
     private router: Router,
     private commonService: CommonService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
   ) {}
 
   ngOnInit(): void {
@@ -169,5 +169,9 @@ export class ContactRequestHistoryComponent {
       state: { exportData: [matchedRequest] },
     },
   );
+  }
+
+  navigateBack(): void {
+      this.router.navigate(['/contact-request-options']);
   }
 }

@@ -80,8 +80,8 @@ export class AuthenticationService {
     return this.http.post<IResponse<null>>(`${this.sendOtpApi}`, body);
   }
 
-  forgetPassword(email: IForgetPasswordInterface): Observable<IResponse<null>> {
-    return this.http.post<IResponse<null>>(`${this.forgetPasswordApi}`, email);
+  forgetPassword(email: IForgetPasswordInterface): Observable<IResponse<string>> {
+    return this.http.post<IResponse<string>>(`${this.forgetPasswordApi}`, email);
   }
 
   resetPassword(

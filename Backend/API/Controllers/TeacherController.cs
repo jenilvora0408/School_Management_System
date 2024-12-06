@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/teacher")]
-[TeachersPolicy]
+// [TeachersPolicy]
 public class TeacherController(ITeacherService teacherService) : BaseController
 {
     #region Constructor
@@ -80,6 +80,16 @@ public class TeacherController(ITeacherService teacherService) : BaseController
     public async Task<IActionResult> GetClassesForSubjectTeacher(long userId)
     {
         return GetResult(await _teacherService.GetClassesForSubjectTeacher(userId), message: null);
+    }
+
+    [HttpPost("chapters-of-class-subject")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> ChaptersofClassSubject(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
+    {
+        return GetResult(await _teacherService.GetAllClassSubjectChapters(classSubjectPageListRequestDTO), message: null);
     }
 
     #endregion HTTP_Methods

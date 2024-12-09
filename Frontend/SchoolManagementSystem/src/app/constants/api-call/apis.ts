@@ -82,7 +82,7 @@ export class ApiCallConstant {
     this.TEACHER_CONTROLLER + 'get-classes-for-subject-teacher';
 
   public static readonly CHAPTERS_OF_CLASS_SUBJECT =
-    this.TEACHER_CONTROLLER + 'chapters-of-class-subjet';
+    this.TEACHER_CONTROLLER + 'chapters-of-class-subject';
 
   // Principal Controller Methods
 

@@ -13,6 +13,7 @@ import { ICreateLeaveRequestInterface } from '../models/teacher/create-leave-req
 import { ILeavesCountInterface } from '../models/teacher/leaves-count';
 import { ISubjectTeacherInfoInterface } from '../models/teacher/subject-teacher-info';
 import { IChaptersOfClassSubjectInterface } from '../models/teacher/chapters-of-class-subject';
+import { IClassSubjectPageListRequestInterface } from '../shared/models/class-subject-page-list-request';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +85,7 @@ export class TeacherService {
   }
 
   getChaptersOfClassSubject(
-    listCredentials: IPageListRequest
+    listCredentials: IClassSubjectPageListRequestInterface
   ): Observable<IResponse<IPageListResponse<IChaptersOfClassSubjectInterface[]>>> {
     return this.http.post<
       IResponse<IPageListResponse<IChaptersOfClassSubjectInterface[]>>

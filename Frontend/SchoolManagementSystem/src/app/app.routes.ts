@@ -61,7 +61,7 @@ export const routes: Routes = [
       {
         path: 'subject-classes',
         component: SubjectClassesComponent,
-      }
+      },
       {
         path: 'course-details',
         component: CourseDetailsComponent

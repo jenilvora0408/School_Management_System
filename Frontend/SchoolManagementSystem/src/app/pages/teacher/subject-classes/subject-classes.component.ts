@@ -9,6 +9,8 @@ import { TeacherService } from '../../../services/teacher.service';
 import { IResponse } from '../../../shared/models/IResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { SystemConstants } from '../../../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-subject-classes',
@@ -30,7 +32,7 @@ export class SubjectClassesComponent {
     private authService: AuthenticationService,
     private router: Router,
     private teacherService: TeacherService,
-    private notificationService: NotificationService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +53,29 @@ export class SubjectClassesComponent {
     });
   }
 
-  viewChapters(): void {}
+  viewChapters(classId: number, className: string): void {
+    console.log(classId, this.responseData.subjectId);
+    this.router.navigate([RoutingPathConstant.CourseDetailsUrl], {
+      queryParams: {
+        classId: CryptoJS.AES.encrypt(
+          classId.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        subjectId: CryptoJS.AES.encrypt(
+          this.responseData.subjectId.toString(),
+          SystemConstants.EncryptionKey
+        ),
+        className: CryptoJS.AES.encrypt(
+          className ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        subjectName: CryptoJS.AES.encrypt(
+          this.responseData.subjectName ?? '',
+          SystemConstants.EncryptionKey
+        ),
+      },
+    });
+  }
 
   navigateBack(): void {
     this.router.navigate([RoutingPathConstant.teacherDashboardUrl]);

@@ -253,7 +253,7 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
         return subject.ToSubjectTeacherInfoDTO(user, classes);
     }
 
-    public async Task<PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>> GetAllClassSubjectChapters(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
+    public async Task<PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>>     GetAllClassSubjectChapters(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
     {
         Class? classData = await _unitOfWork.ClassRepository.GetFirstOrDefaultAsync(cs => cs.Id == classSubjectPageListRequestDTO.ClassId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CLASS_NOT_FOUND);
 

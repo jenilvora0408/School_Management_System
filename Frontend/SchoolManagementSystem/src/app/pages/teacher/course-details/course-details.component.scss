@@ -4,9 +4,8 @@ $helper-tint: #f3f4ff;
 $bg: rgb(249, 249, 255);
 $purple: #6c4e87;
 $pending: #b2651b;
-$approved: #003663;
 $declined: #dd7176;
-$blocked: #777878;
+$gray: gray;
 
 .teacher-dashboard-container {
   background-color: $helper-tint;
@@ -24,9 +23,6 @@ $blocked: #777878;
 .profile-pic img {
   height: 35px;
 }
-.dashboard-heading {
-  color: $heading;
-}
 thead tr th {
   font-size: 1.2rem;
   font-weight: 500;
@@ -36,6 +32,7 @@ tr td img {
 }
 .bi {
   cursor: pointer;
+  color: $purple;
 }
 button i {
   color: $purple;
@@ -50,15 +47,10 @@ h3 {
   font-weight: 500;
   color: $pending;
 }
-.approved-status {
-  font-weight: 500;
-  color: $approved;
-}
 .declined-status {
   font-weight: 500;
   color: $declined;
 }
-.blocked-status{
-  font-weight: 500;
-  color: $blocked;
+.no-data-tagline{
+    color: $gray;
 }

@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/teacher")]
-// [TeachersPolicy]
+[TeachersPolicy]
 public class TeacherController(ITeacherService teacherService) : BaseController
 {
     #region Constructor

@@ -15,4 +15,6 @@ public interface ITeacherService
     Task<LeavesCountDTO> GetLeavesCount(long userId);
 
     Task<SubjectTeacherInfoDTO> GetClassesForSubjectTeacher(long userId);
+
+    Task<PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>> GetAllClassSubjectChapters(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO);
 }

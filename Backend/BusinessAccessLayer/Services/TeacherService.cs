@@ -253,5 +253,30 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
         return subject.ToSubjectTeacherInfoDTO(user, classes);
     }
 
+    public async Task<PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>> GetAllClassSubjectChapters(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
+    {
+        Class? classData = await _unitOfWork.ClassRepository.GetFirstOrDefaultAsync(cs => cs.Id == classSubjectPageListRequestDTO.ClassId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CLASS_NOT_FOUND);
+
+        Subject? subject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == classSubjectPageListRequestDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
+
+        ClassSubject? classSubject = await _unitOfWork.ClassSubjectRepository.GetFirstOrDefaultAsync(cls => cls.ClassId == classSubjectPageListRequestDTO.ClassId && cls.SubjectId == classSubjectPageListRequestDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status400BadRequest, ErrorMessage.CLASS_SUBJECT_INVALID_CREDENTIALS);
+
+        PageListRequestEntity<Course> pageListRequestEntity = new()
+        {
+            PageIndex = classSubjectPageListRequestDTO.PageIndex,
+            PageSize = classSubjectPageListRequestDTO.PageSize,
+            SortColumn = !string.IsNullOrEmpty(classSubjectPageListRequestDTO.SortColumn) ? classSubjectPageListRequestDTO.SortColumn : null!,
+            SortOrder = classSubjectPageListRequestDTO.SortOrder,
+            Predicate = leave =>
+                leave.ClassSubjectId == classSubject.Id && leave.ChapterName.ToLower().Contains(classSubjectPageListRequestDTO.SearchQuery.ToLower()),
+        };
+
+        PageListResponseDTO<Course> pageListResponse = await _unitOfWork.CourseRepository.GetAllAsync(pageListRequestEntity);
+
+        List<ClassSubjectChaptersPageListResponseDTO> leaveRequestsListResponseDTOs = pageListResponse.Records.ToGetChaptersForClassSubject();
+
+        return new PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
+    }
+
     #endregion Helper_Methods
 }

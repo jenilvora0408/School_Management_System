@@ -78,6 +78,9 @@ export class ApiCallConstant {
   public static readonly GET_LEAVES_COUNT =
     this.TEACHER_CONTROLLER + 'get-leaves-count';
 
+  public static readonly CHAPTERS_OF_CLASS_SUBJECT =
+    this.TEACHER_CONTROLLER + 'chapters-of-class-subjet';
+
   // Principal Controller Methods
 
   public static readonly GET_ALL_SUBJECTS_BY_CLASS_ID =

@@ -10,6 +10,11 @@
       <li class="d-flex gap-2">
         <span><i class="bi bi-person-rolodex"></i></span>Contact Student
       </li>
+      @if(userRole == 2){
+      <li class="d-flex gap-2" [routerLink]="subjectClassesRoute" (click)="close()">
+        <span><i class="bi bi-backpack4-fill"></i></span>Classes
+      </li>
+    }
     </ul>
   </div>
   <div class="close-icon me-4">

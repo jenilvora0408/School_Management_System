@@ -7,6 +7,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { NgbActiveOffcanvas, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RoutingPathConstant } from '../../../constants/routing/routing-path';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,6 +25,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 })
 export class SidebarComponent {
   activeOffcanvas = inject(NgbActiveOffcanvas);
+  userRole: number = 0;
+  subjectClassesRoute: string = RoutingPathConstant.subjectClassesUrl;
   @Input() name: string = '';
   private offCanvasService = inject(NgbOffcanvas);
 
@@ -32,6 +35,10 @@ export class SidebarComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {}
+
+  ngOnInit():void{
+    this.userRole = this.authService.getUserType();
+  }
 
   close() {
     this.offCanvasService.dismiss(SidebarComponent);

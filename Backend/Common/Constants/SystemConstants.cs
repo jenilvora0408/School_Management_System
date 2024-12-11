@@ -60,6 +60,8 @@ public static class SystemConstants
 
     public const string USE_DOCUMENT_FOR_CONTACT_PRINCIPAL = "Contact Principal";
 
+    public const string USE_DOCUMENT_FOR_CHAPTER_DOCUMENT = "Chapter Document";
+
     #region Policy Attribute
 
     public const string PRINCIPAL_POLICY = "Principal";

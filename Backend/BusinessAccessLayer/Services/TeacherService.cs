@@ -278,5 +278,59 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
         return new PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
     }
 
+    public async Task<string> ManageChapterDocument(ManageChapterDocumentDTO manageChapterDocumentDTO)
+    {
+        string response = string.Empty;
+
+        Course? course = await _unitOfWork.CourseRepository.GetFirstOrDefaultAsync(cs => cs.Id == manageChapterDocumentDTO.CourseId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CHAPTER_NOT_FOUND);
+
+        if (manageChapterDocumentDTO.DocumentId == 0 && !string.IsNullOrWhiteSpace(manageChapterDocumentDTO.DocumentContent))
+        {
+            Document? existingDocument = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.CourseId == manageChapterDocumentDTO.CourseId);
+
+            if (existingDocument != null)
+                throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.CHAPTER_DOCUMENT_ALREADY_PRESENT);
+
+            Document newDocument = manageChapterDocumentDTO.ToDocument(course.Id);
+            await _unitOfWork.DocumentRepository.AddAsync(newDocument);
+            response = SuccessMessage.DOCUMENT_ADDED;
+        }
+        else
+        {
+            Document? document = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.Id == manageChapterDocumentDTO.DocumentId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.DOCUMENT_NOT_FOUND);
+
+            if (string.IsNullOrWhiteSpace(manageChapterDocumentDTO.DocumentContent))
+            {
+                await _unitOfWork.DocumentRepository.RemoveAsync(document);
+                response = SuccessMessage.DOCUMENT_REMOVED;
+            }
+            else
+            {
+                document.UpdateFromDTO(manageChapterDocumentDTO);
+                await _unitOfWork.DocumentRepository.UpdateAsync(document);
+                response = SuccessMessage.DOCUMENT_UPDATED;
+            }
+        }
+
+        await _unitOfWork.SaveAsync();
+        return response;
+    }
+
+    public async Task<GetChapterDocumentDTO> GetChapterDocument(int courseId)
+    {
+        Course? course = await _unitOfWork.CourseRepository.GetFirstOrDefaultAsync(cs => cs.Id == courseId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CHAPTER_NOT_FOUND);
+
+        Document? document = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.CourseId == courseId);
+
+        if (document != null)
+        {
+            return document.ToGetDocument();
+        }
+        else
+        {
+            return new GetChapterDocumentDTO();
+        }
+    }
+
     #endregion Helper_Methods
 }

@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/teacher")]
-[TeachersPolicy]
+// [TeachersPolicy]
 public class TeacherController(ITeacherService teacherService) : BaseController
 {
     #region Constructor
@@ -90,6 +90,28 @@ public class TeacherController(ITeacherService teacherService) : BaseController
     public async Task<IActionResult> ChaptersofClassSubject(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
     {
         return GetResult(await _teacherService.GetAllClassSubjectChapters(classSubjectPageListRequestDTO), message: null);
+    }
+
+    [HttpPost("manage-chapter-document")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(422)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> ManageChapterDocument(ManageChapterDocumentDTO manageChapterDocumentDTO)
+    {
+        return GetResult(await _teacherService.ManageChapterDocument(manageChapterDocumentDTO), message: null);
+    }
+
+    [HttpGet("get-chapter-document/{courseId}")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetChapterDocument(int courseId)
+    {
+        return GetResult(await _teacherService.GetChapterDocument(courseId), message: null);
     }
 
     #endregion HTTP_Methods

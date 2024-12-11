@@ -17,4 +17,8 @@ public interface ITeacherService
     Task<SubjectTeacherInfoDTO> GetClassesForSubjectTeacher(long userId);
 
     Task<PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>> GetAllClassSubjectChapters(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO);
+
+    Task<string> ManageChapterDocument(ManageChapterDocumentDTO manageChapterDocumentDTO);
+
+    Task<GetChapterDocumentDTO> GetChapterDocument(int courseId);
 }

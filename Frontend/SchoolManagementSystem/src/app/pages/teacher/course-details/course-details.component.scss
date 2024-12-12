@@ -1,0 +1,59 @@
+$heading: rgb(0, 10, 45);
+$para: #777;
+$helper-tint: #f3f4ff;
+$bg: rgb(249, 249, 255);
+$purple: #6c4e87;
+$pending: #b2651b;
+$declined: #dd7176;
+$gray: gray;
+
+.teacher-dashboard-container {
+  background-color: $helper-tint;
+  height: 100vh;
+}
+.teacher-navbar {
+  display: flex;
+  align-items: center;
+  background-color: $bg;
+  height: 60px;
+}
+.teacher-logo img {
+  height: 100px;
+}
+.profile-pic img {
+  height: 35px;
+}
+thead tr th {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+tr td img {
+  height: 20px;
+}
+.bi {
+  cursor: pointer;
+  color: $purple;
+}
+button i {
+  color: $purple;
+}
+h3 {
+  font-weight: normal;
+  word-spacing: 3px;
+  letter-spacing: 1px;
+  color: $purple;
+}
+.pending-status {
+  font-weight: 500;
+  color: $pending;
+}
+.declined-status {
+  font-weight: 500;
+  color: $declined;
+}
+.no-data-tagline{
+    color: $gray;
+}
+.utility{
+  width: 8vw;
+}

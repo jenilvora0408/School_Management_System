@@ -81,6 +81,9 @@ export class ApiCallConstant {
   public static readonly GET_CLASSES_FOR_SUBJECT_TEACHER =
     this.TEACHER_CONTROLLER + 'get-classes-for-subject-teacher';
 
+  public static readonly CHAPTERS_OF_CLASS_SUBJECT =
+    this.TEACHER_CONTROLLER + 'chapters-of-class-subject';
+
   // Principal Controller Methods
 
   public static readonly GET_ALL_SUBJECTS_BY_CLASS_ID =

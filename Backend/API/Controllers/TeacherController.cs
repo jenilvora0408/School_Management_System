@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/teacher")]
-// [TeachersPolicy]
+[TeachersPolicy]
 public class TeacherController(ITeacherService teacherService) : BaseController
 {
     #region Constructor
@@ -103,7 +103,7 @@ public class TeacherController(ITeacherService teacherService) : BaseController
         return GetResult(await _teacherService.ManageChapterDocument(manageChapterDocumentDTO), message: null);
     }
 
-    [HttpGet("get-chapter-document/{courseId}")]
+    [HttpGet("chapter-document/{courseId}")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]

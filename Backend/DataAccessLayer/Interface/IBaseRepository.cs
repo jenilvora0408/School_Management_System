@@ -12,6 +12,8 @@ public interface IBaseRepository<T> where T : class
 
     Task UpdateAsync(T model, CancellationToken cancellationToken = default);
 
+    Task RemoveAsync(T model, CancellationToken cancellationToken = default);
+
     Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
     Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);

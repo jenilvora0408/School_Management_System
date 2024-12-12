@@ -37,6 +37,12 @@ public static class MessageConstants
         public const string CLASS_SUBJECT_INVALID_CREDENTIALS = "The subject is not associated with the class!";
 
         public const string SUBJECT_NOT_FOUND = "Subject not found!";
+
+        public const string CHAPTER_NOT_FOUND = "Chapter not found!";
+
+        public const string DOCUMENT_NOT_FOUND = "Document not found!";
+
+        public const string CHAPTER_DOCUMENT_ALREADY_PRESENT = "Document for this chapter already exists!";
     }
 
     public static class SuccessMessage
@@ -62,6 +68,12 @@ public static class MessageConstants
         public const string CONTACT_PRINCIPAL_SUCCESS = "Your request has been sent to the Principal!";
 
         public const string SAVE_CONTACT_PRINCIPAL_RESPONSE = "Your response to the contact request has been saved successfully!";
+
+        public const string DOCUMENT_ADDED = "The document has been added successfully!";
+
+        public const string DOCUMENT_UPDATED = "The document has been updated successfully!";
+
+        public const string DOCUMENT_REMOVED = "The document has been deleted successfully!";
     }
 
     #endregion Error_Messages

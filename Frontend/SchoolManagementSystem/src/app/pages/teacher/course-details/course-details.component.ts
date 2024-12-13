@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
   NgbDropdownModule,
@@ -7,6 +7,7 @@ import {
   NgbTypeaheadModule,
   NgbHighlight,
   NgbPopoverModule,
+  NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { InputComponent } from '../../../shared/components/input/input.component';
@@ -27,6 +28,7 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { RoutingPathConstant } from '../../../constants/routing/routing-path';
+import { ChapterDocumentComponent } from '../../../NgbModals/Teacher/chapter-document/chapter-document.component';
 
 @Component({
   selector: 'app-course-details',
@@ -62,7 +64,7 @@ export class CourseDetailsComponent {
   className: string = '';
   subjectName: string = '';
   excelFileName = 'ChaptersData.xlsx';
-  pdfFileName = 'DhaptersData.pdf';
+  pdfFileName = 'ChaptersData.pdf';
   @ViewChild('content') content!: ElementRef;
 
   constructor(
@@ -70,7 +72,8 @@ export class CourseDetailsComponent {
     private notificationService: NotificationService,
     private loaderService: LoaderService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -312,5 +315,26 @@ export class CourseDetailsComponent {
 
   navigateBack(): void {
     this.router.navigate([RoutingPathConstant.subjectClassesUrl]);
+  }
+
+  openChapterDocument(courseId: number, chapterName: string)
+  {
+    this.modalService.open(ChapterDocumentComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+      injector: Injector.create({
+        providers: [
+          {
+            provide: 'courseId',
+            useValue: courseId,
+          },
+          {
+            provide: 'chapterName',
+            useValue: chapterName,
+          }
+        ],
+      }),
+    });
   }
 }

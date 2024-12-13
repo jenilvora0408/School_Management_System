@@ -14,6 +14,8 @@ import { ILeavesCountInterface } from '../models/teacher/leaves-count';
 import { ISubjectTeacherInfoInterface } from '../models/teacher/subject-teacher-info';
 import { IChaptersOfClassSubjectInterface } from '../models/teacher/chapters-of-class-subject';
 import { IClassSubjectPageListRequestInterface } from '../shared/models/class-subject-page-list-request';
+import { IGetChapterDocument } from '../models/teacher/get-chapter-document';
+import { IManageChapterDocumentInterface } from '../models/teacher/manage-chapter-document';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +27,11 @@ export class TeacherService {
   admitRequestApprovalApi = ApiCallConstant.ADMIT_REQUEST_APPROVAL;
   createLeaveRequestApi = ApiCallConstant.CREATE_LEAVE_REQUEST;
   getLeavesCountApi = ApiCallConstant.GET_LEAVES_COUNT;
-  getClassesForSubjectTeacherApi = ApiCallConstant.GET_CLASSES_FOR_SUBJECT_TEACHER;
+  getClassesForSubjectTeacherApi =
+    ApiCallConstant.GET_CLASSES_FOR_SUBJECT_TEACHER;
   chaptersOfClassSubjectApi = ApiCallConstant.CHAPTERS_OF_CLASS_SUBJECT;
+  getChapterDocumentApi = ApiCallConstant.GET_CHAPTER_DOCUMENT;
+  manageChapterDocumentApi = ApiCallConstant.MANAGE_CHAPTER_DOCUMENT;
 
   constructor(private http: HttpClient) {}
 
@@ -86,9 +91,28 @@ export class TeacherService {
 
   getChaptersOfClassSubject(
     listCredentials: IClassSubjectPageListRequestInterface
-  ): Observable<IResponse<IPageListResponse<IChaptersOfClassSubjectInterface[]>>> {
+  ): Observable<
+    IResponse<IPageListResponse<IChaptersOfClassSubjectInterface[]>>
+  > {
     return this.http.post<
       IResponse<IPageListResponse<IChaptersOfClassSubjectInterface[]>>
     >(this.chaptersOfClassSubjectApi, listCredentials);
+  }
+
+  getChapterDocument(
+    courseId: number
+  ): Observable<IResponse<IGetChapterDocument>> {
+    return this.http.get<IResponse<IGetChapterDocument>>(
+      `${this.getChapterDocumentApi}/${courseId}`
+    );
+  }
+
+  manageChapterDocument(
+    requestCredentials: IManageChapterDocumentInterface
+  ): Observable<IResponse<string>> {
+    return this.http.post<IResponse<string>>(
+      `${this.manageChapterDocumentApi}`,
+      requestCredentials
+    );
   }
 }

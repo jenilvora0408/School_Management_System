@@ -1,10 +1,49 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+$heading: rgb(0, 10, 45);
+$para: #777;
+$helper-tint: #f3f4ff;
+$bg: rgb(249, 249, 255);
+$purple: #6c4e87;
+$pending: #b2651b;
+$approved: #89A8B2;
+
+.teacher-dashboard-container {
+  background-color: $helper-tint;
+  height: 100vh;
 }
-h3{
+.teacher-navbar {
+  display: flex;
+  align-items: center;
+  background-color: $bg;
+  height: 60px;
+}
+.teacher-logo img {
+  height: 100px;
+}
+.profile-pic img {
+  height: 35px;
+}
+.dashboard-heading {
+  color: $heading;
+}
+thead tr th {
+  font-size: 1.2rem;
   font-weight: 500;
+}
+tr td img {
+  height: 20px;
+}
+.bi {
+  cursor: pointer;
+}
+button i {
+  color: $purple;
+}
+h3 {
+  font-weight: normal;
+  word-spacing: 3px;
   letter-spacing: 1px;
-  color: #6c4e87;
+  color: $purple;
+}
+i{
+  color: $purple;
 }

@@ -7,7 +7,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/student")]
-// [StudentPolicy]
+[StudentPolicy]
 public class StudentContoller(IStudentService studentService) : BaseController
 {
     #region Constructor

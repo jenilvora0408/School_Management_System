@@ -16,7 +16,7 @@ public class StudentContoller(IStudentService studentService) : BaseController
 
     #endregion Constructor
 
-    [HttpPost("subject-list")]
+    [HttpPost("subjects")]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]

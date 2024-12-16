@@ -43,6 +43,8 @@ public static class MessageConstants
         public const string DOCUMENT_NOT_FOUND = "Document not found!";
 
         public const string CHAPTER_DOCUMENT_ALREADY_PRESENT = "Document for this chapter already exists!";
+
+        public const string STUDENT_NOT_FOUND = "Student not Found!";
     }
 
     public static class SuccessMessage

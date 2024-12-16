@@ -106,13 +106,13 @@
           <td><span class="ms-5"></span>{{ item.probableDurationToTeach }}</td>
           <td>
             <span class="ms-5 ps-5"></span>
-            @if(item.isOptionalToTeach) {<span class="pending-status">
+            @if(item.isOptionalToTeach) {<span class="text-success">
               Yes </span
-            >} @else { <span class="declined-status">No</span> }
+            >} @else { <span class="text-danger">No</span> }
           </td>
-          <td>
+          <td (click)="openChapterDocument(item.chapterId, item.chapterName)">
             <span class="ms-4"></span
-            ><i class="bi bi-cloud-upload-fill fs-5"></i>
+            ><i class="bi bi-cloud-upload fs-5"></i>
           </td>
         </tr>
         }

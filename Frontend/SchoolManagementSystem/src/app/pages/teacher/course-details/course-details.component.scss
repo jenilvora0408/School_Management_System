@@ -3,8 +3,6 @@ $para: #777;
 $helper-tint: #f3f4ff;
 $bg: rgb(249, 249, 255);
 $purple: #6c4e87;
-$pending: #b2651b;
-$declined: #dd7176;
 $gray: gray;
 
 .teacher-dashboard-container {
@@ -42,14 +40,6 @@ h3 {
   word-spacing: 3px;
   letter-spacing: 1px;
   color: $purple;
-}
-.pending-status {
-  font-weight: 500;
-  color: $pending;
-}
-.declined-status {
-  font-weight: 500;
-  color: $declined;
 }
 .no-data-tagline{
     color: $gray;

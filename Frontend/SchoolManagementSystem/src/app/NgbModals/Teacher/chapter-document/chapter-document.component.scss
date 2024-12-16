@@ -1,0 +1,61 @@
+$purple: #6c4e87;
+$blue: #0062cc;
+$off-white: #ccc;
+$white: #fff;
+$bg: #f8f9fa;
+$btn-border: #988e8e;
+
+h3 {
+  font-weight: normal;
+  word-spacing: 3px;
+  letter-spacing: 1px;
+  color: $purple;
+}
+.form-container {
+  border-radius: 15px;
+}
+.drop-zone {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed $off-white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+.drop-zone.dragging {
+  border-color: $blue;
+}
+i {
+  color: $purple;
+}
+.bi-trash-fill{
+    cursor: pointer;
+}
+.edit-doc-container {
+  display: flex;
+  justify-content: space-between;
+  border: 2px dashed $off-white;
+  border-radius: 5px;
+}
+.left-section {
+  flex: 1;
+  padding: 10px;
+}
+.right-section {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+  border-left: 2px dashed $off-white;
+  flex-shrink: 0;
+}
+.btn {
+  border: 1px solid $btn-border;
+  padding: 5px 10px;
+  background-color: $white;
+}
+.btn:hover {
+  background-color: $bg;
+}

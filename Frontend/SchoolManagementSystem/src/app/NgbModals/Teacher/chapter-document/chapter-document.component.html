@@ -1,0 +1,121 @@
+<div class="modal-header">
+  @if(canUploadDoc){
+  <h3 class="modal-title">Add Document</h3>
+  } @else if(!canUploadDoc && !showDeleteConfirmation) {
+  <h3 class="modal-title">Edit Document</h3>
+  } @else if(showDeleteConfirmation){
+  <h3 class="modal-title">Delete Document</h3>
+  }
+  <button
+    type="button"
+    class="btn-close me-2"
+    aria-label="Close"
+    (click)="close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div class="content-container m-3">
+    @if(canUploadDoc){
+    <div class="upload-doc">
+      <div class="avatar-container">
+        <div
+          class="drop-zone mt-3"
+          (click)="fileInput.click()"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event)"
+          (dragleave)="onDragLeave($event)"
+          [class.dragging]="isDragging"
+        >
+          <div class="d-flex flex-column align-items-center">
+            <i class="bi bi-cloud-arrow-up-fill fs-2"></i>
+            <p>Drag & Drop or Click to Upload Chapter Document</p>
+          </div>
+          <input
+            type="file"
+            (change)="handleFileChange($event)"
+            #fileInput
+            id="fileInput"
+            accept=".pdf,.doc"
+            class="form-control d-none"
+            multiple
+          />
+        </div>
+        @if(showDocumentErrors){
+        <span class="text-danger">
+          {{ documentError }}
+        </span>
+        }
+        <div class="preview-container mt-2">
+          @for (file of uploadedFiles; track i; let i = $index){
+          <div class="d-flex align-items-center justify-content-between w-100">
+            <span>{{ file.name }}</span>
+            <i class="bi bi-trash-fill fs-5" (click)="removeFile(i)"></i>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="my-4 d-flex justify-content-center">
+      <app-button
+        type="submit"
+        label="Submit"
+        className="btn text-btn"
+        (btnClick)="onSubmit()"
+      ></app-button>
+    </div>
+    } @else if(!canUploadDoc && !showDeleteConfirmation) {
+    <div
+      class="edit-doc-container d-flex justify-content-between border-dashed"
+    >
+      <div class="left-section d-flex align-items-center">
+        <span class="fs-5">{{ chapterName }} document</span>
+      </div>
+      <div class="right-section d-flex gap-3 align-items-center">
+        <button type="button" class="btn btn-sm border border-3">
+          <a href="{{ getChapterDocumentData.documentContent }}" download>
+            <i class="bi bi-cloud-download fs-5"></i>
+          </a>
+        </button>
+        <button
+          (click)="editDocument()"
+          type="button"
+          class="btn btn-sm border border-3"
+        >
+          <i class="bi bi-pencil-square fs-5"></i>
+        </button>
+        <button
+          (click)="deleteDocument()"
+          type="button"
+          class="btn btn-sm border border-3"
+        >
+          <i class="bi bi-trash fs-5"></i>
+        </button>
+      </div>
+    </div>
+    } @else if(showDeleteConfirmation){
+    <div>
+      <div>
+        <p class="fs-5 text-center">
+          Are you sure you want to delete the document for chapter:
+          <span class="text-danger">{{ chapterName }}</span
+          >?
+        </p>
+      </div>
+      <div class="d-flex justify-content-center gap-3">
+        <app-button
+          type="button"
+          label="Cancel"
+          className="btn close-btn"
+          (btnClick)="close()"
+        ></app-button>
+        <app-button
+          type="button"
+          label="Delete"
+          className="btn decline-btn"
+          (btnClick)="confirmDelete()"
+        ></app-button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

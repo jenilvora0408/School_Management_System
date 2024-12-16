@@ -84,6 +84,12 @@ export class ApiCallConstant {
   public static readonly CHAPTERS_OF_CLASS_SUBJECT =
     this.TEACHER_CONTROLLER + 'chapters-of-class-subject';
 
+  public static readonly GET_CHAPTER_DOCUMENT =
+    this.TEACHER_CONTROLLER + 'chapter-document';
+
+  public static readonly MANAGE_CHAPTER_DOCUMENT =
+    this.TEACHER_CONTROLLER + 'manage-chapter-document';
+
   // Principal Controller Methods
 
   public static readonly GET_ALL_SUBJECTS_BY_CLASS_ID =

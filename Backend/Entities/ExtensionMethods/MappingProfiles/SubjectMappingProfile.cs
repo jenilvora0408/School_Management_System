@@ -49,4 +49,23 @@ public static class SubjectMappingProfile
             ClassId = cls.Id
         };
     }
+
+    public static List<StudentsSubjectListDTO> ToGetSubjectsListForStudents(List<Subject> subjects, int classId, string className)
+    {
+        return subjects.Select(sub => sub.ToGetStudentsSubjectData(classId, className)).ToList();
+    }
+
+    public static StudentsSubjectListDTO ToGetStudentsSubjectData(this Subject subject, int classId, string className)
+    {
+        return new StudentsSubjectListDTO
+        {
+            ClassId = classId,
+            ClassName = className,
+            SubjectId = subject.Id,
+            SubjectName = subject.SubjectName,
+            SubjectCode = subject.SubjectCode,
+            SubjectTeacherId = subject.SubjectTeacherId,
+            SubjectTeacherName = $"{subject.SubjectTeacher?.FirstName} {subject.SubjectTeacher?.LastName}"
+        };
+    }
 }

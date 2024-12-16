@@ -52,7 +52,7 @@ public static class SubjectMappingProfile
 
     public static List<StudentsSubjectListDTO> ToGetSubjectsListForStudents(List<Subject> subjects, int classId, string className)
     {
-        return subjects.Select(leave => leave.ToGetStudentsSubjectData(classId, className)).ToList();
+        return subjects.Select(sub => sub.ToGetStudentsSubjectData(classId, className)).ToList();
     }
 
     public static StudentsSubjectListDTO ToGetStudentsSubjectData(this Subject subject, int classId, string className)

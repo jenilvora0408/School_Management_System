@@ -10,6 +10,7 @@ import {
   NgbDropdownModule,
   NgbHighlight,
   NgbPaginationModule,
+  NgbTooltipModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -29,6 +30,7 @@ import { ISubjectsListForStudentsInterface } from '../../../models/student/subje
     NgbHighlight,
     ReactiveFormsModule,
     FormsModule,
+    NgbTooltipModule
   ],
   templateUrl: './student-dashboard.component.html',
   styleUrl: './student-dashboard.component.scss',

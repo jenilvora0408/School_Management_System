@@ -66,6 +66,10 @@ namespace API.ExtAuthorization
             {
                 if (loggedUser.Role == (int)UserRoleType.TEACHER || loggedUser.Role == (int)UserRoleType.PRINCIPAL) return true;
             }
+            else if (requirement.PolicyName == SystemConstants.STUDENT_TEACHER_POLICY)
+            {
+                if (loggedUser.Role == (int)UserRoleType.TEACHER || loggedUser.Role == (int)UserRoleType.STUDENT) return true;
+            }
             else if (requirement.PolicyName == SystemConstants.ALL_USER_POLICY)
             {
                 if (loggedUser.Role == (int)UserRoleType.PRINCIPAL || loggedUser.Role == (int)UserRoleType.TEACHER || loggedUser.Role == (int)UserRoleType.STUDENT || loggedUser.Role == (int)UserRoleType.LAB_INSTRUCTOR) return true;

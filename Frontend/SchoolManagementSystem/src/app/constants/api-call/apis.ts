@@ -8,6 +8,7 @@ export class ApiCallConstant {
   public static readonly USER_CONTROLLER = this.BASE_URL + 'user/';
   public static readonly TEACHER_CONTROLLER = this.BASE_URL + 'teacher/';
   public static readonly PRINCIPAL_CONTROLLER = this.BASE_URL + 'principal/';
+  public static readonly STUDENT_CONTROLLER = this.BASE_URL + 'student/';
 
   //Common Controller Methods
   public static readonly GET_COMMON_ENTITY_DATA =
@@ -111,4 +112,9 @@ export class ApiCallConstant {
 
   public static readonly UPSERT_COURSE_CHAPTERS =
     this.PRINCIPAL_CONTROLLER + 'upsert-course-chapters';
+
+  // Student Controller Methods
+
+  public static readonly SUBEJCTS_LIST_FOR_STUDENTS =
+    this.STUDENT_CONTROLLER + 'subjects';
 }

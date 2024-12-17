@@ -1,10 +1,29 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+$helper-tint: #f3f4ff;
+$purple: #6c4e87;
+
+.student-dashboard-container {
+  background-color: $helper-tint;
+  height: 100vh;
 }
-h3{
+thead tr th {
+  font-size: 1.2rem;
   font-weight: 500;
+}
+tr td img {
+  height: 20px;
+}
+.bi {
+  cursor: pointer;
+}
+button i {
+  color: $purple;
+}
+h3 {
+  font-weight: normal;
+  word-spacing: 3px;
   letter-spacing: 1px;
-  color: #6c4e87;
+  color: $purple;
+}
+i{
+  color: $purple;
 }

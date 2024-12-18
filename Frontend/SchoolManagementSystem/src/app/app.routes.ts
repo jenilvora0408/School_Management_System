@@ -21,7 +21,7 @@ import { ContactRequestHistoryComponent } from './pages/common/contact-request-h
 import { MyContactRequestComponent } from './pages/common/my-contact-request/my-contact-request.component';
 import { EditCourseComponent } from './pages/principal/edit-course/edit-course.component';
 import { SubjectClassesComponent } from './pages/teacher/subject-classes/subject-classes.component';
-import { CourseDetailsComponent } from './pages/teacher/course-details/course-details.component';
+import { CourseDetailsComponent } from './pages/common/course-details/course-details.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -52,7 +52,7 @@ export const routes: Routes = [
   {
     path: 'course-details',
     component: CourseDetailsComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'teacher',
@@ -67,16 +67,12 @@ export const routes: Routes = [
         path: 'subject-classes',
         component: SubjectClassesComponent,
       },
-      {
-        path: 'course-details',
-        component: CourseDetailsComponent
-      }
     ],
   },
   {
     path: 'student',
     component: StudentDashboardComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'principal',

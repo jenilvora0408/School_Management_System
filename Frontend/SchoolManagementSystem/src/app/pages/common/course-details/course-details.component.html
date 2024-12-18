@@ -1,4 +1,4 @@
-<div class="teacher-dashboard-container container-fluid p-0">
+<div class="student-dashboard-container container-fluid p-0">
   <app-header></app-header>
   <div class="admit-request-list-container p-5 pb-0">
     <div>
@@ -19,7 +19,6 @@
         </div>
       </ng-template>
       <div class="d-flex justify-content-end gap-4"></div>
-      @if(responseData.length > 0){
       <div class="subject-heading">
         <h3 class="text-center">{{ subjectName }}</h3>
       </div>
@@ -55,7 +54,7 @@
           </div>
         </div>
       </div>
-
+      @if(responseData.length > 0){
       <table
         class="table table-striped table-hover border border-1"
         #content
@@ -117,19 +116,22 @@
               >} @else { <span class="text-danger">No</span> }
             </td>
             <td>
-              <!-- <span class="ms-4"></span> -->
               @if(userRole == 2){
               <div
                 class="ms-4"
                 (click)="openChapterDocument(item.chapterId, item.chapterName)"
               >
-                <i class="bi bi-cloud-upload fs-5"></i>
+                <i
+                  class="bi bi-cloud-upload fs-5"
+                  ngbTooltip="Manage the document for {{ item.chapterName }}"
+                ></i>
               </div>
               } @else if (userRole == 3) {
               <div class="ms-4" (click)="downloadDocument(item.chapterId)">
-                <!-- <a href="{{ getChapterDocumentData.documentContent }}" download> -->
-                  <i class="bi bi-cloud-download fs-5"></i>
-                <!-- </a> -->
+                <i
+                  class="bi bi-cloud-download fs-5"
+                  ngbTooltip="Download document of {{ item.chapterName }}"
+                ></i>
               </div>
               }
             </td>
@@ -159,19 +161,8 @@
         </select>
       </div>
       } @else {
-      <div class="d-flex w-100 justify-content-end gap-4 utility">
-        <div class="back-btn-container">
-          <app-button
-            label="Back"
-            className="back-btn w-100"
-            type="button"
-            iconClass="bi bi-arrow-left"
-            (btnClick)="navigateBack()"
-          />
-        </div>
-      </div>
       <p class="no-data-tagline text-center fs-4">
-        No chapters have been added to {{ subjectName }} for {{ className }}!
+        No chapters found!
       </p>
       }
     </div>

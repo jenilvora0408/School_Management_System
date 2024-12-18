@@ -8,6 +8,7 @@ import {
   NgbHighlight,
   NgbPopoverModule,
   NgbModal,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { InputComponent } from '../../../shared/components/input/input.component';
@@ -49,6 +50,7 @@ import { ValidationMessageConstant } from '../../../constants/validation/validat
     CapitalizePipe,
     ButtonComponent,
     NgbPopoverModule,
+    NgbTooltipModule,
   ],
   templateUrl: './course-details.component.html',
   styleUrl: './course-details.component.scss',
@@ -120,8 +122,14 @@ export class CourseDetailsComponent {
   }
 
   search(searchTerm: string) {
+    if (this.responseData.length == 0 && searchTerm.length >= 3) {
+      this.notificationService.warning('Chapters not found!');
+      return;
+    }
     this.searchQuery = searchTerm;
-    if (this.searchQuery.length >= 3) this.getChaptersData();
+    if (this.searchQuery.length >= 3){
+      this.getChaptersData();
+    } 
     else if (this.searchQuery.length == 0) this.getChaptersData();
   }
 
@@ -333,6 +341,12 @@ export class CourseDetailsComponent {
   }
 
   openChapterDocument(courseId: number, chapterName: string) {
+    if (this.userRole == 3) {
+      this.notificationService.error(
+        ValidationMessageConstant.accessUnauthorized
+      );
+      return;
+    }
     this.modalService.open(ChapterDocumentComponent, {
       centered: true,
       size: 'md',
@@ -359,13 +373,14 @@ export class CourseDetailsComponent {
       next: (response: IResponse<IGetChapterDocument>) => {
         this.getChapterDocumentData = response.data;
 
-        if(this.getChapterDocumentData.documentContent == null){
-          this.notificationService.warning(ValidationMessageConstant.documentNotFound);
-        }
-        else{
+        if (this.getChapterDocumentData.documentContent == null) {
+          this.notificationService.info(
+            ValidationMessageConstant.documentNotFound
+          );
+        } else {
           const downloadLink = document.createElement('a');
           const fileName = 'ChaptersData.pdf';
-  
+
           downloadLink.href = this.getChapterDocumentData.documentContent;
           downloadLink.download = fileName;
           downloadLink.click();

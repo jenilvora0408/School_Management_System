@@ -14,7 +14,7 @@ export class ValidationMessageConstant {
   public static chapterAlreadyExists = "The chapter already exists!";
   public static classTeacherAlreadyAssigned = "Class Teacher has already been assigned to another Class!";
   public static canUpload1FileOnly = "You can upload 1 file only!";
-  public static chapterDocumentExtensionError = "Only .pdf & .doc files are allowed!";
+  public static chapterDocumentExtensionError = "Only .pdf files are allowed!";
   public static mustUploadDocument = 'Please upload a document before submitting!';
   public static invalidBase64Url = 'Invalid Base64 data from FileReader.';
   public static cannotProcessFile = 'File could not be processed.';

@@ -34,7 +34,7 @@ import * as CryptoJS from 'crypto-js';
     NgbHighlight,
     ReactiveFormsModule,
     FormsModule,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
   templateUrl: './student-dashboard.component.html',
   styleUrl: './student-dashboard.component.scss',
@@ -61,7 +61,13 @@ export class StudentDashboardComponent {
   }
 
   search(searchTerm: string) {
+    if (this.responseData.length == 0 && searchTerm.length >= 3) {
+      this.notificationService.warning('Subjects not found!');
+      return;
+    }
+
     this.searchQuery = searchTerm;
+
     if (this.searchQuery.length >= 3) {
       this.page = 1;
       this.getSubjectsData();
@@ -81,7 +87,9 @@ export class StudentDashboardComponent {
 
     this.studentService.getStudentsSubjectList(payload).subscribe({
       next: (
-        response: IResponse<IPageListResponse<ISubjectsListForStudentsInterface[]>>
+        response: IResponse<
+          IPageListResponse<ISubjectsListForStudentsInterface[]>
+        >
       ) => {
         this.collectionSize = response.data.totalRecords;
         this.responseData = response.data.records;
@@ -94,7 +102,12 @@ export class StudentDashboardComponent {
     });
   }
 
-  viewChapters(classId: number, subjectId: number, className: string, subjectName: string):void{
+  viewChapters(
+    classId: number,
+    subjectId: number,
+    className: string,
+    subjectName: string
+  ): void {
     this.router.navigate([RoutingPathConstant.CourseDetailsUrl], {
       queryParams: {
         classId: CryptoJS.AES.encrypt(

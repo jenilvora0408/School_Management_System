@@ -11,11 +11,12 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/common")]
 
-public class CommonController(ICommonService commonService) : BaseController
+public class CommonController(ICommonService commonService, ITeacherService teacherService) : BaseController
 {
     #region Constructor
 
     private readonly ICommonService _commonService = commonService;
+    private readonly ITeacherService _teacherService = teacherService;
 
     #endregion Constructor
 
@@ -116,6 +117,7 @@ public class CommonController(ICommonService commonService) : BaseController
     }
 
     [HttpPost("chapters-of-class-subject")]
+    [StudentTeacherPolicy]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
@@ -126,6 +128,7 @@ public class CommonController(ICommonService commonService) : BaseController
     }
 
     [HttpGet("chapter-document/{courseId}")]
+    [StudentTeacherPolicy]
     [ProducesResponseType(200, Type = typeof(ApiResponse))]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]

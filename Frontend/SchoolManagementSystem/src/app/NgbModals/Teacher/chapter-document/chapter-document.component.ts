@@ -105,7 +105,7 @@ export class ChapterDocumentComponent {
   }
 
   validateAndUpload(file: File) {
-    const validExtensions = ['application/pdf', 'application/msword'];
+    const validExtensions = ['application/pdf'];
     const maxSizeInMB = 1;
     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 

@@ -1,25 +1,10 @@
-$heading: rgb(0, 10, 45);
-$para: #777;
 $helper-tint: #f3f4ff;
-$bg: rgb(249, 249, 255);
 $purple: #6c4e87;
 $gray: gray;
 
-.teacher-dashboard-container {
+.student-dashboard-container {
   background-color: $helper-tint;
   height: 100vh;
-}
-.teacher-navbar {
-  display: flex;
-  align-items: center;
-  background-color: $bg;
-  height: 60px;
-}
-.teacher-logo img {
-  height: 100px;
-}
-.profile-pic img {
-  height: 35px;
 }
 thead tr th {
   font-size: 1.2rem;
@@ -41,9 +26,9 @@ h3 {
   letter-spacing: 1px;
   color: $purple;
 }
-.no-data-tagline{
-    color: $gray;
+.no-data-tagline {
+  color: $gray;
 }
-.utility{
+.utility {
   width: 8vw;
 }

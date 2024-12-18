@@ -50,6 +50,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'course-details',
+    component: CourseDetailsComponent,
+    // canActivate: [AuthGuard],
+  },
+  {
     path: 'teacher',
     canActivate: [AuthGuard],
     children: [
@@ -71,7 +76,7 @@ export const routes: Routes = [
   {
     path: 'student',
     component: StudentDashboardComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'principal',

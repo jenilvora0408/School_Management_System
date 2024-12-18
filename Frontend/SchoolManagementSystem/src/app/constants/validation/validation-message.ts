@@ -18,4 +18,6 @@ export class ValidationMessageConstant {
   public static mustUploadDocument = 'Please upload a document before submitting!';
   public static invalidBase64Url = 'Invalid Base64 data from FileReader.';
   public static cannotProcessFile = 'File could not be processed.';
+  public static accessUnauthorized = 'Access unauthorized!';
+  public static documentNotFound = "No document for this chapter has been uploaded yet!";
 }

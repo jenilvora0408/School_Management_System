@@ -114,4 +114,25 @@ public class CommonController(ICommonService commonService) : BaseController
     {
         return GetResult(await _commonService.GetContactPrincipalDocuments(id), message: null);
     }
+
+    [HttpPost("chapters-of-class-subject")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> ChaptersofClassSubject(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
+    {
+        return GetResult(await _teacherService.GetAllClassSubjectChapters(classSubjectPageListRequestDTO), message: null);
+    }
+
+    [HttpGet("chapter-document/{courseId}")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetChapterDocument(int courseId)
+    {
+        return GetResult(await _teacherService.GetChapterDocument(courseId), message: null);
+    }
 }

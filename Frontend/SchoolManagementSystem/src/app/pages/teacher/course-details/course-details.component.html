@@ -4,7 +4,7 @@
     <div>
       <ng-template #popContent>
         <div class="d-flex gap-2 pop-content">
-        <app-button
+          <app-button
             (btnClick)="exportexcel()"
             type="button"
             label="Excel"
@@ -18,14 +18,14 @@
           ></app-button>
         </div>
       </ng-template>
-      <div class="d-flex justify-content-end gap-4">
-
-      
-    </div>
-    @if(responseData.length > 0){
+      <div class="d-flex justify-content-end gap-4"></div>
+      @if(responseData.length > 0){
+      <div class="subject-heading">
+        <h3 class="text-center">{{ subjectName }}</h3>
+      </div>
       <div class="d-flex justify-content-between">
         <div class="w-100">
-          <h3 class="dashboard-heading">Chapter Details</h3>
+          <h4 class="dashboard-heading fw-normal">Course</h4>
           <div class="d-flex gap-4">
             <input
               type="text"
@@ -38,122 +38,142 @@
         </div>
         <div class="d-flex gap-4 utility">
           <div
-          placement="start"
-          [ngbPopover]="popContent"
-          popoverTitle="Export data as"
-        >
-          <i class="bi bi-database-down fs-3"></i>
+            placement="start"
+            [ngbPopover]="popContent"
+            popoverTitle="Export data as"
+          >
+            <i class="bi bi-database-down fs-3"></i>
+          </div>
+          <div class="back-btn-container">
+            <app-button
+              label="Back"
+              className="back-btn w-100"
+              type="button"
+              iconClass="bi bi-arrow-left"
+              (btnClick)="navigateBack()"
+            />
+          </div>
         </div>
+      </div>
+
+      <table
+        class="table table-striped table-hover border border-1"
+        #content
+        id="excel-table"
+      >
+        <thead>
+          <tr class="table-primary">
+            <th>Serial No.</th>
+            <th>Chapter Name</th>
+            <th scope="col" (click)="onSort('ProbableWeightageInExam')">
+              Probable Weightage
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-arrow-up':
+                    sortColumn === 'ProbableWeightageInExam' &&
+                    sortOrder === 'ascending',
+                  'bi-arrow-down':
+                    sortColumn === 'ProbableWeightageInExam' &&
+                    sortOrder === 'descending'
+                }"
+              ></i>
+            </th>
+            <th scope="col" (click)="onSort('ProbableDurationToTeach')">
+              Probable Duration
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-arrow-up':
+                    sortColumn === 'ProbableDurationToTeach' &&
+                    sortOrder === 'ascending',
+                  'bi-arrow-down':
+                    sortColumn === 'ProbableDurationToTeach' &&
+                    sortOrder === 'descending'
+                }"
+              ></i>
+            </th>
+            <th scope="col">Is Optional To Teach</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of responseData; track i; let i = $index){
+          <tr class="border border-2">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.chapterName | capitalize }}</td>
+            <td>
+              @if(item.probableWeightageInExam != null){
+              <span class="ms-5"></span>
+              {{ item.probableWeightageInExam }} marks }
+            </td>
+            <td>
+              <span class="ms-5"></span>{{ item.probableDurationToTeach }}
+            </td>
+            <td>
+              <span class="ms-5 ps-5"></span>
+              @if(item.isOptionalToTeach) {<span class="text-success">
+                Yes </span
+              >} @else { <span class="text-danger">No</span> }
+            </td>
+            <td>
+              <!-- <span class="ms-4"></span> -->
+              @if(userRole == 2){
+              <div
+                class="ms-4"
+                (click)="openChapterDocument(item.chapterId, item.chapterName)"
+              >
+                <i class="bi bi-cloud-upload fs-5"></i>
+              </div>
+              } @else if (userRole == 3) {
+              <div class="ms-4" (click)="downloadDocument(item.chapterId)">
+                <!-- <a href="{{ getChapterDocumentData.documentContent }}" download> -->
+                  <i class="bi bi-cloud-download fs-5"></i>
+                <!-- </a> -->
+              </div>
+              }
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="collectionSize"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          (pageChange)="getChaptersData()"
+        >
+        </ngb-pagination>
+
+        <select
+          class="form-select"
+          style="width: auto"
+          [(ngModel)]="pageSize"
+          (ngModelChange)="getChaptersData()"
+        >
+          <option [ngValue]="3">3 items per page</option>
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="8">8 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+        </select>
+      </div>
+      } @else {
+      <div class="d-flex w-100 justify-content-end gap-4 utility">
         <div class="back-btn-container">
           <app-button
-          label="Back"
-          className="back-btn w-100"
-          type="button"
-          iconClass="bi bi-arrow-left"
-          (btnClick)="navigateBack()"
-        />
-        </div>
+            label="Back"
+            className="back-btn w-100"
+            type="button"
+            iconClass="bi bi-arrow-left"
+            (btnClick)="navigateBack()"
+          />
         </div>
       </div>
-
-    <table class="table table-striped table-hover border border-1" #content id="excel-table">
-      <thead>
-        <tr class="table-primary">
-          <th>Serial No.</th>
-          <th>Chapter Name</th>
-          <th scope="col" (click)="onSort('ProbableWeightageInExam')">
-            Probable Weightage
-            <i
-              class="bi"
-              [ngClass]="{
-                'bi-arrow-up':
-                  sortColumn === 'ProbableWeightageInExam' &&
-                  sortOrder === 'ascending',
-                'bi-arrow-down':
-                  sortColumn === 'ProbableWeightageInExam' &&
-                  sortOrder === 'descending'
-              }"
-            ></i>
-          </th>
-          <th scope="col" (click)="onSort('ProbableDurationToTeach')">
-            Probable Duration
-            <i
-              class="bi"
-              [ngClass]="{
-                'bi-arrow-up':
-                  sortColumn === 'ProbableDurationToTeach' &&
-                  sortOrder === 'ascending',
-                'bi-arrow-down':
-                  sortColumn === 'ProbableDurationToTeach' &&
-                  sortOrder === 'descending'
-              }"
-            ></i>
-          </th>
-          <th scope="col">Is Optional To Teach</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of responseData; track i; let i = $index){
-        <tr class="border border-2">
-          <td>{{ i + 1 }}</td>
-          <td>{{ item.chapterName | capitalize }}</td>
-          <td>
-            @if(item.probableWeightageInExam != null){
-            <span class="ms-5"></span>
-            {{ item.probableWeightageInExam }} marks }
-          </td>
-          <td><span class="ms-5"></span>{{ item.probableDurationToTeach }}</td>
-          <td>
-            <span class="ms-5 ps-5"></span>
-            @if(item.isOptionalToTeach) {<span class="text-success">
-              Yes </span
-            >} @else { <span class="text-danger">No</span> }
-          </td>
-          <td (click)="openChapterDocument(item.chapterId, item.chapterName)">
-            <span class="ms-4"></span
-            ><i class="bi bi-cloud-upload fs-5"></i>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-    <div class="d-flex justify-content-between p-2">
-      <ngb-pagination
-        [collectionSize]="collectionSize"
-        [(page)]="page"
-        [pageSize]="pageSize"
-        (pageChange)="getChaptersData()"
-      >
-      </ngb-pagination>
-
-      <select
-        class="form-select"
-        style="width: auto"
-        [(ngModel)]="pageSize"
-        (ngModelChange)="getChaptersData()"
-      >
-        <option [ngValue]="3">3 items per page</option>
-        <option [ngValue]="5">5 items per page</option>
-        <option [ngValue]="8">8 items per page</option>
-        <option [ngValue]="10">10 items per page</option>
-      </select>
+      <p class="no-data-tagline text-center fs-4">
+        No chapters have been added to {{ subjectName }} for {{ className }}!
+      </p>
+      }
     </div>
-    } @else {
-      <div class="d-flex w-100 justify-content-end gap-4 utility">
-      <div class="back-btn-container">
-        <app-button
-        label="Back"
-        className="back-btn w-100"
-        type="button"
-        iconClass="bi bi-arrow-left"
-        (btnClick)="navigateBack()"
-      />
-      </div>
-      </div>
-    <p class="no-data-tagline text-center fs-4">
-      No chapters have been added to {{ subjectName }} for {{ className }}!
-    </p>
-    }
   </div>
 </div>

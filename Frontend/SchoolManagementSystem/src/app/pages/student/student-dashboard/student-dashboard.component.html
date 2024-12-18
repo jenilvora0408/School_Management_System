@@ -37,6 +37,7 @@
           <td>
             <span class="ms-4"></span
             ><i
+            (click)="viewChapters(item.classId, item.subjectId, item.className, item.subjectName)"
               class="bi bi-info-circle fs-5"
               placement="top"
               ngbTooltip="View chapters of {{item.subjectName}}"

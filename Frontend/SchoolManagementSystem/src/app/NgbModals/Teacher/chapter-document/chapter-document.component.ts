@@ -9,6 +9,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 import { IManageChapterDocumentInterface } from '../../../models/teacher/manage-chapter-document';
 import { LoaderService } from '../../../shared/services/loader.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { AuthenticationService } from '../../../services/authentication.service';
 
 @Component({
   selector: 'app-chapter-document',
@@ -35,6 +36,7 @@ export class ChapterDocumentComponent {
   responseString: string = '';
   chapterName: string = '';
   showDeleteConfirmation: boolean = false;
+  userRole: number = 0;
 
   constructor(
     private teacherService: TeacherService,
@@ -42,12 +44,13 @@ export class ChapterDocumentComponent {
     private injector: Injector,
     private notificationService: NotificationService,
     private loaderService: LoaderService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     this.courseId = this.injector.get('courseId');
     this.chapterName = this.injector.get('chapterName');
-
+    this.userRole = this.authService.getUserType();
     this.getChapterDocument();
   }
 
@@ -166,6 +169,12 @@ export class ChapterDocumentComponent {
   }
 
   onSubmit(): void {
+    if (this.userRole == 3) {
+      this.notificationService.error(
+        ValidationMessageConstant.accessUnauthorized
+      );
+      return;
+    }
     if (this.documentError != '') return;
     if (this.uploadedFile == null || this.uploadedFile == '') {
       this.showDocumentErrors = true;
@@ -202,10 +211,22 @@ export class ChapterDocumentComponent {
   }
 
   editDocument(): void {
+    if (this.userRole == 3) {
+      this.notificationService.error(
+        ValidationMessageConstant.accessUnauthorized
+      );
+      return;
+    }
     this.canUploadDoc = true;
   }
 
   deleteDocument(): void {
+    if (this.userRole == 3) {
+      this.notificationService.error(
+        ValidationMessageConstant.accessUnauthorized
+      );
+      return;
+    }
     this.showDeleteConfirmation = true;
   }
 

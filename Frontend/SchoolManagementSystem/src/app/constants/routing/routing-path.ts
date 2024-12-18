@@ -8,5 +8,6 @@ export class RoutingPathConstant {
   public static viewAdmitRequestUrl = '/view-admit-request';
   public static classesAndSubjectsUrl = '/principal/classes-and-subjects';
   public static subjectClassesUrl = 'teacher/subject-classes';
-  public static CourseDetailsUrl = 'teacher/course-details';
+  public static CourseDetailsUrl = '/course-details';
+  public static StudentDashboardUrl = '/student';
 }

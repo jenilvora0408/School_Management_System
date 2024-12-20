@@ -17,6 +17,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { StudentService } from '../../../services/student.service';
 import { ISubjectsListForStudentsInterface } from '../../../models/student/subjects-list';
+import { Router } from '@angular/router';
+import { RoutingPathConstant } from '../../../constants/routing/routing-path';
+import { SystemConstants } from '../../../constants/shared/system-constants';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -30,7 +34,7 @@ import { ISubjectsListForStudentsInterface } from '../../../models/student/subje
     NgbHighlight,
     ReactiveFormsModule,
     FormsModule,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
   templateUrl: './student-dashboard.component.html',
   styleUrl: './student-dashboard.component.scss',
@@ -47,7 +51,8 @@ export class StudentDashboardComponent {
   constructor(
     private authService: AuthenticationService,
     private studentService: StudentService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +61,13 @@ export class StudentDashboardComponent {
   }
 
   search(searchTerm: string) {
+    if (this.responseData.length == 0 && searchTerm.length >= 3) {
+      this.notificationService.warning('Subjects not found!');
+      return;
+    }
+
     this.searchQuery = searchTerm;
+
     if (this.searchQuery.length >= 3) {
       this.page = 1;
       this.getSubjectsData();
@@ -76,7 +87,9 @@ export class StudentDashboardComponent {
 
     this.studentService.getStudentsSubjectList(payload).subscribe({
       next: (
-        response: IResponse<IPageListResponse<ISubjectsListForStudentsInterface[]>>
+        response: IResponse<
+          IPageListResponse<ISubjectsListForStudentsInterface[]>
+        >
       ) => {
         this.collectionSize = response.data.totalRecords;
         this.responseData = response.data.records;
@@ -85,6 +98,34 @@ export class StudentDashboardComponent {
       error: (error: HttpErrorResponse) => {
         this.notificationService.error(error.error.errors);
         console.log(error);
+      },
+    });
+  }
+
+  viewChapters(
+    classId: number,
+    subjectId: number,
+    className: string,
+    subjectName: string
+  ): void {
+    this.router.navigate([RoutingPathConstant.CourseDetailsUrl], {
+      queryParams: {
+        classId: CryptoJS.AES.encrypt(
+          classId.toString() ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        subjectId: CryptoJS.AES.encrypt(
+          subjectId.toString(),
+          SystemConstants.EncryptionKey
+        ),
+        className: CryptoJS.AES.encrypt(
+          className ?? '',
+          SystemConstants.EncryptionKey
+        ),
+        subjectName: CryptoJS.AES.encrypt(
+          subjectName ?? '',
+          SystemConstants.EncryptionKey
+        ),
       },
     });
   }

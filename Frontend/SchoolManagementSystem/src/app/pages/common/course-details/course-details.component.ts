@@ -8,6 +8,7 @@ import {
   NgbHighlight,
   NgbPopoverModule,
   NgbModal,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { InputComponent } from '../../../shared/components/input/input.component';
@@ -29,6 +30,9 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { RoutingPathConstant } from '../../../constants/routing/routing-path';
 import { ChapterDocumentComponent } from '../../../NgbModals/Teacher/chapter-document/chapter-document.component';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { IGetChapterDocument } from '../../../models/teacher/get-chapter-document';
+import { ValidationMessageConstant } from '../../../constants/validation/validation-message';
 
 @Component({
   selector: 'app-course-details',
@@ -46,6 +50,7 @@ import { ChapterDocumentComponent } from '../../../NgbModals/Teacher/chapter-doc
     CapitalizePipe,
     ButtonComponent,
     NgbPopoverModule,
+    NgbTooltipModule,
   ],
   templateUrl: './course-details.component.html',
   styleUrl: './course-details.component.scss',
@@ -65,7 +70,14 @@ export class CourseDetailsComponent {
   subjectName: string = '';
   excelFileName = 'ChaptersData.xlsx';
   pdfFileName = 'ChaptersData.pdf';
+  userRole: number = 0;
   @ViewChild('content') content!: ElementRef;
+  getChapterDocumentData: IGetChapterDocument = {
+    documentId: 0,
+    documentContent: '',
+    courseId: 0,
+    useDocumentFor: '',
+  };
 
   constructor(
     private teacherService: TeacherService,
@@ -73,12 +85,14 @@ export class CourseDetailsComponent {
     private loaderService: LoaderService,
     private route: ActivatedRoute,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     this.decryptQueryParams();
     console.log(this.classId, this.subjectId);
+    this.userRole = this.authService.getUserType();
     this.getChaptersData();
   }
 
@@ -108,8 +122,14 @@ export class CourseDetailsComponent {
   }
 
   search(searchTerm: string) {
+    if (this.responseData.length == 0 && searchTerm.length >= 3) {
+      this.notificationService.warning('Chapters not found!');
+      return;
+    }
     this.searchQuery = searchTerm;
-    if (this.searchQuery.length >= 3) this.getChaptersData();
+    if (this.searchQuery.length >= 3){
+      this.getChaptersData();
+    } 
     else if (this.searchQuery.length == 0) this.getChaptersData();
   }
 
@@ -314,11 +334,19 @@ export class CourseDetailsComponent {
   }
 
   navigateBack(): void {
-    this.router.navigate([RoutingPathConstant.subjectClassesUrl]);
+    if (this.userRole == 2)
+      this.router.navigate([RoutingPathConstant.subjectClassesUrl]);
+    else if (this.userRole == 3)
+      this.router.navigate([RoutingPathConstant.studentDashboardUrl]);
   }
 
-  openChapterDocument(courseId: number, chapterName: string)
-  {
+  openChapterDocument(courseId: number, chapterName: string) {
+    if (this.userRole == 3) {
+      this.notificationService.error(
+        ValidationMessageConstant.accessUnauthorized
+      );
+      return;
+    }
     this.modalService.open(ChapterDocumentComponent, {
       centered: true,
       size: 'md',
@@ -332,9 +360,35 @@ export class CourseDetailsComponent {
           {
             provide: 'chapterName',
             useValue: chapterName,
-          }
+          },
         ],
       }),
+    });
+  }
+
+  downloadDocument(courseId: number): void {
+    console.log(courseId);
+
+    this.teacherService.getChapterDocument(courseId).subscribe({
+      next: (response: IResponse<IGetChapterDocument>) => {
+        this.getChapterDocumentData = response.data;
+
+        if (this.getChapterDocumentData.documentContent == null) {
+          this.notificationService.info(
+            ValidationMessageConstant.documentNotFound
+          );
+        } else {
+          const downloadLink = document.createElement('a');
+          const fileName = 'ChaptersData.pdf';
+
+          downloadLink.href = this.getChapterDocumentData.documentContent;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+      },
     });
   }
 }

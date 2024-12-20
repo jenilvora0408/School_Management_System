@@ -192,6 +192,10 @@ public static class ApplicationConfiguration
             {
                 policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.ALL_USER_POLICY));
             });
+            config.AddPolicy(SystemConstants.STUDENT_TEACHER_POLICY, policy =>
+            {
+                policy.Requirements.Add(new ExtAuthorizeRequirement(SystemConstants.STUDENT_TEACHER_POLICY));
+            });
         });
     }
 }

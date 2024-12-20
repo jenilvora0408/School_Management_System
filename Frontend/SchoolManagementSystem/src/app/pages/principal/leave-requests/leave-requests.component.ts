@@ -182,36 +182,122 @@ export class LeaveRequestsComponent {
 
   savePDF(): void {
     this.loaderService.show();
+
     const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'pt',
       format: 'a2',
     });
 
-    const content = this.content.nativeElement;
+    const datePipe = new DateFormatPipe();
+    const approvalStatusPipe = new ApprovalStatusPipe();
 
-    html2canvas(content).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const imgWidth = 1200;
-      const pageHeight = 2000;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
+    // Add Title
+    doc.setFontSize(18);
+    doc.setTextColor(40);
+    doc.text('Leave Requests', 40, 40);
 
-      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+    // Define Table Headers
+    const headers = [
+      {
+        content: 'Name',
+        styles: {
+          halign: 'center',
+          fillColor: [41, 128, 185],
+          textColor: [255, 255, 255],
+        },
+      },
+      {
+        content: 'Reason for Leave',
+        styles: {
+          halign: 'center',
+          fillColor: [41, 128, 185],
+          textColor: [255, 255, 255],
+        },
+      },
+      {
+        content: 'Phone Number',
+        styles: {
+          halign: 'center',
+          fillColor: [41, 128, 185],
+          textColor: [255, 255, 255],
+        },
+      },
+      {
+        content: 'Start Date',
+        styles: {
+          halign: 'center',
+          fillColor: [41, 128, 185],
+          textColor: [255, 255, 255],
+        },
+      },
+      {
+        content: 'End Date',
+        styles: {
+          halign: 'center',
+          fillColor: [41, 128, 185],
+          textColor: [255, 255, 255],
+        },
+      },
+      {
+        content: 'Status',
+        styles: {
+          halign: 'center',
+          fillColor: [41, 128, 185],
+          textColor: [255, 255, 255],
+        },
+      },
+    ];
 
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        doc.addPage();
-        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
+    // Prepare Table Data
+    const tableData = this.responseData.map((item) => [
+      { content: item.name, styles: { halign: 'center' } },
+      {
+        content: item.subjectDetails.reasonForLeave,
+        styles: { halign: 'center' },
+      },
+      {
+        content: item.subjectDetails.phoneNumber,
+        styles: { halign: 'center' },
+      },
+      { content: datePipe.transform(item.subjectDetails.startDate), styles: { halign: 'center' } },
+      { content: datePipe.transform(item.subjectDetails.endDate), styles: { halign: 'center' } },
+      {
+        content: approvalStatusPipe.transform(item.subjectDetails.approvalStatus),
+        styles: { halign: 'center' },
+      },
+    ]);
 
-      this.loaderService.hide();
-
-      doc.save(this.pdfFileName);
+    // Add the Table to PDF
+    (doc as any).autoTable({
+      head: [headers],
+      body: tableData,
+      startY: 80,
+      theme: 'grid',
+      styles: {
+        font: 'helvetica',
+        fontSize: 10,
+        cellPadding: 5,
+        textColor: [40, 40, 40],
+        lineColor: [41, 128, 185],
+        lineWidth: 0.5,
+      },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245],
+      },
+      headStyles: {
+        fontSize: 12,
+        halign: 'center',
+      },
+      bodyStyles: {
+        fontSize: 10,
+      },
     });
+
+    this.loaderService.hide();
+
+    // Save the PDF
+    doc.save(this.pdfFileName);
   }
 
   navigateBack(): void {

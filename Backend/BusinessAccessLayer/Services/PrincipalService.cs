@@ -189,7 +189,7 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
             PageIndex = subjectListRequestDTO.PageIndex,
             PageSize = subjectListRequestDTO.PageSize,
             Predicate = sub =>
-                sub.SubjectName.ToLower().Contains(subjectListRequestDTO.SearchQuery.ToLower()) || sub.SubjectTeacher.FirstName.ToLower().Contains(subjectListRequestDTO.SearchQuery!.ToLower()) || sub.SubjectTeacher.LastName.ToLower().Contains(subjectListRequestDTO.SearchQuery!.ToLower()),
+                sub.SubjectName.ToLower().Contains(subjectListRequestDTO.SearchQuery.ToLower()) || sub.SubjectTeacher.FirstName.ToLower().Contains(subjectListRequestDTO.SearchQuery!.ToLower()) || sub.SubjectTeacher.LastName.ToLower().Contains(subjectListRequestDTO.SearchQuery!.ToLower()) || sub.SubjectCode.ToLower().Contains(subjectListRequestDTO.SearchQuery!.ToLower()),
             IncludeExpressions = [x => x.SubjectTeacher]
         };
 

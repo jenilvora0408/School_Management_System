@@ -45,6 +45,12 @@ public static class MessageConstants
         public const string CHAPTER_DOCUMENT_ALREADY_PRESENT = "Document for this chapter already exists!";
 
         public const string STUDENT_NOT_FOUND = "Student not Found!";
+
+        public const string ASSIGN_TEACHER_AS_SUBJECT_TEACHER = "Please assign a teacher as subject teacher!";
+
+        public const string SUBJECT_TEACHER_ALREADY_ASSIGNED = "Subject teacher has been already assigned to another subject!";
+
+        public const string SUBJECT_ALREADY_PRESENT = "Subject is already present!";
     }
 
     public static class SuccessMessage
@@ -76,6 +82,12 @@ public static class MessageConstants
         public const string DOCUMENT_UPDATED = "The document has been updated successfully!";
 
         public const string DOCUMENT_REMOVED = "The document has been deleted successfully!";
+
+        public const string SUBJECT_ADDED = "The subject has been added successfully!";
+
+        public const string SUBJECT_UPDATED = "The subject has been updated successfully!";
+
+        public const string SUBJECT_REMOVED = "The subject has been removed successfully!";
     }
 
     #endregion Error_Messages

@@ -128,6 +128,7 @@ export class CourseDetailsComponent {
     }
     this.searchQuery = searchTerm;
     if (this.searchQuery.length >= 3){
+      this.page = 1;
       this.getChaptersData();
     } 
     else if (this.searchQuery.length == 0) this.getChaptersData();

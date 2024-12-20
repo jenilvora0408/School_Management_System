@@ -200,5 +200,67 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         return new PageListResponseDTO<SubjectsListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, subjectsListResponseDTOs);
     }
 
+    public async Task<string> ManageSubject(ManageSubjectDTO manageSubjectDTO)
+    {
+        string response = string.Empty;
+
+        //Add Subject
+        if (manageSubjectDTO.SubjectId == 0 && manageSubjectDTO.SubjectName != null && manageSubjectDTO.SubjectCode != null && manageSubjectDTO.SubjectTeacherId != null)
+        {
+            Subject subjectToAdd = manageSubjectDTO.ToAddSubject();
+
+            await ValidateSubject(subjectToAdd);
+            await ValidateSubjectTeacher(manageSubjectDTO.SubjectTeacherId ?? 0, subjectToAdd);
+
+            await _unitOfWork.SubjectRepository.AddAsync(subjectToAdd);
+            response = SuccessMessage.SUBJECT_ADDED;
+        }
+        //Edit Subject
+        else if (manageSubjectDTO.SubjectId != null && manageSubjectDTO.SubjectName != null && manageSubjectDTO.SubjectCode != null && manageSubjectDTO.SubjectTeacherId != 0)
+        {
+            Subject? findSubject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == manageSubjectDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
+
+            await ValidateSubject(findSubject);
+            await ValidateSubjectTeacher(manageSubjectDTO.SubjectTeacherId ?? 0, findSubject);
+
+            findSubject.UpdateSubject(manageSubjectDTO);
+
+            await _unitOfWork.SubjectRepository.UpdateAsync(findSubject);
+            response = SuccessMessage.SUBJECT_UPDATED;
+        }
+        //Delete Subject
+        else if (manageSubjectDTO.SubjectId != null && manageSubjectDTO.SubjectName == null && manageSubjectDTO.SubjectCode == null && manageSubjectDTO.SubjectTeacherId == 0)
+        {
+            Subject? findSubject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == manageSubjectDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
+
+            await _unitOfWork.SubjectRepository.RemoveAsync(findSubject);
+            response = SuccessMessage.SUBJECT_REMOVED;
+        }
+
+        await _unitOfWork.SaveAsync();
+        return response;
+    }
+
     #endregion HTTP_Methods
+
+
+    #region Helper_Methods
+
+    public async Task ValidateSubjectTeacher(long subjectTeacherId, Subject subject)
+    {
+        User? user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(user => user.Id == subjectTeacherId && user.RoleId == 2) ??
+         throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.ASSIGN_TEACHER_AS_SUBJECT_TEACHER);
+
+        Subject? checkSubject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.SubjectTeacherId == subjectTeacherId && sub.Id != subject.Id);
+        if (checkSubject != null) throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.SUBJECT_TEACHER_ALREADY_ASSIGNED);
+    }
+
+    public async Task ValidateSubject(Subject subject)
+    {
+        Subject? checkSubject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => (sub.SubjectName.ToLower() == subject.SubjectName.ToLower() || sub.SubjectCode == subject.SubjectCode) && sub.Id != subject.Id);
+
+        if (checkSubject != null) throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.SUBJECT_ALREADY_PRESENT);
+    }
+
+    #endregion Helper_Methods
 }

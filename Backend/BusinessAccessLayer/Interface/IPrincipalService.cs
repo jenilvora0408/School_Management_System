@@ -19,4 +19,6 @@ public interface IPrincipalService
     Task<List<GetCoursesForClassSubjectDTO>> GetAllChapetrsForClassSubject(int classSubjectId);
 
     Task<PageListResponseDTO<SubjectsListResponseDTO>> GetAllSubjects(PageListRequestDTO subjectListRequestDTO);
+
+    Task<string> ManageSubject(ManageSubjectDTO manageSubjectDTO);
 }

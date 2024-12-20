@@ -52,4 +52,12 @@ public class JwtAuthPolicies
             Policy = SystemConstants.TEACHER_PRINCIPAL_POLICY;
         }
     }
+
+    public class StudentTeacherPolicyAttribute : AuthorizeAttribute
+    {
+        public StudentTeacherPolicyAttribute()
+        {
+            Policy = SystemConstants.STUDENT_TEACHER_POLICY;
+        }
+    }
 }

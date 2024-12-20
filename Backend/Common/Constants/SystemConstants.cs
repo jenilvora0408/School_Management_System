@@ -76,6 +76,8 @@ public static class SystemConstants
 
     public const string TEACHER_PRINCIPAL_POLICY = "Teacher_Principal";
 
+    public const string STUDENT_TEACHER_POLICY = "Student_Teacher";
+
     #endregion Policy Attribute
 
     #region ModelStateConstant

@@ -44,6 +44,12 @@ export class ApiCallConstant {
   public static readonly GET_CONTACT_PRINCIPAL_DOCUMENTS =
     this.COMMON_CONTROLLER + 'contact-documents';
 
+  public static readonly CHAPTERS_OF_CLASS_SUBJECT =
+    this.COMMON_CONTROLLER + 'chapters-of-class-subject';
+
+  public static readonly GET_CHAPTER_DOCUMENT =
+    this.COMMON_CONTROLLER + 'chapter-document';
+
   //User Controller Methods
   public static readonly CREATE_ADMIT_REQUEST =
     this.USER_CONTROLLER + 'create-admit-request';
@@ -81,12 +87,6 @@ export class ApiCallConstant {
 
   public static readonly GET_CLASSES_FOR_SUBJECT_TEACHER =
     this.TEACHER_CONTROLLER + 'get-classes-for-subject-teacher';
-
-  public static readonly CHAPTERS_OF_CLASS_SUBJECT =
-    this.TEACHER_CONTROLLER + 'chapters-of-class-subject';
-
-  public static readonly GET_CHAPTER_DOCUMENT =
-    this.TEACHER_CONTROLLER + 'chapter-document';
 
   public static readonly MANAGE_CHAPTER_DOCUMENT =
     this.TEACHER_CONTROLLER + 'manage-chapter-document';

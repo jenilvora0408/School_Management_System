@@ -5,11 +5,14 @@ import { DateFormatPipe } from '../../../pipes/date-format.pipe';
 import { PrincipalService } from '../../../services/principal.service';
 import { IResponse } from '../../../shared/models/IResponse';
 import { CommonService } from '../../../shared/services/common.service';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { Router } from '@angular/router';
+import { RoutingPathConstant } from '../../../constants/routing/routing-path';
 
 @Component({
   selector: 'app-my-contact-request',
   standalone: true,
-  imports: [HeaderComponent, DateFormatPipe],
+  imports: [HeaderComponent, DateFormatPipe, ButtonComponent],
   templateUrl: './my-contact-request.component.html',
   styleUrl: './my-contact-request.component.scss',
 })
@@ -28,7 +31,8 @@ export class MyContactRequestComponent {
 
   constructor(
     private principalService: PrincipalService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -59,5 +63,9 @@ export class MyContactRequestComponent {
 
   downloadImage(imageUrl: string, index: number) {
     this.commonService.downloadImage(imageUrl, index);
+  }
+
+  navigateBack(): void {
+    this.router.navigate([RoutingPathConstant.contactRequestHistoryUrl]);
   }
 }

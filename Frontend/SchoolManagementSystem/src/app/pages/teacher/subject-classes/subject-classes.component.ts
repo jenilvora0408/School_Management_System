@@ -55,7 +55,7 @@ export class SubjectClassesComponent {
 
   viewChapters(classId: number, className: string): void {
     console.log(classId, this.responseData.subjectId);
-    this.router.navigate([RoutingPathConstant.CourseDetailsUrl], {
+    this.router.navigate([RoutingPathConstant.courseDetailsUrl], {
       queryParams: {
         classId: CryptoJS.AES.encrypt(
           classId.toString() ?? '',

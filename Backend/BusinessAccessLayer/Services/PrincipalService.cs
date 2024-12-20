@@ -182,5 +182,23 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         return getCoursesForClassSubjectDTOs;
     }
 
+    public async Task<PageListResponseDTO<SubjectsListResponseDTO>> GetAllSubjects(PageListRequestDTO subjectListRequestDTO)
+    {
+        PageListRequestEntity<Subject> pageListRequestEntity = new()
+        {
+            PageIndex = subjectListRequestDTO.PageIndex,
+            PageSize = subjectListRequestDTO.PageSize,
+            Predicate = sub =>
+                sub.SubjectName.ToLower().Contains(subjectListRequestDTO.SearchQuery.ToLower()) || sub.SubjectTeacher.FirstName.ToLower().Contains(subjectListRequestDTO.SearchQuery!.ToLower()) || sub.SubjectTeacher.LastName.ToLower().Contains(subjectListRequestDTO.SearchQuery!.ToLower()),
+            IncludeExpressions = [x => x.SubjectTeacher]
+        };
+
+        PageListResponseDTO<Subject> pageListResponse = await _unitOfWork.SubjectRepository.GetAllAsync(pageListRequestEntity);
+
+        List<SubjectsListResponseDTO> subjectsListResponseDTOs = SubjectMappingProfile.ToGetAllSubjects(pageListResponse.Records).ToList();
+
+        return new PageListResponseDTO<SubjectsListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, subjectsListResponseDTOs);
+    }
+
     #endregion HTTP_Methods
 }

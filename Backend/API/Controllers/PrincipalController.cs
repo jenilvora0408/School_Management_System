@@ -89,4 +89,13 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     {
         return GetResult(await _principalService.GetAllChapetrsForClassSubject(classSubjectId), message: null);
     }
+
+    [HttpPost("subjects")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> GetAllSubjects(PageListRequestDTO pageListRequestDTO)
+    {
+        return GetResult(await _principalService.GetAllSubjects(pageListRequestDTO), message: null);
+    }
 }

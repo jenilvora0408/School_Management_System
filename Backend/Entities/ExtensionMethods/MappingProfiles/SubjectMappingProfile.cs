@@ -12,6 +12,7 @@ public static class SubjectMappingProfile
             SubjectId = subject.Id,
             SubjectName = subject.SubjectName,
             SubjectCode = subject.SubjectCode,
+            SubjectTeacherId = subject.SubjectTeacher?.Id ?? 0,
             SubjectTeacherName = subject.SubjectTeacher?.FirstName + ' ' + subject.SubjectTeacher?.LastName,
         }).ToList();
     }
@@ -67,5 +68,22 @@ public static class SubjectMappingProfile
             SubjectTeacherId = subject.SubjectTeacherId,
             SubjectTeacherName = $"{subject.SubjectTeacher?.FirstName} {subject.SubjectTeacher?.LastName}"
         };
+    }
+
+    public static Subject ToAddSubject(this ManageSubjectDTO dto)
+    {
+        return new Subject
+        {
+            SubjectName = dto.SubjectName!,
+            SubjectCode = dto.SubjectCode!,
+            SubjectTeacherId = dto.SubjectTeacherId!
+        };
+    }
+
+    public static void UpdateSubject(this Subject subject, ManageSubjectDTO dto)
+    {
+        subject.SubjectName = dto.SubjectName!;
+        subject.SubjectCode = dto.SubjectCode!;
+        subject.SubjectTeacherId = dto.SubjectTeacherId!;
     }
 }

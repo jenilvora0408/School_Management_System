@@ -108,7 +108,7 @@ export class StudentDashboardComponent {
     className: string,
     subjectName: string
   ): void {
-    this.router.navigate([RoutingPathConstant.CourseDetailsUrl], {
+    this.router.navigate([RoutingPathConstant.courseDetailsUrl], {
       queryParams: {
         classId: CryptoJS.AES.encrypt(
           classId.toString() ?? '',

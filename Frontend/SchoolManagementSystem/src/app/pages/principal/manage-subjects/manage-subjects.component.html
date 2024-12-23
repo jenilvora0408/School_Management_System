@@ -1,0 +1,82 @@
+<div class="teacher-dashboard-container container-fluid p-0">
+    <app-header></app-header>
+    <div class="admit-request-list-container p-5 pb-0">
+      <h3 class="dashboard-heading">
+        Manage Subjects<span class="fs-6"></span>
+      </h3>
+      <div class="d-flex justify-content-between align-items-center gap-4">
+        <div class="d-flex gap-4 w-100">
+          <input
+            type="text"
+            class="form-control mb-4 w-25 bg-light p-2"
+            placeholder="Search..."
+            #searchInput
+            (keyup)="search(searchInput.value)"
+          />
+        </div>
+        <div class="back-btn-container">
+          <app-button
+          label="Back"
+          className="back-btn w-100"
+          type="button"
+          iconClass="bi bi-arrow-left"
+          (btnClick)="navigateBack()"
+        />
+        </div>
+      </div>
+      @if(responseData.length > 0){
+      <table
+        class="table table-striped table-hover border border-1"
+        id="excel-table"
+        #content
+      >
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">Serial</th>
+            <th scope="col">Subject Name</th>
+            <th scope="col">Subject Code</th>
+            <th scope="col">Subject Teacher</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of responseData; track i; let i = $index){
+          <tr class="border border-2">
+            <td>{{ i+1 }}</td>
+            <td>{{ item.subjectName }}</td>
+            <td>
+              {{item.subjectCode}}
+            </td>
+            <td>{{ item.subjectTeacherName }}</td>
+            <td><i class="bi bi-plus"></i></td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="collectionSize"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          (pageChange)="getAllSubjectsData()"
+        >
+        </ngb-pagination>
+  
+        <select
+          class="form-select"
+          style="width: auto"
+          [(ngModel)]="pageSize"
+          (ngModelChange)="getAllSubjectsData()"
+        >
+          <option [ngValue]="3">3 items per page</option>
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="8">8 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+        </select>
+      </div>
+      } @else {
+      <h3 class="text-center">No Subjects Found!</h3>
+      }
+    </div>
+  </div>
+  

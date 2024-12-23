@@ -9,6 +9,8 @@ export class RoutingPathConstant {
   public static classesAndSubjectsUrl = '/principal/classes-and-subjects';
   public static subjectClassesUrl = 'teacher/subject-classes';
   public static courseDetailsUrl = '/course-details';
-  public static StudentDashboardUrl = '/student';
   public static contactRequestHistoryUrl = '/contact-request-history';
+  public static leaveRequestsForPrincipalUrl = 'principal/leave-requests';
+  public static contactRequestsForPrincipalUrl = 'principal/contact-requests';
+  public static manageSubjectsByPrincipalUrl = 'principal/manage-subjects';
 }

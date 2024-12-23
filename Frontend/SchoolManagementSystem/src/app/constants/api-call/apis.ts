@@ -113,6 +113,9 @@ export class ApiCallConstant {
   public static readonly UPSERT_COURSE_CHAPTERS =
     this.PRINCIPAL_CONTROLLER + 'upsert-course-chapters';
 
+  public static readonly GET_ALL_SUBJECTS_FOR_PRINCIPAL =
+    this.PRINCIPAL_CONTROLLER + 'subjects';
+
   // Student Controller Methods
 
   public static readonly SUBEJCTS_LIST_FOR_STUDENTS =

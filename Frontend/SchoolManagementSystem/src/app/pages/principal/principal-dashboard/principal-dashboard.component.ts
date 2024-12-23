@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RoutingPathConstant } from '../../../constants/routing/routing-path';
 
 @Component({
   selector: 'app-principal-dashboard',
@@ -15,13 +16,22 @@ export class PrincipalDashboardComponent {
   navigate(routingPath: string) {
     switch (routingPath) {
       case 'edit-class':
-        this.router.navigate(['principal/classes-and-subjects']);
+        this.router.navigate([RoutingPathConstant.classesAndSubjectsUrl]);
         break;
       case 'leave-requests':
-        this.router.navigate(['principal/leave-requests']);
+        this.router.navigate([
+          RoutingPathConstant.leaveRequestsForPrincipalUrl,
+        ]);
         break;
       case 'contact-requests':
-        this.router.navigate(['principal/contact-requests']);
+        this.router.navigate([
+          RoutingPathConstant.contactRequestsForPrincipalUrl,
+        ]);
+        break;
+      case 'manage-subjects':
+        this.router.navigate([
+          RoutingPathConstant.manageSubjectsByPrincipalUrl,
+        ]);
         break;
       default:
         console.log('Invalid routing path');

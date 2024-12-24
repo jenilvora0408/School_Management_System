@@ -231,6 +231,9 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         //Delete Subject
         else if (manageSubjectDTO.SubjectId != null && manageSubjectDTO.SubjectName == null && manageSubjectDTO.SubjectCode == null && manageSubjectDTO.SubjectTeacherId == 0)
         {
+            await _unitOfWork.BeginTransactionAsync();
+            bool success = false;
+
             Subject? findSubject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == manageSubjectDTO.SubjectId)
                 ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
 
@@ -265,6 +268,13 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
             await _unitOfWork.SubjectRepository.RemoveAsync(findSubject);
 
             response = SuccessMessage.SUBJECT_REMOVED;
+
+            success = true;
+            if (success)
+                await _unitOfWork.CommitTransactionAsync();
+
+            else
+                await _unitOfWork.RollbackTransactionAsync();
         }
 
         await _unitOfWork.SaveAsync();

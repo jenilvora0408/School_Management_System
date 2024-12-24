@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { ISubjectsListInterface } from '../../../models/principal/subjects-list';
 import { PrincipalService } from '../../../services/principal.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ILeaveRequestsInterface } from '../../../models/principal/leave-requests';
 import { IResponse } from '../../../shared/models/IResponse';
 import { IPageListRequest } from '../../../shared/models/page-list-request';
 import { IPageListResponse } from '../../../shared/models/page-list-response';
@@ -15,6 +14,7 @@ import {
   NgbTypeaheadModule,
   NgbHighlight,
   NgbPopoverModule,
+  NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ApprovalStatusPipe } from '../../../pipes/approval-status.pipe';
 import { DateFormatPipe } from '../../../pipes/date-format.pipe';
@@ -55,10 +55,13 @@ export class ManageSubjectsComponent {
   constructor(
     private principalService: PrincipalService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllSubjectsData();
+  }
 
   search(searchTerm: string) {
     if (this.responseData.length == 0 && searchTerm.length >= 3) {
@@ -103,4 +106,13 @@ export class ManageSubjectsComponent {
   navigateBack(): void {
     this.router.navigate([RoutingPathConstant.principalDashboardUrl]);
   }
+
+  addSubject():void{
+  }
+
+  // pass subject details
+  editSubject(subjectId: number){
+  }
+
+  deleteSubject(subjectId: number){}
 }

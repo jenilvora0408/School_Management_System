@@ -74,4 +74,13 @@ public static class UserMappingProfile
         user.Headline = getUserProfileDTO.Headline;
         user.Avatar = getUserProfileDTO.Avatar ?? string.Empty;
     }
+
+    public static UnassignedTeachersDTO ToUnassignedTeachersDTO(this User user)
+    {
+        return new UnassignedTeachersDTO
+        {
+            UserId = user.Id,
+            UserName = $"{user.FirstName} {user.LastName}"
+        };
+    }
 }

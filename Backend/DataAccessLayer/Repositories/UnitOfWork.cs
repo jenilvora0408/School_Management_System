@@ -1,5 +1,6 @@
 using DataAccessLayer.Data;
 using DataAccessLayer.Interface;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DataAccessLayer.Repositories;
 
@@ -30,6 +31,7 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
     #region Constructor
 
     private readonly AppDbContext _dbContext = dbContext;
+    private IDbContextTransaction _transaction;
 
     #endregion
 
@@ -41,6 +43,31 @@ public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
     public IBaseRepository<T> GetRepository<T>() where T : class
     {
         return new BaseRepository<T>(_dbContext);
+    }
+
+    public async Task BeginTransactionAsync()
+    {
+        _transaction = await _dbContext.Database.BeginTransactionAsync();
+    }
+
+    public async Task CommitTransactionAsync()
+    {
+        if (_transaction != null)
+        {
+            await _transaction.CommitAsync();
+            await _transaction.DisposeAsync();
+            _transaction = null;
+        }
+    }
+
+    public async Task RollbackTransactionAsync()
+    {
+        if (_transaction != null)
+        {
+            await _transaction.RollbackAsync();
+            await _transaction.DisposeAsync();
+            _transaction = null;
+        }
     }
 
     public IAdmitRequestRepository AdmitRequestRepository

@@ -21,4 +21,6 @@ public interface IPrincipalService
     Task<PageListResponseDTO<SubjectsListResponseDTO>> GetAllSubjects(PageListRequestDTO subjectListRequestDTO);
 
     Task<string> ManageSubject(ManageSubjectDTO manageSubjectDTO);
+
+    Task<List<UnassignedTeachersDTO>> GetAllUnassignedTeachers();
 }

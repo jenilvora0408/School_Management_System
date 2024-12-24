@@ -4,6 +4,12 @@ public interface IUnitOfWork
 {
     Task SaveAsync(CancellationToken cancellationToken = default);
 
+    Task BeginTransactionAsync();
+
+    Task CommitTransactionAsync();
+
+    Task RollbackTransactionAsync();
+
     public IAdmitRequestRepository AdmitRequestRepository { get; }
 
     public IUserRepository UserRepository { get; }

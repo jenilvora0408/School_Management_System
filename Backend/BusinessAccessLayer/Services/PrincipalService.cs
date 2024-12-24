@@ -231,15 +231,87 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
         //Delete Subject
         else if (manageSubjectDTO.SubjectId != null && manageSubjectDTO.SubjectName == null && manageSubjectDTO.SubjectCode == null && manageSubjectDTO.SubjectTeacherId == 0)
         {
-            Subject? findSubject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == manageSubjectDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
+            await _unitOfWork.BeginTransactionAsync();
+            bool transactionCompleted = false;
 
-            await _unitOfWork.SubjectRepository.RemoveAsync(findSubject);
-            response = SuccessMessage.SUBJECT_REMOVED;
+            try
+            {
+                Subject? findSubject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == manageSubjectDTO.SubjectId)
+                    ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
+
+                List<ClassSubject>? classSubjects = await _unitOfWork.ClassSubjectRepository.GetAllAsync(cs => cs.SubjectId == manageSubjectDTO.SubjectId);
+
+                if (classSubjects.Any())
+                {
+                    List<Course> courses = [];
+                    List<Document> documents = [];
+
+                    foreach (ClassSubject? classSubject in classSubjects)
+                    {
+                        List<Course>? classSubjectCourses = await _unitOfWork.CourseRepository.GetAllAsync(course => course.ClassSubjectId == classSubject.Id);
+                        courses.AddRange(classSubjectCourses);
+
+                        foreach (Course? course in classSubjectCourses)
+                        {
+                            List<Document>? courseDocuments = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.CourseId == course.Id);
+                            documents.AddRange(courseDocuments);
+                        }
+                    }
+
+                    if (documents.Any())
+                    {
+                        await _unitOfWork.DocumentRepository.RemoveRangeAsync(documents);
+                    }
+
+                    if (courses.Any())
+                    {
+                        await _unitOfWork.CourseRepository.RemoveRangeAsync(courses);
+                    }
+
+                    await _unitOfWork.ClassSubjectRepository.RemoveRangeAsync(classSubjects);
+                }
+
+                await _unitOfWork.SubjectRepository.RemoveAsync(findSubject);
+
+                transactionCompleted = true;
+                await _unitOfWork.CommitTransactionAsync();
+
+                response = SuccessMessage.SUBJECT_REMOVED;
+            }
+            finally
+            {
+                if (!transactionCompleted)
+                {
+                    await _unitOfWork.RollbackTransactionAsync();
+                }
+            }
+
+            await _unitOfWork.SaveAsync();
+            return response;
         }
+
 
         await _unitOfWork.SaveAsync();
         return response;
     }
+
+    public async Task<List<UnassignedTeachersDTO>> GetAllUnassignedTeachers()
+    {
+        List<User>? teachers = await _unitOfWork.UserRepository.GetAllAsync(
+            predicate: user => user.RoleId == 2 && !user.IsUserDeleted && user.IsUserActive
+        );
+
+        List<long?> assignedTeacherIds = await _unitOfWork.SubjectRepository.GetAllAsync(
+            selector: subject => subject.SubjectTeacherId
+        );
+
+        List<UnassignedTeachersDTO>? unassignedTeachers = teachers
+            .Where(teacher => !assignedTeacherIds.Contains(teacher.Id))
+            .Select(teacher => teacher.ToUnassignedTeachersDTO()).ToList();
+
+        return unassignedTeachers;
+    }
+
 
     #endregion HTTP_Methods
 

@@ -107,4 +107,13 @@ public class PrincipalController(IPrincipalService principalService) : BaseContr
     {
         return GetResult(await _principalService.ManageSubject(manageSubjectDTO), message: null);
     }
+
+    [HttpGet("unassigned-subject-teachers")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> UnassignedSubjectTeachers()
+    {
+        return GetResult(await _principalService.GetAllUnassignedTeachers(), message: null);
+    }
 }

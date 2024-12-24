@@ -236,25 +236,31 @@ public class PrincipalService(IUnitOfWork unitOfWork, ICommonService commonServi
 
             List<ClassSubject>? classSubjects = await _unitOfWork.ClassSubjectRepository.GetAllAsync(cs => cs.SubjectId == manageSubjectDTO.SubjectId);
 
-            List<Course>? courses = [];
-
-            List<Document>? documents = [];
-
-            foreach (ClassSubject? classSubject in classSubjects)
+            if (classSubjects.Any())
             {
-                courses = await _unitOfWork.CourseRepository.GetAllAsync(course => course.ClassSubjectId == classSubject.Id);
+                List<Course> courses = [];
+                List<Document> documents = [];
 
-                foreach (Course? course in courses)
+                foreach (ClassSubject? classSubject in classSubjects)
                 {
-                    documents = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.CourseId == course.Id);
-                } 
+                    List<Course>? classSubjectCourses = await _unitOfWork.CourseRepository.GetAllAsync(course => course.ClassSubjectId == classSubject.Id);
+                    courses.AddRange(classSubjectCourses);
+
+                    foreach (Course? course in classSubjectCourses)
+                    {
+                        List<Document>? courseDocuments = await _unitOfWork.DocumentRepository.GetAllAsync(doc => doc.CourseId == course.Id);
+                        documents.AddRange(courseDocuments);
+                    }
+                }
+
+                if (documents.Any())
+                    await _unitOfWork.DocumentRepository.RemoveRangeAsync(documents);
+
+                if (courses.Any())
+                    await _unitOfWork.CourseRepository.RemoveRangeAsync(courses);
+
+                await _unitOfWork.ClassSubjectRepository.RemoveRangeAsync(classSubjects);
             }
-
-            await _unitOfWork.DocumentRepository.RemoveRangeAsync(documents);
-
-            await _unitOfWork.CourseRepository.RemoveRangeAsync(courses);
-
-            await _unitOfWork.ClassSubjectRepository.RemoveRangeAsync(classSubjects);
 
             await _unitOfWork.SubjectRepository.RemoveAsync(findSubject);
 

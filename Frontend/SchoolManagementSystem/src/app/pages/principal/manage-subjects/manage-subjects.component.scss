@@ -1,0 +1,56 @@
+$para: #777;
+$helper-tint: #f3f4ff;
+$bg: rgb(249, 249, 255);
+$purple: #6c4e87;
+
+.principal-dashboard-container {
+  background-color: $helper-tint;
+}
+thead tr th {
+  font-size: 1.2rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+tr td img {
+  height: 20px;
+}
+h3 {
+  font-weight: normal;
+  word-spacing: 3px;
+  letter-spacing: 1px;
+  color: $purple;
+}
+.pop-content {
+  width: 350px !important;
+  margin-left: 40px;
+}
+.back-btn-container {
+  width: 90px;
+}
+.search-input {
+  width: 400px !important;
+}
+.button {
+  white-space: nowrap;
+}
+@media only screen and (max-width: 768px) {
+  .search-btn-container {
+    flex-direction: column;
+    align-items: start !important;
+  }
+  .back-btn-container {
+    justify-content: start !important;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .search-input {
+    width: 300px !important;
+  }
+  .pagination-container {
+    margin-top: 10px;
+    flex-direction: column;
+  }
+}
+.table-responsive{
+    height: 68.5vh;
+}

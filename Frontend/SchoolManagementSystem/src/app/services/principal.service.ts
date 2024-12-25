@@ -23,14 +23,18 @@ export class PrincipalService {
   editClassApi = ApiCallConstant.EDIT_CLASS;
   leaveRequestApi = ApiCallConstant.LEAVE_REQUESTS;
   contactPrincipalApi = ApiCallConstant.CONTACT_PRINCIPAL_REQUESTS;
-  contactPrincipalDocumentsAPi = ApiCallConstant.GET_CONTACT_PRINCIPAL_DOCUMENTS;
-  postContactPrincipalResponseApi = ApiCallConstant.POST_CONTACT_PRINCIPAL_RESPONSE;
-  getChaptersForClassSubjectApi = ApiCallConstant.GET_CHAPTERS_FOR_CLASS_SUBJECT;
+  contactPrincipalDocumentsAPi =
+    ApiCallConstant.GET_CONTACT_PRINCIPAL_DOCUMENTS;
+  postContactPrincipalResponseApi =
+    ApiCallConstant.POST_CONTACT_PRINCIPAL_RESPONSE;
+  getChaptersForClassSubjectApi =
+    ApiCallConstant.GET_CHAPTERS_FOR_CLASS_SUBJECT;
   upsertCourseChaptersApi = ApiCallConstant.UPSERT_COURSE_CHAPTERS;
+  allSubjectsForPrincipalApi = ApiCallConstant.GET_ALL_SUBJECTS_FOR_PRINCIPAL;
 
   constructor(private http: HttpClient) {}
 
-  getAllSubjects(
+  getAllSubjectsByClass(
     classId: number
   ): Observable<IResponse<ISubjectsListInterface[]>> {
     return this.http.get<IResponse<ISubjectsListInterface[]>>(
@@ -57,15 +61,15 @@ export class PrincipalService {
 
   getContactPrincipalRequests(
     listCredentials: IPageListRequest
-  ): Observable<IResponse<IPageListResponse<IContactPrincipalListInterface[]>>> {
+  ): Observable<
+    IResponse<IPageListResponse<IContactPrincipalListInterface[]>>
+  > {
     return this.http.post<
       IResponse<IPageListResponse<IContactPrincipalListInterface[]>>
     >(this.contactPrincipalApi, listCredentials);
   }
 
-  getContactPrincipalDocuments(
-    id: number
-  ): Observable<IResponse<string[]>> {
+  getContactPrincipalDocuments(id: number): Observable<IResponse<string[]>> {
     return this.http.get<IResponse<string[]>>(
       `${this.contactPrincipalDocumentsAPi}/${id}`
     );
@@ -95,5 +99,13 @@ export class PrincipalService {
       `${this.upsertCourseChaptersApi}`,
       requestCredentials
     );
+  }
+
+  getAllSubjects(
+    listCredentials: IPageListRequest
+  ): Observable<IResponse<IPageListResponse<ISubjectsListInterface[]>>> {
+    return this.http.post<
+      IResponse<IPageListResponse<ISubjectsListInterface[]>>
+    >(this.allSubjectsForPrincipalApi, listCredentials);
   }
 }

@@ -101,7 +101,7 @@ export class EditClassComponent {
   }
 
   getAllSubjects() {
-    this.principalService.getAllSubjects(this.classId).subscribe({
+    this.principalService.getAllSubjectsByClass(this.classId).subscribe({
       next: (response: IResponse<ISubjectsListInterface[]>) => {
         this.responseData = response.data;
       },

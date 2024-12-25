@@ -22,6 +22,7 @@ import { MyContactRequestComponent } from './pages/common/my-contact-request/my-
 import { EditCourseComponent } from './pages/principal/edit-course/edit-course.component';
 import { SubjectClassesComponent } from './pages/teacher/subject-classes/subject-classes.component';
 import { CourseDetailsComponent } from './pages/common/course-details/course-details.component';
+import { ManageSubjectsComponent } from './pages/principal/manage-subjects/manage-subjects.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -106,6 +107,10 @@ export const routes: Routes = [
       {
         path: 'edit-course',
         component: EditCourseComponent,
+      },
+      {
+        path: 'manage-subjects',
+        component: ManageSubjectsComponent,
       },
     ],
   },

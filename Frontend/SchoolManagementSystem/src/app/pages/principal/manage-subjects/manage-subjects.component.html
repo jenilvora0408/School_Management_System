@@ -1,0 +1,105 @@
+<div class="principal-dashboard-container container-fluid p-0">
+  <app-header></app-header>
+  <div class="admit-request-list-container p-5 pb-0">
+    <h3 class="dashboard-heading">Subjects<span class="fs-6"></span></h3>
+    <div class="search-btn-container d-flex justify-content-between align-items-center gap-4 w-100">
+      <div class="d-flex gap-4">
+        <input
+          type="text"
+          class="form-control bg-light p-2 search-input"
+          placeholder="Search..."
+          #searchInput
+          (keyup)="search(searchInput.value)"
+        />
+      </div>
+      <div class="back-btn-container w-25 d-flex justify-content-end gap-4">
+        <app-button
+          type="button"
+          label="Add Subject"
+          class="button"
+          className="btn text-btn leave-btn"
+          [iconClass]="'bi bi-plus'"
+          (btnClick)="addSubject()"
+        ></app-button>
+        <app-button
+          label="Back"
+          className="back-btn"
+          type="button"
+          class="button"
+          iconClass="bi bi-arrow-left"
+          (btnClick)="navigateBack()"
+        />
+      </div>
+    </div>
+    @if(responseData.length > 0){
+    <div class="table-responsive mt-3 mb-2">
+      <table
+        class="table table-striped table-hover border border-1 mt-3"
+      >
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">Serial</th>
+            <th scope="col">Subject Name</th>
+            <th scope="col">Subject Code</th>
+            <th scope="col">Subject Teacher</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of responseData; track i; let i = $index){
+          <tr class="border border-2">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.subjectName }}</td>
+            <td>
+              {{ item.subjectCode }}
+            </td>
+            <td>{{ item.subjectTeacherName }}</td>
+            <td>
+              <div class="d-flex gap-3">
+                <button
+                  class="btn btn-outline-success ms-2"
+                  (click)="editSubject(item.subjectId)"
+                  type="button"
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+
+                <button
+                  class="btn btn-outline-danger ms-2"
+                  (click)="deleteSubject(item.subjectId)"
+                  type="button"
+                >
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-container d-flex justify-content-between pb-4">
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="getAllSubjectsData()"
+      >
+      </ngb-pagination>
+      <select
+        class="form-select"
+        style="width: auto"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="getAllSubjectsData()"
+      >
+        <option [ngValue]="3">3 items per page</option>
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="8">8 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+      </select>
+    </div>
+    } @else {
+    <h3 class="text-center">No Subjects Found!</h3>
+    }
+  </div>
+</div>

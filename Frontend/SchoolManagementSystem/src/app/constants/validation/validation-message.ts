@@ -20,4 +20,6 @@ export class ValidationMessageConstant {
   public static cannotProcessFile = 'File could not be processed.';
   public static accessUnauthorized = 'Access unauthorized!';
   public static documentNotFound = "No document for this chapter has been uploaded yet!";
+  public static cannotUploadSameFileTwice = "Cannot upload same file twice!";
+  public static canUploadMax7Files = "You can upload a maximum of 7 files only!";
 }

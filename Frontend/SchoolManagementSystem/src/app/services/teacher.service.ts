@@ -16,6 +16,7 @@ import { IChaptersOfClassSubjectInterface } from '../models/teacher/chapters-of-
 import { IClassSubjectPageListRequestInterface } from '../shared/models/class-subject-page-list-request';
 import { IGetChapterDocument } from '../models/teacher/get-chapter-document';
 import { IManageChapterDocumentInterface } from '../models/teacher/manage-chapter-document';
+import { IAddChapterDocumentInterface } from '../models/teacher/add-chapter-document';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,7 @@ export class TeacherService {
   chaptersOfClassSubjectApi = ApiCallConstant.CHAPTERS_OF_CLASS_SUBJECT;
   getChapterDocumentApi = ApiCallConstant.GET_CHAPTER_DOCUMENT;
   manageChapterDocumentApi = ApiCallConstant.MANAGE_CHAPTER_DOCUMENT;
+  addChapterDocumentsApi = ApiCallConstant.ADD_CHAPTER_DOCUMENTS;
 
   constructor(private http: HttpClient) {}
 
@@ -112,6 +114,15 @@ export class TeacherService {
   ): Observable<IResponse<string>> {
     return this.http.post<IResponse<string>>(
       `${this.manageChapterDocumentApi}`,
+      requestCredentials
+    );
+  }
+
+  addChapterDocuments(
+    requestCredentials: IAddChapterDocumentInterface
+  ): Observable<IResponse<string>> {
+    return this.http.post<IResponse<string>>(
+      `${this.addChapterDocumentsApi}`,
       requestCredentials
     );
   }

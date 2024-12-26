@@ -91,6 +91,9 @@ export class ApiCallConstant {
   public static readonly MANAGE_CHAPTER_DOCUMENT =
     this.TEACHER_CONTROLLER + 'manage-chapter-document';
 
+  public static readonly ADD_CHAPTER_DOCUMENTS =
+    this.TEACHER_CONTROLLER + 'add-chapter-documents';
+
   // Principal Controller Methods
 
   public static readonly GET_ALL_SUBJECTS_BY_CLASS_ID =

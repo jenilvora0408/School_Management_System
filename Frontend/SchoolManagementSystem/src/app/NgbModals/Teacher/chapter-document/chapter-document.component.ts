@@ -10,6 +10,7 @@ import { IManageChapterDocumentInterface } from '../../../models/teacher/manage-
 import { LoaderService } from '../../../shared/services/loader.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { AuthenticationService } from '../../../services/authentication.service';
+import { IAddChapterDocumentInterface } from '../../../models/teacher/add-chapter-document';
 
 @Component({
   selector: 'app-chapter-document',
@@ -74,6 +75,14 @@ export class ChapterDocumentComponent {
     const files = event.target.files;
 
     if (files && files.length > 0) {
+      const totalFiles = this.uploadedFiles.length + files.length;
+
+      if (totalFiles > 7) {
+        this.showDocumentErrors = true;
+        this.documentError = ValidationMessageConstant.canUploadMax7Files;
+        return;
+      }
+
       Array.from(files).forEach((file: any) => {
         this.validateAndUpload(file);
       });
@@ -94,6 +103,14 @@ export class ChapterDocumentComponent {
     const files = event.dataTransfer?.files;
 
     if (files && files.length > 0) {
+      const totalFiles = this.uploadedFiles.length + files.length;
+
+      if (totalFiles > 7) {
+        this.showDocumentErrors = true;
+        this.documentError = ValidationMessageConstant.canUploadMax7Files;
+        return;
+      }
+
       Array.from(files).forEach((file: File) => {
         this.validateAndUpload(file);
       });
@@ -105,14 +122,36 @@ export class ChapterDocumentComponent {
   }
 
   validateAndUpload(file: File) {
-    const validExtensions = ['application/pdf'];
-    const maxSizeInMB = 1;
+    const validExtensions = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+      'image/jpeg',
+      'image/png',
+      'image/jpg',
+      'video/mp4',
+    ];
+    const maxSizeInMB = 5;
     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
-    if (this.uploadedFiles.length >= this.maxFiles) {
+    if (
+      this.uploadedFiles.some(
+        (uploadedFile) =>
+          uploadedFile.name === file.name && uploadedFile.size === file.size
+      )
+    ) {
       this.showDocumentErrors = true;
-      this.documentError = ValidationMessageConstant.canUpload1FileOnly;
-    } else if (!validExtensions.includes(file.type)) {
+      this.documentError = ValidationMessageConstant.cannotUploadSameFileTwice;
+      return;
+    }
+
+    if (this.uploadedFiles.length >= 7) {
+      this.showDocumentErrors = true;
+      this.documentError = ValidationMessageConstant.canUploadMax7Files;
+      return;
+    }
+
+    if (!validExtensions.includes(file.type)) {
       this.showDocumentErrors = true;
       this.documentError =
         ValidationMessageConstant.chapterDocumentExtensionError;
@@ -136,7 +175,6 @@ export class ChapterDocumentComponent {
             size: file.size,
             file,
           });
-          this.uploadedFile = result;
         } else {
           console.error(ValidationMessageConstant.invalidBase64Url);
           this.showDocumentErrors = true;
@@ -169,55 +207,83 @@ export class ChapterDocumentComponent {
   }
 
   onSubmit(): void {
-    if (this.userRole == 3) {
+    if (this.userRole === 3) {
       this.notificationService.error(
         ValidationMessageConstant.accessUnauthorized
       );
       return;
     }
-    if (this.documentError != '') return;
-    if (this.uploadedFile == null || this.uploadedFile == '') {
+
+    if (this.uploadedFiles.length === 0) {
       this.showDocumentErrors = true;
       this.documentError = ValidationMessageConstant.mustUploadDocument;
       return;
-    } else {
-      this.showDocumentErrors = false;
-      this.documentError = '';
     }
 
+    this.showDocumentErrors = false;
+    this.documentError = '';
     this.loaderService.show();
+
     this.submitDocument();
   }
 
   submitDocument(): void {
-    const payload: IManageChapterDocumentInterface = {
-      courseId: this.courseId,
-      documentId: this.getChapterDocumentData.documentId,
-      documentContent: this.uploadedFile,
-    };
+    const documentDTOs = this.uploadedFiles.map((file) => {
+      const fileNameParts = file.name.split('.');
+      const documentExtension = fileNameParts.pop();
+      const documentName = fileNameParts.join('.');
 
-    this.teacherService.manageChapterDocument(payload).subscribe({
-      next: (response: IResponse<string>) => {
-        this.responseString = response.data;
-        this.loaderService.hide();
-        this.notificationService.success(this.responseString);
-        this.modalService.dismissAll();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.loaderService.hide();
-        console.log(error);
-      },
+      return {
+        documentContent: '',
+        documentName: documentName,
+        documentType: '',
+        documentExtension: documentExtension || null,
+      };
     });
-  }
 
-  editDocument(): void {
-    if (this.userRole == 3) {
-      this.notificationService.error(
-        ValidationMessageConstant.accessUnauthorized
-      );
-      return;
-    }
-    this.canUploadDoc = true;
+    Promise.all(
+      this.uploadedFiles.map(
+        (file, index) =>
+          new Promise<void>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const result = reader.result as string;
+              documentDTOs[index].documentContent = result;
+              resolve();
+            };
+            reader.onerror = (error) => {
+              console.error('Error reading file:', error);
+              reject(error);
+            };
+            reader.readAsDataURL(file.file);
+          })
+      )
+    )
+      .then(() => {
+        const payload: IAddChapterDocumentInterface = {
+          courseId: this.courseId,
+          documentDTOs: documentDTOs,
+        };
+
+        console.log('Upload: ', payload);
+
+        this.teacherService.addChapterDocuments(payload).subscribe({
+          next: (response: IResponse<string>) => {
+            this.responseString = response.data;
+            this.loaderService.hide();
+            this.notificationService.success(this.responseString);
+            this.modalService.dismissAll();
+          },
+          error: (error: HttpErrorResponse) => {
+            this.loaderService.hide();
+            console.error(error);
+          },
+        });
+      })
+      .catch((error) => {
+        this.loaderService.hide();
+        console.error('Failed to process files:', error);
+      });
   }
 
   deleteDocument(): void {

@@ -1,0 +1,25 @@
+<div>
+  <div class="modal-body px-4 py-3">
+    <div class="d-flex justify-content-center">
+      <i class="bi bi-info-circle-fill fs-2 text-danger"></i>
+    </div>
+    <p class="text-center text-mute fs-5 mb-0">
+      Are you sure you want to delete this subject?
+    </p>
+    <p class="text-mute text-center fs-5 mb-0">Note: This cannot be undone!</p>
+  </div>
+  <div class="buttons mt-1 d-flex gap-4 justify-content-center w-100 mb-4">
+    <app-button
+      type="button"
+      label="Cancel"
+      className="btn close-btn"
+      (btnClick)="close()"
+    ></app-button>
+    <app-button
+      type="submit"
+      label="Delete"
+      (btnClick)="onSubmit()"
+      className="btn decline-btn"
+    ></app-button>
+  </div>
+</div>

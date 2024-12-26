@@ -14,6 +14,8 @@ import { IContactPrincipalListInterface } from '../models/principal/contact-prin
 import { IContactPrincipalResponse } from '../models/principal/contact-principal-response';
 import { ICourseListForClassSubjectInterface } from '../models/principal/course-list-for-class-subject';
 import { ISubmitCourseInfo } from '../models/principal/submit-course-info';
+import { IUnassignedSubjectTeachersInterface } from '../models/principal/unassigned-subject-teachers';
+import { IManageSubjectInterface } from '../models/principal/manage-subject';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +33,9 @@ export class PrincipalService {
     ApiCallConstant.GET_CHAPTERS_FOR_CLASS_SUBJECT;
   upsertCourseChaptersApi = ApiCallConstant.UPSERT_COURSE_CHAPTERS;
   allSubjectsForPrincipalApi = ApiCallConstant.GET_ALL_SUBJECTS_FOR_PRINCIPAL;
+  unassignedSubjectTeachersApi =
+    ApiCallConstant.GET_ALL_UNASSIGNED_SUBJECT_TEACHER;
+  manageSubjectApi = ApiCallConstant.MANAGE_SUBJECT;
 
   constructor(private http: HttpClient) {}
 
@@ -107,5 +112,22 @@ export class PrincipalService {
     return this.http.post<
       IResponse<IPageListResponse<ISubjectsListInterface[]>>
     >(this.allSubjectsForPrincipalApi, listCredentials);
+  }
+
+  getAllUnassignedSubjectTeachers(): Observable<
+    IResponse<IUnassignedSubjectTeachersInterface[]>
+  > {
+    return this.http.get<IResponse<IUnassignedSubjectTeachersInterface[]>>(
+      `${this.unassignedSubjectTeachersApi}`
+    );
+  }
+
+  manageSubject(
+    requestCredentials: IManageSubjectInterface
+  ): Observable<IResponse<string>> {
+    return this.http.post<IResponse<string>>(
+      `${this.manageSubjectApi}`,
+      requestCredentials
+    );
   }
 }

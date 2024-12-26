@@ -23,6 +23,9 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { Router } from '@angular/router';
 import { RoutingPathConstant } from '../../../constants/routing/routing-path';
+import { AddSubjectComponent } from '../../../NgbModals/Principal/add-subject/add-subject.component';
+import { EditSubjectComponent } from '../../../NgbModals/Principal/edit-subject/edit-subject.component';
+import { DeleteSubjectComponent } from '../../../NgbModals/Principal/delete-subject/delete-subject.component';
 
 @Component({
   selector: 'app-manage-subjects',
@@ -107,12 +110,78 @@ export class ManageSubjectsComponent {
     this.router.navigate([RoutingPathConstant.principalDashboardUrl]);
   }
 
-  addSubject():void{
+  addSubject(): void {
+    const modalRef = this.modalService.open(AddSubjectComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+    });
+
+    modalRef.componentInstance.subjectAdded.subscribe(() => {
+      this.getAllSubjectsData();
+    });
   }
 
   // pass subject details
-  editSubject(subjectId: number){
+  editSubject(
+    subjectId: number,
+    subjectName: string,
+    subjectCode: string,
+    subjectTeacherName: string,
+    subjectTeacherId: number
+  ) {
+    const modalRef = this.modalService.open(EditSubjectComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+      injector: Injector.create({
+        providers: [
+          {
+            provide: 'subjectId',
+            useValue: subjectId,
+          },
+          {
+            provide: 'subjectName',
+            useValue: subjectName,
+          },
+          {
+            provide: 'subjectCode',
+            useValue: subjectCode,
+          },
+          {
+            provide: 'subjectTeacherName',
+            useValue: subjectTeacherName,
+          },
+          {
+            provide: 'subjectTeacherId',
+            useValue: subjectTeacherId,
+          },
+        ],
+      }),
+    });
+
+    modalRef.componentInstance.subjectEdited.subscribe(() => {
+      this.getAllSubjectsData();
+    });
   }
 
-  deleteSubject(subjectId: number){}
+  deleteSubject(subjectId: number) {
+    const modalRef = this.modalService.open(DeleteSubjectComponent, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+      injector: Injector.create({
+        providers: [
+          {
+            provide: 'subjectId',
+            useValue: subjectId,
+          },
+        ],
+      }),
+    });
+
+    modalRef.componentInstance.subjectDeleted.subscribe(() => {
+      this.getAllSubjectsData();
+    });
+  }
 }

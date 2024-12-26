@@ -116,6 +116,12 @@ export class ApiCallConstant {
   public static readonly GET_ALL_SUBJECTS_FOR_PRINCIPAL =
     this.PRINCIPAL_CONTROLLER + 'subjects';
 
+  public static readonly GET_ALL_UNASSIGNED_SUBJECT_TEACHER =
+    this.PRINCIPAL_CONTROLLER + 'unassigned-subject-teachers';
+
+  public static readonly MANAGE_SUBJECT =
+    this.PRINCIPAL_CONTROLLER + 'manage-subject';
+
   // Student Controller Methods
 
   public static readonly SUBEJCTS_LIST_FOR_STUDENTS =

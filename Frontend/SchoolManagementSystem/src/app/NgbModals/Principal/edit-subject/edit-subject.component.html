@@ -1,0 +1,117 @@
+<div>
+  <div
+    class="modal-header px-3 pt-3 pb-2 heading d-flex justify-content-between align-items-center"
+  >
+    <h3>Edit Subject</h3>
+    <button
+      type="button"
+      class="btn-close me-2"
+      aria-label="Close"
+      (click)="close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form
+      action=""
+      class="d-flex flex-column"
+      [formGroup]="editSubjectForm"
+      appFormSubmit
+    >
+      <div class="form-data px-3">
+        <div class="form-details">
+          <div class="subject-name">
+            <app-input
+              label="Subject Name"
+              title="Subject Name"
+              type="text"
+              className=" py-2 fs-6 form-control mb-3"
+              placeholder="Eg. - Maths"
+              [parentForm]="editSubjectForm"
+              controlName="subjectName"
+              value="{{ subjectName }}"
+            ></app-input>
+          </div>
+          <div class="subject-code">
+            <app-input
+              label="Subject Code"
+              title="Subject Code"
+              type="text"
+              className=" py-2 fs-6 form-control mb-3"
+              placeholder="Eg. - MAT65#"
+              [parentForm]="editSubjectForm"
+              controlName="subjectCode"
+              value="{{ subjectCode }}"
+            ></app-input>
+          </div>
+          <!-- <div class="subject-teacher">
+              <app-select
+                [options]="teachersList"
+                controlName="subjectTeacher"
+                [parentForm]="editSubjectForm"
+                placeholder="Select Subject Teacher..."
+                className="py-2 form-control w-100"
+                label="Subject Teacher"
+                errorTitle="Subject Teacher"
+                value="{{editSubjectForm.value.subjectTeacher}}"
+              />
+            </div> -->
+          <div class="subject-teacher">
+            @if(!isEditing){
+            <div class="d-flex gap-3 align-items-center">
+              <div class="col-11">
+                <app-input
+                  label="Subject Teacher"
+                  title="Subject Teacher"
+                  type="text"
+                  className="py-2 form-control w-100"
+                  [parentForm]="editSubjectForm"
+                  controlName="subjectTeacher"
+                  value="{{ subjectTeacherName }}"
+                  [readonly]="true"
+                ></app-input>
+              </div>
+              <div class="col-1 pt-4">
+                <button
+                  type="button"
+                  class="btn btn-link p-0 ms-2"
+                  title="Edit"
+                  (click)="toggleEdit(true)"
+                >
+                  <i class="bi bi-pencil"></i>
+                  <!-- Bootstrap pencil icon -->
+                </button>
+              </div>
+            </div>
+            } @else{
+            <div>
+              <app-select
+                [options]="teachersList"
+                controlName="subjectTeacher"
+                [parentForm]="editSubjectForm"
+                placeholder="Select Subject Teacher..."
+                className="py-2 form-control w-100"
+                label="Subject Teacher"
+              ></app-select>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="buttons mt-1 d-flex gap-4 justify-content-center w-100 mb-4">
+    <app-button
+      type="submit"
+      label="Submit"
+      (btnClick)="onSubmit()"
+      className="btn text-btn"
+    ></app-button>
+
+    <app-button
+      type="button"
+      label="Cancel"
+      className="btn close-btn"
+      (btnClick)="close()"
+    ></app-button>
+  </div>
+</div>

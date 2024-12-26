@@ -42,4 +42,17 @@ public static class DocumentMappingProfile
             UseDocumentFor = document.UseDocumentFor
         };
     }
+
+    public static List<Document> ToDocuments(this IEnumerable<DocumentDTO> documentDTOs, int courseId)
+    {
+        return documentDTOs.Select(dto => new Document
+        {
+            DocumentContent = dto.DocumentContent,
+            DocumentName = dto.DocumentName,
+            DocumentType = dto.DocumentType,
+            DocumentExtension = dto.DocumentExtension,
+            CourseId = courseId,
+            UseDocumentFor = SystemConstants.USE_DOCUMENT_FOR_CHAPTER_DOCUMENT
+        }).ToList();
+    }
 }

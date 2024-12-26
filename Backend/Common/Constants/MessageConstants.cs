@@ -51,6 +51,8 @@ public static class MessageConstants
         public const string SUBJECT_TEACHER_ALREADY_ASSIGNED = "Subject teacher has been already assigned to another subject!";
 
         public const string SUBJECT_ALREADY_PRESENT = "Subject is already present!";
+
+        public const string NO_DOCUMENTS_PROVIDED = "No document provided!";
     }
 
     public static class SuccessMessage

@@ -13,6 +13,12 @@ public class Document : IdentityEntity<long>
 
     public int? CourseId { get; set; }
 
+    public string? DocumentName { get; set; }
+
+    public string? DocumentType { get; set; }
+
+    public string? DocumentExtension { get; set; }
+
     #region Foreign_Keys
 
     [ForeignKey(nameof(ContactPrincipalId))]

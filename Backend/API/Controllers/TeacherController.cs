@@ -93,5 +93,17 @@ public class TeacherController(ITeacherService teacherService) : BaseController
         return GetResult(await _teacherService.ManageChapterDocument(manageChapterDocumentDTO), message: null);
     }
 
+    [HttpPost("add-chapter-documents")]
+    [ProducesResponseType(200, Type = typeof(ApiResponse))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> AddChapterDocument(AddChapterDocumentDTO addChapterDocumentDTO)
+    {
+        if (!ModelState.IsValid) throw new InvalidModelStateException(ModelState);
+        return GetResult(await _teacherService.AddChapterDocuments(addChapterDocumentDTO), message: null);
+    }
+
     #endregion HTTP_Methods
 }

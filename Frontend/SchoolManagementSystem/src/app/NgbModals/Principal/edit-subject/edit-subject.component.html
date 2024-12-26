@@ -43,18 +43,6 @@
               value="{{ subjectCode }}"
             ></app-input>
           </div>
-          <!-- <div class="subject-teacher">
-              <app-select
-                [options]="teachersList"
-                controlName="subjectTeacher"
-                [parentForm]="editSubjectForm"
-                placeholder="Select Subject Teacher..."
-                className="py-2 form-control w-100"
-                label="Subject Teacher"
-                errorTitle="Subject Teacher"
-                value="{{editSubjectForm.value.subjectTeacher}}"
-              />
-            </div> -->
           <div class="subject-teacher">
             @if(!isEditing){
             <div class="d-flex gap-3 align-items-center">
@@ -78,7 +66,6 @@
                   (click)="toggleEdit(true)"
                 >
                   <i class="bi bi-pencil"></i>
-                  <!-- Bootstrap pencil icon -->
                 </button>
               </div>
             </div>

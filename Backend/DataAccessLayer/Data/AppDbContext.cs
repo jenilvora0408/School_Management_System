@@ -352,6 +352,9 @@ public class AppDbContext : DbContext
             entity.ToTable("Documents");
             entity.Property(e => e.UseDocumentFor).IsRequired().HasMaxLength(40);
             entity.Property(e => e.DocumentContent).IsRequired();
+            entity.Property(e => e.DocumentName).HasMaxLength(100);
+            entity.Property(e => e.DocumentType).HasMaxLength(20);
+            entity.Property(e => e.DocumentExtension).HasMaxLength(10);
 
             entity.HasOne(u => u.ContactPrincipals)
                 .WithMany()

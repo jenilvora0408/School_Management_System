@@ -21,4 +21,6 @@ public interface ITeacherService
     Task<string> ManageChapterDocument(ManageChapterDocumentDTO manageChapterDocumentDTO);
 
     Task<GetChapterDocumentDTO> GetChapterDocument(int courseId);
+
+    Task<string> AddChapterDocuments(AddChapterDocumentDTO addChapterDocumentDTO);
 }

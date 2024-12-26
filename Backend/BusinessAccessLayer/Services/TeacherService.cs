@@ -140,6 +140,7 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
                 MailBodyUtil.BlockAdmitRequest($"{admitRequest.FirstName} {admitRequest.LastName}", admitRequest.ReasonForBlock ?? string.Empty, _environment.WebRootPath));
         }
     }
+    
     public async Task<LeavesCountDTO> GetLeavesCount(long userId)
     {
         IList<Leave> allLeaves = await _unitOfWork.LeaveRepository.GetAllAsync(leave => leave.UserId == userId);
@@ -162,6 +163,122 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
         );
 
         return leavesCountDTO;
+    }
+
+    public async Task<SubjectTeacherInfoDTO> GetClassesForSubjectTeacher(long userId)
+    {
+        User? user = await _commonService.GetUserById(userId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
+
+        Subject? subject = await _unitOfWork.SubjectRepository.GetAsync(sub => sub.SubjectTeacherId == userId, includes: [sub => sub.ClassSubjects]
+        );
+
+        if (subject == null || !subject.ClassSubjects.Any())
+        {
+            return user.ToEmptySubjectTeacherInfoDTO();
+        }
+
+        List<int>? classIds = subject.ClassSubjects.Select(cs => cs.ClassId).ToList();
+
+        List<Class> classes = await _unitOfWork.ClassRepository.GetAllIncludeAsync(cls => classIds.Contains(cls.Id), includes: [cls => cls.ClassTeachers]);
+
+        return subject.ToSubjectTeacherInfoDTO(user, classes);
+    }
+
+    public async Task<PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>> GetAllClassSubjectChapters(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
+    {
+        Class? classData = await _unitOfWork.ClassRepository.GetFirstOrDefaultAsync(cs => cs.Id == classSubjectPageListRequestDTO.ClassId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CLASS_NOT_FOUND);
+
+        Subject? subject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == classSubjectPageListRequestDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
+
+        ClassSubject? classSubject = await _unitOfWork.ClassSubjectRepository.GetFirstOrDefaultAsync(cls => cls.ClassId == classSubjectPageListRequestDTO.ClassId && cls.SubjectId == classSubjectPageListRequestDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status400BadRequest, ErrorMessage.CLASS_SUBJECT_INVALID_CREDENTIALS);
+
+        PageListRequestEntity<Course> pageListRequestEntity = new()
+        {
+            PageIndex = classSubjectPageListRequestDTO.PageIndex,
+            PageSize = classSubjectPageListRequestDTO.PageSize,
+            SortColumn = !string.IsNullOrEmpty(classSubjectPageListRequestDTO.SortColumn) ? classSubjectPageListRequestDTO.SortColumn : null!,
+            SortOrder = classSubjectPageListRequestDTO.SortOrder,
+            Predicate = leave =>
+                leave.ClassSubjectId == classSubject.Id && leave.ChapterName.ToLower().Contains(classSubjectPageListRequestDTO.SearchQuery.ToLower()),
+        };
+
+        PageListResponseDTO<Course> pageListResponse = await _unitOfWork.CourseRepository.GetAllAsync(pageListRequestEntity);
+
+        List<ClassSubjectChaptersPageListResponseDTO> leaveRequestsListResponseDTOs = pageListResponse.Records.ToGetChaptersForClassSubject();
+
+        return new PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
+    }
+
+    public async Task<string> ManageChapterDocument(ManageChapterDocumentDTO manageChapterDocumentDTO)
+    {
+        string response = string.Empty;
+
+        Course? course = await _unitOfWork.CourseRepository.GetFirstOrDefaultAsync(cs => cs.Id == manageChapterDocumentDTO.CourseId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CHAPTER_NOT_FOUND);
+
+        if (manageChapterDocumentDTO.DocumentId == 0 && !string.IsNullOrWhiteSpace(manageChapterDocumentDTO.DocumentContent))
+        {
+            Document? existingDocument = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.CourseId == manageChapterDocumentDTO.CourseId);
+
+            if (existingDocument != null)
+                throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.CHAPTER_DOCUMENT_ALREADY_PRESENT);
+
+            Document newDocument = manageChapterDocumentDTO.ToDocument(course.Id);
+            await _unitOfWork.DocumentRepository.AddAsync(newDocument);
+            response = SuccessMessage.DOCUMENT_ADDED;
+        }
+        else
+        {
+            Document? document = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.Id == manageChapterDocumentDTO.DocumentId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.DOCUMENT_NOT_FOUND);
+
+            if (string.IsNullOrWhiteSpace(manageChapterDocumentDTO.DocumentContent))
+            {
+                await _unitOfWork.DocumentRepository.RemoveAsync(document);
+                response = SuccessMessage.DOCUMENT_REMOVED;
+            }
+            else
+            {
+                document.UpdateFromDTO(manageChapterDocumentDTO);
+                await _unitOfWork.DocumentRepository.UpdateAsync(document);
+                response = SuccessMessage.DOCUMENT_UPDATED;
+            }
+        }
+
+        await _unitOfWork.SaveAsync();
+        return response;
+    }
+
+    public async Task<string> AddChapterDocuments(AddChapterDocumentDTO addChapterDocumentDTO)
+    {
+        Course? course = await _unitOfWork.CourseRepository.GetFirstOrDefaultAsync(cs => cs.Id == addChapterDocumentDTO.CourseId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CHAPTER_NOT_FOUND);
+
+        if (addChapterDocumentDTO.DocumentDTOs == null || !addChapterDocumentDTO.DocumentDTOs.Any())
+        {
+            throw new CustomException(StatusCodes.Status400BadRequest, ErrorMessage.NO_DOCUMENTS_PROVIDED);
+        }
+
+        List<Document> documents = addChapterDocumentDTO.DocumentDTOs.ToDocuments(addChapterDocumentDTO.CourseId);
+
+        await _unitOfWork.DocumentRepository.AddRangeAsync(documents);
+
+        await _unitOfWork.SaveAsync();
+
+        return SuccessMessage.DOCUMENT_ADDED;
+    }
+
+    public async Task<GetChapterDocumentDTO> GetChapterDocument(int courseId)
+    {
+        Course? course = await _unitOfWork.CourseRepository.GetFirstOrDefaultAsync(cs => cs.Id == courseId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CHAPTER_NOT_FOUND);
+
+        Document? document = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.CourseId == courseId);
+
+        if (document != null)
+        {
+            return document.ToGetDocument();
+        }
+        else
+        {
+            return new GetChapterDocumentDTO();
+        }
     }
 
     #endregion HTTP_Methods
@@ -232,104 +349,6 @@ public class TeacherService(IUnitOfWork unitOfWork, ICommonService commonService
 
         await SendAdmitRequestMail(admitRequest.Email, EmailConstants.GENERATE_LOGIN_CREDENTIALS_SUBJECT, MailBodyUtil.SendCredentialsForLogin(
             $"{admitRequest.FirstName} {admitRequest.LastName}", generateCredentialsDTO.UserName, generateCredentialsDTO.Password, _environment.WebRootPath));
-    }
-
-    public async Task<SubjectTeacherInfoDTO> GetClassesForSubjectTeacher(long userId)
-    {
-        User? user = await _commonService.GetUserById(userId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.USER_NOT_FOUND);
-
-        Subject? subject = await _unitOfWork.SubjectRepository.GetAsync(sub => sub.SubjectTeacherId == userId, includes: [sub => sub.ClassSubjects]
-        );
-
-        if (subject == null || !subject.ClassSubjects.Any())
-        {
-            return user.ToEmptySubjectTeacherInfoDTO();
-        }
-
-        List<int>? classIds = subject.ClassSubjects.Select(cs => cs.ClassId).ToList();
-
-        List<Class> classes = await _unitOfWork.ClassRepository.GetAllIncludeAsync(cls => classIds.Contains(cls.Id), includes: [cls => cls.ClassTeachers]);
-
-        return subject.ToSubjectTeacherInfoDTO(user, classes);
-    }
-
-    public async Task<PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>>     GetAllClassSubjectChapters(ClassSubjectPageListRequestDTO classSubjectPageListRequestDTO)
-    {
-        Class? classData = await _unitOfWork.ClassRepository.GetFirstOrDefaultAsync(cs => cs.Id == classSubjectPageListRequestDTO.ClassId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CLASS_NOT_FOUND);
-
-        Subject? subject = await _unitOfWork.SubjectRepository.GetFirstOrDefaultAsync(sub => sub.Id == classSubjectPageListRequestDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.SUBJECT_NOT_FOUND);
-
-        ClassSubject? classSubject = await _unitOfWork.ClassSubjectRepository.GetFirstOrDefaultAsync(cls => cls.ClassId == classSubjectPageListRequestDTO.ClassId && cls.SubjectId == classSubjectPageListRequestDTO.SubjectId) ?? throw new CustomException(StatusCodes.Status400BadRequest, ErrorMessage.CLASS_SUBJECT_INVALID_CREDENTIALS);
-
-        PageListRequestEntity<Course> pageListRequestEntity = new()
-        {
-            PageIndex = classSubjectPageListRequestDTO.PageIndex,
-            PageSize = classSubjectPageListRequestDTO.PageSize,
-            SortColumn = !string.IsNullOrEmpty(classSubjectPageListRequestDTO.SortColumn) ? classSubjectPageListRequestDTO.SortColumn : null!,
-            SortOrder = classSubjectPageListRequestDTO.SortOrder,
-            Predicate = leave =>
-                leave.ClassSubjectId == classSubject.Id && leave.ChapterName.ToLower().Contains(classSubjectPageListRequestDTO.SearchQuery.ToLower()),
-        };
-
-        PageListResponseDTO<Course> pageListResponse = await _unitOfWork.CourseRepository.GetAllAsync(pageListRequestEntity);
-
-        List<ClassSubjectChaptersPageListResponseDTO> leaveRequestsListResponseDTOs = pageListResponse.Records.ToGetChaptersForClassSubject();
-
-        return new PageListResponseDTO<ClassSubjectChaptersPageListResponseDTO>(pageListResponse.PageIndex, pageListResponse.PageSize, pageListResponse.TotalRecords, leaveRequestsListResponseDTOs);
-    }
-
-    public async Task<string> ManageChapterDocument(ManageChapterDocumentDTO manageChapterDocumentDTO)
-    {
-        string response = string.Empty;
-
-        Course? course = await _unitOfWork.CourseRepository.GetFirstOrDefaultAsync(cs => cs.Id == manageChapterDocumentDTO.CourseId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CHAPTER_NOT_FOUND);
-
-        if (manageChapterDocumentDTO.DocumentId == 0 && !string.IsNullOrWhiteSpace(manageChapterDocumentDTO.DocumentContent))
-        {
-            Document? existingDocument = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.CourseId == manageChapterDocumentDTO.CourseId);
-
-            if (existingDocument != null)
-                throw new CustomException(StatusCodes.Status422UnprocessableEntity, ErrorMessage.CHAPTER_DOCUMENT_ALREADY_PRESENT);
-
-            Document newDocument = manageChapterDocumentDTO.ToDocument(course.Id);
-            await _unitOfWork.DocumentRepository.AddAsync(newDocument);
-            response = SuccessMessage.DOCUMENT_ADDED;
-        }
-        else
-        {
-            Document? document = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.Id == manageChapterDocumentDTO.DocumentId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.DOCUMENT_NOT_FOUND);
-
-            if (string.IsNullOrWhiteSpace(manageChapterDocumentDTO.DocumentContent))
-            {
-                await _unitOfWork.DocumentRepository.RemoveAsync(document);
-                response = SuccessMessage.DOCUMENT_REMOVED;
-            }
-            else
-            {
-                document.UpdateFromDTO(manageChapterDocumentDTO);
-                await _unitOfWork.DocumentRepository.UpdateAsync(document);
-                response = SuccessMessage.DOCUMENT_UPDATED;
-            }
-        }
-
-        await _unitOfWork.SaveAsync();
-        return response;
-    }
-
-    public async Task<GetChapterDocumentDTO> GetChapterDocument(int courseId)
-    {
-        Course? course = await _unitOfWork.CourseRepository.GetFirstOrDefaultAsync(cs => cs.Id == courseId) ?? throw new CustomException(StatusCodes.Status404NotFound, ErrorMessage.CHAPTER_NOT_FOUND);
-
-        Document? document = await _unitOfWork.DocumentRepository.GetFirstOrDefaultAsync(doc => doc.CourseId == courseId);
-
-        if (document != null)
-        {
-            return document.ToGetDocument();
-        }
-        else
-        {
-            return new GetChapterDocumentDTO();
-        }
     }
 
     #endregion Helper_Methods
